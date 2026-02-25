@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\DELL\\Desktop\\GOUTHAM\\backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CE72DA3F-A761-4CA6-B34C-6715AB0D7183}|API\\API.csproj|c:\\users\\dell\\desktop\\goutham\\backend\\api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CE72DA3F-A761-4CA6-B34C-6715AB0D7183}|API\\API.csproj|solutionrelative:api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\GOUTHAM\\backend\\API\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\DELL\\Desktop\\GOUTHAM\\backend\\API\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "API\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-25T17:57:34.107Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
