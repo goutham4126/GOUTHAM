@@ -27,6 +27,13 @@ namespace Infrastructure.Repositories
                 .FirstOrDefaultAsync(u => u.Id == id && !u.IsDeleted);
         }
 
+        public async Task<List<User>> GetAllAsync()
+        {
+            return await _context.Users
+                .Where(u => !u.IsDeleted)
+                .ToListAsync();
+        }
+
         public async Task AddAsync(User user)
         {
             await _context.Users.AddAsync(user);
