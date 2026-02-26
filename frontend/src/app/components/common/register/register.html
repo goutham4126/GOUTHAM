@@ -1,1 +1,67 @@
-<p>register works!</p>
+<div class="min-h-screen flex items-center justify-center bg-slate-100 px-4">
+  <div class="w-full max-w-2xl bg-white shadow-2xl rounded-2xl p-8">
+
+    <div class="text-center mb-8">
+      <h2 class="text-3xl font-bold text-slate-800">Create Account</h2>
+      <p class="text-slate-500 mt-2">Join Insurance Management System</p>
+    </div>
+
+    <form (ngSubmit)="onRegister()" class="space-y-5">
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <input type="text" name="firstName" [(ngModel)]="user.firstName"
+          placeholder="First Name"
+          required
+          class="input-style"/>
+
+        <input type="text" name="lastName" [(ngModel)]="user.lastName"
+          placeholder="Last Name"
+          required
+          class="input-style"/>
+      </div>
+
+      <input type="email" name="email" [(ngModel)]="user.email"
+        placeholder="Email"
+        required
+        class="input-style"/>
+
+      <input type="password" name="password" [(ngModel)]="user.password"
+        placeholder="Password"
+        required
+        class="input-style"/>
+
+      <input type="text" name="governmentId" [(ngModel)]="user.governmentId"
+        placeholder="Government ID"
+        required
+        class="input-style"/>
+
+      <input type="tel" name="phone" [(ngModel)]="user.phone"
+        placeholder="Phone"
+        required
+        class="input-style"/>
+
+      <textarea name="address" [(ngModel)]="user.address"
+        placeholder="Address"
+        required
+        class="input-style"></textarea>
+
+      <input type="date" name="dateOfBirth" [(ngModel)]="user.dateOfBirth"
+        required
+        class="input-style"/>
+
+      <p *ngIf="auth.error()" class="text-red-500 text-sm">
+        {{ auth.error() }}
+      </p>
+
+      <button
+        type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition duration-200"
+        [disabled]="auth.loading()"
+      >
+        <span *ngIf="!auth.loading()">Register</span>
+        <span *ngIf="auth.loading()">Creating account...</span>
+      </button>
+
+    </form>
+  </div>
+</div>

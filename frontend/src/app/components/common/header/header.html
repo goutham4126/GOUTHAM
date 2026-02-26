@@ -1,3 +1,42 @@
-<div class="h-20 bg-indigo-500 w-full">
-     
-</div>
+<nav class="h-20 bg-indigo-600 text-white flex justify-between items-center px-8">
+
+  <div class="text-xl font-bold">
+    Insurance System
+  </div>
+
+  <div *ngIf="auth.currentUser() as user" class="text-right space-y-1">
+
+    <div class="font-semibold">
+      {{ user.firstName }} {{ user.lastName }}
+    </div>
+
+    <div class="text-sm">
+      Email: {{ user.email }}
+    </div>
+
+    <div class="text-sm">
+      Role: {{ user.role }}
+    </div>
+
+    <div class="text-sm">
+      Govt ID: {{ user.governmentId }}
+    </div>
+
+    <div class="text-sm">
+      Phone: {{ user.phone }}
+    </div>
+
+    <div class="text-sm">
+      DOB: {{ user.dateOfBirth | date }}
+    </div>
+
+    <button
+      (click)="logout()"
+      class="mt-2 bg-red-500 px-4 py-1 rounded-lg text-sm"
+    >
+      Logout
+    </button>
+
+  </div>
+
+</nav>
