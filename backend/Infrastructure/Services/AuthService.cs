@@ -23,17 +23,17 @@ namespace Infrastructure.Services
 
         public async Task<AuthResultDto> RegisterAsync(RegisterDto request)
         {
-            if (await _userRepository.EmailExistsAsync(request.Email))
-                throw new Exception("Email already exists");
+            var email = request.Email.Trim().ToLower();
 
-            var hashedPassword = _passwordService.HashPassword(request.Password);
+            if (await _userRepository.EmailExistsAsync(email))
+                throw new InvalidOperationException("Email already registered.");
 
             var user = new User
             {
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Email = request.Email,
-                PasswordHash = hashedPassword,
+                FirstName = request.FirstName.Trim(),
+                LastName = request.LastName.Trim(),
+                Email = email,
+                PasswordHash = _passwordService.HashPassword(request.Password),
                 GovernmentId = request.GovernmentId,
                 Address = request.Address,
                 Phone = request.Phone,
@@ -56,11 +56,15 @@ namespace Infrastructure.Services
 
         public async Task<AuthResultDto> LoginAsync(LoginDto request)
         {
-            var user = await _userRepository.GetByEmailAsync(request.Email);
+            var email = request.Email.Trim().ToLower();
 
-            if (user == null ||
-                !_passwordService.VerifyPassword(request.Password, user.PasswordHash))
-                throw new Exception("Invalid credentials");
+            var user = await _userRepository.GetByEmailAsync(email);
+
+            if (user == null || user.IsDeleted)
+                throw new UnauthorizedAccessException("Invalid credentials.");
+
+            if (!_passwordService.VerifyPassword(request.Password, user.PasswordHash))
+                throw new UnauthorizedAccessException("Invalid credentials.");
 
             var token = _jwtService.GenerateToken(user);
 

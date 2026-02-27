@@ -6,50 +6,156 @@ namespace Infrastructure.Data
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options) { }
+            : base(options)
+        {
+        }
 
         public DbSet<User> Users => Set<User>();
+        public DbSet<Plan> Plans => Set<Plan>();
+        public DbSet<Policy> Policies => Set<Policy>();
+        public DbSet<PolicyPayment> PolicyPayments => Set<PolicyPayment>();
+        public DbSet<Claim> Claims => Set<Claim>();
+        public DbSet<ClaimPayment> ClaimPayments => Set<ClaimPayment>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            ConfigureUser(builder);
+            ConfigurePlan(builder);
+            ConfigurePolicy(builder);
+            ConfigurePolicyPayment(builder);
+            ConfigureClaim(builder);
+            ConfigureClaimPayment(builder);
+        }
+
+        private void ConfigureUser(ModelBuilder builder)
+        {
             builder.Entity<User>(entity =>
             {
                 entity.ToTable("Users");
 
-                entity.HasKey(u => u.Id);
-
-                entity.Property(u => u.FirstName)
-                      .IsRequired()
-                      .HasMaxLength(100);
-
-                entity.Property(u => u.LastName)
-                      .IsRequired()
-                      .HasMaxLength(100);
-
-                entity.Property(u => u.Email)
-                      .IsRequired()
-                      .HasMaxLength(150);
-
-                entity.Property(u => u.PasswordHash)
-                      .IsRequired();
-
-                entity.Property(u => u.Role)
-                      .IsRequired();
-
-                entity.Property(u => u.GovernmentId)
-                      .HasMaxLength(50);
-
-                entity.Property(u => u.Phone)
-                      .HasMaxLength(20);
-
-                entity.Property(u => u.Address)
-                      .HasMaxLength(250);
-
                 entity.HasIndex(u => u.Email)
                       .IsUnique();
-            });
 
+                entity.Property(u => u.Role)
+                      .HasConversion<string>();
+
+                entity.HasMany(u => u.Policies)
+                      .WithOne(p => p.User)
+                      .HasForeignKey(p => p.UserId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasMany(u => u.Claims)
+                      .WithOne(c => c.User)
+                      .HasForeignKey(c => c.UserId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+        }
+
+        private void ConfigurePlan(ModelBuilder builder)
+        {
+            builder.Entity<Plan>(entity =>
+            {
+                entity.ToTable("Plans");
+
+                entity.Property(p => p.PremiumAmount)
+                      .HasPrecision(18, 2);
+
+                entity.Property(p => p.CoverageAmount)
+                      .HasPrecision(18, 2);
+
+                entity.Property(p => p.PaymentFrequency)
+                      .HasConversion<string>();
+
+                entity.HasMany(p => p.Policies)
+                      .WithOne(p => p.Plan)
+                      .HasForeignKey(p => p.PlanId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+        }
+
+        private void ConfigurePolicy(ModelBuilder builder)
+        {
+            builder.Entity<Policy>(entity =>
+            {
+                entity.ToTable("Policies");
+
+                entity.Property(p => p.TotalPremium)
+                      .HasPrecision(18, 2);
+
+                entity.Property(p => p.TotalPaid)
+                      .HasPrecision(18, 2);
+
+                entity.Property(p => p.Status)
+                      .HasConversion<string>();
+
+                entity.HasMany(p => p.Payments)
+                      .WithOne(pp => pp.Policy)
+                      .HasForeignKey(pp => pp.PolicyId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasMany(p => p.Claims)
+                      .WithOne(c => c.Policy)
+                      .HasForeignKey(c => c.PolicyId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(p => p.Agent)
+                      .WithMany()
+                      .HasForeignKey(p => p.AgentId)
+                      .OnDelete(DeleteBehavior.SetNull);
+            });
+        }
+
+        private void ConfigurePolicyPayment(ModelBuilder builder)
+        {
+            builder.Entity<PolicyPayment>(entity =>
+            {
+                entity.ToTable("PolicyPayments");
+
+                entity.Property(p => p.Amount)
+                      .HasPrecision(18, 2);
+
+                entity.Property(p => p.Status)
+                      .HasConversion<string>();
+            });
+        }
+
+        private void ConfigureClaim(ModelBuilder builder)
+        {
+            builder.Entity<Claim>(entity =>
+            {
+                entity.ToTable("Claims");
+
+                entity.Property(c => c.ClaimAmount)
+                      .HasPrecision(18, 2);
+
+                entity.Property(c => c.ApprovedAmount)
+                      .HasPrecision(18, 2);
+
+                entity.Property(c => c.Status)
+                      .HasConversion<string>();
+
+                entity.HasOne(c => c.ClaimPayment)
+                      .WithOne(cp => cp.Claim)
+                      .HasForeignKey<ClaimPayment>(cp => cp.ClaimId)
+                      .OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(c => c.ClaimOfficer)
+                      .WithMany()
+                      .HasForeignKey(c => c.ClaimOfficerId)
+                      .OnDelete(DeleteBehavior.SetNull);
+            });
+        }
+
+        private void ConfigureClaimPayment(ModelBuilder builder)
+        {
+            builder.Entity<ClaimPayment>(entity =>
+            {
+                entity.ToTable("ClaimPayments");
+
+                entity.Property(c => c.AmountPaid)
+                      .HasPrecision(18, 2);
+            });
         }
     }
 }

@@ -1,0 +1,61 @@
+﻿using Application.Interfaces;
+using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace API.Controllers;
+
+[ApiController]
+[Route("api/plans")]
+public class PlansController : ControllerBase
+{
+    private readonly IPlanService _planService;
+
+    public PlansController(IPlanService planService)
+    {
+        _planService = planService;
+    }
+
+    [AllowAnonymous]
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var plans = await _planService.GetAllAsync();
+        return Ok(plans);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> Get(Guid id)
+    {
+        var plan = await _planService.GetByIdAsync(id);
+        if (plan == null)
+            return NotFound();
+
+        return Ok(plan);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] Plan plan)
+    {
+        var created = await _planService.CreateAsync(plan);
+        return Ok(created);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] Plan plan)
+    {
+        await _planService.UpdateAsync(id, plan);
+        return Ok("Plan updated successfully");
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        await _planService.DeleteAsync(id);
+        return Ok("Plan deactivated");
+    }
+}

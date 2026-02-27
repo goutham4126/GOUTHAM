@@ -9,81 +9,61 @@ namespace API.Controllers;
 [Route("api/users")]
 public class UsersController : ControllerBase
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUserRepository _repository;
 
-    public UsersController(IUserRepository userRepository)
+    public UsersController(IUserRepository repository)
     {
-        _userRepository = userRepository;
+        _repository = repository;
+    }
+
+    private Guid GetUserId()
+    {
+        var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (id == null)
+            throw new UnauthorizedAccessException("Invalid token.");
+
+        return Guid.Parse(id);
     }
 
     [Authorize]
-    [HttpGet("current")]
+    [HttpGet("me")]
     public async Task<IActionResult> GetCurrentUser()
     {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        if (userId == null)
-            return Unauthorized();
-
-        var user = await _userRepository.GetByIdAsync(Guid.Parse(userId));
+        var user = await _repository.GetByIdAsync(GetUserId());
 
         if (user == null)
-            return NotFound();
+            throw new KeyNotFoundException("User not found.");
 
         return Ok(new
         {
             user.Id,
-            user.Email,
-            user.Role,
             user.FirstName,
             user.LastName,
+            user.Email,
+            user.Role,
             user.GovernmentId,
             user.Address,
             user.Phone,
-            user.DateOfBirth
+            user.DateOfBirth,
+            user.CreatedAt
         });
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetUserById(Guid id)
-    {
-        var user = await _userRepository.GetByIdAsync(id);
-
-        if (user == null)
-            return NotFound();
-
-        return Ok(new
-        {
-            user.Id,
-            user.Email,
-            user.Role,
-            user.FirstName,
-            user.LastName,
-            user.GovernmentId,
-            user.Address,
-            user.Phone,
-            user.DateOfBirth
-        });
-    }
-
-    [Authorize(Roles = "Admin")]
-    [HttpGet("all")]
+    [HttpGet]
     public async Task<IActionResult> GetAllUsers()
     {
-        var users = await _userRepository.GetAllAsync();
+        var users = await _repository.GetAllAsync();
 
         return Ok(users.Select(u => new
         {
             u.Id,
-            u.Email,
-            u.Role,
             u.FirstName,
             u.LastName,
-            u.GovernmentId,
-            u.Address,
-            u.Phone,
-            u.DateOfBirth
-    }));
+            u.Email,
+            u.Role,
+            u.CreatedAt
+        }));
     }
 }

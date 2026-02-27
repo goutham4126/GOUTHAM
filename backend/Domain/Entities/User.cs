@@ -1,33 +1,39 @@
 ﻿using Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
     public class User
     {
+        [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
+
+        [Required, StringLength(100)]
         public string FirstName { get; set; } = null!;
+
+        [Required, StringLength(100)]
         public string LastName { get; set; } = null!;
+
+        [Required, EmailAddress, StringLength(255)]
         public string Email { get; set; } = null!;
+
+        [Required]
         public string PasswordHash { get; set; } = null!;
 
+        [Required]
         public UserRole Role { get; set; } = UserRole.Customer;
 
-        // Insurance Specific
         public string? GovernmentId { get; set; }
         public string? Address { get; set; }
         public string? Phone { get; set; }
         public DateTime? DateOfBirth { get; set; }
 
-        // Account Management
         public bool IsDeleted { get; set; } = false;
 
-        // Password Reset
-        public string? PasswordResetToken { get; set; }
-        public DateTime? PasswordResetTokenExpiry { get; set; }
-
-        // Audit Fields
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
 
+        public ICollection<Policy> Policies { get; set; } = new List<Policy>();
+        public ICollection<Claim> Claims { get; set; } = new List<Claim>();
     }
 }

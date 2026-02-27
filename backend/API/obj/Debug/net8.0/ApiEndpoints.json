@@ -32,9 +32,118 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "API.Controllers.UsersController",
-    "Method": "GetUserById",
-    "RelativePath": "api/users/{id}",
+    "ContainingType": "API.Controllers.ClaimsController",
+    "Method": "Create",
+    "RelativePath": "api/claims",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Application.DTOs.Insurance.CreateClaimRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.ClaimsController",
+    "Method": "GetAll",
+    "RelativePath": "api/claims",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.ClaimsController",
+    "Method": "Approve",
+    "RelativePath": "api/claims/{claimId}/approve",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "claimId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "approvedAmount",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.ClaimsController",
+    "Method": "Reject",
+    "RelativePath": "api/claims/{claimId}/reject",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "claimId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.ClaimsController",
+    "Method": "MyAssignedClaims",
+    "RelativePath": "api/claims/assigned",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.ClaimsController",
+    "Method": "MyClaims",
+    "RelativePath": "api/claims/my",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PlansController",
+    "Method": "GetAll",
+    "RelativePath": "api/plans",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PlansController",
+    "Method": "Create",
+    "RelativePath": "api/plans",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "plan",
+        "Type": "Domain.Entities.Plan",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PlansController",
+    "Method": "Get",
+    "RelativePath": "api/plans/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -48,9 +157,114 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "API.Controllers.PlansController",
+    "Method": "Update",
+    "RelativePath": "api/plans/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "plan",
+        "Type": "Domain.Entities.Plan",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PlansController",
+    "Method": "Delete",
+    "RelativePath": "api/plans/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PoliciesController",
+    "Method": "GetPolicy",
+    "RelativePath": "api/policies/{policyId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "policyId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PoliciesController",
+    "Method": "MyAssignedPolicies",
+    "RelativePath": "api/policies/assigned",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PoliciesController",
+    "Method": "MyPolicies",
+    "RelativePath": "api/policies/my",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PoliciesController",
+    "Method": "Pay",
+    "RelativePath": "api/policies/pay/{paymentId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "paymentId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PoliciesController",
+    "Method": "Purchase",
+    "RelativePath": "api/policies/purchase/{planId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "planId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "API.Controllers.UsersController",
     "Method": "GetAllUsers",
-    "RelativePath": "api/users/all",
+    "RelativePath": "api/users",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -60,7 +274,7 @@
   {
     "ContainingType": "API.Controllers.UsersController",
     "Method": "GetCurrentUser",
-    "RelativePath": "api/users/current",
+    "RelativePath": "api/users/me",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
