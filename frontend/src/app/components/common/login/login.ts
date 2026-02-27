@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Auth } from '../../../services/auth';
-import { User } from '../../../services/user';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -12,50 +11,72 @@ import { Router } from '@angular/router';
   templateUrl: './login.html',
 })
 export class Login {
-  email = '';
-  password = '';
+  private auth = inject(Auth);
+  private router = inject(Router);
 
-  constructor(
-    public auth: Auth,
-    private userService: User,
-    private router: Router
-  ) {}
+  email = signal('');
+  password = signal('');
 
-  onLogin() {
-    this.auth.loading.set(true);
+  // Captcha signals
+  generatedCaptcha = signal('');
+  enteredCaptcha = signal('');
+  captchaError = signal('');
 
-    this.auth.login(this.email, this.password).subscribe({
+  constructor() {
+    this.generateCaptcha();
+  }
+
+  generateCaptcha() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let captcha = '';
+
+    for (let i = 0; i < 6; i++) {
+      captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
+    this.generatedCaptcha.set(captcha);
+  }
+
+  login() {
+
+    if (!this.email().trim() || !this.password().trim()) {
+      alert("Email and Password required");
+      return;
+    }
+
+    if (this.enteredCaptcha().trim() !== this.generatedCaptcha()) {
+      this.captchaError.set("Invalid CAPTCHA");
+      alert("Invalid Captcha !!")
+      this.generateCaptcha();
+      this.enteredCaptcha.set('');
+      return; 
+    }
+
+    this.captchaError.set('');
+
+    this.auth.login(this.email(), this.password()).subscribe({
       next: (res) => {
-        this.auth.saveToken(res.token);
 
-        this.userService.getCurrentUser().subscribe({
-          next: (user) => {
-            this.auth.setUser(user);
-            this.auth.loading.set(false);
+        localStorage.setItem("token", res.token);
 
-            switch (user.role) {
-              case 'Admin':
-                this.router.navigate(['/admin/dashboard']);
-                break;
-              case 'Agent':
-                this.router.navigate(['/agent/dashboard']);
-                break;
-              case 'ClaimOfficer':
-                this.router.navigate(['/claims-officer/dashboard']);
-                break;
-              default:
-                this.router.navigate(['/customer/dashboard']);
-            }
-          },
-          error: () => {
-            this.auth.loading.set(false);
-          },
-        });
-      },
-      error: () => {
-        this.auth.error.set('Invalid email or password');
-        this.auth.loading.set(false);
-      },
+        this.auth.fetchCurrentUser();
+
+        console.log(res);
+
+        setTimeout(() => {
+          if (res.role === "Admin") {
+            this.router.navigate(["/admin/dashboard"]);
+          } else if (res.role === "Agent") {
+            this.router.navigate(["/agent/dashboard"]);
+          } else if (res.role === "ClaimOfficer") {
+            this.router.navigate(["/claims-officer/dashboard"]);
+          } else {
+            this.router.navigate(["/customer/dashboard"]);
+          }
+        }, 50);
+
+      }
     });
   }
+  
 }

@@ -26,25 +26,21 @@ export const routes: Routes = [
         path : "admin/dashboard",
         component: AdminDashboard,
         canActivate: [authGuard, roleGuard],
-        data: { roles: ['Admin'] }
     },
     {
         path: "agent/dashboard",
         component: AgentDashboard,
         canActivate: [authGuard, roleGuard],
-        data: { roles: ['Agent'] }
     },
     {
         path: "customer/dashboard",
         component: CustomerDashboard,
         canActivate: [authGuard, roleGuard],
-        data: { roles: ['Customer'] }
     },
     {
         path: "claims-officer/dashboard",
         component: ClaimsOfficerDashboard,
         canActivate: [authGuard, roleGuard],
-        data: { roles: ['ClaimOfficer'] }
     },
     { 
         path: '**', 

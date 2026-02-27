@@ -1,55 +1,44 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Auth {
+
   private apiUrl = 'https://localhost:7128/api';
 
-  currentUser = signal<any>(null);
-  loading = signal(false);
-  error = signal<string | null>(null);
+  currentUser = signal<any | null>(null);
+  isLoading = signal(false);
 
-  isLoggedIn = computed(() => !!this.currentUser());
+  constructor(private http: HttpClient, private router: Router) {}
 
- 
-  constructor(private http: HttpClient, private router: Router) {
-    this.initializeUser();
-  }
-
-  initializeUser() {
+  fetchCurrentUser() {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    this.http.get<any>(`${this.apiUrl}/users/current`).subscribe({
-      next: (user) => this.currentUser.set(user),
-      error: () => this.logout(),
-    });
+    console.log(token);
+    this.isLoading.set(true);
+
+    this.http.get<any>(`${this.apiUrl}/users/current`)
+      .subscribe({
+        next: (user) => {
+          this.currentUser.set(user);
+          this.isLoading.set(false);
+        },
+        error: () => {
+          this.logout();
+        }
+      });
   }
 
-  login(email: string, password: string){
-    this.loading.set(true);
-    this.error.set(null);
-
+  login(email: string, password: string) {
     return this.http.post<any>(`${this.apiUrl}/auth/login`, { email, password });
   }
 
-  register(data: any){
-    this.loading.set(true);
-    this.error.set(null);
-
+  register(data: any) {
     return this.http.post<any>(`${this.apiUrl}/auth/register`, data);
-  }
-
-  saveToken(token: string) {
-    localStorage.setItem('token', token);
-  }
-
-  setUser(user: any) {
-    this.currentUser.set(user);
   }
 
   logout() {

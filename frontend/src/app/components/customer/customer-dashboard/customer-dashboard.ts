@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Auth } from '../../../services/auth';
 
 @Component({
   selector: 'app-customer-dashboard',
-  imports: [],
+  standalone: true,
   templateUrl: './customer-dashboard.html',
-  styleUrl: './customer-dashboard.css',
 })
 export class CustomerDashboard {
+  private auth = inject(Auth);
+  user = this.auth.currentUser;
 
 }
