@@ -1,1 +1,190 @@
-<p>claims-officer-dashboard works!</p>
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+        <h2
+            class="text-3xl font-bold text-gray-900 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-orange-500">
+            Claim Evaluation Desk</h2>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
+            <h3 class="text-lg font-bold text-gray-800">Claims Pending Review</h3>
+            <span class="bg-orange-100 text-orange-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{
+                assignedClaims.length }}</span>
+        </div>
+
+        <div class="p-0 overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Claim
+                            Summary</th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Amount Claimed</th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Status</th>
+                        <th scope="col"
+                            class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr *ngIf="loading">
+                        <td colspan="4" class="px-6 py-8 text-center text-sm text-gray-500">
+                            <div
+                                class="inline-block animate-spin w-6 h-6 border-2 border-orange-500 border-t-transparent rounded-full mb-2">
+                            </div>
+                            <p>Loading assigned claims...</p>
+                        </td>
+                    </tr>
+                    <tr *ngIf="!loading && assignedClaims.length === 0">
+                        <td colspan="4" class="px-6 py-8 text-center text-sm text-gray-500">
+                            You're all caught up! No claims assigned to you right now.
+                        </td>
+                    </tr>
+                    <ng-container *ngFor="let c of assignedClaims">
+                        <tr class="hover:bg-blue-50 transition cursor-pointer" (click)="toggleExpand(c.id)"
+                            [class.bg-blue-50]="expandedClaimId === c.id">
+                            <td class="px-6 py-4">
+                                <div class="text-sm font-medium text-gray-900 hover:text-blue-600">#{{
+                                    c.id.substring(0,8) }}</div>
+                                <div class="text-xs text-gray-500">Filed: {{ c.submittedAt | date:'shortDate' }}</div>
+                                <div class="text-xs text-gray-500 mt-1 truncate max-w-xs">{{ c.reason }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-bold text-gray-900">$\{{ c.claimAmount | number }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span [ngClass]="{
+                    'bg-yellow-100 text-yellow-800': c.status === 'Pending',
+                    'bg-green-100 text-green-800': c.status === 'Approved',
+                    'bg-red-100 text-red-800': c.status === 'Rejected'
+                  }" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full border shadow-sm">
+                                    {{ c.status }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                <span class="text-blue-500 hover:text-blue-700 flex justify-center items-center">
+                                    <svg *ngIf="expandedClaimId !== c.id" class="w-5 h-5" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                    <svg *ngIf="expandedClaimId === c.id" class="w-5 h-5" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 15l7-7 7 7"></path>
+                                    </svg>
+                                </span>
+                            </td>
+                        </tr>
+
+                        <!-- Expanded Documents & Actions View -->
+                        <tr *ngIf="expandedClaimId === c.id"
+                            class="bg-indigo-50 border-b-2 border-indigo-100 shadow-inner">
+                            <td colspan="4" class="px-8 py-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                                    <!-- Detailed Info Panel -->
+                                    <div class="bg-white p-4 rounded-lg shadow-sm border border-indigo-50">
+                                        <h4
+                                            class="font-bold text-indigo-900 mb-3 text-sm uppercase tracking-wide border-b border-indigo-50 pb-2">
+                                            Incident Details</h4>
+                                        <div class="space-y-3">
+                                            <div>
+                                                <span class="text-xs text-gray-500 block">Customer Name</span>
+                                                <span class="text-sm font-semibold bg-gray-100 px-2 py-0.5 rounded">{{
+                                                    c.customerName }}</span>
+                                            </div>
+                                            <div>
+                                                <span class="text-xs text-gray-500 block">Full Description</span>
+                                                <span class="text-sm text-gray-800">{{ c.reason }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Verification Documents Panel -->
+                                    <div class="bg-white p-4 rounded-lg shadow-sm border border-indigo-50">
+                                        <h4
+                                            class="font-bold text-indigo-900 mb-3 text-sm uppercase tracking-wide border-b border-indigo-50 pb-2">
+                                            Provided Documents</h4>
+                                        <div class="space-y-3">
+                                            <div>
+                                                <span class="text-xs text-gray-500 block">Media Evidence</span>
+                                                <a *ngIf="c.documentUrl" href="#" (click)="$event.preventDefault()"
+                                                    class="text-sm text-blue-600 hover:text-blue-800 hover:underline flex items-center">
+                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
+                                                        </path>
+                                                    </svg>
+                                                    View Attachment
+                                                </a>
+                                                <span *ngIf="!c.documentUrl" class="text-sm text-gray-400 italic">No
+                                                    media provided</span>
+                                            </div>
+                                            <div>
+                                                <span class="text-xs text-gray-500 block">Integrity Hash</span>
+                                                <span class="text-xs font-mono text-gray-600 break-all">{{
+                                                    c.documentHash || 'N/A' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- Action Enforcement -->
+                                <div class="mt-6 flex justify-end items-center space-x-4 border-t border-indigo-200 pt-4"
+                                    *ngIf="c.status === 'Pending'">
+                                    <span class="text-sm text-indigo-800 font-medium italic mr-auto">Documents verified?
+                                        Choose action:</span>
+                                    <button (click)="rejectClaim(c.id)"
+                                        class="px-5 py-2 bg-white text-red-600 hover:bg-red-50 font-bold rounded-lg border border-red-200 transition shadow-sm">
+                                        Reject Claim
+                                    </button>
+                                    <button (click)="promptApprove(c)"
+                                        class="px-5 py-2 bg-green-600 text-white hover:bg-green-700 font-bold rounded-lg transition shadow-sm">
+                                        Approve & Disburse Payout
+                                    </button>
+                                </div>
+                                <div class="mt-6 border-t border-indigo-200 pt-3" *ngIf="c.status !== 'Pending'">
+                                    <span class="text-sm text-gray-500 italic block text-right">This claim has already
+                                        been evaluated by an officer.</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Approval Modal -->
+    <div *ngIf="selectedClaimId" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white rounded-xl shadow-xl p-8 max-w-md w-full mx-4">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Confirm Approval Amount</h3>
+            <p class="text-sm text-gray-600 mb-6">Please finalize the amount to be disbursed to the customer for this
+                claim.</p>
+
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Approved Payout ($)</label>
+                <input type="number" [(ngModel)]="approvalAmount" [min]="0"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-3 font-mono text-lg focus:ring-green-500 focus:border-green-500 shadow-sm">
+            </div>
+
+            <div class="flex justify-end space-x-3">
+                <button (click)="cancelApprove()"
+                    class="px-5 py-2.5 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition">Cancel</button>
+                <button (click)="confirmApprove()"
+                    class="px-5 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition shadow-sm">
+                    Confirm & Send Payout
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>

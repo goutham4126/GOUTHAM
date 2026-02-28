@@ -1,0 +1,112 @@
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
+        <h3 class="text-lg font-bold text-gray-800">My System Claims</h3>
+        <span class="bg-orange-100 text-orange-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{ claims.length }}
+            Filed</span>
+    </div>
+
+    <div class="p-6">
+        <div *ngIf="loadingClaims" class="text-center py-4 text-gray-500">Loading your claims...</div>
+
+        <div *ngIf="!loadingClaims && claims.length === 0" class="text-center py-8 border-b border-gray-100">
+            <svg class="mx-auto h-12 w-12 text-gray-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM12 9v2m0 4h.01" />
+            </svg>
+            <p class="text-gray-500">You haven't filed any claims yet.</p>
+        </div>
+
+        <ul *ngIf="claims.length > 0" class="space-y-4 mb-8">
+            <li *ngFor="let c of claims"
+                class="border border-gray-100 rounded-lg p-4 hover:bg-gray-50 transition cursor-pointer flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <p class="font-semibold text-gray-800 text-lg">Claim #{{ c.id.substring(0, 8) }}</p>
+                    <p class="text-sm text-gray-500">Filed on: {{ c.submittedAt | date:'mediumDate' }}</p>
+                    <div class="mt-2 text-sm text-gray-700">Reason: {{ c.reason }}</div>
+
+                    <div class="mt-3 flex items-center space-x-4">
+                        <span class="text-sm font-semibold text-gray-900 border-r border-gray-200 pr-4">Claimed: $\{{
+                            c.claimAmount | number }}</span>
+                        <span class="text-sm font-semibold"
+                            [ngClass]="{'text-green-600': (c.approvedAmount || 0) > 0, 'text-gray-400': !c.approvedAmount}">
+                            Approved: {{ c.approvedAmount ? '$\{' + (c.approvedAmount | number) + '\}' : 'Pending' }}
+                        </span>
+                    </div>
+                </div>
+                <div class="mt-2 sm:mt-0 flex shrink-0">
+                    <span [ngClass]="{
+                        'bg-yellow-100 text-yellow-800 border-yellow-200': c.status === 'Pending',
+                        'bg-green-100 text-green-800 border-green-200': c.status === 'Approved',
+                        'bg-red-100 text-red-800 border-red-200': c.status === 'Rejected'
+                    }" class="px-3 py-1.5 rounded-full text-xs font-bold border shadow-sm">
+                        {{ c.status }}
+                    </span>
+                </div>
+            </li>
+        </ul>
+
+        <!-- Submit Claim Form Section -->
+        <div class="mt-8 bg-gray-50 p-6 rounded-xl border border-gray-200">
+            <div class="mb-4 pb-4 border-b border-gray-200">
+                <h3 class="text-lg font-bold text-gray-800">File a New Claim</h3>
+                <p class="text-sm text-gray-500 mt-1">Submit an incident report against an active policy to request a
+                    payout.</p>
+            </div>
+
+            <form (ngSubmit)="submitClaim()" [formGroup]="claimForm" class="space-y-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Select Active Policy</label>
+                        <select formControlName="policyId"
+                            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-orange-500 focus:border-orange-500 bg-white shadow-sm">
+                            <option value="" disabled>Select a policy to claim against</option>
+                            <option *ngFor="let p of policies" [value]="p.id">
+                                {{ p.plan.name }} (Policy #{{ p.id.substring(0,8) }})
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Reason for Claim (Incident
+                            Description)</label>
+                        <input type="text" formControlName="reason" placeholder="e.g., Severe storm damage to roof"
+                            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-orange-500 focus:border-orange-500 shadow-sm">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Requested Amount ($)</label>
+                        <input type="number" formControlName="amount" placeholder="0.00"
+                            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-orange-500 focus:border-orange-500 shadow-sm">
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 border border-blue-100 rounded-lg p-4 mt-2">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-blue-800">Note regarding documentation</h3>
+                            <div class="mt-1 text-sm text-blue-700">
+                                <p>Document attachment uploads and Blockchain verification features are temporarily
+                                    disabled on the frontend. Claim submissions will automatically mock required file
+                                    payloads.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end pt-4 border-t border-gray-200 mt-6">
+                    <button type="submit" [disabled]="!claimForm.valid"
+                        class="px-6 py-2.5 bg-orange-600 text-white font-medium rounded-lg hover:bg-orange-700 transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                        Submit Official Claim Request
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

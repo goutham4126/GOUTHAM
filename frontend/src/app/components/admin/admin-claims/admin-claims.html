@@ -1,0 +1,67 @@
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
+        <h3 class="text-lg font-bold text-gray-800">Global Claims Directory</h3>
+        <span class="bg-orange-100 text-orange-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{ claims.length }}
+            Filed</span>
+    </div>
+
+    <div class="p-0 overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date / ID
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer
+                        / Reason</th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Amount
+                        Claimed / Approved</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngIf="loadingClaims">
+                    <td colspan="4" class="px-6 py-8 text-center text-sm text-gray-500">
+                        Loading claims database...
+                    </td>
+                </tr>
+                <tr *ngIf="!loadingClaims && claims.length === 0">
+                    <td colspan="4" class="px-6 py-8 text-center text-sm text-gray-500">
+                        No claims have been filed in the system.
+                    </td>
+                </tr>
+                <tr *ngFor="let c of claims" class="hover:bg-gray-50 transition">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900 border-b border-gray-100 pb-1 mb-1">{{
+                            c.submittedAt | date:'shortDate' }}</div>
+                        <div class="text-xs text-gray-500 font-mono">#{{ c.id.substring(0, 8) }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">{{ c.customerName }}</div>
+                        <div class="text-xs text-gray-500">{{ c.reason }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span [ngClass]="{
+                            'bg-yellow-100 text-yellow-800': c.status === 'Pending',
+                            'bg-green-100 text-green-800': c.status === 'Approved',
+                            'bg-red-100 text-red-800': c.status === 'Rejected'
+                        }" class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full border">
+                            {{ c.status }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right">
+                        <div class="text-sm font-bold text-gray-900">$\{{ c.claimAmount | number }}</div>
+                        <div class="text-xs mt-1"
+                            [ngClass]="{'text-green-600 font-bold': (c.approvedAmount || 0) > 0, 'text-gray-400': !c.approvedAmount}">
+                            {{ c.approvedAmount ? '$\{' + (c.approvedAmount | number) + '\}' : 'Pending Review' }}
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

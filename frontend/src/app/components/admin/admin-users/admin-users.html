@@ -1,0 +1,46 @@
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
+        <h3 class="text-lg font-bold text-gray-800">User Directory</h3>
+        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{ users.length }}
+            Users</span>
+    </div>
+
+    <div class="p-0 overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                    <th scope="col"
+                        class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngIf="loadingUsers">
+                    <td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">Loading users...</td>
+                </tr>
+                <tr *ngFor="let u of users">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">{{ u.firstName }} {{ u.lastName }}</div>
+                        <div class="text-sm text-gray-500">{{ u.email }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <select [ngModel]="u.role" (ngModelChange)="updateRole(u.id, $event)"
+                            class="border border-gray-300 rounded text-sm px-2 py-1 focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="Customer">Customer</option>
+                            <option value="Agent">Agent</option>
+                            <option value="ClaimsOfficer">Claims Officer</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <span class="text-gray-400 italic">Auto-saves</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

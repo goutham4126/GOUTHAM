@@ -1,0 +1,64 @@
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
+        <h3 class="text-lg font-bold text-gray-800">All System Policies Overview</h3>
+        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{ policies.length }}
+            Policies</span>
+    </div>
+
+    <div class="p-0 overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Policy ID
+                        / Plan</th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Financials (Paid / Premium)</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngIf="loadingPolicies">
+                    <td colspan="4" class="px-6 py-8 text-center text-sm text-gray-500">
+                        Loading policies data...
+                    </td>
+                </tr>
+                <tr *ngIf="!loadingPolicies && policies.length === 0">
+                    <td colspan="4" class="px-6 py-8 text-center text-sm text-gray-500">
+                        No policies found in the system.
+                    </td>
+                </tr>
+                <tr *ngFor="let p of policies" class="hover:bg-gray-50 transition">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900 border-b border-gray-100 pb-1 mb-1">#{{
+                            p.id.substring(0, 8) }}</div>
+                        <div class="text-xs text-blue-600 font-mono">{{ p.plan.name }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">{{ p.customerName }}</div>
+                        <div class="text-xs text-gray-500">{{ p.durationInMonths }} Months</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span [ngClass]="{
+                            'bg-green-100 text-green-800 border-green-200': p.status === 'Active',
+                            'bg-gray-100 text-gray-800 border-gray-200': p.status !== 'Active'
+                        }" class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full border">
+                            {{ p.status }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right">
+                        <div class="text-sm font-bold text-green-600">$\{{ p.totalPaid | number }} / $\{{ p.totalPremium
+                            | number }}</div>
+                        <div class="text-xs text-gray-500 mt-1">Freq: {{ p.paymentFrequency }}</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
