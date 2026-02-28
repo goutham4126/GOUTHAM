@@ -18,18 +18,6 @@ import { AuthService } from '../../../services/auth';
             <span class="font-bold text-xl text-gray-900 tracking-tight">CDIMS</span>
           </div>
 
-          <nav class="hidden md:ml-6 md:flex md:space-x-8">
-            <a routerLink="/" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-              Home
-            </a>
-            <a *ngIf="!authService.isAuthenticated()" routerLink="/login" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-              Information
-            </a>
-            <a *ngIf="authService.isAuthenticated()" routerLink="/{{authService.getRole()?.toLowerCase()}}/dashboard" class="border-blue-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-              Dashboard
-            </a>
-          </nav>
-
           <div class="flex items-center space-x-4">
             <ng-container *ngIf="!authService.isAuthenticated()">
               <a routerLink="/login" class="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium transition">Log in</a>

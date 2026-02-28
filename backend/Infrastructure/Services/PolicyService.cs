@@ -30,7 +30,7 @@ namespace Infrastructure.Services
             _logger = logger;
         }
 
-        public async Task<Policy> PurchasePolicyAsync(Guid userId, Guid planId, int durationInMonths, PaymentFrequency paymentFrequency)
+        public async Task<PolicyDto> PurchasePolicyAsync(Guid userId, Guid planId, int durationInMonths, PaymentFrequency paymentFrequency)
         {
             await using var transaction = await _context.Database.BeginTransactionAsync();
             try
@@ -74,7 +74,7 @@ namespace Infrastructure.Services
 
                 _logger.LogInformation("Policy {PolicyId} purchased by User {UserId} for Plan {PlanId}", policy.Id, userId, planId);
 
-                // 🔥 Auto-generate payments
+                // Auto-generate payment schedule
                 int interval = paymentFrequency switch
                 {
                     PaymentFrequency.Monthly => 1,
@@ -84,6 +84,7 @@ namespace Infrastructure.Services
                 };
 
                 var paymentDate = policy.StartDate;
+                bool isFirstPayment = true;
 
                 for (int i = 0; i < durationInMonths; i += interval)
                 {
@@ -95,12 +96,34 @@ namespace Infrastructure.Services
                         Status = PaymentStatus.Pending
                     };
 
+                    // Auto-pay the first installment at purchase time
+                    if (isFirstPayment)
+                    {
+                        payment.Status = PaymentStatus.Paid;
+                        payment.PaidDate = DateTime.UtcNow;
+                        policy.TotalPaid = payment.Amount;
+                        isFirstPayment = false;
+                    }
+
                     await _paymentRepo.AddAsync(payment);
                     paymentDate = paymentDate.AddMonths(interval);
                 }
 
+                await _policyRepo.UpdateAsync(policy);
+
                 await transaction.CommitAsync();
-                return policy;
+
+                _logger.LogInformation("First installment of {Amount} auto-paid for Policy {PolicyId}", policy.TotalPaid, policy.Id);
+
+                // Load navigation properties for DTO mapping
+                var fullPolicy = await _context.Policies
+                    .Include(p => p.User)
+                    .Include(p => p.Agent)
+                    .Include(p => p.Plan)
+                    .Include(p => p.Payments)
+                    .FirstAsync(p => p.Id == policy.Id);
+
+                return MapPolicyToDto(fullPolicy);
             }
             catch
             {

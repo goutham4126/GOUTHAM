@@ -18,4 +18,6 @@ export interface PolicyDto {
 
 export interface PurchasePolicyRequest {
     planId: string;
+    durationInYears: number;
+    paymentFrequency: number; // 0=Monthly, 1=Quarterly, 2=Yearly
 }

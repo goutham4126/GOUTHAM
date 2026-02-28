@@ -5,7 +5,7 @@ namespace Application.Interfaces
 {
     public interface IPolicyService
     {
-        Task<Policy> PurchasePolicyAsync(Guid userId, Guid planId, int durationInMonths, Domain.Enums.PaymentFrequency paymentFrequency);
+        Task<PolicyDto> PurchasePolicyAsync(Guid userId, Guid planId, int durationInMonths, Domain.Enums.PaymentFrequency paymentFrequency);
         Task MarkPaymentAsPaidAsync(Guid paymentId, Guid userId);
 
         Task<List<PolicyDto>> GetAssignedPoliciesAsync(Guid agentId);

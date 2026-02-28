@@ -56,6 +56,15 @@ namespace Infrastructure.Services
                     .OrderBy(o => o.PendingCount)
                     .First().Id;
 
+                var existingClaim = await _context.Claims
+                    .Where(c => c.PolicyId == policyId && (c.Status == ClaimStatus.Approved || c.Status == ClaimStatus.Pending))
+                    .FirstOrDefaultAsync();
+
+                if (existingClaim != null)
+                {
+                    throw new InvalidOperationException("This policy already has an approved or pending claim.");
+                }
+
                 var claim = new Claim
                 {
                     UserId = userId,
@@ -160,7 +169,8 @@ namespace Infrastructure.Services
                     : null,
                 claim.DocumentUrl,
                 claim.DocumentHash,
-                claim.BlockchainTxHash
+                claim.BlockchainTxHash,
+                claim.PolicyId
             );
         }
     }

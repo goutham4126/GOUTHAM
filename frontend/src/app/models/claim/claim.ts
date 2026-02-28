@@ -11,6 +11,7 @@ export interface ClaimDto {
     documentUrl?: string;
     documentHash?: string;
     blockchainTxHash?: string;
+    policyId: string;
 }
 
 export interface CreateClaimRequest {

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { PlanService } from '../../../services/plan';
 import { PolicyService } from '../../../services/policy';
 import { PlanDto } from '../../../models/policy/plan';
+import { PolicyDto } from '../../../models/policy/policy';
 
 @Component({
     selector: 'app-customer-plans',
@@ -26,6 +27,10 @@ export class CustomerPlans implements OnInit {
     durationInYears: number = 1;
     paymentFrequency: string = 'Monthly';
 
+    // Success Dialog State
+    successDialogVisible = false;
+    purchasedPolicy: PolicyDto | null = null;
+
     ngOnInit() {
         this.loading = true;
         this.planService.getAllPlans().subscribe({
@@ -44,28 +49,43 @@ export class CustomerPlans implements OnInit {
     promptPurchase(plan: PlanDto) {
         this.selectedPlan = plan;
         this.durationInYears = 1;
-        this.paymentFrequency = plan.paymentFrequency;
+        this.paymentFrequency = 'Monthly';
     }
 
     cancelPurchase() {
         this.selectedPlan = null;
     }
 
+    /** Calculates the installment amount based on frequency */
+    get computedInstallmentAmount(): number {
+        if (!this.selectedPlan) return 0;
+        const base = this.selectedPlan.premiumAmount;
+        if (this.paymentFrequency === 'Quarterly') return base * 3;
+        if (this.paymentFrequency === 'Yearly') return base * 12;
+        return base; // Monthly
+    }
+
+    get frequencyLabel(): string {
+        return this.paymentFrequency === 'Monthly' ? 'month'
+            : this.paymentFrequency === 'Quarterly' ? 'quarter'
+                : 'year';
+    }
+
     confirmPurchase() {
         if (this.selectedPlan && this.durationInYears > 0) {
-            // Map string enum to numeric if backend requires, or send string
-            // Assuming backend accepts string matching the enum name
             const request = {
                 planId: this.selectedPlan.id,
                 durationInYears: this.durationInYears,
-                paymentFrequency: this.paymentFrequency === 'Monthly' ? 0 : (this.paymentFrequency === 'Quarterly' ? 1 : 2)
+                paymentFrequency: this.paymentFrequency === 'Monthly' ? 0
+                    : (this.paymentFrequency === 'Quarterly' ? 1 : 2)
             };
 
             this.policyService.purchasePolicy(request).subscribe({
-                next: () => {
-                    alert('Policy purchased successfully!');
-                    this.cancelPurchase();
-                    this.router.navigate(['/customer/dashboard']);
+                next: (policy: PolicyDto) => {
+                    this.purchasedPolicy = policy;
+                    this.selectedPlan = null;
+                    this.successDialogVisible = true;
+                    this.cdr.detectChanges();
                 },
                 error: (err) => {
                     console.error(err);
@@ -73,5 +93,16 @@ export class CustomerPlans implements OnInit {
                 }
             });
         }
+    }
+
+    closeSuccessDialog() {
+        this.successDialogVisible = false;
+        this.purchasedPolicy = null;
+        this.router.navigate(['/customer/policies']);
+    }
+
+    /** Returns the first paid payment amount from the purchased policy */
+    get firstInstallmentPaid(): number {
+        return this.purchasedPolicy?.payments.find(p => p.status === 'Paid')?.amount ?? 0;
     }
 }

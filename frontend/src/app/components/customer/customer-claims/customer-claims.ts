@@ -5,6 +5,7 @@ import { ClaimService } from '../../../services/claim';
 import { PolicyService } from '../../../services/policy';
 import { ClaimDto } from '../../../models/claim/claim';
 import { PolicyDto } from '../../../models/policy/policy';
+import { ENV_CONFIG } from '../../../utils/blockchain.constants';
 
 @Component({
   selector: 'app-customer-claims',
@@ -19,19 +20,22 @@ export class CustomerClaims implements OnInit {
   private cdr = inject(ChangeDetectorRef);
 
   claims: ClaimDto[] = [];
-  policies: PolicyDto[] = []; // Needed for the dropdown
+  policies: PolicyDto[] = [];
 
   loadingClaims = true;
   loadingPolicies = true;
+  isProcessingUpload = false;
+  selectedFile: File | null = null;
+
+  // Document viewer state
+  viewingDocumentUrl: string | null = null;
+  viewingDocumentName: string | null = null;
 
   private fb = inject(FormBuilder);
   claimForm: FormGroup = this.fb.group({
     policyId: ['', Validators.required],
     reason: ['', Validators.required],
-    amount: [0, [Validators.required, Validators.min(1)]],
-    documentUrl: [''],
-    documentHash: [''],
-    blockchainTxHash: ['']
+    amount: [0, [Validators.required, Validators.min(1)]]
   });
 
   ngOnInit() {
@@ -43,7 +47,6 @@ export class CustomerClaims implements OnInit {
     this.loadingPolicies = true;
     this.policyService.getMyPolicies().subscribe({
       next: (data) => {
-        // Filter out inactive policies if needed, or allow all
         this.policies = data.filter(p => p.status === 'Active');
         this.loadingPolicies = false;
         this.cdr.detectChanges();
@@ -53,6 +56,12 @@ export class CustomerClaims implements OnInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  get availablePolicies(): PolicyDto[] {
+    return this.policies.filter(p =>
+      !this.claims.some(c => c.policyId === p.id && (c.status === 'Approved' || c.status === 'Pending'))
+    );
   }
 
   loadClaims() {
@@ -70,33 +79,104 @@ export class CustomerClaims implements OnInit {
     });
   }
 
-  submitClaim() {
+  onFileSelect(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+    }
+  }
+
+  async computeFileHash(file: File): Promise<string> {
+    const arrayBuffer = await file.arrayBuffer();
+    const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return '0x' + hashHex;
+  }
+
+  async uploadToVercelBlob(file: File): Promise<string> {
+    const fileName = encodeURIComponent(file.name);
+    const response = await fetch(`https://blob.vercel-storage.com/${fileName}`, {
+      method: 'PUT',
+      headers: {
+        'authorization': `Bearer ${ENV_CONFIG.VERCEL_BLOB_RW_TOKEN}`,
+        'x-api-version': '7'
+      },
+      body: file
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to upload to Vercel Blob.');
+    }
+
+    const data = await response.json();
+    return data.url;
+  }
+
+  openDocument(url: string, name: string) {
+    this.viewingDocumentUrl = url;
+    this.viewingDocumentName = name;
+  }
+
+  closeDocument() {
+    this.viewingDocumentUrl = null;
+    this.viewingDocumentName = null;
+  }
+
+  isImage(url: string): boolean {
+    return /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(url);
+  }
+
+  isPdf(url: string): boolean {
+    return /\.pdf$/i.test(url);
+  }
+
+  async submitClaim() {
     if (this.claimForm.valid) {
-      // Per user request, allow but do not require mock links
+      this.isProcessingUpload = true;
+      this.cdr.detectChanges();
+
+      let documentUrl = 'N/A';
+      let documentHash = 'N/A';
+      const blockchainTxHash = 'N/A';
+
+      try {
+        if (this.selectedFile) {
+          console.log('Computing SHA-256 hash...');
+          documentHash = await this.computeFileHash(this.selectedFile);
+
+          console.log('Uploading to Vercel Blob...');
+          documentUrl = await this.uploadToVercelBlob(this.selectedFile);
+          console.log('Upload successful:', documentUrl);
+        }
+      } catch (error) {
+        console.error('Error processing document upload:', error);
+        alert('Failed to upload document. Please try again.');
+        this.isProcessingUpload = false;
+        this.cdr.detectChanges();
+        return;
+      }
+
       const payload = {
         ...this.claimForm.value,
-        documentUrl: this.claimForm.value.documentUrl || 'N/A',
-        documentHash: this.claimForm.value.documentHash || 'Pending_Hash',
-        blockchainTxHash: this.claimForm.value.blockchainTxHash || 'Pending_Tx'
+        documentUrl,
+        documentHash,
+        blockchainTxHash
       };
 
       this.claimService.submitClaim(payload).subscribe({
         next: () => {
           this.loadClaims();
-          this.claimForm.reset({
-            policyId: '',
-            reason: '',
-            amount: 0,
-            documentUrl: '',
-            documentHash: '',
-            blockchainTxHash: ''
-          });
+          this.claimForm.reset({ policyId: '', reason: '', amount: 0 });
+          this.selectedFile = null;
+          this.isProcessingUpload = false;
           alert('Claim submitted successfully. It is now Pending review.');
           this.cdr.detectChanges();
         },
         error: (err) => {
           console.error(err);
+          this.isProcessingUpload = false;
           alert('Failed to submit claim. Please check your inputs.');
+          this.cdr.detectChanges();
         }
       });
     } else {

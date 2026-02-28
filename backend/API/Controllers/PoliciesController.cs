@@ -35,8 +35,8 @@ public class PoliciesController : ControllerBase
     {
         var userId = GetUserId();
         var durationInMonths = request.DurationInYears * 12;
-        var policy = await _policyService.PurchasePolicyAsync(userId, request.PlanId, durationInMonths, request.PaymentFrequency);
-        return Ok(policy);
+        var policyDto = await _policyService.PurchasePolicyAsync(userId, request.PlanId, durationInMonths, request.PaymentFrequency);
+        return Ok(policyDto);
     }
 
     [Authorize(Roles = "Customer")]

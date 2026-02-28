@@ -23,11 +23,38 @@ export class ClaimsOfficerDashboard implements OnInit {
   selectedClaimId: string | null = null;
   approvalAmount: number = 0;
 
+  // Success Dialog State
+  successDialogVisible = false;
+  approvedClaimAmount: number = 0;
+  approvedClaimId: string | null = null;
+
   // Row Expansion State
   expandedClaimId: string | null = null;
 
+  // Document Viewer State
+  viewingDocumentUrl: string | null = null;
+  viewingDocumentName: string | null = null;
+
   toggleExpand(claimId: string) {
     this.expandedClaimId = this.expandedClaimId === claimId ? null : claimId;
+  }
+
+  openDocument(url: string, name: string) {
+    this.viewingDocumentUrl = url;
+    this.viewingDocumentName = name;
+  }
+
+  closeDocument() {
+    this.viewingDocumentUrl = null;
+    this.viewingDocumentName = null;
+  }
+
+  isImage(url: string): boolean {
+    return /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(url);
+  }
+
+  isPdf(url: string): boolean {
+    return /\.pdf$/i.test(url);
   }
 
   ngOnInit() {
@@ -51,7 +78,7 @@ export class ClaimsOfficerDashboard implements OnInit {
 
   promptApprove(claim: ClaimDto) {
     this.selectedClaimId = claim.id;
-    this.approvalAmount = claim.claimAmount; 
+    this.approvalAmount = claim.claimAmount;
   }
 
   cancelApprove() {
@@ -66,9 +93,10 @@ export class ClaimsOfficerDashboard implements OnInit {
         notes: 'Approved via Evaluation Desk'
       }).subscribe({
         next: () => {
-          alert('Claim approved successfully!');
+          this.approvedClaimAmount = this.approvalAmount;
+          this.approvedClaimId = this.selectedClaimId;
+          this.successDialogVisible = true;
           this.cancelApprove();
-          this.loadClaims();
         },
         error: (err) => {
           console.error(err);
@@ -76,6 +104,13 @@ export class ClaimsOfficerDashboard implements OnInit {
         }
       });
     }
+  }
+
+  closeSuccessDialog() {
+    this.successDialogVisible = false;
+    this.approvedClaimId = null;
+    this.approvedClaimAmount = 0;
+    this.loadClaims();
   }
 
   rejectClaim(id: string) {
