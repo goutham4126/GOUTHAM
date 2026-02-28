@@ -479,17 +479,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserRole"
+                "$ref": "#/components/schemas/UpdateRoleDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserRole"
+                "$ref": "#/components/schemas/UpdateRoleDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UserRole"
+                "$ref": "#/components/schemas/UpdateRoleDto"
               }
             }
           }
@@ -648,6 +648,15 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateRoleDto": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "$ref": "#/components/schemas/UserRole"
           }
         },
         "additionalProperties": false

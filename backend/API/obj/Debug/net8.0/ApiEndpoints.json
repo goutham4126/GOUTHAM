@@ -295,8 +295,8 @@
         "IsRequired": true
       },
       {
-        "Name": "newRole",
-        "Type": "System.String",
+        "Name": "request",
+        "Type": "Application.DTOs.Users.UpdateRoleDto",
         "IsRequired": true
       }
     ],

@@ -16,7 +16,7 @@ public class PlansController : ControllerBase
         _planService = planService;
     }
 
-    [AllowAnonymous]
+    [Authorize(Roles = "Customer,Admin")]
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -24,9 +24,9 @@ public class PlansController : ControllerBase
         return Ok(plans);
     }
 
-    [AllowAnonymous]
+    [Authorize(Roles = "Customer,Admin")]
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> Get(Guid id)
+    public async Task<IActionResult> Get([FromRoute] Guid id)
     {
         var plan = await _planService.GetByIdAsync(id);
         if (plan == null)

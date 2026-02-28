@@ -56,7 +56,7 @@ public class ClaimsController : ControllerBase
         return Ok(claims);
     }
 
-    [Authorize(Roles = "Admin,ClaimOfficer")]
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -66,7 +66,7 @@ public class ClaimsController : ControllerBase
 
     [Authorize(Roles = "ClaimOfficer")]
     [HttpPost("{claimId:guid}/approve")]
-    public async Task<IActionResult> Approve(Guid claimId, [FromBody] ApproveClaimRequest request)
+    public async Task<IActionResult> Approve([FromRoute] Guid claimId, [FromBody] ApproveClaimRequest request)
     {
         var officerId = GetUserId();
         await _claimService.ApproveClaimAsync(claimId, request.ApprovedAmount, officerId);

@@ -72,13 +72,13 @@ public class UsersController : ControllerBase
 
     [Authorize(Roles = "Admin")]
     [HttpPut("{id:guid}/role")]
-    public async Task<IActionResult> UpdateRole(Guid id, [FromBody] Domain.Enums.UserRole newRole)
+    public async Task<IActionResult> UpdateRole([FromRoute] Guid id, [FromBody] UpdateRoleDto request)
     {
         var user = await _repository.GetByIdAsync(id);
         if (user == null)
             return NotFound("User not found.");
 
-        user.Role = newRole;
+        user.Role = request.Role;
         await _repository.UpdateAsync(user);
 
         return Ok("Role updated successfully.");
