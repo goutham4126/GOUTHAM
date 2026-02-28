@@ -14,8 +14,8 @@ namespace Application.Interfaces
             string documentHash,
             string blockchainTxHash
         );
-        Task ApproveClaimAsync(Guid claimId, decimal approvedAmount);
-        Task RejectClaimAsync(Guid claimId);
+        Task ApproveClaimAsync(Guid claimId, decimal approvedAmount, Guid officerId);
+        Task RejectClaimAsync(Guid claimId, Guid officerId);
         Task<List<ClaimDto>> GetAssignedClaimsAsync(Guid officerId);
         Task<List<ClaimDto>> GetUserClaimsAsync(Guid userId);
         Task<List<ClaimDto>> GetAllClaimsAsync();

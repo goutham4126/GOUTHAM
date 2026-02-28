@@ -71,9 +71,9 @@
         "IsRequired": true
       },
       {
-        "Name": "approvedAmount",
-        "Type": "System.Decimal",
-        "IsRequired": false
+        "Name": "request",
+        "Type": "Application.DTOs.Insurance.ApproveClaimRequest",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -134,7 +134,7 @@
     "Parameters": [
       {
         "Name": "plan",
-        "Type": "Domain.Entities.Plan",
+        "Type": "Application.DTOs.Insurance.CreatePlanDto",
         "IsRequired": true
       }
     ],
@@ -171,7 +171,7 @@
       },
       {
         "Name": "plan",
-        "Type": "Domain.Entities.Plan",
+        "Type": "Application.DTOs.Insurance.CreatePlanDto",
         "IsRequired": true
       }
     ],
@@ -207,6 +207,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PoliciesController",
+    "Method": "GetAllPolicies",
+    "RelativePath": "api/policies/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -248,14 +258,14 @@
   {
     "ContainingType": "API.Controllers.PoliciesController",
     "Method": "Purchase",
-    "RelativePath": "api/policies/purchase/{planId}",
+    "RelativePath": "api/policies/purchase",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "planId",
-        "Type": "System.Guid",
+        "Name": "request",
+        "Type": "Application.DTOs.Insurance.PurchasePolicyRequest",
         "IsRequired": true
       }
     ],
@@ -269,6 +279,27 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.UsersController",
+    "Method": "UpdateRole",
+    "RelativePath": "api/users/{id}/role",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "newRole",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {

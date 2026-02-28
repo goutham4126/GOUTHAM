@@ -4,6 +4,7 @@ using Domain.Enums;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Application.DTOs.Insurance;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Services
 {
@@ -13,76 +14,99 @@ namespace Infrastructure.Services
         private readonly IPolicyRepository _policyRepo;
         private readonly IPlanRepository _planRepo;
         private readonly IPolicyPaymentRepository _paymentRepo;
+        private readonly ILogger<PolicyService> _logger;
 
         public PolicyService(
         IPolicyRepository policyRepo,
         IPlanRepository planRepo,
         IPolicyPaymentRepository paymentRepo,
-        AppDbContext context)
+        AppDbContext context,
+        ILogger<PolicyService> logger)
         {
             _policyRepo = policyRepo;
             _planRepo = planRepo;
             _paymentRepo = paymentRepo;
             _context = context;
+            _logger = logger;
         }
 
-        public async Task<Policy> PurchasePolicyAsync(Guid userId, Guid planId)
+        public async Task<Policy> PurchasePolicyAsync(Guid userId, Guid planId, int durationInMonths, PaymentFrequency paymentFrequency)
         {
-            var plan = await _planRepo.GetByIdAsync(planId)
-                ?? throw new Exception("Plan not found");
-
-            var agents = await _context.Users
-                .Where(u => u.Role == UserRole.Agent && !u.IsDeleted)
-                .Include(u => u.Policies)
-                .ToListAsync();
-
-            if (!agents.Any())
-                throw new InvalidOperationException("No agents available.");
-
-            var selectedAgent = agents
-                .OrderBy(a => a.Policies.Count)
-                .First();
-
-            var policy = new Policy
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+            try
             {
-                UserId = userId,
-                PlanId = planId,
-                AgentId = selectedAgent.Id,
-                StartDate = DateTime.UtcNow,
-                EndDate = DateTime.UtcNow.AddMonths(plan.DurationInMonths),
-                TotalPremium = plan.PremiumAmount * plan.DurationInMonths,
-                TotalPaid = 0,
-                Status = PolicyStatus.Active
-            };
+                var plan = await _planRepo.GetByIdAsync(planId)
+                    ?? throw new Exception("Plan not found");
 
-            await _policyRepo.AddAsync(policy);
+                if (!plan.IsActive)
+                    throw new InvalidOperationException("Plan is no longer active");
 
-            // 🔥 Auto-generate payments
-            int interval = plan.PaymentFrequency switch
-            {
-                PaymentFrequency.Monthly => 1,
-                PaymentFrequency.Quarterly => 3,
-                PaymentFrequency.Yearly => 12,
-                _ => 1
-            };
+                var agents = await _context.Users
+                    .Where(u => u.Role == UserRole.Agent && !u.IsDeleted)
+                    .Select(u => new { 
+                        u.Id, 
+                        ActiveCount = u.Policies.Count(p => p.Status == PolicyStatus.Active) 
+                    })
+                    .ToListAsync();
 
-            var paymentDate = policy.StartDate;
+                if (!agents.Any())
+                    throw new InvalidOperationException("No agents available.");
 
-            for (int i = 0; i < plan.DurationInMonths; i += interval)
-            {
-                var payment = new PolicyPayment
+                var selectedAgentId = agents
+                    .OrderBy(a => a.ActiveCount)
+                    .First().Id;
+
+                var policy = new Policy
                 {
-                    PolicyId = policy.Id,
-                    Amount = plan.PremiumAmount * interval,
-                    DueDate = paymentDate.AddMonths(interval),
-                    Status = PaymentStatus.Pending
+                    UserId = userId,
+                    PlanId = planId,
+                    AgentId = selectedAgentId,
+                    StartDate = DateTime.UtcNow,
+                    EndDate = DateTime.UtcNow.AddMonths(durationInMonths),
+                    DurationInMonths = durationInMonths,
+                    PaymentFrequency = paymentFrequency,
+                    TotalPremium = plan.PremiumAmount * durationInMonths,
+                    TotalPaid = 0,
+                    Status = PolicyStatus.Active
                 };
 
-                await _paymentRepo.AddAsync(payment);
-                paymentDate = paymentDate.AddMonths(interval);
-            }
+                await _policyRepo.AddAsync(policy);
 
-            return policy;
+                _logger.LogInformation("Policy {PolicyId} purchased by User {UserId} for Plan {PlanId}", policy.Id, userId, planId);
+
+                // 🔥 Auto-generate payments
+                int interval = paymentFrequency switch
+                {
+                    PaymentFrequency.Monthly => 1,
+                    PaymentFrequency.Quarterly => 3,
+                    PaymentFrequency.Yearly => 12,
+                    _ => 1
+                };
+
+                var paymentDate = policy.StartDate;
+
+                for (int i = 0; i < durationInMonths; i += interval)
+                {
+                    var payment = new PolicyPayment
+                    {
+                        PolicyId = policy.Id,
+                        Amount = plan.PremiumAmount * interval,
+                        DueDate = paymentDate,
+                        Status = PaymentStatus.Pending
+                    };
+
+                    await _paymentRepo.AddAsync(payment);
+                    paymentDate = paymentDate.AddMonths(interval);
+                }
+
+                await transaction.CommitAsync();
+                return policy;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
         public async Task<List<PolicyDto>> GetUserPoliciesAsync(Guid userId)
@@ -91,31 +115,38 @@ namespace Infrastructure.Services
             return policies.Select(MapPolicyToDto).ToList();
         }
 
-        public async Task<PolicyDto?> GetPolicyAsync(Guid policyId)
+        public async Task<PolicyDto?> GetPolicyAsync(Guid policyId, Guid userId, string userRole)
         {
             var policy = await _policyRepo.GetByIdAsync(policyId);
 
-            return policy == null ? null : MapPolicyToDto(policy);
+            if (policy == null) return null;
+
+            if (userRole == "Customer" && policy.UserId != userId)
+                throw new UnauthorizedAccessException("Not your policy");
+
+            return MapPolicyToDto(policy);
         }
 
-        public async Task MarkPaymentAsPaidAsync(Guid paymentId)
+        public async Task MarkPaymentAsPaidAsync(Guid paymentId, Guid userId)
         {
-            var payments = await _paymentRepo.GetByPolicyIdAsync(Guid.Empty);
-
-            var payment = payments.FirstOrDefault(p => p.Id == paymentId)
+            var payment = await _paymentRepo.GetByIdAsync(paymentId)
                 ?? throw new Exception("Payment not found");
+
+            var policy = await _policyRepo.GetByIdAsync(payment.PolicyId);
+            if (policy == null) throw new Exception("Policy not found");
+
+            if (policy.UserId != userId)
+                throw new UnauthorizedAccessException("Not your policy");
 
             payment.Status = PaymentStatus.Paid;
             payment.PaidDate = DateTime.UtcNow;
 
             await _paymentRepo.UpdateAsync(payment);
 
-            var policy = await _policyRepo.GetByIdAsync(payment.PolicyId);
-            if (policy != null)
-            {
-                policy.TotalPaid += payment.Amount;
-                await _policyRepo.UpdateAsync(policy);
-            }
+            policy.TotalPaid += payment.Amount;
+            await _policyRepo.UpdateAsync(policy);
+
+            _logger.LogInformation("Payment {PaymentId} of {Amount} processed for Policy {PolicyId}", payment.Id, payment.Amount, policy.Id);
         }
 
         public async Task<List<PolicyDto>> GetAssignedPoliciesAsync(Guid agentId)
@@ -131,12 +162,26 @@ namespace Infrastructure.Services
             return policies.Select(MapPolicyToDto).ToList();
         }
 
+        public async Task<List<PolicyDto>> GetAllPoliciesAsync()
+        {
+            var policies = await _context.Policies
+                .Include(p => p.User)
+                .Include(p => p.Agent)
+                .Include(p => p.Plan)
+                .Include(p => p.Payments)
+                .ToListAsync();
+
+            return policies.Select(MapPolicyToDto).ToList();
+        }
+
         private static PolicyDto MapPolicyToDto(Policy policy)
         {
             return new PolicyDto(
                 policy.Id,
                 policy.StartDate,
                 policy.EndDate,
+                policy.DurationInMonths,
+                policy.PaymentFrequency.ToString(),
                 policy.Status.ToString(),
                 policy.TotalPremium,
                 policy.TotalPaid,
@@ -147,13 +192,13 @@ namespace Infrastructure.Services
                     policy.Plan.PremiumAmount,
                     policy.Plan.CoverageAmount,
                     policy.Plan.DurationInMonths,
-                    policy.Plan.PaymentFrequency.ToString()
+                    policy.Plan.PaymentFrequency
                 ),
                 $"{policy.User.FirstName} {policy.User.LastName}",
                 policy.Agent != null
                     ? $"{policy.Agent.FirstName} {policy.Agent.LastName}"
                     : null,
-                policy.Payments.Select(p => new PolicyPaymentDto(
+                policy.Payments.OrderBy(p => p.DueDate).Select(p => new PolicyPaymentDto(
                     p.Id,
                     p.Amount,
                     p.DueDate,

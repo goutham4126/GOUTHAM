@@ -29,6 +29,8 @@ namespace Infrastructure.Repositories
         {
             return await _context.Policies
                 .Include(p => p.Plan)
+                .Include(p => p.User)
+                .Include(p => p.Agent)
                 .Include(p => p.Payments)
                 .Where(p => p.UserId == userId)
                 .ToListAsync();

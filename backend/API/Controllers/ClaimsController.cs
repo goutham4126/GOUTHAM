@@ -20,7 +20,12 @@ public class ClaimsController : ControllerBase
 
     private Guid GetUserId()
     {
-        return Guid.Parse(User.FindFirst("id")!.Value);
+        var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (id == null)
+            throw new UnauthorizedAccessException("Invalid token.");
+
+        return Guid.Parse(id);
     }
 
     [Authorize(Roles = "Customer")]
@@ -61,9 +66,10 @@ public class ClaimsController : ControllerBase
 
     [Authorize(Roles = "ClaimOfficer")]
     [HttpPost("{claimId:guid}/approve")]
-    public async Task<IActionResult> Approve(Guid claimId, decimal approvedAmount)
+    public async Task<IActionResult> Approve(Guid claimId, [FromBody] ApproveClaimRequest request)
     {
-        await _claimService.ApproveClaimAsync(claimId, approvedAmount);
+        var officerId = GetUserId();
+        await _claimService.ApproveClaimAsync(claimId, request.ApprovedAmount, officerId);
         return Ok("Claim approved and payout processed");
     }
 
@@ -71,7 +77,8 @@ public class ClaimsController : ControllerBase
     [HttpPost("{claimId:guid}/reject")]
     public async Task<IActionResult> Reject(Guid claimId)
     {
-        await _claimService.RejectClaimAsync(claimId);
+        var officerId = GetUserId();
+        await _claimService.RejectClaimAsync(claimId, officerId);
         return Ok("Claim rejected");
     }
 
@@ -79,9 +86,7 @@ public class ClaimsController : ControllerBase
     [HttpGet("assigned")]
     public async Task<IActionResult> MyAssignedClaims()
     {
-        var officerId = Guid.Parse(
-            User.FindFirst(ClaimTypes.NameIdentifier)!.Value
-        );
+        var officerId = GetUserId();
 
         var claims = await _claimService.GetAssignedClaimsAsync(officerId);
 

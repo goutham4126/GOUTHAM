@@ -134,16 +134,27 @@
               "type": "string",
               "format": "uuid"
             }
-          },
-          {
-            "name": "approvedAmount",
-            "in": "query",
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApproveClaimRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApproveClaimRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApproveClaimRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -205,17 +216,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Plan"
+                "$ref": "#/components/schemas/CreatePlanDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Plan"
+                "$ref": "#/components/schemas/CreatePlanDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Plan"
+                "$ref": "#/components/schemas/CreatePlanDto"
               }
             }
           }
@@ -268,17 +279,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Plan"
+                "$ref": "#/components/schemas/CreatePlanDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Plan"
+                "$ref": "#/components/schemas/CreatePlanDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Plan"
+                "$ref": "#/components/schemas/CreatePlanDto"
               }
             }
           }
@@ -311,22 +322,30 @@
         }
       }
     },
-    "/api/policies/purchase/{planId}": {
+    "/api/policies/purchase": {
       "post": {
         "tags": [
           "Policies"
         ],
-        "parameters": [
-          {
-            "name": "planId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PurchasePolicyRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PurchasePolicyRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PurchasePolicyRequest"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -404,6 +423,18 @@
         }
       }
     },
+    "/api/policies/all": {
+      "get": {
+        "tags": [
+          "Policies"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/users/me": {
       "get": {
         "tags": [
@@ -427,131 +458,61 @@
           }
         }
       }
+    },
+    "/api/users/{id}/role": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRole"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRole"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRole"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "Claim": {
-        "required": [
-          "claimAmount",
-          "policyId",
-          "reason",
-          "status",
-          "userId"
-        ],
+      "ApproveClaimRequest": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "policyId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "userId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "claimOfficerId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "claimOfficer": {
-            "$ref": "#/components/schemas/User"
-          },
-          "reason": {
-            "maxLength": 1000,
-            "minLength": 0,
-            "type": "string"
-          },
-          "documentUrl": {
-            "maxLength": 1000,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "documentHash": {
-            "maxLength": 256,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "blockchainTxHash": {
-            "maxLength": 200,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "claimAmount": {
-            "minimum": 0,
-            "type": "number",
-            "format": "double"
-          },
           "approvedAmount": {
             "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "status": {
-            "$ref": "#/components/schemas/ClaimStatus"
-          },
-          "submittedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "processedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "policy": {
-            "$ref": "#/components/schemas/Policy"
-          },
-          "user": {
-            "$ref": "#/components/schemas/User"
-          },
-          "claimPayment": {
-            "$ref": "#/components/schemas/ClaimPayment"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ClaimPayment": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "claimId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "amountPaid": {
-            "type": "number",
             "format": "double"
-          },
-          "paidAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "claim": {
-            "$ref": "#/components/schemas/Claim"
           }
         },
         "additionalProperties": false
-      },
-      "ClaimStatus": {
-        "enum": [
-          0,
-          1,
-          2,
-          3
-        ],
-        "type": "integer",
-        "format": "int32"
       },
       "CreateClaimRequest": {
         "type": "object",
@@ -583,6 +544,36 @@
         },
         "additionalProperties": false
       },
+      "CreatePlanDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "premiumAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "coverageAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "durationInMonths": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paymentFrequency": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "LoginDto": {
         "type": "object",
         "properties": {
@@ -599,203 +590,28 @@
       },
       "PaymentFrequency": {
         "enum": [
-          0,
-          1,
-          2
+          "Monthly",
+          "Quarterly",
+          "Yearly"
         ],
-        "type": "integer",
-        "format": "int32"
+        "type": "string"
       },
-      "PaymentStatus": {
-        "enum": [
-          0,
-          1,
-          2,
-          3
-        ],
-        "type": "integer",
-        "format": "int32"
-      },
-      "Plan": {
-        "required": [
-          "coverageAmount",
-          "description",
-          "durationInMonths",
-          "name",
-          "paymentFrequency",
-          "premiumAmount"
-        ],
+      "PurchasePolicyRequest": {
         "type": "object",
         "properties": {
-          "id": {
+          "planId": {
             "type": "string",
             "format": "uuid"
           },
-          "name": {
-            "maxLength": 200,
-            "minLength": 0,
-            "type": "string"
-          },
-          "description": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "premiumAmount": {
-            "type": "number",
-            "format": "double"
-          },
-          "coverageAmount": {
-            "type": "number",
-            "format": "double"
-          },
-          "durationInMonths": {
+          "durationInYears": {
             "type": "integer",
             "format": "int32"
           },
           "paymentFrequency": {
             "$ref": "#/components/schemas/PaymentFrequency"
-          },
-          "isActive": {
-            "type": "boolean"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "policies": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Policy"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
-      },
-      "Policy": {
-        "required": [
-          "planId",
-          "status",
-          "totalPaid",
-          "totalPremium",
-          "userId"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "userId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "planId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "agentId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "agent": {
-            "$ref": "#/components/schemas/User"
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "status": {
-            "$ref": "#/components/schemas/PolicyStatus"
-          },
-          "totalPremium": {
-            "minimum": 0,
-            "type": "number",
-            "format": "double"
-          },
-          "totalPaid": {
-            "minimum": 0,
-            "type": "number",
-            "format": "double"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "user": {
-            "$ref": "#/components/schemas/User"
-          },
-          "plan": {
-            "$ref": "#/components/schemas/Plan"
-          },
-          "payments": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PolicyPayment"
-            },
-            "nullable": true
-          },
-          "claims": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Claim"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "PolicyPayment": {
-        "required": [
-          "amount",
-          "policyId"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "policyId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "amount": {
-            "type": "number",
-            "format": "double"
-          },
-          "dueDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "paidDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "status": {
-            "$ref": "#/components/schemas/PaymentStatus"
-          },
-          "policy": {
-            "$ref": "#/components/schemas/Policy"
-          }
-        },
-        "additionalProperties": false
-      },
-      "PolicyStatus": {
-        "enum": [
-          0,
-          1,
-          2,
-          3
-        ],
-        "type": "integer",
-        "format": "int32"
       },
       "RegisterDto": {
         "type": "object",
@@ -836,98 +652,14 @@
         },
         "additionalProperties": false
       },
-      "User": {
-        "required": [
-          "email",
-          "firstName",
-          "lastName",
-          "passwordHash",
-          "role"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "firstName": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string"
-          },
-          "lastName": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string"
-          },
-          "email": {
-            "maxLength": 255,
-            "minLength": 0,
-            "type": "string",
-            "format": "email"
-          },
-          "passwordHash": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "role": {
-            "$ref": "#/components/schemas/UserRole"
-          },
-          "governmentId": {
-            "type": "string",
-            "nullable": true
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
-          },
-          "phone": {
-            "type": "string",
-            "nullable": true
-          },
-          "dateOfBirth": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "policies": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Policy"
-            },
-            "nullable": true
-          },
-          "claims": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Claim"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "UserRole": {
         "enum": [
-          0,
-          1,
-          2,
-          3
+          "Admin",
+          "Agent",
+          "Customer",
+          "ClaimOfficer"
         ],
-        "type": "integer",
-        "format": "int32"
+        "type": "string"
       }
     }
   }

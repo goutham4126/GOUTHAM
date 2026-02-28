@@ -5,11 +5,12 @@ namespace Application.Interfaces
 {
     public interface IPolicyService
     {
-        Task<Policy> PurchasePolicyAsync(Guid userId, Guid planId);
-        Task MarkPaymentAsPaidAsync(Guid paymentId);
+        Task<Policy> PurchasePolicyAsync(Guid userId, Guid planId, int durationInMonths, Domain.Enums.PaymentFrequency paymentFrequency);
+        Task MarkPaymentAsPaidAsync(Guid paymentId, Guid userId);
 
         Task<List<PolicyDto>> GetAssignedPoliciesAsync(Guid agentId);
         Task<List<PolicyDto>> GetUserPoliciesAsync(Guid userId);
-        Task<PolicyDto?> GetPolicyAsync(Guid policyId);
+        Task<PolicyDto?> GetPolicyAsync(Guid policyId, Guid userId, string userRole);
+        Task<List<PolicyDto>> GetAllPoliciesAsync();
     }
 }

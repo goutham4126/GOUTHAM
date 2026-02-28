@@ -80,7 +80,6 @@ C:\Users\DELL\Desktop\GOUTHAM\backend\API\obj\Debug\net8.0\staticwebassets.build
 C:\Users\DELL\Desktop\GOUTHAM\backend\API\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\DELL\Desktop\GOUTHAM\backend\API\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\DELL\Desktop\GOUTHAM\backend\API\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\DELL\Desktop\GOUTHAM\backend\API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\DELL\Desktop\GOUTHAM\backend\API\obj\Debug\net8.0\API.csproj.Up2Date
 C:\Users\DELL\Desktop\GOUTHAM\backend\API\obj\Debug\net8.0\API.dll
 C:\Users\DELL\Desktop\GOUTHAM\backend\API\obj\Debug\net8.0\refint\API.dll
@@ -153,3 +152,4 @@ C:\Users\DELL\Desktop\GOUTHAM\backend\API\bin\Debug\net8.0\ru\Microsoft.CodeAnal
 C:\Users\DELL\Desktop\GOUTHAM\backend\API\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\DELL\Desktop\GOUTHAM\backend\API\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\DELL\Desktop\GOUTHAM\backend\API\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

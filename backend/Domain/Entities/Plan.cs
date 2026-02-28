@@ -24,7 +24,7 @@ namespace Domain.Entities
         public int DurationInMonths { get; set; }
 
         [Required]
-        public PaymentFrequency PaymentFrequency { get; set; }
+        public string PaymentFrequency { get; set; } = null!;
 
         public bool IsActive { get; set; } = true;
 

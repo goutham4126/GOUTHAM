@@ -14,6 +14,11 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<PolicyPayment?> GetByIdAsync(Guid id)
+        {
+            return await _context.PolicyPayments.FirstOrDefaultAsync(p => p.Id == id);
+        }
+
         public async Task<List<PolicyPayment>> GetByPolicyIdAsync(Guid policyId)
         {
             return await _context.PolicyPayments

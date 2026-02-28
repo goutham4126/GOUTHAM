@@ -1,4 +1,6 @@
 ﻿using Application.Interfaces;
+using Application.DTOs.Insurance;
+using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -28,11 +30,12 @@ public class PoliciesController : ControllerBase
     }
 
     [Authorize(Roles = "Customer")]
-    [HttpPost("purchase/{planId:guid}")]
-    public async Task<IActionResult> Purchase(Guid planId)
+    [HttpPost("purchase")]
+    public async Task<IActionResult> Purchase([FromBody] PurchasePolicyRequest request)
     {
         var userId = GetUserId();
-        var policy = await _policyService.PurchasePolicyAsync(userId, planId);
+        var durationInMonths = request.DurationInYears * 12;
+        var policy = await _policyService.PurchasePolicyAsync(userId, request.PlanId, durationInMonths, request.PaymentFrequency);
         return Ok(policy);
     }
 
@@ -49,7 +52,10 @@ public class PoliciesController : ControllerBase
     [HttpGet("{policyId:guid}")]
     public async Task<IActionResult> GetPolicy(Guid policyId)
     {
-        var policy = await _policyService.GetPolicyAsync(policyId);
+        var userId = GetUserId();
+        var userRole = User.FindFirst(ClaimTypes.Role)?.Value ?? "Customer";
+
+        var policy = await _policyService.GetPolicyAsync(policyId, userId, userRole);
         if (policy == null)
             return NotFound();
 
@@ -60,7 +66,8 @@ public class PoliciesController : ControllerBase
     [HttpPost("pay/{paymentId:guid}")]
     public async Task<IActionResult> Pay(Guid paymentId)
     {
-        await _policyService.MarkPaymentAsPaidAsync(paymentId);
+        var userId = GetUserId();
+        await _policyService.MarkPaymentAsPaidAsync(paymentId, userId);
         return Ok("Payment marked as paid");
     }
 
@@ -68,12 +75,18 @@ public class PoliciesController : ControllerBase
     [HttpGet("assigned")]
     public async Task<IActionResult> MyAssignedPolicies()
     {
-        var agentId = Guid.Parse(
-            User.FindFirst(ClaimTypes.NameIdentifier)!.Value
-        );
+        var agentId = GetUserId();
 
         var policies = await _policyService.GetAssignedPoliciesAsync(agentId);
 
+        return Ok(policies);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpGet("all")]
+    public async Task<IActionResult> GetAllPolicies()
+    {
+        var policies = await _policyService.GetAllPoliciesAsync();
         return Ok(policies);
     }
 }

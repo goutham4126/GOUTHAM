@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Domain.Entities;
+using Application.DTOs.Insurance;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,7 +37,7 @@ public class PlansController : ControllerBase
 
     [Authorize(Roles = "Admin")]
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Plan plan)
+    public async Task<IActionResult> Create([FromBody] CreatePlanDto plan)
     {
         var created = await _planService.CreateAsync(plan);
         return Ok(created);
@@ -45,7 +45,7 @@ public class PlansController : ControllerBase
 
     [Authorize(Roles = "Admin")]
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] Plan plan)
+    public async Task<IActionResult> Update(Guid id, [FromBody] CreatePlanDto plan)
     {
         await _planService.UpdateAsync(id, plan);
         return Ok("Plan updated successfully");

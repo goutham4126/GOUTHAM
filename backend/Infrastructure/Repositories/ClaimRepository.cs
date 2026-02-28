@@ -19,6 +19,8 @@ namespace Infrastructure.Repositories
             return await _context.Claims
                 .Include(c => c.Policy)
                 .Include(c => c.ClaimPayment)
+                .Include(c => c.User)
+                .Include(c => c.ClaimOfficer)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
@@ -26,6 +28,8 @@ namespace Infrastructure.Repositories
         {
             return await _context.Claims
                 .Include(c => c.Policy)
+                .Include(c => c.User)
+                .Include(c => c.ClaimOfficer)
                 .Where(c => c.UserId == userId)
                 .ToListAsync();
         }
@@ -35,6 +39,7 @@ namespace Infrastructure.Repositories
             return await _context.Claims
                 .Include(c => c.Policy)
                 .Include(c => c.User)
+                .Include(c => c.ClaimOfficer)
                 .ToListAsync();
         }
 

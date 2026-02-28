@@ -1,13 +1,13 @@
-﻿using Domain.Entities;
+﻿using Application.DTOs.Insurance;
 
 namespace Application.Interfaces
 {
     public interface IPlanService
     {
-        Task<List<Plan>> GetAllAsync();
-        Task<Plan?> GetByIdAsync(Guid id);
-        Task<Plan> CreateAsync(Plan plan);
-        Task UpdateAsync(Guid id, Plan updatedPlan);
+        Task<List<PlanDto>> GetAllAsync();
+        Task<PlanDto?> GetByIdAsync(Guid id);
+        Task<PlanDto> CreateAsync(CreatePlanDto dto);
+        Task UpdateAsync(Guid id, CreatePlanDto dto);
         Task DeleteAsync(Guid id);
     }
 }

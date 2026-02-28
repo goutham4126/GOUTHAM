@@ -34,6 +34,7 @@ namespace Infrastructure.Data
             builder.Entity<User>(entity =>
             {
                 entity.ToTable("Users");
+                entity.HasQueryFilter(u => !u.IsDeleted);
 
                 entity.HasIndex(u => u.Email)
                       .IsUnique();
@@ -65,9 +66,6 @@ namespace Infrastructure.Data
                 entity.Property(p => p.CoverageAmount)
                       .HasPrecision(18, 2);
 
-                entity.Property(p => p.PaymentFrequency)
-                      .HasConversion<string>();
-
                 entity.HasMany(p => p.Policies)
                       .WithOne(p => p.Plan)
                       .HasForeignKey(p => p.PlanId)
@@ -88,6 +86,9 @@ namespace Infrastructure.Data
                       .HasPrecision(18, 2);
 
                 entity.Property(p => p.Status)
+                      .HasConversion<string>();
+
+                entity.Property(p => p.PaymentFrequency)
                       .HasConversion<string>();
 
                 entity.HasMany(p => p.Payments)
@@ -125,7 +126,7 @@ namespace Infrastructure.Data
         {
             builder.Entity<Claim>(entity =>
             {
-                entity.ToTable("Claims");
+                entity.ToTable("Claims", t => t.HasCheckConstraint("CK_Claim_ApprovedAmount", "[ApprovedAmount] <= [ClaimAmount]"));
 
                 entity.Property(c => c.ClaimAmount)
                       .HasPrecision(18, 2);

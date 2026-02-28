@@ -24,6 +24,12 @@ namespace Domain.Entities
         public DateTime EndDate { get; set; }
 
         [Required]
+        public int DurationInMonths { get; set; }
+
+        [Required]
+        public PaymentFrequency PaymentFrequency { get; set; }
+
+        [Required]
         public PolicyStatus Status { get; set; } = PolicyStatus.Active;
 
         [Required]

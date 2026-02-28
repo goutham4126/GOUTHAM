@@ -24,7 +24,12 @@ namespace API
                     builder.Configuration.GetConnectionString("dbURL")
                 ));
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+                    options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+                });
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -102,6 +107,27 @@ namespace API
             builder.Services.AddProblemDetails();
 
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                var passwordService = scope.ServiceProvider.GetRequiredService<IPasswordService>();
+
+                if (!context.Users.Any(u => u.Role == Domain.Enums.UserRole.Admin))
+                {
+                    context.Users.Add(new Domain.Entities.User
+                    {
+                        FirstName = "System",
+                        LastName = "Admin",
+                        Email = "admin@insurance.com",
+                        PasswordHash = passwordService.HashPassword("Admin@123!"),
+                        Role = Domain.Enums.UserRole.Admin,
+                        Address = "System Generated",
+                        Phone = "0000000000"
+                    });
+                    context.SaveChanges();
+                }
+            }
 
             if (app.Environment.IsDevelopment())
             {

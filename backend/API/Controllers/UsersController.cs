@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.DTOs.Users;
+using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -35,19 +36,18 @@ public class UsersController : ControllerBase
         if (user == null)
             throw new KeyNotFoundException("User not found.");
 
-        return Ok(new
-        {
+        return Ok(new UserDto(
             user.Id,
             user.FirstName,
             user.LastName,
             user.Email,
-            user.Role,
+            user.Role.ToString(),
             user.GovernmentId,
             user.Address,
             user.Phone,
             user.DateOfBirth,
             user.CreatedAt
-        });
+        ));
     }
 
     [Authorize(Roles = "Admin")]
@@ -56,14 +56,31 @@ public class UsersController : ControllerBase
     {
         var users = await _repository.GetAllAsync();
 
-        return Ok(users.Select(u => new
-        {
+        return Ok(users.Select(u => new UserDto(
             u.Id,
             u.FirstName,
             u.LastName,
             u.Email,
-            u.Role,
+            u.Role.ToString(),
+            u.GovernmentId,
+            u.Address,
+            u.Phone,
+            u.DateOfBirth,
             u.CreatedAt
-        }));
+        )));
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPut("{id:guid}/role")]
+    public async Task<IActionResult> UpdateRole(Guid id, [FromBody] Domain.Enums.UserRole newRole)
+    {
+        var user = await _repository.GetByIdAsync(id);
+        if (user == null)
+            return NotFound("User not found.");
+
+        user.Role = newRole;
+        await _repository.UpdateAsync(user);
+
+        return Ok("Role updated successfully.");
     }
 }

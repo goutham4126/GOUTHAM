@@ -4,6 +4,7 @@ using Domain.Enums;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Application.DTOs.Insurance;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Services
 {
@@ -12,12 +13,14 @@ namespace Infrastructure.Services
         private readonly AppDbContext _context;
         private readonly IClaimRepository _claimRepo;
         private readonly IPolicyRepository _policyRepo;
+        private readonly ILogger<ClaimService> _logger;
 
-        public ClaimService(IClaimRepository claimRepo, IPolicyRepository policyRepo, AppDbContext context)
+        public ClaimService(IClaimRepository claimRepo, IPolicyRepository policyRepo, AppDbContext context, ILogger<ClaimService> logger)
         {
             _claimRepo = claimRepo;
             _policyRepo = policyRepo;
             _context = context;
+            _logger = logger;
         }
 
         public async Task<ClaimDto> CreateClaimAsync(
@@ -29,81 +32,105 @@ namespace Infrastructure.Services
         string documentHash,
         string blockchainTxHash)
         {
-            var policy = await _policyRepo.GetByIdAsync(policyId)
-                ?? throw new KeyNotFoundException("Policy not found");
-
-            if (policy.UserId != userId)
-                throw new UnauthorizedAccessException("Not your policy");
-
-            var officers = await _context.Users
-                .Where(u => u.Role == UserRole.ClaimOfficer && !u.IsDeleted)
-                .Include(u => u.Claims)
-                .ToListAsync();
-
-            if (!officers.Any())
-                throw new InvalidOperationException("No claim officers available");
-
-            var selectedOfficer = officers
-                .OrderBy(o => o.Claims.Count)
-                .First();
-
-            var claim = new Claim
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+            try
             {
-                UserId = userId,
-                PolicyId = policyId,
-                Reason = reason,
-                ClaimAmount = amount,
-                ClaimOfficerId = selectedOfficer.Id,
-                DocumentUrl = documentUrl,
-                DocumentHash = documentHash,
-                BlockchainTxHash = blockchainTxHash,
-                Status = ClaimStatus.Pending
-            };
+                var policy = await _policyRepo.GetByIdAsync(policyId)
+                    ?? throw new KeyNotFoundException("Policy not found");
 
-            await _claimRepo.AddAsync(claim);
+                if (policy.UserId != userId)
+                    throw new UnauthorizedAccessException("Not your policy");
 
-            return MapClaimToDto(claim);
+                var officers = await _context.Users
+                    .Where(u => u.Role == UserRole.ClaimOfficer && !u.IsDeleted)
+                    .Select(u => new {
+                        u.Id,
+                        PendingCount = u.Claims.Count(c => c.Status == ClaimStatus.Pending)
+                    })
+                    .ToListAsync();
+
+                if (!officers.Any())
+                    throw new InvalidOperationException("No claim officers available");
+
+                var selectedOfficerId = officers
+                    .OrderBy(o => o.PendingCount)
+                    .First().Id;
+
+                var claim = new Claim
+                {
+                    UserId = userId,
+                    PolicyId = policyId,
+                    Reason = reason,
+                    ClaimAmount = amount,
+                    ClaimOfficerId = selectedOfficerId,
+                    DocumentUrl = documentUrl,
+                    DocumentHash = documentHash,
+                    BlockchainTxHash = blockchainTxHash,
+                    Status = ClaimStatus.Pending
+                };
+
+                await _claimRepo.AddAsync(claim);
+                await transaction.CommitAsync();
+
+                return MapClaimToDto(claim);
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
         public async Task<List<ClaimDto>> GetUserClaimsAsync(Guid userId)
         {
             var claims = await _claimRepo.GetByUserIdAsync(userId);
-            return claims.Select(MapClaimToDto).ToList();
+            return claims.OrderByDescending(c => c.SubmittedAt).Select(MapClaimToDto).ToList();
         }
 
         public async Task<List<ClaimDto>> GetAllClaimsAsync()
         {
             var claims = await _claimRepo.GetAllAsync();
-            return claims.Select(MapClaimToDto).ToList();
+            return claims.OrderByDescending(c => c.SubmittedAt).Select(MapClaimToDto).ToList();
         }
 
-        public async Task ApproveClaimAsync(Guid claimId, decimal approvedAmount)
+        public async Task ApproveClaimAsync(Guid claimId, decimal approvedAmount, Guid officerId)
         {
             var claim = await _claimRepo.GetByIdAsync(claimId)
                 ?? throw new Exception("Claim not found");
+
+            if (claim.ClaimOfficerId != officerId)
+                throw new UnauthorizedAccessException("Not assigned to this claim");
 
             claim.Status = ClaimStatus.Approved;
             claim.ApprovedAmount = approvedAmount;
             claim.ProcessedAt = DateTime.UtcNow;
 
-            claim.ClaimPayment = new ClaimPayment
+            await _claimRepo.UpdateAsync(claim);
+
+            var claimPayment = new ClaimPayment
             {
                 ClaimId = claim.Id,
                 AmountPaid = approvedAmount,
                 PaidAt = DateTime.UtcNow
             };
 
-            await _claimRepo.UpdateAsync(claim);
+            await _context.ClaimPayments.AddAsync(claimPayment);
+            await _context.SaveChangesAsync();
+            _logger.LogInformation("Claim {ClaimId} approved for {Amount} by Officer {OfficerId}", claim.Id, approvedAmount, officerId);
         }
 
-        public async Task RejectClaimAsync(Guid claimId)
+        public async Task RejectClaimAsync(Guid claimId, Guid officerId)
         {
             var claim = await _claimRepo.GetByIdAsync(claimId)
                 ?? throw new Exception("Claim not found");
+
+            if (claim.ClaimOfficerId != officerId)
+                throw new UnauthorizedAccessException("Not assigned to this claim");
 
             claim.Status = ClaimStatus.Rejected;
             claim.ProcessedAt = DateTime.UtcNow;
 
             await _claimRepo.UpdateAsync(claim);
+            _logger.LogInformation("Claim {ClaimId} rejected by Officer {OfficerId}", claim.Id, officerId);
         }
 
         public async Task<List<ClaimDto>> GetAssignedClaimsAsync(Guid officerId)
@@ -114,7 +141,7 @@ namespace Infrastructure.Services
                 .Include(c => c.ClaimOfficer)
                 .ToListAsync();
 
-            return claims.Select(MapClaimToDto).ToList();
+            return claims.OrderByDescending(c => c.SubmittedAt).Select(MapClaimToDto).ToList();
         }
 
         private static ClaimDto MapClaimToDto(Claim claim)
