@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { PolicyService } from '../../../services/policy';
 import { PolicyDto } from '../../../models/policy/policy';
 import { PolicyPaymentDto } from '../../../models/payment/payment';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-customer-policies',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './customer-policies.html',
   styleUrl: './customer-policies.css'
 })

@@ -13,13 +13,23 @@ namespace Infrastructure.Services
         private readonly AppDbContext _context;
         private readonly IClaimRepository _claimRepo;
         private readonly IPolicyRepository _policyRepo;
+        private readonly IVercelBlobService _blobService;
+        private readonly IInvoiceGeneratorService _invoiceGenerator;
         private readonly ILogger<ClaimService> _logger;
 
-        public ClaimService(IClaimRepository claimRepo, IPolicyRepository policyRepo, AppDbContext context, ILogger<ClaimService> logger)
+        public ClaimService(
+            IClaimRepository claimRepo, 
+            IPolicyRepository policyRepo, 
+            AppDbContext context, 
+            IVercelBlobService blobService,
+            IInvoiceGeneratorService invoiceGenerator,
+            ILogger<ClaimService> logger)
         {
             _claimRepo = claimRepo;
             _policyRepo = policyRepo;
             _context = context;
+            _blobService = blobService;
+            _invoiceGenerator = invoiceGenerator;
             _logger = logger;
         }
 
@@ -40,6 +50,11 @@ namespace Infrastructure.Services
 
                 if (policy.UserId != userId)
                     throw new UnauthorizedAccessException("Not your policy");
+
+                // Validate claim amount against the frozen policy coverage (not the live plan)
+                if (amount > policy.CoverageAmount)
+                    throw new InvalidOperationException(
+                        $"Claim amount ${amount:N2} exceeds this policy's coverage of ${policy.CoverageAmount:N2}.");
 
                 var officers = await _context.Users
                     .Where(u => u.Role == UserRole.ClaimOfficer && !u.IsDeleted)
@@ -123,6 +138,10 @@ namespace Infrastructure.Services
             };
 
             await _context.ClaimPayments.AddAsync(claimPayment);
+
+            // Generate and save Claim Status Invoice
+            await GenerateClaimInvoiceAsync(claim);
+
             await _context.SaveChangesAsync();
             _logger.LogInformation("Claim {ClaimId} approved for {Amount} by Officer {OfficerId}", claim.Id, approvedAmount, officerId);
         }
@@ -139,7 +158,41 @@ namespace Infrastructure.Services
             claim.ProcessedAt = DateTime.UtcNow;
 
             await _claimRepo.UpdateAsync(claim);
+
+            // Generate and save Claim Status Invoice
+            await GenerateClaimInvoiceAsync(claim);
+
+            await _context.SaveChangesAsync();
             _logger.LogInformation("Claim {ClaimId} rejected by Officer {OfficerId}", claim.Id, officerId);
+        }
+
+        private async Task GenerateClaimInvoiceAsync(Claim claim)
+        {
+            try
+            {
+                var policy = await _policyRepo.GetByIdAsync(claim.PolicyId);
+                var customer = await _context.Users.FindAsync(claim.UserId);
+
+                if (policy != null && customer != null)
+                {
+                    var pdfBytes = _invoiceGenerator.GenerateClaimInvoice(policy, claim, customer);
+                    var fileName = $"claim_status_{claim.Id}_{DateTime.UtcNow.Ticks}.pdf";
+                    var fileUrl = await _blobService.UploadFileAsync(pdfBytes, fileName, "claim_status_invoices");
+
+                    var invoice = new Invoice
+                    {
+                        UserId = claim.UserId,
+                        ReferenceId = claim.Id,
+                        Type = InvoiceType.ClaimStatus,
+                        FileUrl = fileUrl
+                    };
+                    _context.Invoices.Add(invoice);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to generate claim invoice for claim {ClaimId}", claim.Id);
+            }
         }
 
         public async Task<List<ClaimDto>> GetAssignedClaimsAsync(Guid officerId)

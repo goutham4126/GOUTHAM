@@ -115,6 +115,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "API.Controllers.InvoicesController",
+    "Method": "MyInvoices",
+    "RelativePath": "api/invoices/my",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "API.Controllers.PlansController",
     "Method": "GetAll",
     "RelativePath": "api/plans",

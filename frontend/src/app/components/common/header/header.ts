@@ -12,10 +12,7 @@ import { AuthService } from '../../../services/auth';
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 items-center">
           <div class="flex-shrink-0 flex items-center cursor-pointer" routerLink="/">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.074 2.019-.215 3m-2.85 2.548A14.2 14.2 0 0112 21.5a14.2 14.2 0 01-2.935-1.912" />
-            </svg>
-            <span class="font-bold text-xl text-gray-900 tracking-tight">CDIMS</span>
+            <img src="/logo.png" alt="CDIMS Logo" class="h-8 w-auto mr-2" />
           </div>
 
           <div class="flex items-center space-x-4">

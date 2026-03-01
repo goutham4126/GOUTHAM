@@ -45,6 +45,9 @@ namespace API
             builder.Services.AddScoped<IPolicyService, PolicyService>();
             builder.Services.AddScoped<IClaimService, ClaimService>();
 
+            builder.Services.AddHttpClient<IVercelBlobService, VercelBlobService>();
+            builder.Services.AddScoped<IInvoiceGeneratorService, InvoiceGeneratorService>();
+
 
             var key = Encoding.UTF8.GetBytes(
                 builder.Configuration["Jwt:Key"]!);

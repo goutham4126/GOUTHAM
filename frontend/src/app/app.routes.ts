@@ -74,6 +74,12 @@ export const routes: Routes = [
         canActivate: [authGuard, roleGuard],
         data: { role: 'Customer' }
     },
+    {
+        path: 'customer/invoices',
+        loadComponent: () => import('./components/customer/customer-invoices/customer-invoices').then(m => m.CustomerInvoices),
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'Customer' }
+    },
 
     // Agent Routes
     {

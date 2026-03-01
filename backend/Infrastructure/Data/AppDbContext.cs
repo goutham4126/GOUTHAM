@@ -17,6 +17,9 @@ namespace Infrastructure.Data
         public DbSet<Claim> Claims => Set<Claim>();
         public DbSet<ClaimPayment> ClaimPayments => Set<ClaimPayment>();
 
+        public DbSet<Invoice> Invoices => Set<Invoice>();
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -51,6 +54,11 @@ namespace Infrastructure.Data
                       .WithOne(c => c.User)
                       .HasForeignKey(c => c.UserId)
                       .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasMany(u => u.Invoices)
+                      .WithOne(i => i.User)
+                      .HasForeignKey(i => i.UserId)
+                      .OnDelete(DeleteBehavior.Restrict);
             });
         }
 
@@ -83,6 +91,15 @@ namespace Infrastructure.Data
                       .HasPrecision(18, 2);
 
                 entity.Property(p => p.TotalPaid)
+                      .HasPrecision(18, 2);
+
+                entity.Property(p => p.CoverageAmount)
+                      .HasPrecision(18, 2);
+
+                entity.Property(p => p.PlanBaseCoverageAmount)
+                      .HasPrecision(18, 2);
+
+                entity.Property(p => p.PlanBasePremiumAmount)
                       .HasPrecision(18, 2);
 
                 entity.Property(p => p.Status)

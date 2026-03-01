@@ -197,6 +197,18 @@
         }
       }
     },
+    "/api/invoices/my": {
+      "get": {
+        "tags": [
+          "Invoices"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/plans": {
       "get": {
         "tags": [

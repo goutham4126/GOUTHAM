@@ -40,6 +40,31 @@ namespace Domain.Entities
         [Range(0, double.MaxValue)]
         public decimal TotalPaid { get; set; }
 
+        /// <summary>
+        /// Snapshot of the plan's base coverage amount at the time of policy creation.
+        /// Does NOT change when the plan is updated.
+        /// </summary>
+        [Required]
+        [Range(0, double.MaxValue)]
+        public decimal PlanBaseCoverageAmount { get; set; }
+
+        /// <summary>
+        /// Snapshot of the plan's base premium amount at the time of policy creation.
+        /// Does NOT change when the plan is updated.
+        /// </summary>
+        [Required]
+        [Range(0, double.MaxValue)]
+        public decimal PlanBasePremiumAmount { get; set; }
+
+        /// <summary>
+        /// The actual calculated coverage for this specific policy.
+        /// Formula: PlanBaseCoverageAmount * (DurationInMonths / Plan.DurationInMonths)
+        /// Frozen after creation.
+        /// </summary>
+        [Required]
+        [Range(0, double.MaxValue)]
+        public decimal CoverageAmount { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public User User { get; set; } = null!;

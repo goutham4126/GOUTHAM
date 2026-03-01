@@ -65,6 +65,14 @@ export class CustomerPlans implements OnInit {
         return base; // Monthly
     }
 
+    /** Calculates projected coverage for the chosen duration */
+    get computedCoverage(): number {
+        if (!this.selectedPlan) return 0;
+        const selectedMonths = this.durationInYears * 12;
+        const planDefaultMonths = this.selectedPlan.durationInMonths > 0 ? this.selectedPlan.durationInMonths : selectedMonths;
+        return this.selectedPlan.coverageAmount * (selectedMonths / planDefaultMonths);
+    }
+
     get frequencyLabel(): string {
         return this.paymentFrequency === 'Monthly' ? 'month'
             : this.paymentFrequency === 'Quarterly' ? 'quarter'

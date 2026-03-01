@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ClaimService } from '../../../services/claim';
 import { PolicyService } from '../../../services/policy';
 import { ClaimDto } from '../../../models/claim/claim';
@@ -18,6 +19,7 @@ export class CustomerClaims implements OnInit {
   private claimService = inject(ClaimService);
   private policyService = inject(PolicyService);
   private cdr = inject(ChangeDetectorRef);
+  private sanitizer = inject(DomSanitizer);
 
   claims: ClaimDto[] = [];
   policies: PolicyDto[] = [];
@@ -30,6 +32,8 @@ export class CustomerClaims implements OnInit {
   // Document viewer state
   viewingDocumentUrl: string | null = null;
   viewingDocumentName: string | null = null;
+  originalDocumentUrl: string | null = null;
+  isDocumentLoading = false;
 
   private fb = inject(FormBuilder);
   claimForm: FormGroup = this.fb.group({
@@ -112,22 +116,52 @@ export class CustomerClaims implements OnInit {
     return data.url;
   }
 
-  openDocument(url: string, name: string) {
-    this.viewingDocumentUrl = url;
+  async openDocument(url: string, name: string) {
+    this.originalDocumentUrl = url;
     this.viewingDocumentName = name;
+    this.viewingDocumentUrl = null;
+    this.isDocumentLoading = true;
+
+    if (this.isPdf(url)) {
+      try {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const pdfBlob = new Blob([blob], { type: 'application/pdf' });
+        this.viewingDocumentUrl = URL.createObjectURL(pdfBlob);
+      } catch (e) {
+        console.error('Error fetching document', e);
+        this.viewingDocumentUrl = url;
+      }
+    } else {
+      this.viewingDocumentUrl = url;
+    }
+    this.isDocumentLoading = false;
+    this.cdr.detectChanges();
   }
 
   closeDocument() {
+    if (this.viewingDocumentUrl && this.viewingDocumentUrl.startsWith('blob:')) {
+      URL.revokeObjectURL(this.viewingDocumentUrl);
+    }
     this.viewingDocumentUrl = null;
     this.viewingDocumentName = null;
+    this.originalDocumentUrl = null;
+    this.isDocumentLoading = false;
   }
 
   isImage(url: string): boolean {
+    if (!url) return false;
     return /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(url);
   }
 
   isPdf(url: string): boolean {
-    return /\.pdf$/i.test(url);
+    if (!url) return false;
+    return url.toLowerCase().includes('.pdf') || !this.isImage(url);
+  }
+
+  getSafeUrl(url: string | null): SafeResourceUrl | null {
+    if (!url) return null;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   async submitClaim() {

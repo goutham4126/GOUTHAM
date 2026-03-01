@@ -14,6 +14,8 @@ namespace Infrastructure.Services
         private readonly IPolicyRepository _policyRepo;
         private readonly IPlanRepository _planRepo;
         private readonly IPolicyPaymentRepository _paymentRepo;
+        private readonly IVercelBlobService _blobService;
+        private readonly IInvoiceGeneratorService _invoiceGenerator;
         private readonly ILogger<PolicyService> _logger;
 
         public PolicyService(
@@ -21,12 +23,16 @@ namespace Infrastructure.Services
         IPlanRepository planRepo,
         IPolicyPaymentRepository paymentRepo,
         AppDbContext context,
+        IVercelBlobService blobService,
+        IInvoiceGeneratorService invoiceGenerator,
         ILogger<PolicyService> logger)
         {
             _policyRepo = policyRepo;
             _planRepo = planRepo;
             _paymentRepo = paymentRepo;
             _context = context;
+            _blobService = blobService;
+            _invoiceGenerator = invoiceGenerator;
             _logger = logger;
         }
 
@@ -56,6 +62,14 @@ namespace Infrastructure.Services
                     .OrderBy(a => a.ActiveCount)
                     .First().Id;
 
+                // Snapshot plan values at purchase time (plan may change in future)
+                var snapshotBaseCoverage = plan.CoverageAmount;
+                var snapshotBasePremium  = plan.PremiumAmount;
+                var planDefaultDuration  = plan.DurationInMonths > 0 ? plan.DurationInMonths : durationInMonths;
+
+                // Coverage scales proportionally with the chosen duration
+                var calculatedCoverage = snapshotBaseCoverage * ((decimal)durationInMonths / planDefaultDuration);
+
                 var policy = new Policy
                 {
                     UserId = userId,
@@ -67,7 +81,11 @@ namespace Infrastructure.Services
                     PaymentFrequency = paymentFrequency,
                     TotalPremium = plan.PremiumAmount * durationInMonths,
                     TotalPaid = 0,
-                    Status = PolicyStatus.Active
+                    Status = PolicyStatus.Active,
+                    // Frozen snapshots — never updated after creation
+                    PlanBaseCoverageAmount = snapshotBaseCoverage,
+                    PlanBasePremiumAmount  = snapshotBasePremium,
+                    CoverageAmount         = calculatedCoverage
                 };
 
                 await _policyRepo.AddAsync(policy);
@@ -85,6 +103,7 @@ namespace Infrastructure.Services
 
                 var paymentDate = policy.StartDate;
                 bool isFirstPayment = true;
+                PolicyPayment? firstPaymentToInvoice = null;
 
                 for (int i = 0; i < durationInMonths; i += interval)
                 {
@@ -102,6 +121,7 @@ namespace Infrastructure.Services
                         payment.Status = PaymentStatus.Paid;
                         payment.PaidDate = DateTime.UtcNow;
                         policy.TotalPaid = payment.Amount;
+                        firstPaymentToInvoice = payment;
                         isFirstPayment = false;
                     }
 
@@ -112,6 +132,57 @@ namespace Infrastructure.Services
                 await _policyRepo.UpdateAsync(policy);
 
                 await transaction.CommitAsync();
+
+                // Generate and save Policy Invoice OUTSIDE the transaction
+                var customer = await _context.Users.FindAsync(userId);
+                if (customer != null)
+                {
+                    try
+                    {
+                        var pdfBytes = _invoiceGenerator.GeneratePolicyInvoice(policy, customer);
+                        var fileName = $"policy_{policy.Id}_{DateTime.UtcNow.Ticks}.pdf";
+                        var fileUrl = await _blobService.UploadFileAsync(pdfBytes, fileName, "policy_purchase_invoices");
+
+                        var invoice = new Invoice
+                        {
+                            UserId = userId,
+                            ReferenceId = policy.Id,
+                            Type = InvoiceType.PolicyPurchase,
+                            FileUrl = fileUrl
+                        };
+                        _context.Invoices.Add(invoice);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Failed to generate policy invoice for policy {PolicyId}", policy.Id);
+                    }
+
+                    // Generate and save initial Payment Invoice OUTSIDE the transaction
+                    if (firstPaymentToInvoice != null)
+                    {
+                        try
+                        {
+                            var paymentPdfBytes = _invoiceGenerator.GeneratePaymentInvoice(policy, firstPaymentToInvoice, customer);
+                            var paymentFileName = $"payment_{firstPaymentToInvoice.Id}_{DateTime.UtcNow.Ticks}.pdf";
+                            var paymentFileUrl = await _blobService.UploadFileAsync(paymentPdfBytes, paymentFileName, "payment_invoices");
+
+                            var paymentInvoice = new Invoice
+                            {
+                                UserId = userId,
+                                ReferenceId = firstPaymentToInvoice.Id,
+                                Type = InvoiceType.Payment,
+                                FileUrl = paymentFileUrl
+                            };
+                            _context.Invoices.Add(paymentInvoice);
+                            await _context.SaveChangesAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "Failed to generate initial payment invoice for policy {PolicyId}", policy.Id);
+                        }
+                    }
+                }
 
                 _logger.LogInformation("First installment of {Amount} auto-paid for Policy {PolicyId}", policy.TotalPaid, policy.Id);
 
@@ -169,6 +240,32 @@ namespace Infrastructure.Services
             policy.TotalPaid += payment.Amount;
             await _policyRepo.UpdateAsync(policy);
 
+            // Generate and save Payment Invoice
+            var customer = await _context.Users.FindAsync(userId);
+            if (customer != null)
+            {
+                try
+                {
+                    var pdfBytes = _invoiceGenerator.GeneratePaymentInvoice(policy, payment, customer);
+                    var fileName = $"payment_{payment.Id}_{DateTime.UtcNow.Ticks}.pdf";
+                    var fileUrl = await _blobService.UploadFileAsync(pdfBytes, fileName, "payment_invoices");
+
+                    var invoice = new Invoice
+                    {
+                        UserId = userId,
+                        ReferenceId = payment.Id,
+                        Type = InvoiceType.Payment,
+                        FileUrl = fileUrl
+                    };
+                    _context.Invoices.Add(invoice);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to generate payment invoice for payment {PaymentId}", payment.Id);
+                }
+            }
+
             _logger.LogInformation("Payment {PaymentId} of {Amount} processed for Policy {PolicyId}", payment.Id, payment.Amount, policy.Id);
         }
 
@@ -208,6 +305,9 @@ namespace Infrastructure.Services
                 policy.Status.ToString(),
                 policy.TotalPremium,
                 policy.TotalPaid,
+                policy.CoverageAmount,
+                policy.PlanBaseCoverageAmount,
+                policy.PlanBasePremiumAmount,
                 new PlanDto(
                     policy.Plan.Id,
                     policy.Plan.Name,
