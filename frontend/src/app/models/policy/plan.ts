@@ -6,6 +6,7 @@ export interface PlanDto {
     coverageAmount: number;
     durationInMonths: number;
     paymentFrequency: string;
+    planType: string;
 }
 
 export interface CreatePlanDto {
@@ -15,4 +16,5 @@ export interface CreatePlanDto {
     coverageAmount: number;
     durationInMonths: number;
     paymentFrequency: string;
+    planType: string;
 }

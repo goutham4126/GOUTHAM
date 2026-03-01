@@ -58,6 +58,48 @@ export class CustomerPlans implements OnInit {
         this.selectedPlan = null;
     }
 
+    /** Dynamically calculates risk score based on business rules */
+    get riskScore(): number {
+        if (!this.selectedPlan) return 0;
+
+        let score = 5; // Base score
+
+        // Plan Risk
+        const planName = this.selectedPlan.planType.toLowerCase();
+        if (planName.includes('disaster')) {
+            score += 20;
+        } else {
+            score += 15; // Fallback for Casualty and others
+        }
+
+        // Duration Risk: Capped at 15
+        score += Math.min(15, 1.2 * this.durationInYears);
+
+        // Payment Frequency Risk
+        if (this.paymentFrequency === 'Monthly') score += 6;
+        else if (this.paymentFrequency === 'Quarterly') score += 3;
+        // Yearly is 0
+
+        // Coverage Risk: Capped at 15
+        score += Math.min(15, (this.computedCoverage / 500000) * 2);
+
+        return Math.min(100, Math.floor(score));
+    }
+
+    /** Returns risk level details based on calculated score */
+    get riskLevel(): { label: string, colorClass: string, bgClass: string, indicatorClass: string } {
+        const score = this.riskScore;
+        if (score <= 30) {
+            return { label: 'Low Risk', colorClass: 'text-green-700', bgClass: 'bg-green-50 border-green-200', indicatorClass: 'bg-green-500' };
+        } else if (score <= 55) {
+            return { label: 'Moderate Risk', colorClass: 'text-yellow-700', bgClass: 'bg-yellow-50 border-yellow-200', indicatorClass: 'bg-yellow-500' };
+        } else if (score <= 75) {
+            return { label: 'High Risk', colorClass: 'text-orange-700', bgClass: 'bg-orange-50 border-orange-200', indicatorClass: 'bg-orange-500' };
+        } else {
+            return { label: 'Very High Risk', colorClass: 'text-red-700', bgClass: 'bg-red-50 border-red-200', indicatorClass: 'bg-red-600' };
+        }
+    }
+
     /** Calculates the installment amount based on frequency */
     get computedInstallmentAmount(): number {
         if (!this.selectedPlan) return 0;

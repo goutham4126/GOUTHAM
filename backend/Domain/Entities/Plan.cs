@@ -26,6 +26,9 @@ namespace Domain.Entities
         [Required]
         public string PaymentFrequency { get; set; } = null!;
 
+        [Required]
+        public string PlanType { get; set; } = null!;
+
         public bool IsActive { get; set; } = true;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

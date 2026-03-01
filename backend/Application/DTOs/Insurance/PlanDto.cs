@@ -7,5 +7,6 @@ public record PlanDto(
     decimal PremiumAmount,
     decimal CoverageAmount,
     int DurationInMonths,
-    string PaymentFrequency
+    string PaymentFrequency,
+    string PlanType
 );

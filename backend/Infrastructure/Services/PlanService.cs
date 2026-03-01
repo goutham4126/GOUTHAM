@@ -34,7 +34,8 @@ namespace Infrastructure.Services
                 PremiumAmount = dto.PremiumAmount,
                 CoverageAmount = dto.CoverageAmount,
                 DurationInMonths = dto.DurationInMonths,
-                PaymentFrequency = dto.PaymentFrequency
+                PaymentFrequency = dto.PaymentFrequency,
+                PlanType = dto.PlanType
             };
 
             await _repository.AddAsync(plan);
@@ -52,6 +53,7 @@ namespace Infrastructure.Services
             existing.CoverageAmount = dto.CoverageAmount;
             existing.DurationInMonths = dto.DurationInMonths;
             existing.PaymentFrequency = dto.PaymentFrequency;
+            existing.PlanType = dto.PlanType;
 
             await _repository.UpdateAsync(existing);
         }
@@ -73,7 +75,8 @@ namespace Infrastructure.Services
                 plan.PremiumAmount,
                 plan.CoverageAmount,
                 plan.DurationInMonths,
-                plan.PaymentFrequency
+                plan.PaymentFrequency,
+                plan.PlanType
             );
         }
     }

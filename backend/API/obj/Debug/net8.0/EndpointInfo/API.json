@@ -634,6 +634,10 @@
           "paymentFrequency": {
             "type": "string",
             "nullable": true
+          },
+          "planType": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

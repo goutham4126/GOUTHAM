@@ -315,7 +315,8 @@ namespace Infrastructure.Services
                     policy.Plan.PremiumAmount,
                     policy.Plan.CoverageAmount,
                     policy.Plan.DurationInMonths,
-                    policy.Plan.PaymentFrequency
+                    policy.Plan.PaymentFrequency,
+                    policy.Plan.PlanType
                 ),
                 $"{policy.User.FirstName} {policy.User.LastName}",
                 policy.Agent != null

@@ -27,7 +27,8 @@ export class AdminPlans implements OnInit {
     premiumAmount: [0, [Validators.required, Validators.min(1)]],
     coverageAmount: [0, [Validators.required, Validators.min(1)]],
     durationInMonths: [12, [Validators.required, Validators.min(1)]],
-    paymentFrequency: ['Monthly', Validators.required]
+    paymentFrequency: ['Monthly', Validators.required],
+    planType: ['Casualty', Validators.required]
   });
 
   ngOnInit() {
@@ -60,7 +61,8 @@ export class AdminPlans implements OnInit {
             premiumAmount: 0,
             coverageAmount: 0,
             durationInMonths: 12,
-            paymentFrequency: 'Monthly'
+            paymentFrequency: 'Monthly',
+            planType: 'Casualty'
           });
           this.toastService.success('Insurance Plan created successfully!');
           this.cdr.detectChanges();
