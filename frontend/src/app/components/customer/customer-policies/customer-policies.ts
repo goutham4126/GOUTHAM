@@ -3,17 +3,19 @@ import { CommonModule } from '@angular/common';
 import { PolicyService } from '../../../services/policy';
 import { PolicyDto } from '../../../models/policy/policy';
 import { PolicyPaymentDto } from '../../../models/payment/payment';
+import { ToastService } from '../../../services/toast';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-customer-policies',
   standalone: true,
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './customer-policies.html',
   styleUrl: './customer-policies.css'
 })
 export class CustomerPolicies implements OnInit {
   private policyService = inject(PolicyService);
+  private toastService = inject(ToastService);
   private cdr = inject(ChangeDetectorRef);
 
   policies: PolicyDto[] = [];
@@ -68,7 +70,7 @@ export class CustomerPolicies implements OnInit {
   payPremium(paymentId: string) {
     this.policyService.payPolicy(paymentId).subscribe({
       next: () => {
-        alert('Premium payment processed successfully!');
+        this.toastService.success('Premium payment processed successfully!');
         this.loadPolicies();
 
         // Refresh the summary modal data if it's open
@@ -81,7 +83,7 @@ export class CustomerPolicies implements OnInit {
       },
       error: (err) => {
         console.error(err);
-        alert('Failed to process payment');
+        this.toastService.error('Failed to process payment');
       }
     });
   }

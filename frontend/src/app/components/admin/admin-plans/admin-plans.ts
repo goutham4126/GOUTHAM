@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PlanService } from '../../../services/plan';
 import { PlanDto } from '../../../models/policy/plan';
+import { ToastService } from '../../../services/toast';
 
 @Component({
   selector: 'app-admin-plans',
@@ -13,6 +14,7 @@ import { PlanDto } from '../../../models/policy/plan';
 })
 export class AdminPlans implements OnInit {
   private planService = inject(PlanService);
+  private toastService = inject(ToastService);
   private cdr = inject(ChangeDetectorRef);
 
   plans: PlanDto[] = [];
@@ -60,16 +62,16 @@ export class AdminPlans implements OnInit {
             durationInMonths: 12,
             paymentFrequency: 'Monthly'
           });
-          alert('Insurance Plan created successfully!');
+          this.toastService.success('Insurance Plan created successfully!');
           this.cdr.detectChanges();
         },
         error: (err) => {
           console.error(err);
-          alert('Failed to create plan. Please verify the inputs.');
+          this.toastService.error('Failed to create plan. Please verify the inputs.');
         }
       });
     } else {
-      alert('Please fill out all required fields properly.');
+      this.toastService.warning('Please fill out all required fields properly.');
     }
   }
 }

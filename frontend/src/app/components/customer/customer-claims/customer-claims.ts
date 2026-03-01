@@ -7,6 +7,7 @@ import { PolicyService } from '../../../services/policy';
 import { ClaimDto } from '../../../models/claim/claim';
 import { PolicyDto } from '../../../models/policy/policy';
 import { ENV_CONFIG } from '../../../utils/blockchain.constants';
+import { ToastService } from '../../../services/toast';
 
 @Component({
   selector: 'app-customer-claims',
@@ -18,6 +19,7 @@ import { ENV_CONFIG } from '../../../utils/blockchain.constants';
 export class CustomerClaims implements OnInit {
   private claimService = inject(ClaimService);
   private policyService = inject(PolicyService);
+  private toastService = inject(ToastService);
   private cdr = inject(ChangeDetectorRef);
   private sanitizer = inject(DomSanitizer);
 
@@ -99,7 +101,7 @@ export class CustomerClaims implements OnInit {
 
   async uploadToVercelBlob(file: File): Promise<string> {
     const fileName = encodeURIComponent(file.name);
-    const response = await fetch(`https://blob.vercel-storage.com/${fileName}`, {
+    const response = await fetch(`https://blob.vercel-storage.com/claim_reports/${fileName}`, {
       method: 'PUT',
       headers: {
         'authorization': `Bearer ${ENV_CONFIG.VERCEL_BLOB_RW_TOKEN}`,
@@ -184,7 +186,7 @@ export class CustomerClaims implements OnInit {
         }
       } catch (error) {
         console.error('Error processing document upload:', error);
-        alert('Failed to upload document. Please try again.');
+        this.toastService.error('Failed to upload document. Please try again.');
         this.isProcessingUpload = false;
         this.cdr.detectChanges();
         return;
@@ -203,18 +205,18 @@ export class CustomerClaims implements OnInit {
           this.claimForm.reset({ policyId: '', reason: '', amount: 0 });
           this.selectedFile = null;
           this.isProcessingUpload = false;
-          alert('Claim submitted successfully. It is now Pending review.');
+          this.toastService.success('Claim submitted successfully. It is now Pending review.');
           this.cdr.detectChanges();
         },
         error: (err) => {
           console.error(err);
           this.isProcessingUpload = false;
-          alert('Failed to submit claim. Please check your inputs.');
+          this.toastService.error('Failed to submit claim. Please check your inputs.');
           this.cdr.detectChanges();
         }
       });
     } else {
-      alert('Please complete the required claim fields.');
+      this.toastService.warning('Please complete the required claim fields.');
     }
   }
 }

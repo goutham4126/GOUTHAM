@@ -6,6 +6,7 @@ import { PlanService } from '../../../services/plan';
 import { PolicyService } from '../../../services/policy';
 import { PlanDto } from '../../../models/policy/plan';
 import { PolicyDto } from '../../../models/policy/policy';
+import { ToastService } from '../../../services/toast';
 
 @Component({
     selector: 'app-customer-plans',
@@ -16,6 +17,7 @@ import { PolicyDto } from '../../../models/policy/policy';
 export class CustomerPlans implements OnInit {
     private planService = inject(PlanService);
     private policyService = inject(PolicyService);
+    private toastService = inject(ToastService);
     public router = inject(Router);
     private cdr = inject(ChangeDetectorRef);
 
@@ -97,7 +99,7 @@ export class CustomerPlans implements OnInit {
                 },
                 error: (err) => {
                     console.error(err);
-                    alert('Failed to purchase policy. Please try again.');
+                    this.toastService.error('Failed to purchase policy. Please try again.');
                 }
             });
         }

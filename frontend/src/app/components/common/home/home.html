@@ -1,23 +1,29 @@
-<div class="flex flex-col items-center justify-center min-h-[80vh]">
-    <div class="text-center p-8 bg-white rounded-xl shadow-lg max-w-2xl w-full">
-        <h2 class="text-4xl font-extrabold text-gray-800 mb-6 flex items-center justify-center gap-3">
-            <img src="/logo.png" alt="CDIMS Logo" class="h-10 w-auto" />
-            Secure Insurance Portal
-        </h2>
-        <p class="text-gray-600 mb-8 text-lg">
-            Welcome to the next generation of Casualty & Disaster Insurance Management.
-            Manage your claims, explore plans, and protect your future seamlessly.
-        </p>
+<div class="flex flex-col items-center justify-center min-h-[80vh] px-4">
+    <div
+        class="relative rounded-3xl overflow-hidden shadow-xl shadow-blue-900/20 bg-gradient-to-br from-blue-800 via-blue-600 to-blue-400 max-w-4xl w-full text-center p-10 sm:p-16">
+        <!-- Decorative overlay -->
+        <div class="absolute inset-0 pointer-events-none bg-white/5"></div>
+        <div class="relative">
+            <h2
+                class="text-4xl sm:text-5xl font-extrabold text-white mb-6 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 tracking-tight">
+                <img src="/logo.png" alt="CDIMS Logo" class="h-14 sm:h-16 w-auto drop-shadow-lg" />
+                Secure Insurance Portal
+            </h2>
+            <p class="text-blue-50 mb-10 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed font-medium">
+                Welcome to the next generation of Casualty & Disaster Insurance Management.
+                Manage your claims, explore plans, and protect your future seamlessly.
+            </p>
 
-        <div class="space-x-4">
-            <a routerLink="/login"
-                class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
-                Log In
-            </a>
-            <a routerLink="/register"
-                class="px-6 py-3 bg-gray-100 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-200 transition">
-                Create Account
-            </a>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
+                <a routerLink="/login"
+                    class="w-full sm:w-auto px-8 py-3.5 bg-white text-blue-700 font-bold rounded-xl shadow-md hover:bg-gray-50 active:bg-gray-100 transition tracking-wide">
+                    Log In
+                </a>
+                <a routerLink="/register"
+                    class="w-full sm:w-auto px-8 py-3.5 bg-white/20 border border-white/30 text-white font-bold rounded-xl hover:bg-white/30 active:bg-white/40 transition tracking-wide backdrop-blur-md shadow-sm">
+                    Create Account
+                </a>
+            </div>
         </div>
     </div>
 </div>

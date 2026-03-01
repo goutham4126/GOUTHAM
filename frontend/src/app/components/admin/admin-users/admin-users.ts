@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../services/user';
 import { UserDto } from '../../../models/auth/auth';
+import { ToastService } from '../../../services/toast';
 
 @Component({
   selector: 'app-admin-users',
@@ -13,6 +14,7 @@ import { UserDto } from '../../../models/auth/auth';
 })
 export class AdminUsers implements OnInit {
   private userService = inject(UserService);
+  private toastService = inject(ToastService);
   private cdr = inject(ChangeDetectorRef);
 
   users: UserDto[] = [];
@@ -38,20 +40,35 @@ export class AdminUsers implements OnInit {
   }
 
   updateRole(userId: string, newRole: string) {
-    if (confirm(`Are you sure you want to change this user's role to ${newRole}?`)) {
+    this.toastService.confirm('Change Role', `Are you sure you want to change this user's role to ${newRole}?`, () => {
       this.userService.updateUserRole(userId, { role: newRole }).subscribe({
         next: () => {
-          alert(`Role successfully updated to ${newRole}`);
+          this.toastService.success(`Role successfully updated to ${newRole}`);
           this.loadUsers();
         },
         error: (err) => {
           console.error(err);
-          alert('Failed to update role.');
+          this.toastService.error('Failed to update role.');
           this.loadUsers();
         }
       });
-    } else {
+    }, () => {
       this.loadUsers();
-    }
+    });
+  }
+
+  deleteUser(userId: string, name: string) {
+    this.toastService.confirm('Delete User', `Are you sure you want to delete user ${name}? This action cannot be undone.`, () => {
+      this.userService.deleteUser(userId).subscribe({
+        next: () => {
+          this.toastService.success(`User ${name} successfully deleted.`);
+          this.loadUsers();
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastService.error('Failed to delete user.');
+        }
+      });
+    });
   }
 }

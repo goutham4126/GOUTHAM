@@ -50,6 +50,39 @@ public class UsersController : ControllerBase
         ));
     }
 
+    [Authorize]
+    [HttpPut("me")]
+    public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileDto request)
+    {
+        var user = await _repository.GetByIdAsync(GetUserId());
+
+        if (user == null)
+            return NotFound("User not found.");
+
+        user.FirstName = request.FirstName;
+        user.LastName = request.LastName;
+        user.Phone = request.Phone;
+        user.Address = request.Address;
+        user.GovernmentId = request.GovernmentId;
+        user.DateOfBirth = request.DateOfBirth;
+        user.UpdatedAt = DateTime.UtcNow;
+
+        await _repository.UpdateAsync(user);
+
+        return Ok(new UserDto(
+            user.Id,
+            user.FirstName,
+            user.LastName,
+            user.Email,
+            user.Role.ToString(),
+            user.GovernmentId,
+            user.Address,
+            user.Phone,
+            user.DateOfBirth,
+            user.CreatedAt
+        ));
+    }
+
     [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> GetAllUsers()
@@ -82,5 +115,18 @@ public class UsersController : ControllerBase
         await _repository.UpdateAsync(user);
 
         return Ok("Role updated successfully.");
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteUser([FromRoute] Guid id)
+    {
+        var user = await _repository.GetByIdAsync(id);
+        if (user == null)
+            return NotFound("User not found.");
+
+        await _repository.DeleteAsync(id);
+
+        return Ok("User deleted successfully.");
     }
 }

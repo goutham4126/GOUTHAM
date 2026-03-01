@@ -1,7 +1,16 @@
-<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
-        <h3 class="text-lg font-bold text-gray-800">My System Policies</h3>
-        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{ policies.length }}
+﻿<div
+    class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-200">
+    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/80 flex justify-between items-center backdrop-blur-sm">
+        <h3 class="text-xs font-bold text-gray-600 uppercase tracking-widest flex items-center gap-2">
+            <svg class="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            My System Policies
+        </h3>
+        <span
+            class="bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-full tracking-wide">{{
+            policies.length }}
             Active</span>
     </div>
 
@@ -14,23 +23,26 @@
                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
             <p class="text-gray-500 mb-6">You don't have any active policies yet.</p>
-            <a routerLink="/customer/plans" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition">
+            <a routerLink="/customer/plans"
+                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition">
                 Browse Plans
             </a>
         </div>
 
         <ul *ngIf="policies.length > 0" class="space-y-4">
             <li *ngFor="let p of policies"
-                class="border border-gray-100 rounded-lg p-5 hover:bg-gray-50 transition cursor-pointer flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                class="border border-gray-100 rounded-2xl p-5 hover:bg-blue-50/20 hover:border-blue-100 hover:shadow-sm transition-all duration-200 cursor-pointer flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 group">
                 <div (click)="viewSummary(p)" class="flex-grow">
-                    <p class="font-semibold text-gray-800 text-lg hover:text-blue-600 transition">{{ p.plan.name ||
+                    <p class="font-bold text-gray-800 text-lg group-hover:text-blue-600 transition-colors">{{
+                        p.plan.name ||
                         'Insurance Plan' }}</p>
-                    <p class="text-sm text-gray-500">Total Premium: $\{{ p.totalPremium | number }} &bull; Paid: $\{{
-                        p.totalPaid | number }}</p>
+                    <p class="text-sm text-gray-500 font-medium mt-1">Total Premium: <span class="text-gray-900">₹{{
+                            p.totalPremium | number }}</span> &bull; Paid: <span class="text-gray-900">₹{{
+                            p.totalPaid | number }}</span></p>
                     <div class="mt-2 flex space-x-2 items-center">
                         <span
                             class="bg-blue-50 text-blue-700 text-xs font-bold px-2 py-0.5 rounded border border-blue-200">
-                            $\{{ p.plan.premiumAmount | number }} / {{ p.paymentFrequency }}
+                            ₹{{ p.plan.premiumAmount | number }} / {{ p.paymentFrequency }}
                         </span>
                         <span [ngClass]="{
                             'bg-green-100 text-green-800 border-green-200': p.status === 'Active',
@@ -42,7 +54,7 @@
                 </div>
                 <div class="flex sm:flex-col gap-2 w-full sm:w-auto">
                     <button (click)="viewSummary(p)"
-                        class="flex-1 sm:flex-none px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition shadow-sm">
+                        class="flex-1 sm:flex-none px-4 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm active:bg-gray-100">
                         View Details & Pay
                     </button>
                 </div>
@@ -53,10 +65,12 @@
 
 <!-- Policy Summary Modal -->
 <div *ngIf="selectedPolicySummary"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto pt-10 pb-10">
-    <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full mx-4 overflow-hidden flex flex-col max-h-full">
-        <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
-            <h3 class="text-lg font-bold text-gray-900">Policy Document Summary</h3>
+    class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 backdrop-blur-sm overflow-y-auto pt-10 pb-10">
+    <div
+        class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 overflow-hidden flex flex-col max-h-full transform transition-all">
+        <div
+            class="px-6 py-4 border-b border-gray-100 bg-gray-50/80 flex justify-between items-center backdrop-blur-sm">
+            <h3 class="text-sm font-bold text-gray-800 uppercase tracking-widest">Policy Document Summary</h3>
             <button (click)="closeSummary()" class="text-gray-400 hover:text-gray-600">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
@@ -87,16 +101,16 @@
                 </div>
                 <div>
                     <p class="text-sm text-gray-500 mb-1">Max Coverage</p>
-                    <p class="font-semibold text-green-600 text-lg">$\{{ selectedPolicySummary.plan.coverageAmount |
+                    <p class="font-semibold text-green-600 text-lg">₹{{ selectedPolicySummary.coverageAmount |
                         number }}</p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500 mb-1">Total Premium</p>
-                    <p class="font-semibold text-gray-900">$\{{ selectedPolicySummary.totalPremium | number }}</p>
+                    <p class="font-semibold text-gray-900">₹{{ selectedPolicySummary.totalPremium | number }}</p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500 mb-1">Total Paid</p>
-                    <p class="font-semibold text-gray-900">$\{{ selectedPolicySummary.totalPaid | number }}</p>
+                    <p class="font-semibold text-gray-900">₹{{ selectedPolicySummary.totalPaid | number }}</p>
                 </div>
             </div>
 
@@ -118,7 +132,7 @@
                          }">
 
                         <div>
-                            <span class="text-gray-900 font-bold block">Installment \#{{ i + 1 }}</span>
+                            <span class="text-gray-900 font-bold block">Installment #{{ i + 1 }}</span>
                             <span class="text-xs text-gray-500">Due: {{ payment?.dueDate | date:'mediumDate' }}</span>
                         </div>
 
@@ -133,7 +147,7 @@
                                         'text-red-600': payment.status === 'Pending' && (payment?.dueDate | date:'yyyy-MM-dd')! < (today | date:'yyyy-MM-dd')!,
                                         'text-yellow-600': payment.status === 'Pending' && (payment?.dueDate | date:'yyyy-MM-dd')! >= (today | date:'yyyy-MM-dd')!
                                       }">
-                                    ${{ payment.amount | number }}
+                                    ₹{{ payment.amount | number }}
                                 </span>
                                 <span class="text-xs font-semibold px-2 py-0.5 rounded-full" [ngClass]="{
                                         'bg-green-100 text-green-800': payment.status === 'Paid',
@@ -149,9 +163,9 @@
             </div>
         </div>
 
-        <div class="px-6 py-4 border-t border-gray-200 bg-gray-50 flex justify-end">
+        <div class="px-6 py-4 border-t border-gray-100 bg-gray-50/80 flex justify-end backdrop-blur-sm">
             <button (click)="closeSummary()"
-                class="px-5 py-2.5 bg-gray-200 text-gray-800 font-medium rounded-lg hover:bg-gray-300 transition">
+                class="px-5 py-2.5 bg-white border border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
                 Close Document
             </button>
         </div>

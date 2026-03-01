@@ -9,6 +9,15 @@ export interface RegisterDto {
     dateOfBirth?: string; // ISO date string
 }
 
+export interface UpdateProfileDto {
+    firstName: string;
+    lastName: string;
+    phone?: string | null;
+    address?: string | null;
+    governmentId?: string | null;
+    dateOfBirth?: string | null;
+}
+
 export interface LoginDto {
     email: string;
     password?: string;
@@ -29,6 +38,11 @@ export interface UserDto {
     email: string;
     role: string;
     isActive: boolean;
+    governmentId?: string | null;
+    address?: string | null;
+    phone?: string | null;
+    dateOfBirth?: string | null;
+    createdAt?: string | null;
 }
 
 export interface UpdateRoleDto {

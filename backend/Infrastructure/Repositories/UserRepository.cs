@@ -51,5 +51,15 @@ namespace Infrastructure.Repositories
             return await _context.Users
                 .AnyAsync(u => u.Email == email && !u.IsDeleted);
         }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            var user = await GetByIdAsync(id);
+            if (user != null)
+            {
+                user.IsDeleted = true;
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

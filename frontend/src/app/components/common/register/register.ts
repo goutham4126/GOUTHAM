@@ -21,7 +21,10 @@ export class Register {
     lastName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
-    governmentId: ['']
+    governmentId: [''],
+    phone: [''],
+    dateOfBirth: [''],
+    address: ['']
   });
 
   loading = false;
@@ -33,11 +36,18 @@ export class Register {
     this.loading = true;
     this.error = '';
 
-    const payload = this.registerForm.getRawValue();
+    const raw = this.registerForm.getRawValue();
+    // Send empty strings as null/undefined so backend doesn't store blank values
+    const payload = {
+      ...raw,
+      governmentId: raw.governmentId || undefined,
+      phone: raw.phone || undefined,
+      dateOfBirth: raw.dateOfBirth || undefined,
+      address: raw.address || undefined,
+    };
 
     this.authService.register(payload as any).subscribe({
       next: () => {
-        // Auto sign-in or redirect to login. Let's redirect to login for simplicity.
         this.router.navigate(['/login']);
       },
       error: (err) => {

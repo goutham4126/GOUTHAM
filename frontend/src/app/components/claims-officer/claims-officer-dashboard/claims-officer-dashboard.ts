@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ClaimService } from '../../../services/claim';
 import { ClaimDto } from '../../../models/claim/claim';
+import { ToastService } from '../../../services/toast';
 
 @Component({
   selector: 'app-claims-officer-dashboard',
@@ -15,6 +16,7 @@ import { ClaimDto } from '../../../models/claim/claim';
 })
 export class ClaimsOfficerDashboard implements OnInit {
   private claimService = inject(ClaimService);
+  private toastService = inject(ToastService);
   private cdr = inject(ChangeDetectorRef);
   private sanitizer = inject(DomSanitizer);
 
@@ -134,7 +136,7 @@ export class ClaimsOfficerDashboard implements OnInit {
         },
         error: (err) => {
           console.error(err);
-          alert('Failed to approve claim');
+          this.toastService.error('Failed to approve claim');
         }
       });
     }
@@ -148,16 +150,17 @@ export class ClaimsOfficerDashboard implements OnInit {
   }
 
   rejectClaim(id: string) {
-    if (confirm('Are you sure you want to reject this claim permanently?')) {
+    this.toastService.confirm('Reject Claim', 'Are you sure you want to reject this claim permanently?', () => {
       this.claimService.rejectClaim(id).subscribe({
         next: () => {
+          this.toastService.success('Claim rejected successfully');
           this.loadClaims();
         },
         error: (err) => {
           console.error(err);
-          alert('Failed to reject claim');
+          this.toastService.error('Failed to reject claim');
         }
       });
-    }
+    });
   }
 }

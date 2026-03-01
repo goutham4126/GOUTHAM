@@ -108,5 +108,31 @@ export const routes: Routes = [
         data: { role: 'ClaimOfficer' }
     },
 
+    // Profile Routes (shared component, per-role access)
+    {
+        path: 'customer/profile',
+        loadComponent: () => import('./components/common/profile/profile').then(m => m.Profile),
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'Customer' }
+    },
+    {
+        path: 'admin/profile',
+        loadComponent: () => import('./components/common/profile/profile').then(m => m.Profile),
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'Admin' }
+    },
+    {
+        path: 'agent/profile',
+        loadComponent: () => import('./components/common/profile/profile').then(m => m.Profile),
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'Agent' }
+    },
+    {
+        path: 'claim-officer/profile',
+        loadComponent: () => import('./components/common/profile/profile').then(m => m.Profile),
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'ClaimOfficer' }
+    },
+
     { path: '**', redirectTo: '' }
 ];

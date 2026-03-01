@@ -11,5 +11,6 @@ namespace Application.Interfaces
 
         Task<List<User>> GetAllAsync();
         Task<bool> EmailExistsAsync(string email);
+        Task DeleteAsync(Guid id);
     }
 }
