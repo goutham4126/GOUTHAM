@@ -36,5 +36,6 @@ namespace Domain.Entities
         public ICollection<Policy> Policies { get; set; } = new List<Policy>();
         public ICollection<Claim> Claims { get; set; } = new List<Claim>();
         public ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
+        public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
     }
 }

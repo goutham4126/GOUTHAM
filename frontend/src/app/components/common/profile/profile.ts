@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user';
 import { UpdateProfileDto, UserDto } from '../../../models/auth/auth';
@@ -7,7 +7,7 @@ import { UpdateProfileDto, UserDto } from '../../../models/auth/auth';
 @Component({
     selector: 'app-profile',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [ReactiveFormsModule],
     templateUrl: './profile.html',
     styleUrl: './profile.css'
 })

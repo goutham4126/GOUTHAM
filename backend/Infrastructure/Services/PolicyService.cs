@@ -17,6 +17,7 @@ namespace Infrastructure.Services
         private readonly IVercelBlobService _blobService;
         private readonly IInvoiceGeneratorService _invoiceGenerator;
         private readonly ILogger<PolicyService> _logger;
+        private readonly INotificationService _notificationService;
 
         public PolicyService(
         IPolicyRepository policyRepo,
@@ -25,7 +26,8 @@ namespace Infrastructure.Services
         AppDbContext context,
         IVercelBlobService blobService,
         IInvoiceGeneratorService invoiceGenerator,
-        ILogger<PolicyService> logger)
+        ILogger<PolicyService> logger,
+        INotificationService notificationService)
         {
             _policyRepo = policyRepo;
             _planRepo = planRepo;
@@ -34,6 +36,7 @@ namespace Infrastructure.Services
             _blobService = blobService;
             _invoiceGenerator = invoiceGenerator;
             _logger = logger;
+            _notificationService = notificationService;
         }
 
         public async Task<PolicyDto> PurchasePolicyAsync(Guid userId, Guid planId, int durationInMonths, PaymentFrequency paymentFrequency)
@@ -186,6 +189,13 @@ namespace Infrastructure.Services
 
                 _logger.LogInformation("First installment of {Amount} auto-paid for Policy {PolicyId}", policy.TotalPaid, policy.Id);
 
+                // Notify User
+                await _notificationService.SendNotificationAsync(
+                    userId,
+                    "Policy Purchased",
+                    $"Successfully purchased policy based on the {plan.Name} plan."
+                );
+
                 // Load navigation properties for DTO mapping
                 var fullPolicy = await _context.Policies
                     .Include(p => p.User)
@@ -267,6 +277,13 @@ namespace Infrastructure.Services
             }
 
             _logger.LogInformation("Payment {PaymentId} of {Amount} processed for Policy {PolicyId}", payment.Id, payment.Amount, policy.Id);
+
+            // Notify User
+            await _notificationService.SendNotificationAsync(
+                userId,
+                "Payment Received",
+                $"Your payment of ${payment.Amount:N2} was successfully processed."
+            );
         }
 
         public async Task<List<PolicyDto>> GetAssignedPoliciesAsync(Guid agentId)

@@ -18,6 +18,7 @@ namespace Infrastructure.Data
         public DbSet<ClaimPayment> ClaimPayments => Set<ClaimPayment>();
 
         public DbSet<Invoice> Invoices => Set<Invoice>();
+        public DbSet<Notification> Notifications => Set<Notification>();
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -59,6 +60,11 @@ namespace Infrastructure.Data
                       .WithOne(i => i.User)
                       .HasForeignKey(i => i.UserId)
                       .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasMany(u => u.Notifications)
+                      .WithOne(n => n.User)
+                      .HasForeignKey(n => n.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
         }
 

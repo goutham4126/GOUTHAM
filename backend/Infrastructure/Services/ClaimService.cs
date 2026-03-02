@@ -16,6 +16,7 @@ namespace Infrastructure.Services
         private readonly IVercelBlobService _blobService;
         private readonly IInvoiceGeneratorService _invoiceGenerator;
         private readonly ILogger<ClaimService> _logger;
+        private readonly INotificationService _notificationService;
 
         public ClaimService(
             IClaimRepository claimRepo, 
@@ -23,7 +24,8 @@ namespace Infrastructure.Services
             AppDbContext context, 
             IVercelBlobService blobService,
             IInvoiceGeneratorService invoiceGenerator,
-            ILogger<ClaimService> logger)
+            ILogger<ClaimService> logger,
+            INotificationService notificationService)
         {
             _claimRepo = claimRepo;
             _policyRepo = policyRepo;
@@ -31,6 +33,7 @@ namespace Infrastructure.Services
             _blobService = blobService;
             _invoiceGenerator = invoiceGenerator;
             _logger = logger;
+            _notificationService = notificationService;
         }
 
         public async Task<ClaimDto> CreateClaimAsync(
@@ -144,6 +147,13 @@ namespace Infrastructure.Services
 
             await _context.SaveChangesAsync();
             _logger.LogInformation("Claim {ClaimId} approved for {Amount} by Officer {OfficerId}", claim.Id, approvedAmount, officerId);
+
+            // Notify Customer
+            await _notificationService.SendNotificationAsync(
+                claim.UserId,
+                "Claim Approved",
+                $"Your claim for ${approvedAmount:N2} has been approved."
+            );
         }
 
         public async Task RejectClaimAsync(Guid claimId, Guid officerId)
@@ -164,6 +174,13 @@ namespace Infrastructure.Services
 
             await _context.SaveChangesAsync();
             _logger.LogInformation("Claim {ClaimId} rejected by Officer {OfficerId}", claim.Id, officerId);
+
+            // Notify Customer
+            await _notificationService.SendNotificationAsync(
+                claim.UserId,
+                "Claim Rejected",
+                "Your recent claim has been rejected. Please check your invoices for details."
+            );
         }
 
         private async Task GenerateClaimInvoiceAsync(Claim claim)

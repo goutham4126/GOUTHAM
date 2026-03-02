@@ -1,80 +1,86 @@
 ﻿<div
-    class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-200">
-    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/80 flex justify-between items-center backdrop-blur-sm">
-        <h3 class="text-xs font-bold text-gray-600 uppercase tracking-widest flex items-center gap-2">
-            <svg class="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            Global Claims Directory
-        </h3>
-        <span
-            class="bg-orange-50 border border-orange-200 text-orange-700 text-xs font-bold px-2.5 py-1 rounded-full tracking-wide">{{
-            claims.length }}
-            Filed</span>
+  class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-200">
+  <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/80 flex justify-between items-center backdrop-blur-sm">
+    <h3 class="text-xs font-bold text-gray-600 uppercase tracking-widest flex items-center gap-2">
+      <svg class="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        Global Claims Directory
+      </h3>
+      <span
+        class="bg-orange-50 border border-orange-200 text-orange-700 text-xs font-bold px-2.5 py-1 rounded-full tracking-wide">{{
+        claims.length }}
+      Filed</span>
     </div>
 
     <div class="p-0 overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50 border-b border-gray-100">
-                <tr>
-                    <th scope="col"
-                        class="px-6 py-3.5 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest bg-gray-50/50">
-                        Date / ID
-                    </th>
-                    <th scope="col"
-                        class="px-6 py-3.5 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest bg-gray-50/50">
-                        Customer
-                        / Reason</th>
-                    <th scope="col"
-                        class="px-6 py-3.5 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest bg-gray-50/50">
-                        Status
-                    </th>
-                    <th scope="col"
-                        class="px-6 py-3.5 text-right text-[11px] font-bold text-gray-500 uppercase tracking-widest bg-gray-50/50">
-                        Amount
-                        Claimed / Approved</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-100">
-                <tr *ngIf="loadingClaims">
-                    <td colspan="4" class="px-6 py-8 text-center text-sm text-gray-500">
-                        Loading claims database...
-                    </td>
-                </tr>
-                <tr *ngIf="!loadingClaims && claims.length === 0">
-                    <td colspan="4" class="px-6 py-8 text-center text-sm text-gray-500">
-                        No claims have been filed in the system.
-                    </td>
-                </tr>
-                <tr *ngFor="let c of claims" class="hover:bg-blue-50/30 transition-colors duration-150 group">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm font-medium text-gray-900 border-b border-gray-100 pb-1 mb-1">{{
-                            c.submittedAt | date:'shortDate' }}</div>
-                        <div class="text-xs text-gray-500 font-mono">#{{ c.id.substring(0, 8) }}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">{{ c.customerName }}</div>
-                        <div class="text-xs text-gray-500">{{ c.reason }}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50 border-b border-gray-100">
+          <tr>
+            <th scope="col"
+              class="px-6 py-3.5 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest bg-gray-50/50">
+              Date / ID
+            </th>
+            <th scope="col"
+              class="px-6 py-3.5 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest bg-gray-50/50">
+              Customer
+            / Reason</th>
+            <th scope="col"
+              class="px-6 py-3.5 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest bg-gray-50/50">
+              Status
+            </th>
+            <th scope="col"
+              class="px-6 py-3.5 text-right text-[11px] font-bold text-gray-500 uppercase tracking-widest bg-gray-50/50">
+              Amount
+            Claimed / Approved</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-100">
+          @if (loadingClaims) {
+            <tr>
+              <td colspan="4" class="px-6 py-8 text-center text-sm text-gray-500">
+                Loading claims database...
+              </td>
+            </tr>
+          }
+          @if (!loadingClaims && claims.length === 0) {
+            <tr>
+              <td colspan="4" class="px-6 py-8 text-center text-sm text-gray-500">
+                No claims have been filed in the system.
+              </td>
+            </tr>
+          }
+          @for (c of claims; track c) {
+            <tr class="hover:bg-blue-50/30 transition-colors duration-150 group">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900 border-b border-gray-100 pb-1 mb-1">{{
+                c.submittedAt | date:'shortDate' }}</div>
+                <div class="text-xs text-gray-500 font-mono">#{{ c.id.substring(0, 8) }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">{{ c.customerName }}</div>
+                <div class="text-xs text-gray-500">{{ c.reason }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
                         <span [ngClass]="{
                             'bg-yellow-100 text-yellow-800': c.status === 'Pending',
                             'bg-green-100 text-green-800': c.status === 'Approved',
                             'bg-red-100 text-red-800': c.status === 'Rejected'
                         }" class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full border">
-                            {{ c.status }}
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right">
-                        <div class="text-sm font-bold text-gray-900">₹{{ c.claimAmount | number }}</div>
-                        <div class="text-xs mt-1"
-                            [ngClass]="{'text-green-600 font-bold': (c.approvedAmount || 0) > 0, 'text-gray-400': !c.approvedAmount}">
-                            {{ c.approvedAmount ? '₹' + (c.approvedAmount | number) + '' : 'Pending Review' }}
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                  {{ c.status }}
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right">
+                <div class="text-sm font-bold text-gray-900">₹{{ c.claimAmount | number }}</div>
+                <div class="text-xs mt-1"
+                  [ngClass]="{'text-green-600 font-bold': (c.approvedAmount || 0) > 0, 'text-gray-400': !c.approvedAmount}">
+                  {{ c.approvedAmount ? '₹' + (c.approvedAmount | number) + '' : 'Pending Review' }}
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
-</div>
+  </div>

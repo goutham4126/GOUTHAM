@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
+using API.Hubs;
 
 namespace API
 {
@@ -47,6 +48,8 @@ namespace API
 
             builder.Services.AddHttpClient<IVercelBlobService, VercelBlobService>();
             builder.Services.AddScoped<IInvoiceGeneratorService, InvoiceGeneratorService>();
+            builder.Services.AddScoped<INotificationService, NotificationService>();
+            builder.Services.AddSignalR();
 
 
             var key = Encoding.UTF8.GetBytes(
@@ -70,6 +73,22 @@ namespace API
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     RoleClaimType = ClaimTypes.Role,
                     NameClaimType = ClaimTypes.NameIdentifier
+                };
+                
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        var path = context.HttpContext.Request.Path;
+                        
+                        if (!string.IsNullOrEmpty(accessToken) && 
+                            path.StartsWithSegments("/hubs/notifications"))
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
                 };
             });
 
@@ -102,7 +121,8 @@ namespace API
                     {
                         policy.WithOrigins("http://localhost:4200")
                               .AllowAnyHeader()
-                              .AllowAnyMethod();
+                              .AllowAnyMethod()
+                              .AllowCredentials(); // Required for SignalR WebSockets
                     });
             });
 
@@ -147,6 +167,7 @@ namespace API
             app.UseAuthorization();
 
             app.MapControllers();
+            app.MapHub<API.Hubs.NotificationHub>("/hubs/notifications");
 
             app.Run();
         }

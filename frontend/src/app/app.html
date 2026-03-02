@@ -1,9 +1,11 @@
-<div class="min-h-screen bg-gray-50 flex flex-col">
+<div class="min-h-screen bg-gray-50 dark:bg-black dark:text-gray-100 transition-colors duration-300 flex flex-col">
   <app-toast></app-toast>
   <app-header></app-header>
 
-  <div class="flex flex-1">
-    <app-sidebar class="w-64 bg-white border-r hidden md:block"></app-sidebar>
+  <div class="flex flex-1 overflow-hidden">
+    @if (authService.isAuthenticated()) {
+    <app-sidebar class="z-40 flex-shrink-0 md:w-64 md:block"></app-sidebar>
+    }
 
     <main class="flex-grow p-4 md:p-8">
       <router-outlet></router-outlet>

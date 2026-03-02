@@ -1,137 +1,208 @@
-﻿<div class="space-y-8">
-    <!-- Create Plan Form Section -->
-    <div
-        class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-200">
-        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/80 flex items-center gap-2 backdrop-blur-sm">
-            <svg class="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-            <h3 class="text-xs font-bold text-gray-600 uppercase tracking-widest">Create New Insurance Plan</h3>
-        </div>
-        <div class="p-6">
-            <form (ngSubmit)="createPlan()" [formGroup]="planForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+﻿<div class="space-y-10">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div>
+      <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">Insurance Plans Configuration</h2>
+      <p class="mt-1 text-sm text-gray-500 dark:text-white font-semibold">Design and publish new insurance products for your customers.</p>
+    </div>
+    <div class="bg-violet-100 p-3 rounded-2xl flex items-center justify-center">
+      <svg class="w-8 h-8 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+      </svg>
+    </div>
+  </div>
 
-                <div>
-                    <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Plan
-                        Name</label>
-                    <input type="text" formControlName="name" placeholder="e.g., Premium Auto Cover"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Payment
-                        Frequency</label>
-                    <select formControlName="paymentFrequency"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white">
-                        <option value="Monthly">Monthly</option>
-                        <option value="Yearly">Yearly</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Plan
-                        Type</label>
-                    <select formControlName="planType"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white">
-                        <option value="Casualty">Casualty</option>
-                        <option value="Disaster">Disaster</option>
-                    </select>
-                </div>
-
-                <div class="md:col-span-2">
-                    <label
-                        class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Description</label>
-                    <input type="text" formControlName="description" placeholder="Short description of benefits"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Premium
-                        Amount (₹)</label>
-                    <input type="number" formControlName="premiumAmount" placeholder="0.00"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Coverage
-                        Amount (₹)</label>
-                    <input type="number" formControlName="coverageAmount" placeholder="0.00"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Duration
-                        (Months)</label>
-                    <input type="number" formControlName="durationInMonths" placeholder="12"
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                </div>
-
-                <div class="md:col-span-2 flex justify-end mt-4">
-                    <button type="submit" [disabled]="!planForm.valid"
-                        class="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 active:bg-blue-800 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm text-sm tracking-wide">
-                        Publish Insurance Plan
-                    </button>
-                </div>
-            </form>
-        </div>
+  <!-- Create Plan Form Section -->
+  <div
+    class="bg-white rounded-3xl shadow-xl shadow-violet-100/50 border border-gray-100 overflow-hidden transition-all relative">
+    <div class="absolute top-0 left-0 w-full h-1 bg-violet-500"></div>
+    <div class="px-8 py-6 border-b border-gray-50 flex items-center gap-3">
+      <div class="bg-violet-50 p-2 rounded-lg text-violet-600">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+      </div>
+      <h3 class="text-lg font-bold text-gray-900">Create New Package</h3>
     </div>
 
-    <!-- Configured Plans Section -->
-    <div
-        class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-200">
-        <div
-            class="px-6 py-4 border-b border-gray-100 bg-gray-50/80 flex justify-between items-center backdrop-blur-sm">
-            <h3 class="text-xs font-bold text-gray-600 uppercase tracking-widest flex items-center gap-2">
-                <svg class="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+    <div class="p-8">
+      <form (ngSubmit)="createPlan()" [formGroup]="planForm" class="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-6">
+
+        <!-- Left Column -->
+        <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Package Name</label>
+            <input type="text" formControlName="name" placeholder="e.g., Premium Auto Cover"
+              class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all shadow-sm">
+          </div>
+
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+            <textarea formControlName="description" placeholder="Summarize the core benefits..." rows="3"
+              class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all shadow-sm resize-none"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Premium Amount (₹)</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <span class="text-gray-500 sm:text-sm">₹</span>
+              </div>
+              <input type="number" formControlName="premiumAmount" placeholder="0.00"
+                class="w-full pl-8 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all shadow-sm font-mono">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Total Coverage (₹)</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <span class="text-gray-500 sm:text-sm">₹</span>
+              </div>
+              <input type="number" formControlName="coverageAmount" placeholder="0.00"
+                class="w-full pl-8 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all shadow-sm font-mono">
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column (Settings) -->
+        <div class="md:col-span-4 bg-gray-50/50 p-6 rounded-2xl border border-gray-100 flex flex-col gap-6">
+          <h4 class="text-xs font-bold uppercase tracking-widest text-gray-400">Settings</h4>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Payment Frequency</label>
+            <div class="relative">
+              <select formControlName="paymentFrequency"
+                class="appearance-none w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all shadow-sm cursor-pointer">
+                <option value="Monthly">Monthly Billing</option>
+                <option value="Yearly">Annual Billing</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
-                Insurance Plans
-            </h3>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Plan Type</label>
+            <div class="relative">
+              <select formControlName="planType"
+                class="appearance-none w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all shadow-sm cursor-pointer">
+                <option value="Casualty">Property & Casualty</option>
+                <option value="Disaster">Disaster Protection</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Duration <span
+                class="text-gray-400 font-normal">(Months)</span></label>
+            <input type="number" formControlName="durationInMonths" placeholder="12"
+              class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all shadow-sm font-mono">
+          </div>
         </div>
 
-        <div class="p-0 overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50 border-b border-gray-100">
-                    <tr>
-                        <th scope="col"
-                            class="px-6 py-3.5 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest bg-gray-50/50">
-                            Plan Name</th>
-                        <th scope="col"
-                            class="px-6 py-3.5 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest bg-gray-50/50">
-                            Type</th>
-                        <th scope="col"
-                            class="px-6 py-3.5 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest bg-gray-50/50">
-                            Premium</th>
-                        <th scope="col"
-                            class="px-6 py-3.5 text-right text-[11px] font-bold text-gray-500 uppercase tracking-widest bg-gray-50/50">
-                            Coverage</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-100">
-                    <tr *ngIf="loadingPlans">
-                        <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">Loading plans...</td>
-                    </tr>
-                    <tr *ngFor="let p of plans" class="hover:bg-blue-50/30 transition-colors duration-150 group">
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">{{ p.name }}</div>
-                            <div class="text-xs text-gray-400 max-w-xs truncate">{{ p.description }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <span class="px-2 py-1 text-[10px] font-bold uppercase rounded-full tracking-wider"
-                                [ngClass]="{'bg-purple-100 text-purple-700': p.planType === 'Disaster', 'bg-emerald-100 text-emerald-700': p.planType === 'Casualty'}">
-                                {{ p.planType }}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            ₹{{ p.premiumAmount }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900">
-                            ₹{{ p.coverageAmount }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- Submit -->
+        <div class="md:col-span-12 flex justify-end mt-4 pt-6 border-t border-gray-100">
+          <button type="submit" [disabled]="!planForm.valid"
+            class="px-8 py-3.5 bg-violet-600 text-white font-bold rounded-xl hover:bg-violet-700 active:bg-violet-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-violet-200 flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Publish Insurance Plan
+          </button>
         </div>
+      </form>
     </div>
+  </div>
+
+  <!-- Configured Plans Section -->
+  <div class="bg-white rounded-3xl shadow-lg shadow-gray-100 border border-gray-100 overflow-hidden mt-8">
+    <div class="px-8 py-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
+      <h3 class="text-lg font-bold text-gray-900 flex items-center gap-3">
+        Active Packages Directory
+        <span class="bg-violet-100 text-violet-700 text-xs py-1 px-3 rounded-full font-bold">{{ plans.length }}
+          Total</span>
+      </h3>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-white">
+          <tr>
+            <th scope="col" class="px-8 py-5 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Package
+              Details</th>
+            <th scope="col" class="px-8 py-5 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">
+              Category</th>
+            <th scope="col" class="px-8 py-5 text-right text-xs font-bold text-gray-400 uppercase tracking-wider">
+              Premium</th>
+            <th scope="col" class="px-8 py-5 text-right text-xs font-bold text-gray-400 uppercase tracking-wider">
+              Coverage Limit</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-50">
+          @if (loadingPlans) {
+          <tr>
+            <td colspan="4" class="px-8 py-8 text-center">
+              <div class="inline-flex items-center justify-center gap-3 text-violet-600">
+                <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                  </path>
+                </svg>
+                <span class="font-medium">Loading catalog...</span>
+              </div>
+            </td>
+          </tr>
+          }
+          @for (p of plans; track p) {
+          <tr class="hover:bg-violet-50/50 transition-colors duration-200 group">
+            <td class="px-8 py-5">
+              <div class="flex items-center gap-4">
+                <div
+                  class="w-10 h-10 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                    </path>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-sm font-bold text-gray-900 group-hover:text-violet-700 transition-colors">{{ p.name
+                    }}</div>
+                  <div class="text-xs text-gray-500 mt-1 max-w-xs truncate">{{ p.description }}</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-8 py-5 whitespace-nowrap">
+              <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                [ngClass]="{'bg-rose-100 text-rose-700': p.planType === 'Disaster', 'bg-emerald-100 text-emerald-700': p.planType === 'Casualty'}">
+                <span class="w-1.5 h-1.5 rounded-full mr-1.5"
+                  [ngClass]="{'bg-rose-500': p.planType === 'Disaster', 'bg-emerald-500': p.planType === 'Casualty'}"></span>
+                {{ p.planType }}
+              </span>
+            </td>
+            <td class="px-8 py-5 whitespace-nowrap text-right">
+              <div class="text-sm font-bold text-gray-900">₹{{ p.premiumAmount | number:'1.2-2' }}</div>
+              <div class="text-[10px] text-gray-400 font-medium uppercase mt-0.5">{{ p.paymentFrequency }}</div>
+            </td>
+            <td class="px-8 py-5 whitespace-nowrap text-right">
+              <div class="text-sm font-bold text-violet-600 bg-violet-50 inline-block px-3 py-1 rounded-lg">₹{{
+                p.coverageAmount | number:'1.2-2' }}</div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

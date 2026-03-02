@@ -5,6 +5,7 @@ import { PolicyDto } from '../../../models/policy/policy';
 import { PolicyPaymentDto } from '../../../models/payment/payment';
 import { ToastService } from '../../../services/toast';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../services/auth';
 
 @Component({
   selector: 'app-customer-policies',
@@ -16,6 +17,7 @@ import { RouterLink } from '@angular/router';
 export class CustomerPolicies implements OnInit {
   private policyService = inject(PolicyService);
   private toastService = inject(ToastService);
+  authService = inject(AuthService)
   private cdr = inject(ChangeDetectorRef);
 
   policies: PolicyDto[] = [];

@@ -1,14 +1,16 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../services/user';
 import { UserDto } from '../../../models/auth/auth';
 import { ToastService } from '../../../services/toast';
+import { BaseChartDirective } from 'ng2-charts';
+import { ChartConfiguration, ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-admin-users',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule, BaseChartDirective],
   templateUrl: './admin-users.html',
   styleUrl: './admin-users.css'
 })
@@ -20,8 +22,52 @@ export class AdminUsers implements OnInit {
   users: UserDto[] = [];
   loadingUsers = true;
 
+  // Chart Properties
+  public barChartLegend = true;
+  public barChartPlugins = [];
+
+  public barChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: ['Admins', 'Agents', 'Claim Officers', 'Customers'],
+    datasets: [
+      { data: [0, 0, 0, 0], label: 'User Roles', backgroundColor: '#8b5cf6', borderRadius: 4 }
+    ]
+  };
+
+  public barChartOptions: ChartConfiguration<'bar'>['options'] = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { stepSize: 1 }
+      }
+    }
+  };
+
   ngOnInit() {
     this.loadUsers();
+  }
+
+  updateChartData() {
+    let admins = 0; let agents = 0; let officers = 0; let customers = 0;
+    this.users.forEach(u => {
+      if (u.role === 'Admin') admins++;
+      else if (u.role === 'Agent') agents++;
+      else if (u.role === 'ClaimOfficer') officers++;
+      else if (u.role === 'Customer') customers++;
+    });
+
+    this.barChartData = {
+      labels: ['Admins', 'Agents', 'Claim Officers', 'Customers'],
+      datasets: [
+        { data: [admins, agents, officers, customers], label: 'User Roles', backgroundColor: '#8b5cf6', borderRadius: 6 }
+      ]
+    };
   }
 
   loadUsers() {
@@ -29,6 +75,7 @@ export class AdminUsers implements OnInit {
     this.userService.getAllUsers().subscribe({
       next: (data) => {
         this.users = data;
+        this.updateChartData(); // Update chart when users are loaded
         this.loadingUsers = false;
         this.cdr.detectChanges();
       },
