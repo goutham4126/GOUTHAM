@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserService } from '../../../services/user';
+import { UserService } from '../../../services/user/user';
 import { UpdateProfileDto, UserDto } from '../../../models/auth/auth';
 
 @Component({

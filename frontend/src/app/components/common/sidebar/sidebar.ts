@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 
 import { RouterModule } from '@angular/router';
-import { AuthService } from '../../../services/auth';
-import { LayoutService } from '../../../services/layout';
+import { AuthService } from '../../../services/auth/auth';
+import { LayoutService } from '../../../services/layout/layout';
 import { CommonModule } from '@angular/common';
 
 @Component({

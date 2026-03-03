@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { AuthResultDto, LoginDto, RegisterDto } from '../models/auth/auth';
+import { AuthResultDto, LoginDto, RegisterDto } from '../../models/auth/auth';
 import { jwtDecode } from 'jwt-decode';
 
 @Injectable({

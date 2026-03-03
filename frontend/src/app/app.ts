@@ -5,8 +5,8 @@ import { Header } from './components/common/header/header';
 import { Footer } from './components/common/footer/footer';
 import { Sidebar } from './components/common/sidebar/sidebar';
 import { ToastComponent } from './components/common/toast/toast';
-import { AuthService } from './services/auth';
-import { NotificationService } from './services/notification.service';
+import { AuthService } from './services/auth/auth';
+import { NotificationService } from './services/notification/notification.service';
 import { effect } from '@angular/core';
 
 @Component({

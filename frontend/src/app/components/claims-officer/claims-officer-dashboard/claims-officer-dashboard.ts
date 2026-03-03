@@ -2,9 +2,9 @@ import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ClaimService } from '../../../services/claim';
+import { ClaimService } from '../../../services/claim/claim';
 import { ClaimDto } from '../../../models/claim/claim';
-import { ToastService } from '../../../services/toast';
+import { ToastService } from '../../../services/toast/toast';
 
 @Component({
   selector: 'app-claims-officer-dashboard',

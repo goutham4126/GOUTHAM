@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../../services/auth';
-import { LayoutService } from '../../../services/layout';
-import { ThemeService } from '../../../services/theme';
-import { NotificationService } from '../../../services/notification.service';
+import { AuthService } from '../../../services/auth/auth';
+import { LayoutService } from '../../../services/layout/layout';
+import { ThemeService } from '../../../services/theme/theme';
+import { NotificationService } from '../../../services/notification/notification.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

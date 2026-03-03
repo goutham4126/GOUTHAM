@@ -1,9 +1,9 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PlanService } from '../../../services/plan';
+import { PlanService } from '../../../services/plan/plan';
 import { PlanDto } from '../../../models/policy/plan';
-import { ToastService } from '../../../services/toast';
+import { ToastService } from '../../../services/toast/toast';
 
 @Component({
   selector: 'app-admin-plans',

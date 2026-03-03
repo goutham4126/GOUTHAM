@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ApproveClaimRequest, ClaimDto, CreateClaimRequest } from '../models/claim/claim';
+import { ApproveClaimRequest, ClaimDto, CreateClaimRequest } from '../../models/claim/claim';
 
 @Injectable({
     providedIn: 'root'

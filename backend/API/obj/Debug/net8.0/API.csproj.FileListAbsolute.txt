@@ -195,3 +195,4 @@ C:\Users\DELL\Desktop\GOUTHAM\backend\API\bin\Debug\net8.0\LatoFont\Lato-Thin.tt
 C:\Users\DELL\Desktop\GOUTHAM\backend\API\bin\Debug\net8.0\LatoFont\Lato-ThinItalic.ttf
 C:\Users\DELL\Desktop\GOUTHAM\backend\API\bin\Debug\net8.0\LatoFont\OFL.txt
 c:\Users\DELL\Desktop\GOUTHAM\backend\API\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as signalR from '@microsoft/signalr';
 import { Observable } from 'rxjs';
-import { NotificationMessage } from '../models/notification.model';
-import { ToastService } from './toast';
+import { NotificationMessage } from '../../models/notification/notification.model';
+import { ToastService } from '../toast/toast';
 import { signal } from '@angular/core';
 
 @Injectable({

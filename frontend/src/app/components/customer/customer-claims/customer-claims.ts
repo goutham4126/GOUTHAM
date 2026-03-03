@@ -2,10 +2,10 @@ import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ClaimService } from '../../../services/claim';
-import { PolicyService } from '../../../services/policy';
+import { ClaimService } from '../../../services/claim/claim';
+import { PolicyService } from '../../../services/policy/policy';
 import { ClaimDto } from '../../../models/claim/claim';
-import { ToastService } from '../../../services/toast';
+import { ToastService } from '../../../services/toast/toast';
 import { PolicyDto } from '../../../models/policy/policy';
 import { ENV_CONFIG } from '../../../utils/storage.constants';
 

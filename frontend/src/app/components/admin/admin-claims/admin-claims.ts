@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ClaimService } from '../../../services/claim';
+import { ClaimService } from '../../../services/claim/claim';
 import { ClaimDto } from '../../../models/claim/claim';
 
 @Component({

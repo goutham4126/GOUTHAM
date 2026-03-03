@@ -2,7 +2,7 @@ import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { InvoiceService } from '../../../services/invoice/invoice';
-import { Invoice } from '../../../models/invoice.model';
+import { Invoice } from '../../../models/invoice/invoice.model';
 
 @Component({
   selector: 'app-customer-invoices',

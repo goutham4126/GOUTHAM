@@ -1,9 +1,9 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
-import { UserService } from '../../../services/user';
+import { UserService } from '../../../services/user/user';
 import { UserDto } from '../../../models/auth/auth';
-import { ToastService } from '../../../services/toast';
+import { ToastService } from '../../../services/toast/toast';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 

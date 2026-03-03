@@ -2,8 +2,8 @@ import { ApplicationConfig, ErrorHandler, importProvidersFrom, provideBrowserGlo
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
-import { authInterceptor } from './interceptors/auth-interceptor';
-import { errorInterceptor } from './interceptors/error-interceptor';
+import { authInterceptor } from './interceptors/auth/auth-interceptor';
+import { errorInterceptor } from './interceptors/error/error-interceptor';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { GlobalErrorHandler } from './utils/global-error-handler';
 

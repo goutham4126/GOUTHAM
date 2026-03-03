@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { PolicyService } from '../../../services/policy';
+import { PolicyService } from '../../../services/policy/policy';
 import { PolicyDto } from '../../../models/policy/policy';
 
 @Component({

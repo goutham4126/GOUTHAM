@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UpdateProfileDto, UpdateRoleDto, UserDto } from '../models/auth/auth';
+import { UpdateProfileDto, UpdateRoleDto, UserDto } from '../../models/auth/auth';
 
 @Injectable({
     providedIn: 'root'

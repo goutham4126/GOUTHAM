@@ -1,11 +1,11 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PolicyService } from '../../../services/policy';
+import { PolicyService } from '../../../services/policy/policy';
 import { PolicyDto } from '../../../models/policy/policy';
 import { PolicyPaymentDto } from '../../../models/payment/payment';
-import { ToastService } from '../../../services/toast';
+import { ToastService } from '../../../services/toast/toast';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../../../services/auth';
+import { AuthService } from '../../../services/auth/auth';
 
 @Component({
   selector: 'app-customer-policies',
