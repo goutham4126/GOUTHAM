@@ -4,7 +4,7 @@ using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
-namespace API.Tests
+namespace API.Tests.Controllers
 {
     public class PlansControllerTests
     {

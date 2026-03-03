@@ -5,7 +5,7 @@ using Domain.Entities;
 using Domain.Enums;
 using Moq;
 
-namespace Application.Tests
+namespace Application.Tests.Services
 {
     public class AuthServiceTests
     {

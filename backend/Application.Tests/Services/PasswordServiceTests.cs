@@ -1,6 +1,6 @@
 using Application.Services;
 
-namespace Application.Tests
+namespace Application.Tests.Services
 {
     public class PasswordServiceTests
     {

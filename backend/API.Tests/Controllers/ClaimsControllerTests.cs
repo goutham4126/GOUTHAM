@@ -7,7 +7,7 @@ using Moq;
 using System.Security.Claims;
 using SecurityClaim = System.Security.Claims.Claim;
 
-namespace API.Tests
+namespace API.Tests.Controllers
 {
     public class ClaimsControllerTests
     {

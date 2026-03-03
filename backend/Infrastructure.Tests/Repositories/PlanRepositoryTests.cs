@@ -3,7 +3,7 @@ using Infrastructure.Data;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Tests
+namespace Infrastructure.Tests.Repositories
 {
     public class PlanRepositoryTests : IDisposable
     {

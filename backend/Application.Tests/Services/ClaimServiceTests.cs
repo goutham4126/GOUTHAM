@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace Application.Tests
+namespace Application.Tests.Services
 {
     public class ClaimServiceTests
     {

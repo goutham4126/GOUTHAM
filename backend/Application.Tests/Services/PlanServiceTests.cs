@@ -4,7 +4,7 @@ using Application.Services;
 using Domain.Entities;
 using Moq;
 
-namespace Application.Tests
+namespace Application.Tests.Services
 {
     public class PlanServiceTests
     {
