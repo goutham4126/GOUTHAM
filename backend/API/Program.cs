@@ -2,6 +2,7 @@ using API.Exceptions;
 using Application.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
+using Application.Services;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,7 @@ namespace API
                 options.UseSqlServer(
                     builder.Configuration.GetConnectionString("dbURL")
                 ));
+            builder.Services.AddScoped<IAppDbContext>(sp => sp.GetRequiredService<AppDbContext>());
 
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>

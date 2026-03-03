@@ -659,10 +659,6 @@
           "documentHash": {
             "type": "string",
             "nullable": true
-          },
-          "blockchainTxHash": {
-            "type": "string",
-            "nullable": true
           }
         },
         "additionalProperties": false

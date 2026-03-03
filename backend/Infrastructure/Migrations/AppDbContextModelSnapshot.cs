@@ -32,10 +32,6 @@ namespace Infrastructure.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("BlockchainTxHash")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
                     b.Property<decimal>("ClaimAmount")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
@@ -50,6 +46,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("DocumentUrl")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<bool>("IsVideoVerified")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("PolicyId")
                         .HasColumnType("uniqueidentifier");
@@ -71,6 +70,15 @@ namespace Infrastructure.Migrations
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("VerificationNotes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VerificationRoomId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("VerificationScheduledDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

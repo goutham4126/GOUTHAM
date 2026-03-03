@@ -31,10 +31,6 @@ namespace Domain.Entities
         [StringLength(256)]
         public string? DocumentHash { get; set; }  // SHA256
 
-
-        [StringLength(200)]
-        public string? BlockchainTxHash { get; set; }
-
         [Required]
         [Range(0, double.MaxValue)]
         public decimal ClaimAmount { get; set; }

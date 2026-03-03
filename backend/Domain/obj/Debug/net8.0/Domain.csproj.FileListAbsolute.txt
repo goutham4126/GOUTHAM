@@ -10,3 +10,14 @@ C:\Users\DELL\Desktop\GOUTHAM\backend\Domain\obj\Debug\net8.0\Domain.dll
 C:\Users\DELL\Desktop\GOUTHAM\backend\Domain\obj\Debug\net8.0\refint\Domain.dll
 C:\Users\DELL\Desktop\GOUTHAM\backend\Domain\obj\Debug\net8.0\Domain.pdb
 C:\Users\DELL\Desktop\GOUTHAM\backend\Domain\obj\Debug\net8.0\ref\Domain.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\Domain\bin\Debug\net8.0\Domain.Tests.deps.json
+C:\Users\DELL\Desktop\GOUTHAM\backend\Domain\bin\Debug\net8.0\Domain.Tests.runtimeconfig.json
+C:\Users\DELL\Desktop\GOUTHAM\backend\Domain\bin\Debug\net8.0\testhost.exe
+C:\Users\DELL\Desktop\GOUTHAM\backend\Domain\bin\Debug\net8.0\testhost.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\Domain\bin\Debug\net8.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\Domain\bin\Debug\net8.0\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\Domain\bin\Debug\net8.0\xunit.runner.utility.netcoreapp10.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\Domain\bin\Debug\net8.0\Domain.Tests.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\Domain\bin\Debug\net8.0\Domain.Tests.pdb
+C:\Users\DELL\Desktop\GOUTHAM\backend\Domain\obj\Debug\net8.0\Domain.csproj.AssemblyReference.cache
+C:\Users\DELL\Desktop\GOUTHAM\backend\Domain\obj\Debug\net8.0\Domain.csproj.Up2Date

@@ -10,7 +10,6 @@ export interface ClaimDto {
     claimOfficerName?: string;
     documentUrl?: string;
     documentHash?: string;
-    blockchainTxHash?: string;
     policyId: string;
 }
 

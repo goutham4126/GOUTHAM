@@ -40,8 +40,7 @@ public class ClaimsController : ControllerBase
             request.Reason,
             request.Amount,
             request.DocumentUrl,
-            request.DocumentHash,
-            request.BlockchainTxHash
+            request.DocumentHash
         );
 
         return Ok(claim);

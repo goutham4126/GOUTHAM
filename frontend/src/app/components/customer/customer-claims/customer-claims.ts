@@ -5,9 +5,9 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ClaimService } from '../../../services/claim';
 import { PolicyService } from '../../../services/policy';
 import { ClaimDto } from '../../../models/claim/claim';
-import { PolicyDto } from '../../../models/policy/policy';
-import { ENV_CONFIG } from '../../../utils/blockchain.constants';
 import { ToastService } from '../../../services/toast';
+import { PolicyDto } from '../../../models/policy/policy';
+import { ENV_CONFIG } from '../../../utils/storage.constants';
 
 @Component({
   selector: 'app-customer-claims',
@@ -173,7 +173,6 @@ export class CustomerClaims implements OnInit {
 
       let documentUrl = 'N/A';
       let documentHash = 'N/A';
-      const blockchainTxHash = 'N/A';
 
       try {
         if (this.selectedFile) {
@@ -195,8 +194,7 @@ export class CustomerClaims implements OnInit {
       const payload = {
         ...this.claimForm.value,
         documentUrl,
-        documentHash,
-        blockchainTxHash
+        documentHash
       };
 
       this.claimService.submitClaim(payload).subscribe({

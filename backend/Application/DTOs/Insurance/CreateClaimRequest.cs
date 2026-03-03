@@ -5,6 +5,5 @@ public record CreateClaimRequest(
     string Reason,
     decimal Amount,
     string DocumentUrl,
-    string DocumentHash,
-    string BlockchainTxHash
+    string DocumentHash
 );

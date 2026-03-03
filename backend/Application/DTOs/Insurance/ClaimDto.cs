@@ -12,6 +12,5 @@ public record ClaimDto(
     string? ClaimOfficerName,
     string? DocumentUrl,
     string? DocumentHash,
-    string? BlockchainTxHash,
     Guid PolicyId
 );

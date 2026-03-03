@@ -134,5 +134,9 @@ export const routes: Routes = [
         data: { role: 'ClaimOfficer' }
     },
 
+    {
+        path: 'error',
+        loadComponent: () => import('./components/common/error/error').then(m => m.ErrorComponent)
+    },
     { path: '**', redirectTo: '' }
 ];

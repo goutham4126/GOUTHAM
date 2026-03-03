@@ -11,8 +11,7 @@ namespace Application.Interfaces
             string reason,
             decimal amount,
             string documentUrl,
-            string documentHash,
-            string blockchainTxHash
+            string documentHash
         );
         Task ApproveClaimAsync(Guid claimId, decimal approvedAmount, Guid officerId);
         Task RejectClaimAsync(Guid claimId, Guid officerId);

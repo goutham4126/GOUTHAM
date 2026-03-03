@@ -1,0 +1,12 @@
+.error-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: #f3f4f6;
+}
+
+.dark .error-container {
+  background-color: #111827;
+}
