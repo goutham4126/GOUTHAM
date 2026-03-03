@@ -14,15 +14,6 @@ C:\Users\DELL\Desktop\GOUTHAM\backend\Application\obj\Debug\net8.0\Application.d
 C:\Users\DELL\Desktop\GOUTHAM\backend\Application\obj\Debug\net8.0\refint\Application.dll
 C:\Users\DELL\Desktop\GOUTHAM\backend\Application\obj\Debug\net8.0\Application.pdb
 C:\Users\DELL\Desktop\GOUTHAM\backend\Application\obj\Debug\net8.0\ref\Application.dll
-c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\Application.Tests.deps.json
-c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\Application.Tests.runtimeconfig.json
-c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\testhost.exe
-c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\testhost.dll
-c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
-c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\xunit.runner.reporters.netcoreapp10.dll
-c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\xunit.runner.utility.netcoreapp10.dll
-c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\Domain.Tests.deps.json
-c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\Domain.Tests.runtimeconfig.json
 c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\LatoFont\Lato-Black.ttf
 c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\LatoFont\Lato-BlackItalic.ttf
 c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\LatoFont\Lato-Bold.ttf
@@ -42,7 +33,3 @@ c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\LatoFont\Lato
 c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\LatoFont\Lato-Thin.ttf
 c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\LatoFont\Lato-ThinItalic.ttf
 c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\LatoFont\OFL.txt
-c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\Application.Tests.dll
-c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\Domain.Tests.dll
-c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\Application.Tests.pdb
-c:\Users\DELL\Desktop\GOUTHAM\backend\Application\bin\Debug\net8.0\Domain.Tests.pdb

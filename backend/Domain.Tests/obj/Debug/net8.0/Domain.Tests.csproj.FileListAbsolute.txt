@@ -98,3 +98,6 @@ C:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\obj\Debug\net8.0\refint\Domai
 C:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\obj\Debug\net8.0\Domain.Tests.pdb
 C:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\obj\Debug\net8.0\Domain.Tests.genruntimeconfig.cache
 C:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\obj\Debug\net8.0\ref\Domain.Tests.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\CoverletSourceRootsMapping_Domain.Tests
+C:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.pdb
