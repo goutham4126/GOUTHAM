@@ -28,6 +28,7 @@ export class CustomerPlans implements OnInit {
     selectedPlan: PlanDto | null = null;
     durationInYears: number = 1;
     paymentFrequency: string = 'Monthly';
+    isPurchasing: boolean = false;
 
     // Success Dialog State
     successDialogVisible = false;
@@ -132,16 +133,20 @@ export class CustomerPlans implements OnInit {
                     : (this.paymentFrequency === 'Quarterly' ? 1 : 2)
             };
 
+            this.isPurchasing = true;
             this.policyService.purchasePolicy(request).subscribe({
                 next: (policy: PolicyDto) => {
                     this.purchasedPolicy = policy;
                     this.selectedPlan = null;
+                    this.isPurchasing = false;
                     this.successDialogVisible = true;
                     this.cdr.detectChanges();
                 },
                 error: (err) => {
                     console.error(err);
+                    this.isPurchasing = false;
                     this.toastService.error('Failed to purchase policy. Please try again.');
+                    this.cdr.detectChanges();
                 }
             });
         }
