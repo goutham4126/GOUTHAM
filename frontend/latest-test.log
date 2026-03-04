@@ -1,1 +1,0 @@
-﻿[91m04 03 2026 11:16:48.407:ERROR [karma-server]: [39mServer start failed on port 9876: Error: The '@angular-devkit/build-angular/plugins/karma' karma plugin is meant to be used from within Angular CLI and will not work correctly outside of it.
