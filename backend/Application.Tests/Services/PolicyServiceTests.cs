@@ -12,6 +12,7 @@ namespace Application.Tests.Services
         private readonly Mock<IPolicyRepository> _policyRepoMock;
         private readonly Mock<IPlanRepository> _planRepoMock;
         private readonly Mock<IPolicyPaymentRepository> _paymentRepoMock;
+        private readonly Mock<IPolicyRequestRepository> _policyRequestRepoMock;
         private readonly Mock<IVercelBlobService> _blobMock;
         private readonly Mock<IInvoiceGeneratorService> _invoiceMock;
         private readonly Mock<Microsoft.Extensions.Logging.ILogger<PolicyService>> _loggerMock;
@@ -24,6 +25,7 @@ namespace Application.Tests.Services
             _policyRepoMock = new Mock<IPolicyRepository>();
             _planRepoMock = new Mock<IPlanRepository>();
             _paymentRepoMock = new Mock<IPolicyPaymentRepository>();
+            _policyRequestRepoMock = new Mock<IPolicyRequestRepository>();
             _blobMock = new Mock<IVercelBlobService>();
             _invoiceMock = new Mock<IInvoiceGeneratorService>();
             _loggerMock = new Mock<Microsoft.Extensions.Logging.ILogger<PolicyService>>();
@@ -33,6 +35,7 @@ namespace Application.Tests.Services
                 _policyRepoMock.Object,
                 _planRepoMock.Object,
                 _paymentRepoMock.Object,
+                _policyRequestRepoMock.Object,
                 _contextMock.Object,
                 _blobMock.Object,
                 _invoiceMock.Object,

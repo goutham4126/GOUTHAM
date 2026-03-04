@@ -18,9 +18,9 @@ describe('PolicyService', () => {
 
   it('should be created', () => { expect(service).toBeTruthy(); });
 
-  it('should purchase policy via POST /purchase', () => {
-    service.purchasePolicy({ planId: 'plan1' } as any).subscribe(r => { expect(r.id).toBe('pol1'); });
-    const req = httpMock.expectOne(`${baseUrl}/purchase`);
+  it('should purchase policy via POST /purchase/{id}', () => {
+    service.purchasePolicy('plan1').subscribe(r => { expect(r.id).toBe('pol1'); });
+    const req = httpMock.expectOne(`${baseUrl}/purchase/plan1`);
     expect(req.request.method).toBe('POST');
     req.flush(mockPolicy);
   });

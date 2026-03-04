@@ -1,6 +1,5 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { InvoiceService } from '../../../services/invoice/invoice';
 import { Invoice } from '../../../models/invoice/invoice.model';
 
@@ -14,7 +13,6 @@ import { Invoice } from '../../../models/invoice/invoice.model';
 export class CustomerInvoices implements OnInit {
   private invoiceService = inject(InvoiceService);
   private cdr = inject(ChangeDetectorRef);
-  private sanitizer = inject(DomSanitizer);
 
   policyInvoices: Invoice[] = [];
   claimInvoices: Invoice[] = [];
@@ -22,12 +20,6 @@ export class CustomerInvoices implements OnInit {
 
   isLoading = true;
   error = '';
-
-  // Document viewer state
-  viewingDocumentUrl: string | null = null;
-  viewingDocumentName: string | null = null;
-  originalDocumentUrl: string | null = null;
-  isDocumentLoading = false;
 
   ngOnInit(): void {
     this.loadInvoices();
@@ -52,53 +44,17 @@ export class CustomerInvoices implements OnInit {
     });
   }
 
-  async openDocument(url: string, name: string) {
-    this.originalDocumentUrl = url;
-    this.viewingDocumentName = name;
-    this.viewingDocumentUrl = null;
-    this.isDocumentLoading = true;
-
-    if (this.isPdf(url)) {
-      try {
-        const response = await fetch(url);
-        const blob = await response.blob();
-        const pdfBlob = new Blob([blob], { type: 'application/pdf' });
-        this.viewingDocumentUrl = URL.createObjectURL(pdfBlob);
-      } catch (e) {
-        console.error('Error fetching document', e);
-        this.viewingDocumentUrl = url;
-      }
-    } else {
-      this.viewingDocumentUrl = url;
+  async openDocument(url: string) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const blob = await response.blob();
+      const objectUrl = window.URL.createObjectURL(blob);
+      window.open(objectUrl, '_blank');
+    } catch (error) {
+      console.error('Error fetching document:', error);
+      window.open(url, '_blank');
     }
-    this.isDocumentLoading = false;
-    this.cdr.detectChanges();
-  }
-
-  closeDocument() {
-    if (this.viewingDocumentUrl && this.viewingDocumentUrl.startsWith('blob:')) {
-      URL.revokeObjectURL(this.viewingDocumentUrl);
-    }
-    this.viewingDocumentUrl = null;
-    this.viewingDocumentName = null;
-    this.originalDocumentUrl = null;
-    this.isDocumentLoading = false;
-  }
-
-  isImage(url: string): boolean {
-    if (!url) return false;
-    return /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(url);
-  }
-
-  isPdf(url: string): boolean {
-    if (!url) return false;
-    // Vercel blob urls might not end with .pdf or might have query params. Let's just assume if it's not an image, it could be a PDF. 
-    // Or we explicitly check for pdf in the string.
-    return url.toLowerCase().includes('.pdf') || !this.isImage(url);
-  }
-
-  getSafeUrl(url: string | null): SafeResourceUrl | null {
-    if (!url) return null;
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }
+

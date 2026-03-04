@@ -42,10 +42,12 @@ namespace API
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IPlanRepository, PlanRepository>();
             builder.Services.AddScoped<IPolicyRepository, PolicyRepository>();
+            builder.Services.AddScoped<IPolicyRequestRepository, PolicyRequestRepository>();
             builder.Services.AddScoped<IPolicyPaymentRepository, PolicyPaymentRepository>();
             builder.Services.AddScoped<IClaimRepository, ClaimRepository>();
             builder.Services.AddScoped<IPlanService, PlanService>();
             builder.Services.AddScoped<IPolicyService, PolicyService>();
+            builder.Services.AddScoped<IPolicyRequestService, PolicyRequestService>();
             builder.Services.AddScoped<IClaimService, ClaimService>();
 
             builder.Services.AddHttpClient<IVercelBlobService, VercelBlobService>();

@@ -52,13 +52,13 @@ namespace API.Tests.Controllers
         [Fact]
         public async Task Purchase_ReturnsOkWithPolicy()
         {
-            var request = new PurchasePolicyRequest(Guid.NewGuid(), 1, PaymentFrequency.Monthly);
+            var requestId = Guid.NewGuid();
             var policyDto = CreatePolicyDto();
 
-            _policyServiceMock.Setup(s => s.PurchasePolicyAsync(_userId, request.PlanId, 12, PaymentFrequency.Monthly))
+            _policyServiceMock.Setup(s => s.PurchasePolicyAsync(_userId, requestId))
                 .ReturnsAsync(policyDto);
 
-            var result = await _controller.Purchase(request);
+            var result = await _controller.Purchase(requestId);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
             Assert.IsType<PolicyDto>(okResult.Value);

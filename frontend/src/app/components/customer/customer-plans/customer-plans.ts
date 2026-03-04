@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PlanService } from '../../../services/plan/plan';
-import { PolicyService } from '../../../services/policy/policy';
+import { PolicyRequestService } from '../../../services/policy-request/policy-request';
 import { PlanDto } from '../../../models/policy/plan';
-import { PolicyDto } from '../../../models/policy/policy';
+import { PolicyRequest } from '../../../models/policy-request/policy-request';
 import { ToastService } from '../../../services/toast/toast';
 
 @Component({
@@ -16,7 +16,7 @@ import { ToastService } from '../../../services/toast/toast';
 })
 export class CustomerPlans implements OnInit {
     private planService = inject(PlanService);
-    private policyService = inject(PolicyService);
+    private policyRequestService = inject(PolicyRequestService);
     private toastService = inject(ToastService);
     public router = inject(Router);
     private cdr = inject(ChangeDetectorRef);
@@ -24,15 +24,17 @@ export class CustomerPlans implements OnInit {
     plans: PlanDto[] = [];
     loading = true;
 
-    // Purchase Modal State
+    // Request Modal State
     selectedPlan: PlanDto | null = null;
-    durationInYears: number = 1;
+    durationInMonths: number = 12;
     paymentFrequency: string = 'Monthly';
-    isPurchasing: boolean = false;
+    isRequesting: boolean = false;
+    panDocument: File | null = null;
+    addressDocument: File | null = null;
 
     // Success Dialog State
     successDialogVisible = false;
-    purchasedPolicy: PolicyDto | null = null;
+    createdRequest: PolicyRequest | null = null;
 
     ngOnInit() {
         this.loading = true;
@@ -49,14 +51,16 @@ export class CustomerPlans implements OnInit {
         });
     }
 
-    promptPurchase(plan: PlanDto) {
+    promptRequest(plan: PlanDto) {
         this.selectedPlan = plan;
-        this.durationInYears = 1;
+        this.durationInMonths = 12;
         this.paymentFrequency = 'Monthly';
     }
 
-    cancelPurchase() {
+    cancelRequest() {
         this.selectedPlan = null;
+        this.panDocument = null;
+        this.addressDocument = null;
     }
 
     /** Dynamically calculates risk score based on business rules */
@@ -74,7 +78,7 @@ export class CustomerPlans implements OnInit {
         }
 
         // Duration Risk: Capped at 15
-        score += Math.min(15, 1.2 * this.durationInYears);
+        score += Math.min(15, 1.2 * (this.durationInMonths / 12));
 
         // Payment Frequency Risk
         if (this.paymentFrequency === 'Monthly') score += 6;
@@ -113,7 +117,7 @@ export class CustomerPlans implements OnInit {
     /** Calculates projected coverage for the chosen duration */
     get computedCoverage(): number {
         if (!this.selectedPlan) return 0;
-        const selectedMonths = this.durationInYears * 12;
+        const selectedMonths = this.durationInMonths;
         const planDefaultMonths = this.selectedPlan.durationInMonths > 0 ? this.selectedPlan.durationInMonths : selectedMonths;
         return this.selectedPlan.coverageAmount * (selectedMonths / planDefaultMonths);
     }
@@ -124,42 +128,48 @@ export class CustomerPlans implements OnInit {
                 : 'year';
     }
 
-    confirmPurchase() {
-        if (this.selectedPlan && this.durationInYears > 0) {
-            const request = {
-                planId: this.selectedPlan.id,
-                durationInYears: this.durationInYears,
-                paymentFrequency: this.paymentFrequency === 'Monthly' ? 0
-                    : (this.paymentFrequency === 'Quarterly' ? 1 : 2)
-            };
+    onFileChange(event: any, docType: 'pan' | 'address') {
+        const file = event.target.files[0];
+        if (file) {
+            if (docType === 'pan') this.panDocument = file;
+            else this.addressDocument = file;
+        }
+    }
 
-            this.isPurchasing = true;
-            this.policyService.purchasePolicy(request).subscribe({
-                next: (policy: PolicyDto) => {
-                    this.purchasedPolicy = policy;
+    confirmRequest() {
+        if (this.selectedPlan && this.durationInMonths > 0 && this.panDocument && this.addressDocument) {
+            this.isRequesting = true;
+            this.policyRequestService.createRequest(
+                this.selectedPlan.id,
+                this.durationInMonths,
+                this.paymentFrequency,
+                this.panDocument,
+                this.addressDocument
+            ).subscribe({
+                next: (request: PolicyRequest) => {
+                    this.createdRequest = request;
                     this.selectedPlan = null;
-                    this.isPurchasing = false;
+                    this.panDocument = null;
+                    this.addressDocument = null;
+                    this.isRequesting = false;
                     this.successDialogVisible = true;
                     this.cdr.detectChanges();
                 },
                 error: (err) => {
                     console.error(err);
-                    this.isPurchasing = false;
-                    this.toastService.error('Failed to purchase policy. Please try again.');
+                    this.isRequesting = false;
+                    this.toastService.error('Failed to submit policy request. Please try again.');
                     this.cdr.detectChanges();
                 }
             });
+        } else {
+            this.toastService.error('Please fill all required fields and upload documents.');
         }
     }
 
     closeSuccessDialog() {
         this.successDialogVisible = false;
-        this.purchasedPolicy = null;
-        this.router.navigate(['/customer/policies']);
-    }
-
-    /** Returns the first paid payment amount from the purchased policy */
-    get firstInstallmentPaid(): number {
-        return this.purchasedPolicy?.payments.find(p => p.status === 'Paid')?.amount ?? 0;
+        this.createdRequest = null;
+        this.router.navigate(['/customer/my-policy-requests']);
     }
 }

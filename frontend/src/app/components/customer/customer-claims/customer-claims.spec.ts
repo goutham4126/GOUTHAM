@@ -39,13 +39,11 @@ describe('CustomerClaims', () => {
         expect(component.policies.length).toBe(1); // only 'Active'
         expect(component.loadingClaims).toBe(false);
     });
-    it('should identify image URLs', () => { expect(component.isImage('photo.jpg')).toBe(true); expect(component.isImage('doc.pdf')).toBe(false); });
-    it('should identify PDF URLs', () => { expect(component.isPdf('file.pdf')).toBe(true); });
-    it('should return null from getSafeUrl for null', () => { expect(component.getSafeUrl(null)).toBeNull(); });
-    it('should close document viewer', () => {
-        component.viewingDocumentUrl = 'http://example.com/doc';
-        component.closeDocument();
-        expect(component.viewingDocumentUrl).toBeNull();
+    it('should call openDocument without error', async () => {
+        spyOn(window, 'open');
+        spyOn(window, 'fetch').and.returnValue(Promise.reject('CORS'));
+        await component.openDocument('http://example.com/doc.pdf');
+        expect(window.open).toHaveBeenCalled();
     });
     it('should show warning when submitting invalid form', async () => {
         component.claimForm.reset();

@@ -76,14 +76,10 @@ describe('ClaimsOfficerDashboard', () => {
     component.rejectClaim('c1');
     expect(mockToastService.confirm).toHaveBeenCalled();
   });
-  it('should identify PDF correctly', () => {
-    expect(component.isPdf('document.pdf')).toBe(true);
-    expect(component.isImage('photo.jpg')).toBe(true);
-  });
-  it('should return null from getSafeUrl for null', () => { expect(component.getSafeUrl(null)).toBeNull(); });
-  it('should close document viewer', () => {
-    component.viewingDocumentUrl = 'http://example.com/doc';
-    component.closeDocument();
-    expect(component.viewingDocumentUrl).toBeNull();
+  it('should call openDocument without error', async () => {
+    spyOn(window, 'open');
+    spyOn(window, 'fetch').and.returnValue(Promise.reject('CORS'));
+    await component.openDocument('http://example.com/doc.pdf');
+    expect(window.open).toHaveBeenCalled();
   });
 });

@@ -393,30 +393,22 @@
         }
       }
     },
-    "/api/policies/purchase": {
+    "/api/policies/purchase/{requestId}": {
       "post": {
         "tags": [
           "Policies"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PurchasePolicyRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PurchasePolicyRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PurchasePolicyRequest"
-              }
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -499,6 +491,154 @@
         "tags": [
           "Policies"
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/policy-requests": {
+      "post": {
+        "tags": [
+          "PolicyRequests"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "PlanId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "DurationInMonths": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "PaymentFrequency": {
+                    "$ref": "#/components/schemas/PaymentFrequency"
+                  },
+                  "PanDocument": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "AddressDocument": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "PlanId": {
+                  "style": "form"
+                },
+                "DurationInMonths": {
+                  "style": "form"
+                },
+                "PaymentFrequency": {
+                  "style": "form"
+                },
+                "PanDocument": {
+                  "style": "form"
+                },
+                "AddressDocument": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/policy-requests/my": {
+      "get": {
+        "tags": [
+          "PolicyRequests"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/policy-requests/assigned": {
+      "get": {
+        "tags": [
+          "PolicyRequests"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/policy-requests/{id}/approve": {
+      "post": {
+        "tags": [
+          "PolicyRequests"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/policy-requests/{id}/reject": {
+      "post": {
+        "tags": [
+          "PolicyRequests"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RejectRequestPayload"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RejectRequestPayload"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RejectRequestPayload"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -719,23 +859,6 @@
         ],
         "type": "string"
       },
-      "PurchasePolicyRequest": {
-        "type": "object",
-        "properties": {
-          "planId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "durationInYears": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "paymentFrequency": {
-            "$ref": "#/components/schemas/PaymentFrequency"
-          }
-        },
-        "additionalProperties": false
-      },
       "RegisterDto": {
         "type": "object",
         "properties": {
@@ -770,6 +893,16 @@
           "dateOfBirth": {
             "type": "string",
             "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RejectRequestPayload": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
             "nullable": true
           }
         },

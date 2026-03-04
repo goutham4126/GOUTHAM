@@ -28,12 +28,11 @@ public class PoliciesController : ControllerBase
     }
 
     [Authorize(Roles = "Customer")]
-    [HttpPost("purchase")]
-    public async Task<IActionResult> Purchase([FromBody] PurchasePolicyRequest request)
+    [HttpPost("purchase/{requestId:guid}")]
+    public async Task<IActionResult> Purchase(Guid requestId)
     {
         var userId = GetUserId();
-        var durationInMonths = request.DurationInYears * 12;
-        var policyDto = await _policyService.PurchasePolicyAsync(userId, request.PlanId, durationInMonths, request.PaymentFrequency);
+        var policyDto = await _policyService.PurchasePolicyAsync(userId, requestId);
         return Ok(policyDto);
     }
 

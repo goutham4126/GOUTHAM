@@ -11,8 +11,8 @@ export class PolicyService {
 
     constructor(private http: HttpClient) { }
 
-    public purchasePolicy(dto: PurchasePolicyRequest): Observable<PolicyDto> {
-        return this.http.post<PolicyDto>(`${this.apiUrl}/purchase`, dto);
+    public purchasePolicy(policyRequestId: string): Observable<PolicyDto> {
+        return this.http.post<PolicyDto>(`${this.apiUrl}/purchase/${policyRequestId}`, {});
     }
 
     public getMyPolicies(): Observable<PolicyDto[]> {

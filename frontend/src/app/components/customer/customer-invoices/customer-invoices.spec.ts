@@ -39,12 +39,10 @@ describe('CustomerInvoices', () => {
     expect(component.error).toBe('Failed to load invoices. Please try again later.');
     expect(component.isLoading).toBe(false);
   });
-  it('should identify image URLs', () => { expect(component.isImage('photo.jpg')).toBe(true); expect(component.isImage('')).toBe(false); });
-  it('should identify PDF URLs', () => { expect(component.isPdf('file.pdf')).toBe(true); expect(component.isPdf('photo.jpg')).toBe(false); });
-  it('should return null from getSafeUrl for null', () => { expect(component.getSafeUrl(null)).toBeNull(); });
-  it('should close document viewer', () => {
-    component.viewingDocumentUrl = 'http://example.com/doc';
-    component.closeDocument();
-    expect(component.viewingDocumentUrl).toBeNull();
+  it('should call openDocument without error', async () => {
+    spyOn(window, 'open');
+    spyOn(window, 'fetch').and.returnValue(Promise.reject('CORS'));
+    await component.openDocument('http://example.com/invoice.pdf');
+    expect(window.open).toHaveBeenCalled();
   });
 });

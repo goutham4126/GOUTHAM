@@ -21,6 +21,7 @@ namespace Infrastructure.Data
 
         public DbSet<Invoice> Invoices => Set<Invoice>();
         public DbSet<Notification> Notifications => Set<Notification>();
+        public DbSet<PolicyRequest> PolicyRequests => Set<PolicyRequest>();
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -33,6 +34,7 @@ namespace Infrastructure.Data
             ConfigurePolicyPayment(builder);
             ConfigureClaim(builder);
             ConfigureClaimPayment(builder);
+            ConfigurePolicyRequest(builder);
         }
 
         private void ConfigureUser(ModelBuilder builder)
@@ -181,6 +183,38 @@ namespace Infrastructure.Data
 
                 entity.Property(c => c.AmountPaid)
                       .HasPrecision(18, 2);
+            });
+        }
+
+        private void ConfigurePolicyRequest(ModelBuilder builder)
+        {
+            builder.Entity<PolicyRequest>(entity =>
+            {
+                entity.ToTable("PolicyRequests");
+
+                entity.Property(p => p.RiskScore)
+                      .HasPrecision(18, 2);
+
+                entity.Property(p => p.Status)
+                      .HasConversion<string>();
+
+                entity.Property(p => p.PaymentFrequency)
+                      .HasConversion<string>();
+
+                entity.HasOne(pr => pr.User)
+                      .WithMany()
+                      .HasForeignKey(pr => pr.UserId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(pr => pr.Plan)
+                      .WithMany()
+                      .HasForeignKey(pr => pr.PlanId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(pr => pr.Agent)
+                      .WithMany()
+                      .HasForeignKey(pr => pr.AgentId)
+                      .OnDelete(DeleteBehavior.SetNull);
             });
         }
     }

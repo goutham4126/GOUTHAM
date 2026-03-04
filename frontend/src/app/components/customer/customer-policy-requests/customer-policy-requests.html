@@ -1,0 +1,81 @@
+<h1 class="text-xl font-bold mb-5 dark:text-white text-gray-500 hidden sm:block">
+    My Policy Requests
+</h1>
+<div
+    class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-200">
+    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/80 flex justify-between items-center backdrop-blur-sm">
+        <h3 class="text-xs font-bold text-gray-600 uppercase tracking-widest flex items-center gap-2">
+            <svg class="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            My Policy Requests
+        </h3>
+        <span
+            class="bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-full tracking-wide">{{
+            requests.length }} Requests</span>
+    </div>
+
+    <div class="p-6">
+        @if (loading) {
+        <div class="text-center py-4 text-gray-500">Loading your policy requests...</div>
+        }
+
+        @if (!loading && requests.length === 0) {
+        <div class="text-center py-8">
+            <svg class="mx-auto h-12 w-12 text-gray-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <p class="text-gray-500 mb-6">You haven't requested any policies yet.</p>
+            <a routerLink="/customer/plans"
+                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition">
+                Browse Plans
+            </a>
+        </div>
+        }
+
+        @if (requests.length > 0) {
+        <ul class="space-y-4">
+            @for (req of requests; track req.id) {
+            <li
+                class="border border-gray-100 rounded-2xl p-5 hover:bg-blue-50/20 hover:border-blue-100 hover:shadow-sm transition-all duration-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 group">
+                <div class="flex-grow">
+                    <p class="font-bold text-gray-800 text-lg">{{ req.planName }}</p>
+                    <p class="text-sm text-gray-500 font-medium mt-1">
+                        Requested on: <span class="text-gray-900">{{ req.createdAt | date:'mediumDate' }}</span> &bull;
+                        Duration: <span class="text-gray-900">{{ req.durationInMonths }} Months</span>
+                    </p>
+                    @if (req.status === 'Rejected' && req.rejectionReason) {
+                    <p class="text-sm text-red-600 font-medium mt-1 mt-2 p-2 bg-red-50 border border-red-100 rounded">
+                        Reason: {{ req.rejectionReason }}
+                    </p>
+                    }
+                    <div class="mt-2 flex space-x-2 items-center">
+                        <span [ngClass]="{
+                    'bg-yellow-100 text-yellow-800 border-yellow-200': req.status === 'Pending',
+                    'bg-green-100 text-green-800 border-green-200': req.status === 'Approved',
+                    'bg-red-100 text-red-800 border-red-200': req.status === 'Rejected'
+                  }" class="text-xs font-bold px-2 py-0.5 rounded border">
+                            {{ req.status }}
+                        </span>
+                    </div>
+                </div>
+                @if (req.status === 'Approved') {
+                <div class="flex sm:flex-col gap-2 w-full sm:w-auto">
+                    <button (click)="buyPolicy(req)" [disabled]="purchasingId === req.id"
+                        class="flex-1 sm:flex-none px-4 py-2.5 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 transition-all shadow-sm disabled:opacity-50">
+                        @if (purchasingId === req.id) {
+                        Buying...
+                        } @else {
+                        Buy Policy
+                        }
+                    </button>
+                </div>
+                }
+            </li>
+            }
+        </ul>
+        }
+    </div>
+</div>

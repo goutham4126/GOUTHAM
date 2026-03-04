@@ -4,7 +4,8 @@
   <div class="flex items-center justify-between">
     <div>
       <h2 class="text-3xl font-extrabold dark:text-white text-gray-900 tracking-tight">Claim Center</h2>
-      <p class="mt-1 text-sm dark:text-white font-semibold text-gray-500">File a new claim or track the status of your existing requests.</p>
+      <p class="mt-1 text-sm dark:text-white font-semibold text-gray-500">File a new claim or track the status of your
+        existing requests.</p>
     </div>
     <div class="bg-violet-100 p-3 rounded-2xl flex items-center justify-center">
       <svg class="w-8 h-8 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -81,7 +82,8 @@
         <div class="md:col-span-5 flex flex-col">
           <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center justify-between">
             Supporting Document
-            <span class="text-xs font-normal text-gray-600 uppercase tracking-wide bg-gray-200 px-2 py-1.5 rounded">Optional</span>
+            <span
+              class="text-xs font-normal text-gray-600 uppercase tracking-wide bg-gray-200 px-2 py-1.5 rounded">Optional</span>
           </label>
           <div
             class="flex-1 border-2 border-dashed border-gray-200 hover:border-violet-400 bg-gray-50 hover:bg-violet-50/30 transition-all rounded-2xl flex flex-col items-center justify-center p-8 text-center group">
@@ -226,7 +228,7 @@
         <!-- Documents section if available -->
         @if (c.documentUrl && c.documentUrl !== 'N/A') {
         <div class="mt-2 pt-4 border-t border-gray-100 flex gap-3">
-          <button (click)="openDocument(c.documentUrl, 'Claim #' + c.id.substring(0,8))"
+          <button (click)="openDocument(c.documentUrl)"
             class="flex-1 flex items-center justify-center gap-2 text-xs font-bold text-violet-600 bg-violet-50 hover:bg-violet-100 py-2.5 rounded-xl transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -260,84 +262,3 @@
     }
   </div>
 </div>
-
-<!-- Document Viewer Modal (Unchanged Layout mostly, just matching accents) -->
-@if (viewingDocumentUrl) {
-<div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/80 backdrop-blur-sm p-4"
-  (click)="closeDocument()">
-  <div
-    class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden border border-gray-100"
-    (click)="$event.stopPropagation()">
-    <!-- Modal Header -->
-    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-white shrink-0">
-      <div class="flex items-center gap-3">
-        <div class="bg-violet-100 text-violet-600 p-2 rounded-lg">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-        </div>
-        <h3 class="font-bold text-gray-900">{{ viewingDocumentName }}</h3>
-      </div>
-      <div class="flex items-center gap-2">
-        <a [href]="viewingDocumentUrl" target="_blank" rel="noopener noreferrer"
-          class="px-4 py-2 text-xs font-bold bg-white text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
-          New Tab
-        </a>
-        <a [href]="originalDocumentUrl" target="_blank" download
-          class="px-4 py-2 text-xs font-bold bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition shadow-sm">
-          Download PDF
-        </a>
-        <button (click)="closeDocument()"
-          class="ml-2 p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-    </div>
-    <!-- Modal Body -->
-    <div class="flex-1 overflow-auto bg-gray-50 p-6 relative flex justify-center items-center">
-      @if (isDocumentLoading) {
-      <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-50/90 backdrop-blur-sm z-10">
-        <svg class="animate-spin h-10 w-10 text-violet-600 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none"
-          viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-          </path>
-        </svg>
-        <span class="text-sm font-bold text-gray-600">Rendering preview...</span>
-      </div>
-      }
-      @if (!isDocumentLoading && originalDocumentUrl) {
-      @if (isImage(originalDocumentUrl)) {
-      <img [src]="viewingDocumentUrl" alt="Claim Document" class="max-w-full max-h-full rounded-lg shadow-sm" />
-      }
-      @if (isPdf(originalDocumentUrl)) {
-      <iframe [src]="getSafeUrl(viewingDocumentUrl!)"
-        class="w-full h-full min-h-[60vh] rounded-lg shadow-sm border border-gray-200 bg-white"
-        title="PDF Document"></iframe>
-      }
-      @if (!isImage(originalDocumentUrl) && !isPdf(originalDocumentUrl)) {
-      <div class="flex flex-col items-center justify-center py-16 text-center">
-        <div class="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400 mb-4">
-          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-        </div>
-        <h4 class="font-bold text-gray-900 mb-1">Preview Unavailable</h4>
-        <p class="text-sm text-gray-500 max-w-sm mb-6">The document viewer does not support this file type. Please
-          download the file to view it.</p>
-        <a [href]="originalDocumentUrl" target="_blank" rel="noopener noreferrer"
-          class="px-6 py-2.5 bg-violet-600 text-white rounded-xl hover:bg-violet-700 text-sm font-bold transition shadow-sm">
-          Download File
-        </a>
-      </div>
-      }
-      }
-    </div>
-  </div>
-</div>
-}

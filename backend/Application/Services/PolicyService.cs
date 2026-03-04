@@ -13,6 +13,7 @@ namespace Application.Services
         private readonly IPolicyRepository _policyRepo;
         private readonly IPlanRepository _planRepo;
         private readonly IPolicyPaymentRepository _paymentRepo;
+        private readonly IPolicyRequestRepository _policyRequestRepo;
         private readonly IVercelBlobService _blobService;
         private readonly IInvoiceGeneratorService _invoiceGenerator;
         private readonly ILogger<PolicyService> _logger;
@@ -22,6 +23,7 @@ namespace Application.Services
         IPolicyRepository policyRepo,
         IPlanRepository planRepo,
         IPolicyPaymentRepository paymentRepo,
+        IPolicyRequestRepository policyRequestRepo,
         IAppDbContext context,
         IVercelBlobService blobService,
         IInvoiceGeneratorService invoiceGenerator,
@@ -31,6 +33,7 @@ namespace Application.Services
             _policyRepo = policyRepo;
             _planRepo = planRepo;
             _paymentRepo = paymentRepo;
+            _policyRequestRepo = policyRequestRepo;
             _context = context;
             _blobService = blobService;
             _invoiceGenerator = invoiceGenerator;
@@ -38,31 +41,31 @@ namespace Application.Services
             _notificationService = notificationService;
         }
 
-        public async Task<PolicyDto> PurchasePolicyAsync(Guid userId, Guid planId, int durationInMonths, PaymentFrequency paymentFrequency)
+        public async Task<PolicyDto> PurchasePolicyAsync(Guid userId, Guid requestId)
         {
             await using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                var plan = await _planRepo.GetByIdAsync(planId)
+                var request = await _policyRequestRepo.GetByIdAsync(requestId)
+                    ?? throw new Exception("Policy request not found");
+
+                if (request.UserId != userId)
+                    throw new UnauthorizedAccessException("Not your policy request");
+
+                if (request.Status != PolicyRequestStatus.Approved)
+                    throw new InvalidOperationException("Policy request is not approved");
+
+                var plan = await _planRepo.GetByIdAsync(request.PlanId)
                     ?? throw new Exception("Plan not found");
 
                 if (!plan.IsActive)
                     throw new InvalidOperationException("Plan is no longer active");
 
-                var agents = await _context.Users
-                    .Where(u => u.Role == UserRole.Agent && !u.IsDeleted)
-                    .Select(u => new { 
-                        u.Id, 
-                        ActiveCount = u.Policies.Count(p => p.Status == PolicyStatus.Active) 
-                    })
-                    .ToListAsync();
+                var selectedAgentId = request.AgentId ?? throw new InvalidOperationException("Request has no assigned agent");
 
-                if (!agents.Any())
-                    throw new InvalidOperationException("No agents available.");
-
-                var selectedAgentId = agents
-                    .OrderBy(a => a.ActiveCount)
-                    .First().Id;
+                int durationInMonths = request.DurationInMonths;
+                PaymentFrequency paymentFrequency = request.PaymentFrequency;
+                Guid planId = request.PlanId;
 
                 // Snapshot plan values at purchase time (plan may change in future)
                 var snapshotBaseCoverage = plan.CoverageAmount;

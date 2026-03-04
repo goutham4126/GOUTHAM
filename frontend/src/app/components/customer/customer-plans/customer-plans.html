@@ -2,7 +2,7 @@
   <div class="mb-8 flex justify-between items-center bg-blue-600 p-8 rounded-2xl shadow-sm text-white">
     <div>
       <h2 class="text-3xl font-extrabold tracking-tight">Available Insurance Plans</h2>
-      <p class="text-blue-100 mt-2 text-sm font-medium">Browse and purchase the best coverage for your needs.</p>
+      <p class="text-blue-100 mt-2 text-sm font-medium">Browse and request the best coverage for your needs.</p>
     </div>
     <button (click)="router.navigate(['/customer/dashboard'])"
       class="text-sm text-white bg-white/20 hover:bg-white/30 backdrop-blur-sm px-4 py-2 rounded-xl font-bold transition">
@@ -58,9 +58,9 @@
             <span class="text-3xl font-extrabold text-blue-600">₹{{ plan.premiumAmount | number }}</span>
             <span class="text-gray-500 font-medium mb-1">/{{ plan.paymentFrequency | lowercase }}</span>
           </div>
-          <button (click)="promptPurchase(plan)"
+          <button (click)="promptRequest(plan)"
             class="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold tracking-wide rounded-xl shadow-sm hover:shadow transition-all focus:ring-4 focus:ring-blue-100 outline-none">
-            Purchase Policy
+            Request Policy
           </button>
         </div>
       </div>
@@ -83,7 +83,7 @@
           </svg>
         </div>
         <div>
-          <h3 class="text-xl font-bold text-gray-900">Configure Your Policy</h3>
+          <h3 class="text-xl font-bold text-gray-900">Request Your Policy</h3>
           <p class="text-sm text-gray-500">{{ selectedPlan.name }}</p>
           <span class="inline-block mt-1 px-2 py-0.5 text-[10px] font-bold uppercase rounded-full tracking-wider"
             [ngClass]="{'bg-purple-100 text-purple-700': selectedPlan.planType === 'Disaster', 'bg-emerald-100 text-emerald-700': selectedPlan.planType === 'Casualty'}">
@@ -96,8 +96,8 @@
       <div class="flex flex-col sm:flex-row gap-4 mb-5">
         <div class="flex-1">
           <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Duration
-            (Years)</label>
-          <input type="number" [(ngModel)]="durationInYears" [min]="1" [max]="30"
+            (Months)</label>
+          <input type="number" [(ngModel)]="durationInMonths" [min]="1" [max]="360"
             class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 transition shadow-sm bg-white">
         </div>
         <div class="flex-1">
@@ -111,6 +111,21 @@
           </select>
         </div>
       </div>
+      <!-- Documents Upload -->
+      <div class="flex flex-col sm:flex-row gap-4 mb-5">
+        <div class="flex-1">
+          <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Upload PAN
+            Card</label>
+          <input type="file" accept=".pdf,.png,.jpg,.jpeg" (change)="onFileChange($event, 'pan')"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition shadow-sm bg-white">
+        </div>
+        <div class="flex-1">
+          <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Upload Address
+            Proof</label>
+          <input type="file" accept=".pdf,.png,.jpg,.jpeg" (change)="onFileChange($event, 'address')"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition shadow-sm bg-white">
+        </div>
+      </div>
       <div class="flex flex-col sm:flex-row gap-4 mb-5">
         <!-- Coverage Preview -->
         <div class="flex-1 bg-green-50 border border-green-200 rounded-xl px-5 py-4 flex flex-col justify-between">
@@ -120,8 +135,10 @@
               number:'1.0-0' }}</span>
             <p class="text-xs text-green-600 font-medium">Max you can claim</p>
           </div>
-          <p class="text-xs text-green-600 mt-3 pt-3 border-t border-green-200/50">For {{ durationInYears }} year(s) on
-            <strong>{{ selectedPlan.name }}</strong></p>
+          <p class="text-xs text-green-600 mt-3 pt-3 border-t border-green-200/50">For {{ durationInMonths }} month(s)
+            on
+            <strong>{{ selectedPlan.name }}</strong>
+          </p>
         </div>
         <!-- Installment Preview -->
         <div class="flex-1 bg-blue-50 border border-blue-200 rounded-xl px-5 py-4 flex flex-col justify-between">
@@ -133,46 +150,30 @@
               <span class="text-blue-500 font-semibold text-sm">/ {{ frequencyLabel }}</span>
             </div>
           </div>
-          <p class="text-xs text-blue-500 mt-3 pt-3 border-t border-blue-200/50">This amount will be charged immediately
-            on confirmation.</p>
+          <p class="text-xs text-blue-500 mt-3 pt-3 border-t border-blue-200/50">This amount will be charged upon
+            approval.</p>
         </div>
       </div>
-      <!-- Risk Assessment Preview -->
-      <div
-        [class]="'border rounded-xl px-5 py-3 mb-5 flex items-center justify-between transition-colors duration-300 ' + riskLevel.bgClass">
-        <div>
-          <div class="flex items-center gap-2 mb-1">
-            <p [class]="'text-xs font-bold uppercase tracking-wider block ' + riskLevel.colorClass">Risk
-              Assessment</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <div [class]="'w-3 h-3 rounded-full shadow-sm animate-pulse ' + riskLevel.indicatorClass"></div>
-            <span [class]="'font-semibold text-sm ' + riskLevel.colorClass">{{ riskLevel.label }}</span>
-          </div>
-        </div>
-        <div class="text-right">
-          <span [class]="'text-3xl font-black block leading-none ' + riskLevel.colorClass">{{ riskScore
-            }}</span>
-          <span [class]="'text-[10px] font-bold uppercase tracking-wider opacity-75 ' + riskLevel.colorClass">/
-            100 Score</span>
-        </div>
-      </div>
+
       <!-- Actions -->
       <div class="flex justify-end space-x-3 mt-8">
-        <button (click)="cancelPurchase()" [disabled]="isPurchasing"
+        <button (click)="cancelRequest()" [disabled]="isRequesting"
           class="flex-1 px-5 py-3.5 bg-white border border-gray-200 text-gray-700 font-semibold text-sm tracking-wide rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm active:bg-gray-100 disabled:opacity-50">
           Cancel
         </button>
-        <button (click)="confirmPurchase()" [disabled]="durationInYears < 1 || isPurchasing"
+        <button (click)="confirmRequest()"
+          [disabled]="durationInMonths < 1 || !panDocument || !addressDocument || isRequesting"
           class="flex-1 flex items-center justify-center px-5 py-3.5 bg-blue-600 text-white font-semibold text-sm tracking-wide rounded-xl hover:bg-blue-700 transition shadow-sm disabled:opacity-50">
-          @if (isPurchasing) {
-            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            Purchasing...
+          @if (isRequesting) {
+          <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+            </path>
+          </svg>
+          Requesting...
           } @else {
-            Confirm Purchase
+          Submit Request
           }
         </button>
       </div>
@@ -181,53 +182,52 @@
   }
 
   <!-- ==================== Success Dialog ==================== -->
-  @if (successDialogVisible && purchasedPolicy) {
+  @if (successDialogVisible && createdRequest) {
   <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
     <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-4 overflow-hidden">
       <!-- Green top accent -->
-      <div class="bg-green-600 px-8 pt-8 pb-6 text-center">
+      <div class="bg-blue-600 px-8 pt-8 pb-6 text-center">
         <div class="w-16 h-16 rounded-full bg-white bg-opacity-20 flex items-center justify-center mx-auto mb-4">
-          <img src="logo.png" class="h-16 w-auto" />
+          <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
         </div>
-        <h3 class="text-2xl font-bold text-white">Policy Purchased!</h3>
-        <p class="text-green-100 text-sm mt-1">Your coverage is now active.</p>
+        <h3 class="text-2xl font-bold text-white">Request Submitted!</h3>
+        <p class="text-blue-100 text-sm mt-1">Your policy request is pending agent approval.</p>
       </div>
       <!-- Details -->
       <div class="px-8 py-6 space-y-3">
         <div class="flex justify-between items-center text-sm">
           <span class="text-gray-500">Plan</span>
-          <span class="font-semibold text-gray-900">{{ purchasedPolicy.plan.name }}</span>
+          <span class="font-semibold text-gray-900">{{ createdRequest.planName }}</span>
         </div>
         <div class="flex justify-between items-center text-sm">
           <span class="text-gray-500">Frequency</span>
-          <span class="font-semibold text-gray-900">{{ purchasedPolicy.paymentFrequency }}</span>
+          <span class="font-semibold text-gray-900">{{ createdRequest.paymentFrequency }}</span>
         </div>
         <div class="flex justify-between items-center text-sm">
           <span class="text-gray-500">Duration</span>
-          <span class="font-semibold text-gray-900">{{ purchasedPolicy.durationInMonths }} Months</span>
+          <span class="font-semibold text-gray-900">{{ createdRequest.durationInMonths }} Months</span>
         </div>
         <div class="flex justify-between items-center text-sm">
-          <span class="text-gray-500">Coverage</span>
-          <span class="font-semibold text-gray-900">₹{{ purchasedPolicy.coverageAmount | number:'1.0-0'
-            }}</span>
+          <span class="text-gray-500">Status</span>
+          <span class="font-semibold text-yellow-600">{{ createdRequest.status }}</span>
         </div>
         <hr class="border-gray-100">
-        <!-- First Installment Highlight -->
-        <div class="flex justify-between items-center bg-green-50 border border-green-200 rounded-xl px-4 py-3">
+        <!-- Next Steps -->
+        <div class="flex justify-between items-center bg-blue-50 border border-blue-200 rounded-xl px-4 py-3">
           <div>
-            <p class="text-xs font-semibold text-green-600 uppercase tracking-wider">First Installment Paid
+            <p class="text-xs font-semibold text-blue-600 uppercase tracking-wider">Next Step
             </p>
-            <p class="text-xs text-green-500 mt-0.5">Charged today</p>
+            <p class="text-[12px] text-blue-500 mt-0.5">Wait for agent approval before purchase.</p>
           </div>
-          <span class="text-xl font-extrabold text-green-700">₹{{ firstInstallmentPaid | number:'1.2-2'
-            }}</span>
         </div>
       </div>
       <!-- Action -->
       <div class="px-8 pb-8">
         <button (click)="closeSuccessDialog()"
-          class="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl shadow transition-all">
-          View My Policies
+          class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow transition-all">
+          View My Requests
         </button>
       </div>
     </div>

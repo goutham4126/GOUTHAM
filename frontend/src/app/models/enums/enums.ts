@@ -31,3 +31,9 @@ export enum UserRole {
     Customer = 'Customer',
     ClaimOfficer = 'ClaimOfficer'
 }
+
+export enum PolicyRequestStatus {
+    Pending = 'Pending',
+    Approved = 'Approved',
+    Rejected = 'Rejected'
+}

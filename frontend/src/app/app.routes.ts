@@ -57,6 +57,12 @@ export const routes: Routes = [
         pathMatch: 'full'
     },
     {
+        path: 'customer/my-policy-requests',
+        loadComponent: () => import('./components/customer/customer-policy-requests/customer-policy-requests').then(m => m.CustomerPolicyRequests),
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'Customer' }
+    },
+    {
         path: 'customer/plans',
         loadComponent: () => import('./components/customer/customer-plans/customer-plans').then(m => m.CustomerPlans),
         canActivate: [authGuard, roleGuard],
@@ -96,6 +102,12 @@ export const routes: Routes = [
     {
         path: 'agent/customers',
         loadComponent: () => import('./components/agent/agent-customers/agent-customers').then(m => m.AgentCustomers),
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'Agent' }
+    },
+    {
+        path: 'agent/policy-requests',
+        loadComponent: () => import('./components/agent/agent-policy-requests/agent-policy-requests').then(m => m.AgentPolicyRequests),
         canActivate: [authGuard, roleGuard],
         data: { role: 'Agent' }
     },
