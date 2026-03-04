@@ -1,8 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CustomerClaimNew } from './customer-claim-new';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('CustomerClaimNew', () => {
     let component: CustomerClaimNew;
@@ -10,13 +7,8 @@ describe('CustomerClaimNew', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [CustomerClaimNew],
-            providers: [
-                provideHttpClient(),
-                provideHttpClientTesting()
-            ]
-        })
-            .compileComponents();
+            imports: [CustomerClaimNew]
+        }).compileComponents();
 
         fixture = TestBed.createComponent(CustomerClaimNew);
         component = fixture.componentInstance;
