@@ -12,8 +12,6 @@ namespace Application.Services
         public VercelBlobService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            // Using the token directly as requested by the frontend approach. 
-            // In a real production app, this should be in appsettings.json.
             _token = "vercel_blob_rw_4OHZLzvph4cjPlYE_0S3ZUwOy6HEbYx8l8AgTQp7gCjKDVW";
         }
 

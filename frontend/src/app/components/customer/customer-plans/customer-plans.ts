@@ -94,14 +94,14 @@ export class CustomerPlans implements OnInit {
     /** Returns risk level details based on calculated score */
     get riskLevel(): { label: string, colorClass: string, bgClass: string, indicatorClass: string } {
         const score = this.riskScore;
-        if (score <= 30) {
-            return { label: 'Low Risk', colorClass: 'text-green-700', bgClass: 'bg-green-50 border-green-200', indicatorClass: 'bg-green-500' };
-        } else if (score <= 55) {
-            return { label: 'Moderate Risk', colorClass: 'text-yellow-700', bgClass: 'bg-yellow-50 border-yellow-200', indicatorClass: 'bg-yellow-500' };
-        } else if (score <= 75) {
-            return { label: 'High Risk', colorClass: 'text-orange-700', bgClass: 'bg-orange-50 border-orange-200', indicatorClass: 'bg-orange-500' };
+        if (score <= 35) {
+            return { label: 'Moderate Risk', colorClass: 'text-green-700', bgClass: 'bg-green-50 border-green-200', indicatorClass: 'bg-green-500' };
+        } else if (score <= 60) {
+            return { label: 'High Risk', colorClass: 'text-yellow-700', bgClass: 'bg-yellow-50 border-yellow-200', indicatorClass: 'bg-yellow-500' };
+        } else if (score <= 80) {
+            return { label: 'Very High Risk', colorClass: 'text-orange-700', bgClass: 'bg-orange-50 border-orange-200', indicatorClass: 'bg-orange-500' };
         } else {
-            return { label: 'Very High Risk', colorClass: 'text-red-700', bgClass: 'bg-red-50 border-red-200', indicatorClass: 'bg-red-600' };
+            return { label: 'Critical Risk', colorClass: 'text-red-700', bgClass: 'bg-red-50 border-red-200', indicatorClass: 'bg-red-600' };
         }
     }
 

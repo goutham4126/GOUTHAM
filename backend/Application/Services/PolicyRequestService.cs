@@ -49,7 +49,7 @@ namespace Application.Services
             var aUrl = await _blobService.UploadFileAsync(addressFileBytes, addressFileName, "address_documents");
             var aHash = ComputeSha256Hash(addressFileBytes);
 
-            var riskScore = CalculateRiskScoreAsync(planId, durationMonths);
+            var riskScore = CalculateRiskScore(plan, durationMonths, paymentFrequency);
 
             var agents = await _context.Users.Where(u => u.Role == UserRole.Agent).ToListAsync();
             Guid? assignedAgentId = agents.Any() ? agents[new Random().Next(agents.Count)].Id : (Guid?)null;
@@ -139,12 +139,36 @@ namespace Application.Services
             return MapToDto(request);
         }
 
-        private decimal CalculateRiskScoreAsync(Guid planId, int durationMonths)
+        private decimal CalculateRiskScore(Plan plan, int durationMonths, PaymentFrequency frequency)
         {
-            // Dummy risk calculation
-            // In a real system, this would evaluate plan risk, location risk, etc.
-            int baseRisk = new Random().Next(10, 50);
-            return (decimal)baseRisk + (durationMonths * 0.5m);
+            decimal score = 5m; // Base score
+
+            // Plan Risk
+            if (plan.PlanType != null && plan.PlanType.Contains("Disaster", StringComparison.OrdinalIgnoreCase))
+            {
+                score += 20m;
+            }
+            else
+            {
+                score += 15m;
+            }
+
+            // Duration Risk
+            decimal durationYears = durationMonths / 12.0m;
+            score += Math.Min(15m, 1.2m * durationYears);
+
+            // Frequency Risk
+            if (frequency == PaymentFrequency.Monthly)
+                score += 6m;
+            else if (frequency == PaymentFrequency.Quarterly)
+                score += 3m;
+
+            // Coverage Risk
+            decimal defaultDuration = plan.DurationInMonths > 0 ? plan.DurationInMonths : durationMonths;
+            decimal computedCoverage = plan.CoverageAmount * ((decimal)durationMonths / defaultDuration);
+            score += Math.Min(15m, (computedCoverage / 500000m) * 2m);
+
+            return Math.Min(100m, score);
         }
 
         private static string ComputeSha256Hash(byte[] rawData)
