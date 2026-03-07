@@ -52,17 +52,16 @@
             <div class="text-sm text-gray-500">{{ u.email }}</div>
           </td>
           <td class="px-6 py-4 whitespace-nowrap">
-            <select [ngModel]="u.role" (ngModelChange)="updateRole(u.id, $event)"
-              class="border border-gray-300 text-black rounded-lg text-sm px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition shadow-sm bg-white">
-              <option value="Customer">Customer</option>
-              <option value="Agent">Agent</option>
-              <option value="ClaimOfficer">Claims Officer</option>
-              <option value="Admin">Admin</option>
-            </select>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+              [class.bg-blue-100]="u.role === 'Customer'" [class.text-blue-800]="u.role === 'Customer'"
+              [class.bg-teal-100]="u.role === 'Agent'" [class.text-teal-800]="u.role === 'Agent'"
+              [class.bg-orange-100]="u.role === 'ClaimOfficer'" [class.text-orange-800]="u.role === 'ClaimOfficer'"
+              [class.bg-violet-100]="u.role === 'Admin'" [class.text-violet-800]="u.role === 'Admin'">
+              {{ u.role === 'ClaimOfficer' ? 'Claims Officer' : u.role }}
+            </span>
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
             <div class="flex items-center justify-end gap-3">
-              <span class="text-gray-400 italic text-xs">Auto-saves</span>
               <button (click)="deleteUser(u.id, u.firstName + ' ' + u.lastName)"
                 class="text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-md transition-colors text-xs font-bold border border-red-200 shadow-sm">
                 Delete

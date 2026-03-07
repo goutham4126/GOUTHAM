@@ -23,3 +23,15 @@ namespace Application.DTOs;
         string Role,
         string Token
     );
+
+    public record RegisterEmployeeDto(
+        string FirstName,
+        string LastName,
+        string Email,
+        string Password,
+        string Role,
+        string? GovernmentId,
+        string? Address,
+        string? Phone,
+        DateTime? DateOfBirth
+    );

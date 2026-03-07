@@ -492,5 +492,21 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.UsersController",
+    "Method": "RegisterEmployee",
+    "RelativePath": "api/users/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Application.DTOs.RegisterEmployeeDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

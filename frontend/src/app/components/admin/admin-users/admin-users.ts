@@ -86,23 +86,6 @@ export class AdminUsers implements OnInit {
     });
   }
 
-  updateRole(userId: string, newRole: string) {
-    this.toastService.confirm('Change Role', `Are you sure you want to change this user's role to ${newRole}?`, () => {
-      this.userService.updateUserRole(userId, { role: newRole }).subscribe({
-        next: () => {
-          this.toastService.success(`Role successfully updated to ${newRole}`);
-          this.loadUsers();
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastService.error('Failed to update role.');
-          this.loadUsers();
-        }
-      });
-    }, () => {
-      this.loadUsers();
-    });
-  }
 
   deleteUser(userId: string, name: string) {
     this.toastService.confirm('Delete User', `Are you sure you want to delete user ${name}? This action cannot be undone.`, () => {

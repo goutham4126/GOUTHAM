@@ -54,6 +54,45 @@ namespace Application.Services
             );
         }
 
+        public async Task<AuthResultDto> RegisterEmployeeAsync(RegisterEmployeeDto request)
+        {
+            var email = request.Email.Trim().ToLower();
+
+            if (await _userRepository.EmailExistsAsync(email))
+                throw new InvalidOperationException("Email already registered.");
+
+            if (!Enum.TryParse<UserRole>(request.Role, true, out var role) || 
+                (role != UserRole.Agent && role != UserRole.ClaimOfficer))
+            {
+                throw new ArgumentException("Invalid role specified. Only Agent or ClaimOfficer allowed.");
+            }
+
+            var user = new User
+            {
+                FirstName = request.FirstName.Trim(),
+                LastName = request.LastName.Trim(),
+                Email = email,
+                PasswordHash = _passwordService.HashPassword(request.Password),
+                GovernmentId = request.GovernmentId,
+                Address = request.Address,
+                Phone = request.Phone,
+                DateOfBirth = request.DateOfBirth,
+                Role = role
+            };
+
+            await _userRepository.AddAsync(user);
+
+            // Return a null Token or don't generate token for an admin registering others.
+            // But we need to match AuthResultDto signature. Returning empty string for Token
+            return new AuthResultDto(
+                user.Id,
+                $"{user.FirstName} {user.LastName}",
+                user.Email,
+                user.Role.ToString(),
+                string.Empty
+            );
+        }
+
         public async Task<AuthResultDto> LoginAsync(LoginDto request)
         {
             var email = request.Email.Trim().ToLower();

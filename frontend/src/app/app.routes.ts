@@ -49,6 +49,18 @@ export const routes: Routes = [
         canActivate: [authGuard, roleGuard],
         data: { role: 'Admin' }
     },
+    {
+        path: 'admin/register-agent',
+        loadComponent: () => import('./components/admin/admin-register-employee/admin-register-employee').then(m => m.AdminRegisterEmployee),
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'Admin' }
+    },
+    {
+        path: 'admin/register-claims-officer',
+        loadComponent: () => import('./components/admin/admin-register-employee/admin-register-employee').then(m => m.AdminRegisterEmployee),
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'Admin' }
+    },
 
     // Customer Routes
     {

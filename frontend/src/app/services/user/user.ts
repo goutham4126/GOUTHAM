@@ -23,6 +23,10 @@ export class UserService {
         return this.http.get<UserDto[]>(this.apiUrl);
     }
 
+    public registerEmployee(dto: any): Observable<any> {
+        return this.http.post(`${this.apiUrl}/register`, dto);
+    }
+
     public updateUserRole(id: string, dto: UpdateRoleDto): Observable<any> {
         return this.http.put(`${this.apiUrl}/${id}/role`, dto);
     }

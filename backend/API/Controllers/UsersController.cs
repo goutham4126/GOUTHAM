@@ -1,4 +1,5 @@
-﻿using Application.DTOs.Users;
+﻿using Application.DTOs;
+using Application.DTOs.Users;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +12,12 @@ namespace API.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IUserRepository _repository;
+    private readonly IAuthService _authService;
 
-    public UsersController(IUserRepository repository)
+    public UsersController(IUserRepository repository, IAuthService authService)
     {
         _repository = repository;
+        _authService = authService;
     }
 
     private Guid GetUserId()
@@ -128,5 +131,13 @@ public class UsersController : ControllerBase
         await _repository.DeleteAsync(id);
 
         return Ok("User deleted successfully.");
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPost("register")]
+    public async Task<IActionResult> RegisterEmployee([FromBody] RegisterEmployeeDto request)
+    {
+        var result = await _authService.RegisterEmployeeAsync(request);
+        return Ok(result);
     }
 }

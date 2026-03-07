@@ -99,6 +99,14 @@
       class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
       System Claims
     </a>
+    <a (click)="onLinkClick()" routerLink="/admin/register-agent" routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
+      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
+      Agent Registration
+    </a>
+    <a (click)="onLinkClick()" routerLink="/admin/register-claims-officer" routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
+      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
+      Claims Officer Registration
+    </a>
     <!-- Profile -->
     <div class="my-2 border-t border-gray-100 dark:border-gray-800 mx-2"></div>
     <a (click)="onLinkClick()" routerLink="/admin/profile" routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
