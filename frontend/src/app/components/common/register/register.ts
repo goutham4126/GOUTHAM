@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -15,6 +15,7 @@ export class Register {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
   registerForm = this.fb.group({
     firstName: ['', Validators.required],
@@ -35,6 +36,7 @@ export class Register {
 
     this.loading = true;
     this.error = '';
+    this.cdr.detectChanges();
 
     const raw = this.registerForm.getRawValue();
     // Send empty strings as null/undefined so backend doesn't store blank values
@@ -53,6 +55,7 @@ export class Register {
       error: (err) => {
         this.error = err?.error?.title || 'Registration failed. Please try again.';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

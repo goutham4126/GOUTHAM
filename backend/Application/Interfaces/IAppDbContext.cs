@@ -13,6 +13,7 @@ namespace Application.Interfaces
         DbSet<ClaimPayment> ClaimPayments { get; }
         DbSet<Invoice> Invoices { get; }
         DbSet<Notification> Notifications { get; }
+        DbSet<PolicyRequest> PolicyRequests { get; }
 
         Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade Database { get; }
 

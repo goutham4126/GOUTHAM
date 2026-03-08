@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -15,6 +15,7 @@ export class Login {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
@@ -29,6 +30,7 @@ export class Login {
 
     this.loading = true;
     this.error = '';
+    this.cdr.detectChanges();
 
     this.authService.login(this.loginForm.getRawValue() as any).subscribe({
       next: (res) => {
@@ -44,6 +46,7 @@ export class Login {
       error: () => {
         this.error = 'Invalid credentials. Please try again.';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

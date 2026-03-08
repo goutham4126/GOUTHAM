@@ -61,7 +61,7 @@ namespace Application.Services
                     .Where(u => u.Role == UserRole.ClaimOfficer && !u.IsDeleted)
                     .Select(u => new {
                         u.Id,
-                        PendingCount = u.Claims.Count(c => c.Status == ClaimStatus.Pending)
+                        PendingCount = _context.Claims.Count(c => c.ClaimOfficerId == u.Id && c.Status == ClaimStatus.Pending)
                     })
                     .ToListAsync();
 

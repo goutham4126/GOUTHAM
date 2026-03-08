@@ -51,8 +51,17 @@ namespace Application.Services
 
             var riskScore = CalculateRiskScore(plan, durationMonths, paymentFrequency);
 
-            var agents = await _context.Users.Where(u => u.Role == UserRole.Agent).ToListAsync();
-            Guid? assignedAgentId = agents.Any() ? agents[new Random().Next(agents.Count)].Id : (Guid?)null;
+            var agents = await _context.Users
+                .Where(u => u.Role == UserRole.Agent && !u.IsDeleted)
+                .Select(u => new {
+                    u.Id,
+                    PendingCount = _context.PolicyRequests.Count(pr => pr.AgentId == u.Id && pr.Status == PolicyRequestStatus.Pending)
+                })
+                .ToListAsync();
+
+            Guid? assignedAgentId = agents.Any() 
+                ? agents.OrderBy(a => a.PendingCount).First().Id 
+                : (Guid?)null;
 
             var request = new PolicyRequest
             {

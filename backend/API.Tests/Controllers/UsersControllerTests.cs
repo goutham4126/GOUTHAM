@@ -14,13 +14,15 @@ namespace API.Tests.Controllers
     public class UsersControllerTests
     {
         private readonly Mock<IUserRepository> _userRepoMock;
+        private readonly Mock<IAuthService> _authServiceMock;
         private readonly UsersController _controller;
         private readonly Guid _userId;
 
         public UsersControllerTests()
         {
             _userRepoMock = new Mock<IUserRepository>();
-            _controller = new UsersController(_userRepoMock.Object);
+            _authServiceMock = new Mock<IAuthService>();
+            _controller = new UsersController(_userRepoMock.Object, _authServiceMock.Object);
             _userId = Guid.NewGuid();
 
             var claims = new List<SecurityClaim>
