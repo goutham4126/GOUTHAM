@@ -18,6 +18,7 @@ namespace Application.Services
         private readonly IInvoiceGeneratorService _invoiceGenerator;
         private readonly ILogger<PolicyService> _logger;
         private readonly INotificationService _notificationService;
+        private readonly IWebhookNotificationService _webhookNotificationService;
 
         public PolicyService(
         IPolicyRepository policyRepo,
@@ -28,7 +29,8 @@ namespace Application.Services
         IVercelBlobService blobService,
         IInvoiceGeneratorService invoiceGenerator,
         ILogger<PolicyService> logger,
-        INotificationService notificationService)
+        INotificationService notificationService,
+        IWebhookNotificationService webhookNotificationService)
         {
             _policyRepo = policyRepo;
             _planRepo = planRepo;
@@ -39,6 +41,7 @@ namespace Application.Services
             _invoiceGenerator = invoiceGenerator;
             _logger = logger;
             _notificationService = notificationService;
+            _webhookNotificationService = webhookNotificationService;
         }
 
         public async Task<PolicyDto> PurchasePolicyAsync(Guid userId, Guid requestId)
@@ -197,6 +200,15 @@ namespace Application.Services
                     "Policy Purchased",
                     $"Successfully purchased policy based on the {plan.Name} plan."
                 );
+
+                // Trigger n8n Webhook
+                if (customer != null)
+                {
+                    _ = _webhookNotificationService.SendPolicyPurchaseEmailAsync(
+                        customer.Email,
+                        $"{customer.FirstName} {customer.LastName}",
+                        plan.Name);
+                }
 
                 // Load navigation properties for DTO mapping
                 var fullPolicy = await _context.Policies

@@ -3,7 +3,10 @@ using Application.Services;
 using Domain.Entities;
 using Domain.Enums;
 using Moq;
-
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 namespace Application.Tests.Services
 {
     public class PolicyServiceTests
@@ -17,6 +20,7 @@ namespace Application.Tests.Services
         private readonly Mock<IInvoiceGeneratorService> _invoiceMock;
         private readonly Mock<Microsoft.Extensions.Logging.ILogger<PolicyService>> _loggerMock;
         private readonly Mock<INotificationService> _notificationMock;
+        private readonly Mock<IWebhookNotificationService> _webhookNotificationMock;
         private readonly PolicyService _service;
 
         public PolicyServiceTests()
@@ -30,6 +34,7 @@ namespace Application.Tests.Services
             _invoiceMock = new Mock<IInvoiceGeneratorService>();
             _loggerMock = new Mock<Microsoft.Extensions.Logging.ILogger<PolicyService>>();
             _notificationMock = new Mock<INotificationService>();
+            _webhookNotificationMock = new Mock<IWebhookNotificationService>();
 
             _service = new PolicyService(
                 _policyRepoMock.Object,
@@ -40,7 +45,8 @@ namespace Application.Tests.Services
                 _blobMock.Object,
                 _invoiceMock.Object,
                 _loggerMock.Object,
-                _notificationMock.Object);
+                _notificationMock.Object,
+                _webhookNotificationMock.Object);
         }
 
         [Fact]

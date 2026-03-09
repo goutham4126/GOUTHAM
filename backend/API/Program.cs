@@ -51,6 +51,7 @@ namespace API
             builder.Services.AddScoped<IClaimService, ClaimService>();
 
             builder.Services.AddHttpClient<IVercelBlobService, VercelBlobService>();
+            builder.Services.AddHttpClient<IWebhookNotificationService, WebhookNotificationService>();
             builder.Services.AddScoped<IInvoiceGeneratorService, InvoiceGeneratorService>();
             builder.Services.AddScoped<INotificationService, NotificationService>();
             builder.Services.AddSignalR();
