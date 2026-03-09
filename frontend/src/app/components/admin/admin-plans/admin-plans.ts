@@ -19,6 +19,7 @@ export class AdminPlans implements OnInit {
 
   plans: PlanDto[] = [];
   loadingPlans = true;
+  editingPlanId: string | null = null;
 
   private fb = inject(FormBuilder);
   planForm: FormGroup = this.fb.group({
@@ -37,7 +38,7 @@ export class AdminPlans implements OnInit {
 
   loadPlans() {
     this.loadingPlans = true;
-    this.planService.getAllPlans().subscribe({
+    this.planService.getAllPlans(true).subscribe({
       next: (data) => {
         this.plans = data;
         this.loadingPlans = false;
@@ -50,30 +51,100 @@ export class AdminPlans implements OnInit {
     });
   }
 
+  editPlan(plan: PlanDto) {
+    this.editingPlanId = plan.id;
+    this.planForm.patchValue({
+      name: plan.name,
+      description: plan.description,
+      premiumAmount: plan.premiumAmount,
+      coverageAmount: plan.coverageAmount,
+      durationInMonths: plan.durationInMonths,
+      paymentFrequency: plan.paymentFrequency,
+      planType: plan.planType
+    });
+    // Scroll to form (optional, for UX)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  cancelEdit() {
+    this.editingPlanId = null;
+    this.resetForm();
+  }
+
+  resetForm() {
+    this.planForm.reset({
+      name: '',
+      description: '',
+      premiumAmount: 0,
+      coverageAmount: 0,
+      durationInMonths: 12,
+      paymentFrequency: 'Monthly',
+      planType: 'Casualty'
+    });
+  }
+
   createPlan() {
     if (this.planForm.valid) {
-      this.planService.createPlan(this.planForm.value).subscribe({
+      if (this.editingPlanId) {
+        this.planService.updatePlan(this.editingPlanId, this.planForm.value).subscribe({
+          next: () => {
+            this.loadPlans();
+            this.resetForm();
+            this.editingPlanId = null;
+            this.toastService.success('Insurance Plan updated successfully!');
+            this.cdr.detectChanges();
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastService.error('Failed to update plan. Please verify the inputs.');
+          }
+        });
+      } else {
+        this.planService.createPlan(this.planForm.value).subscribe({
+          next: () => {
+            this.loadPlans();
+            this.resetForm();
+            this.toastService.success('Insurance Plan created successfully!');
+            this.cdr.detectChanges();
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastService.error('Failed to create plan. Please verify the inputs.');
+          }
+        });
+      }
+    } else {
+      this.toastService.warning('Please fill out all required fields properly.');
+    }
+  }
+
+  deletePlan(id: string) {
+    if (confirm('Are you sure you want to deactivate this package?')) {
+      this.planService.deletePlan(id).subscribe({
         next: () => {
           this.loadPlans();
-          this.planForm.reset({
-            name: '',
-            description: '',
-            premiumAmount: 0,
-            coverageAmount: 0,
-            durationInMonths: 12,
-            paymentFrequency: 'Monthly',
-            planType: 'Casualty'
-          });
-          this.toastService.success('Insurance Plan created successfully!');
+          this.toastService.success('Plan deactivated successfully');
           this.cdr.detectChanges();
         },
         error: (err) => {
           console.error(err);
-          this.toastService.error('Failed to create plan. Please verify the inputs.');
+          this.toastService.error('Failed to deactivate plan.');
         }
       });
-    } else {
-      this.toastService.warning('Please fill out all required fields properly.');
     }
+  }
+
+  resumePlan(id: string) {
+    this.planService.resumePlan(id).subscribe({
+      next: () => {
+        this.loadPlans();
+        this.toastService.success('Plan reactivated successfully');
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastService.error('Failed to reactivate plan.');
+      }
+    });
   }
 }

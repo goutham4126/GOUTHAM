@@ -59,7 +59,7 @@ export class AdminRegisterEmployee implements OnInit {
                 this.toastService.success(`${this.role === 'Agent' ? 'Agent' : 'Claims Officer'} registered successfully!`);
                 this.registerForm.reset({ role: this.role });
                 this.isSubmitting = false;
-                this.router.navigate(['/admin/users']);
+                this.router.navigate(['/admin/dashboard']);
             },
             error: (err: any) => {
                 const message = err.error?.message || err.error || 'Failed to register employee';

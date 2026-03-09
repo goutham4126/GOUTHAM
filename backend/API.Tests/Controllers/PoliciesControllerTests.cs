@@ -36,7 +36,7 @@ namespace API.Tests.Controllers
         }
 
         private PlanDto CreatePlanDto() =>
-            new PlanDto(Guid.NewGuid(), "Gold", "D", 100, 50000, 12, "Monthly", "Health");
+            new PlanDto(Guid.NewGuid(), "Gold", "D", 100, 50000, 12, "Monthly", "Health", true);
 
         private PolicyDto CreatePolicyDto(Guid? id = null) =>
             new PolicyDto(

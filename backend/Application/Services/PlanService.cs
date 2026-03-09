@@ -13,9 +13,9 @@ namespace Application.Services
             _repository = repository;
         }
 
-        public async Task<List<PlanDto>> GetAllAsync()
+        public async Task<List<PlanDto>> GetAllAsync(bool includeInactive = false)
         {
-            var plans = await _repository.GetAllAsync();
+            var plans = await _repository.GetAllAsync(includeInactive);
             return plans.Select(MapToDto).ToList();
         }
 
@@ -66,6 +66,15 @@ namespace Application.Services
             await _repository.DeleteAsync(plan);
         }
 
+        public async Task ResumeAsync(Guid id)
+        {
+            var plan = await _repository.GetByIdAsync(id)
+                ?? throw new Exception("Plan not found");
+
+            plan.IsActive = true;
+            await _repository.UpdateAsync(plan);
+        }
+
         private static PlanDto MapToDto(Plan plan)
         {
             return new PlanDto(
@@ -76,7 +85,8 @@ namespace Application.Services
                 plan.CoverageAmount,
                 plan.DurationInMonths,
                 plan.PaymentFrequency,
-                plan.PlanType
+                plan.PlanType,
+                plan.IsActive
             );
         }
     }

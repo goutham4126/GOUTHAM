@@ -14,11 +14,14 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<List<Plan>> GetAllAsync()
+        public async Task<List<Plan>> GetAllAsync(bool includeInactive = false)
         {
-            return await _context.Plans
-                .Where(p => p.IsActive)
-                .ToListAsync();
+            var query = _context.Plans.AsQueryable();
+            if (!includeInactive)
+            {
+                query = query.Where(p => p.IsActive);
+            }
+            return await query.ToListAsync();
         }
 
         public async Task<Plan?> GetByIdAsync(Guid id)

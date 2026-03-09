@@ -18,9 +18,9 @@ public class PlansController : ControllerBase
 
     [Authorize(Roles = "Customer,Admin")]
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] bool includeInactive = false)
     {
-        var plans = await _planService.GetAllAsync();
+        var plans = await _planService.GetAllAsync(includeInactive);
         return Ok(plans);
     }
 
@@ -57,5 +57,13 @@ public class PlansController : ControllerBase
     {
         await _planService.DeleteAsync(id);
         return Ok("Plan deactivated");
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPut("{id:guid}/resume")]
+    public async Task<IActionResult> Resume(Guid id)
+    {
+        await _planService.ResumeAsync(id);
+        return Ok("Plan reactivated successfully");
     }
 }

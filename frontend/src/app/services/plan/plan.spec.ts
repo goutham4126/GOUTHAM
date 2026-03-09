@@ -20,7 +20,7 @@ describe('PlanService', () => {
 
   it('should get all plans via GET', () => {
     service.getAllPlans().subscribe(plans => { expect(plans.length).toBe(1); });
-    const req = httpMock.expectOne(baseUrl);
+    const req = httpMock.expectOne(`${baseUrl}?includeInactive=false`);
     expect(req.request.method).toBe('GET');
     req.flush([mockPlan]);
   });

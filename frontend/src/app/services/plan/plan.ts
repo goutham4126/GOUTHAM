@@ -11,8 +11,8 @@ export class PlanService {
 
     constructor(private http: HttpClient) { }
 
-    public getAllPlans(): Observable<PlanDto[]> {
-        return this.http.get<PlanDto[]>(this.apiUrl);
+    public getAllPlans(includeInactive: boolean = false): Observable<PlanDto[]> {
+        return this.http.get<PlanDto[]>(`${this.apiUrl}?includeInactive=${includeInactive}`);
     }
 
     public getPlanById(id: string): Observable<PlanDto> {
@@ -28,6 +28,10 @@ export class PlanService {
     }
 
     public deletePlan(id: string): Observable<any> {
-        return this.http.delete(`${this.apiUrl}/${id}`);
+        return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' });
+    }
+
+    public resumePlan(id: string): Observable<any> {
+        return this.http.put(`${this.apiUrl}/${id}/resume`, {}, { responseType: 'text' });
     }
 }

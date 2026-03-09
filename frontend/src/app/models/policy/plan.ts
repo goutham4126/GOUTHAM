@@ -7,6 +7,7 @@ export interface PlanDto {
     durationInMonths: number;
     paymentFrequency: string;
     planType: string;
+    isActive?: boolean;
 }
 
 export interface CreatePlanDto {

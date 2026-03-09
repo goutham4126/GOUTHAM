@@ -61,7 +61,7 @@ describe('Register', () => {
   it('should navigate to /login on successful registration', () => {
     mockAuthService.register.and.returnValue(of({}));
     component.registerForm.setValue({
-      firstName: 'John', lastName: 'Doe', email: 'john@test.com', password: 'pass123',
+      firstName: 'John', lastName: 'Doe', email: 'john@test.com', password: 'password123',
       governmentId: '', phone: '', dateOfBirth: '', address: ''
     });
     component.onSubmit();
@@ -71,7 +71,7 @@ describe('Register', () => {
   it('should set error on registration failure', () => {
     mockAuthService.register.and.returnValue(throwError(() => ({ error: { title: 'Email already exists' } })));
     component.registerForm.setValue({
-      firstName: 'John', lastName: 'Doe', email: 'john@test.com', password: 'pass123',
+      firstName: 'John', lastName: 'Doe', email: 'john@test.com', password: 'password123',
       governmentId: '', phone: '', dateOfBirth: '', address: ''
     });
     component.onSubmit();

@@ -335,7 +335,8 @@ namespace Application.Services
                     policy.Plan.CoverageAmount,
                     policy.Plan.DurationInMonths,
                     policy.Plan.PaymentFrequency,
-                    policy.Plan.PlanType
+                    policy.Plan.PlanType,
+                    policy.Plan.IsActive
                 ),
                 $"{policy.User.FirstName} {policy.User.LastName}",
                 policy.Agent != null

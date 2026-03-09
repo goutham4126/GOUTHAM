@@ -8,5 +8,6 @@ public record PlanDto(
     decimal CoverageAmount,
     int DurationInMonths,
     string PaymentFrequency,
-    string PlanType
+    string PlanType,
+    bool IsActive
 );

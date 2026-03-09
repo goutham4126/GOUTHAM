@@ -22,12 +22,7 @@ export const routes: Routes = [
     // Admin Routes
     {
         path: 'admin/dashboard',
-        redirectTo: 'admin/users',
-        pathMatch: 'full'
-    },
-    {
-        path: 'admin/users',
-        loadComponent: () => import('./components/admin/admin-users/admin-users').then(m => m.AdminUsers),
+        loadComponent: () => import('./components/admin/admin-dashboard/admin-dashboard').then(m => m.AdminDashboard),
         canActivate: [authGuard, roleGuard],
         data: { role: 'Admin' }
     },

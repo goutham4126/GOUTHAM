@@ -82,9 +82,10 @@
     }
     <!-- Admin Links -->
     @if (authService.getRole() === 'Admin') {
-    <a (click)="onLinkClick()" routerLink="/admin/users" routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
+    <a (click)="onLinkClick()" routerLink="/admin/dashboard"
+      routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
       class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors">
-      Manage Users
+      Dashboard
     </a>
     <a (click)="onLinkClick()" routerLink="/admin/plans" routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
       class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
@@ -99,11 +100,13 @@
       class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
       System Claims
     </a>
-    <a (click)="onLinkClick()" routerLink="/admin/register-agent" routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
+    <a (click)="onLinkClick()" routerLink="/admin/register-agent"
+      routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
       class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
       Agent Registration
     </a>
-    <a (click)="onLinkClick()" routerLink="/admin/register-claims-officer" routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
+    <a (click)="onLinkClick()" routerLink="/admin/register-claims-officer"
+      routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
       class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
       Claims Officer Registration
     </a>

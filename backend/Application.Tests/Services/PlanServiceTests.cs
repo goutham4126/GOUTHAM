@@ -25,7 +25,7 @@ namespace Application.Tests.Services
                 new Plan { Name = "Gold", Description = "D1", PremiumAmount = 100, CoverageAmount = 50000, DurationInMonths = 12, PaymentFrequency = "Monthly", PlanType = "Health" },
                 new Plan { Name = "Silver", Description = "D2", PremiumAmount = 50, CoverageAmount = 25000, DurationInMonths = 6, PaymentFrequency = "Quarterly", PlanType = "Life" }
             };
-            _repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(plans);
+            _repoMock.Setup(r => r.GetAllAsync(It.IsAny<bool>())).ReturnsAsync(plans);
 
             var result = await _service.GetAllAsync();
 

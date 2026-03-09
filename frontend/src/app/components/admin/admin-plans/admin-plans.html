@@ -2,8 +2,10 @@
   <!-- Header -->
   <div class="flex items-center justify-between">
     <div>
-      <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">Insurance Plans Configuration</h2>
-      <p class="mt-1 text-sm text-gray-500 dark:text-white font-semibold">Design and publish new insurance products for your customers.</p>
+      <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">Insurance Plans Configuration
+      </h2>
+      <p class="mt-1 text-sm text-gray-500 dark:text-white font-semibold">Design and publish new insurance products for
+        your customers.</p>
     </div>
     <div class="bg-violet-100 p-3 rounded-2xl flex items-center justify-center">
       <svg class="w-8 h-8 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -17,20 +19,28 @@
   <div
     class="bg-white rounded-3xl shadow-xl shadow-violet-100/50 border border-gray-100 overflow-hidden transition-all relative">
     <div class="absolute top-0 left-0 w-full h-1 bg-violet-500"></div>
-    <div class="px-8 py-6 border-b border-gray-50 flex items-center gap-3">
-      <div class="bg-violet-50 p-2 rounded-lg text-violet-600">
-        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-        </svg>
+    <div class="px-8 py-6 border-b border-gray-50 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="bg-violet-50 p-2 rounded-lg text-violet-600">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-gray-900">{{ editingPlanId ? 'Edit Package' : 'Create New Package' }}</h3>
       </div>
-      <h3 class="text-lg font-bold text-gray-900">Create New Package</h3>
+      @if (editingPlanId) {
+      <button type="button" (click)="cancelEdit()"
+        class="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+        Cancel Edit
+      </button>
+      }
     </div>
 
     <div class="p-8">
-      <form (ngSubmit)="createPlan()" [formGroup]="planForm" class="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-6">
+      <form (ngSubmit)="createPlan()" [formGroup]="planForm" class="grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-6">
 
         <!-- Left Column -->
-        <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div class="sm:col-span-2">
             <label class="block text-sm font-semibold text-gray-700 mb-2">Package Name</label>
             <input type="text" formControlName="name" placeholder="e.g., Premium Auto Cover"
@@ -67,7 +77,7 @@
         </div>
 
         <!-- Right Column (Settings) -->
-        <div class="md:col-span-4 bg-gray-50/50 p-6 rounded-2xl border border-gray-100 flex flex-col gap-6">
+        <div class="lg:col-span-4 bg-gray-50/50 p-6 rounded-2xl border border-gray-100 flex flex-col gap-6">
           <h4 class="text-xs font-bold uppercase tracking-widest text-gray-400">Settings</h4>
 
           <div>
@@ -111,13 +121,13 @@
         </div>
 
         <!-- Submit -->
-        <div class="md:col-span-12 flex justify-end mt-4 pt-6 border-t border-gray-100">
+        <div class="lg:col-span-12 flex justify-end mt-4 pt-6 border-t border-gray-100">
           <button type="submit" [disabled]="!planForm.valid"
             class="px-8 py-3.5 bg-violet-600 text-white font-bold rounded-xl hover:bg-violet-700 active:bg-violet-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-violet-200 flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
-            Publish Insurance Plan
+            {{ editingPlanId ? 'Update Package' : 'Publish Insurance Plan' }}
           </button>
         </div>
       </form>
@@ -146,6 +156,8 @@
               Premium</th>
             <th scope="col" class="px-8 py-5 text-right text-xs font-bold text-gray-400 uppercase tracking-wider">
               Coverage Limit</th>
+            <th scope="col" class="px-8 py-5 text-center text-xs font-bold text-gray-400 uppercase tracking-wider">
+              Actions</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-50">
@@ -198,6 +210,45 @@
             <td class="px-8 py-5 whitespace-nowrap text-right">
               <div class="text-sm font-bold text-violet-600 bg-violet-50 inline-block px-3 py-1 rounded-lg">₹{{
                 p.coverageAmount | number:'1.2-2' }}</div>
+            </td>
+            <td class="px-8 py-5 whitespace-nowrap text-center">
+              <div class="flex justify-center gap-2 relative">
+                @if (!p.isActive) {
+                <span
+                  class="absolute -top-6 text-[10px] font-bold text-rose-500 uppercase tracking-wider bg-rose-50 px-2 py-0.5 rounded-md">Inactive</span>
+                }
+
+                <button type="button" (click)="editPlan(p)"
+                  class="p-2 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors" title="Edit Plan">
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                    </path>
+                  </svg>
+                </button>
+
+                @if (p.isActive) {
+                <button type="button" (click)="deletePlan(p.id)"
+                  class="p-2 text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors"
+                  title="Deactivate Plan">
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                    </path>
+                  </svg>
+                </button>
+                } @else {
+                <button type="button" (click)="resumePlan(p.id)"
+                  class="p-2 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
+                  title="Reactivate Plan">
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                    </path>
+                  </svg>
+                </button>
+                }
+              </div>
             </td>
           </tr>
           }
