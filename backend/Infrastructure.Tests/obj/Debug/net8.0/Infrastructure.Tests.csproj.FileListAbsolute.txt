@@ -197,3 +197,5 @@ C:\Users\DELL\Desktop\GOUTHAM\backend\Infrastructure.Tests\obj\Debug\net8.0\refi
 C:\Users\DELL\Desktop\GOUTHAM\backend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.pdb
 C:\Users\DELL\Desktop\GOUTHAM\backend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.genruntimeconfig.cache
 C:\Users\DELL\Desktop\GOUTHAM\backend\Infrastructure.Tests\obj\Debug\net8.0\ref\Infrastructure.Tests.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\Infrastructure.Tests\bin\Debug\net8.0\AgoraIO.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\Infrastructure.Tests\bin\Debug\net8.0\Crc32.NET.dll

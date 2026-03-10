@@ -1,0 +1,322 @@
+/* ============================== */
+/* Incoming Call – Premium Overlay */
+/* ============================== */
+
+.incoming-call-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: backdropIn 0.3s ease-out;
+}
+
+@keyframes backdropIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.incoming-call-card {
+    position: relative;
+    width: 380px;
+    max-width: 90vw;
+    border-radius: 28px;
+    background: linear-gradient(145deg, #1e1b4b, #0f0e26);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    box-shadow:
+        0 0 60px rgba(124, 58, 237, 0.15),
+        0 25px 50px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    animation: cardSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes cardSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.85) translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Background decorative rings */
+.bg-rings {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.bg-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(139, 92, 246, 0.08);
+}
+
+.ring-1 {
+    width: 300px;
+    height: 300px;
+    top: -100px;
+    right: -100px;
+    animation: rotateSlow 20s linear infinite;
+}
+
+.ring-2 {
+    width: 200px;
+    height: 200px;
+    bottom: -50px;
+    left: -50px;
+    animation: rotateSlow 15s linear infinite reverse;
+}
+
+.ring-3 {
+    width: 400px;
+    height: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: rotateSlow 25s linear infinite;
+}
+
+@keyframes rotateSlow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Card content */
+.card-content {
+    position: relative;
+    z-index: 1;
+    padding: 40px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Caller section */
+.caller-section {
+    margin-bottom: 24px;
+}
+
+.incoming-pulse-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.incoming-pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.15);
+    animation: incomingPulse 2s ease-out infinite;
+}
+
+.incoming-pulse-delay-1 {
+    animation-delay: 0.5s;
+}
+
+.incoming-pulse-delay-2 {
+    animation-delay: 1s;
+}
+
+@keyframes incomingPulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+
+.caller-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #10b981, #059669);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+    z-index: 2;
+    animation: iconBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes iconBounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+/* Call info */
+.call-info {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.call-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #10b981;
+    margin-bottom: 8px;
+    animation: labelFade 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes labelFade {
+    from {
+        opacity: 0.6;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.caller-name {
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+}
+
+.claim-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+}
+
+.call-subtitle {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+/* Action buttons */
+.action-buttons {
+    display: flex;
+    gap: 24px;
+    width: 100%;
+    justify-content: center;
+}
+
+.decline-btn,
+.accept-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s ease;
+}
+
+.decline-btn:hover,
+.accept-btn:hover {
+    transform: scale(1.1);
+}
+
+.decline-btn:active,
+.accept-btn:active {
+    transform: scale(0.95);
+}
+
+.btn-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow 0.2s ease;
+}
+
+.decline-icon-bg {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+}
+
+.decline-icon-bg:hover {
+    box-shadow: 0 6px 28px rgba(239, 68, 68, 0.5);
+}
+
+.accept-icon-bg {
+    background: linear-gradient(135deg, #10b981, #059669);
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+    animation: acceptGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes acceptGlow {
+    from {
+        box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    to {
+        box-shadow: 0 6px 32px rgba(16, 185, 129, 0.5);
+    }
+}
+
+.btn-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+    .incoming-call-card {
+        border-radius: 20px;
+    }
+
+    .card-content {
+        padding: 28px 20px 24px;
+    }
+
+    .caller-name {
+        font-size: 20px;
+    }
+}

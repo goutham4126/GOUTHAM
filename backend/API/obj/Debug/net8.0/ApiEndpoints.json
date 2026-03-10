@@ -1,5 +1,21 @@
 [
   {
+    "ContainingType": "API.Controllers.AgoraController",
+    "Method": "GetToken",
+    "RelativePath": "api/agora/token",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "channelName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "API.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/auth/login",

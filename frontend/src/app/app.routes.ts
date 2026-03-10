@@ -127,6 +127,13 @@ export const routes: Routes = [
         data: { role: 'ClaimOfficer' }
     },
 
+    // Video Call Route (shared between Officer and Customer)
+    {
+        path: 'video-call/:claimId',
+        loadComponent: () => import('./components/common/video-call/video-call').then(m => m.VideoCall),
+        canActivate: [authGuard]
+    },
+
     // Profile Routes (shared component, per-role access)
     {
         path: 'customer/profile',

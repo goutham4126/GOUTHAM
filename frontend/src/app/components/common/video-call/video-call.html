@@ -1,0 +1,204 @@
+<!-- Full-screen Video Call UI -->
+<div class="video-call-container">
+
+    <!-- Calling State (Officer waiting for customer) -->
+    @if (videoCallService.callState() === 'calling') {
+    <div class="state-overlay">
+        <div class="calling-card">
+            <div class="pulse-ring-wrapper">
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring delay-1"></div>
+                <div class="pulse-ring delay-2"></div>
+                <div class="caller-avatar">
+                    <svg class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                    </svg>
+                </div>
+            </div>
+            <h2 class="text-2xl font-bold text-white mt-8 tracking-tight">Calling Customer...</h2>
+            <p class="text-violet-300 text-sm mt-2 font-medium">Waiting for them to accept the video call</p>
+            <div class="flex items-center gap-2 mt-4">
+                <span class="w-2 h-2 bg-violet-400 rounded-full animate-bounce"></span>
+                <span class="w-2 h-2 bg-violet-400 rounded-full animate-bounce" style="animation-delay: 0.15s"></span>
+                <span class="w-2 h-2 bg-violet-400 rounded-full animate-bounce" style="animation-delay: 0.3s"></span>
+            </div>
+            <button (click)="endCall()"
+                class="mt-8 px-8 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-2xl transition-all shadow-lg shadow-red-500/30 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 8l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M5 3a2 2 0 00-2 2v1c0 8.284 6.716 15 15 15h1a2 2 0 002-2v-3.28a1 1 0 00-.684-.948l-4.493-1.498a1 1 0 00-1.21.502l-1.13 2.257a11.042 11.042 0 01-5.516-5.517l2.257-1.128a1 1 0 00.502-1.21L9.228 3.683A1 1 0 008.279 3H5z" />
+                </svg>
+                Cancel Call
+            </button>
+        </div>
+    </div>
+    }
+
+    <!-- Connecting State (Customer joining channel after accepting) -->
+    @if (videoCallService.callState() === 'connecting') {
+    <div class="state-overlay">
+        <div class="calling-card">
+            <div class="pulse-ring-wrapper">
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring delay-1"></div>
+                <div class="pulse-ring delay-2"></div>
+                <div class="caller-avatar"
+                    style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 0 40px rgba(16, 185, 129, 0.3);">
+                    <svg class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                </div>
+            </div>
+            <h2 class="text-2xl font-bold text-white mt-8 tracking-tight">Connecting...</h2>
+            <p class="text-emerald-300 text-sm mt-2 font-medium">Setting up your camera and microphone</p>
+            <div class="flex items-center gap-2 mt-4">
+                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-bounce"></span>
+                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style="animation-delay: 0.15s"></span>
+                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style="animation-delay: 0.3s"></span>
+            </div>
+        </div>
+    </div>
+    }
+
+    <!-- In-Call State -->
+    @if (videoCallService.callState() === 'in-call') {
+    <!-- Remote Video (full screen) -->
+    <div class="remote-video-wrapper">
+        @if (videoCallService.remoteUsers().length > 0) {
+        <div #remoteVideoContainer class="remote-video-player"></div>
+        } @else {
+        <div class="waiting-remote">
+            <div class="remote-avatar-placeholder">
+                <svg class="w-20 h-20 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+            </div>
+            <p class="text-gray-400 mt-4 text-sm font-medium">Waiting for the other party to connect their video...</p>
+        </div>
+        }
+    </div>
+
+    <!-- Local Video (PIP) -->
+    <div class="local-video-pip" [class.video-off]="videoCallService.isVideoOff()">
+        @if (!videoCallService.isVideoOff()) {
+        <div #localVideoContainer class="local-video-player"></div>
+        } @else {
+        <div class="local-video-off">
+            <svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+            </svg>
+        </div>
+        }
+        <span class="pip-label">You</span>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <div class="flex items-center gap-3">
+                <div class="live-indicator">
+                    <span class="live-dot"></span>
+                    LIVE
+                </div>
+                <span class="claim-badge">
+                    Claim #{{ videoCallService.currentClaimId().substring(0, 8) }}
+                </span>
+            </div>
+            <div class="duration-badge">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {{ formatDuration(videoCallService.callDuration()) }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Controls Bar -->
+    <div class="controls-bar">
+        <div class="controls-inner">
+            <!-- Mute Toggle -->
+            <button (click)="toggleMute()" class="control-btn" [class.control-btn-active]="videoCallService.isMuted()">
+                @if (!videoCallService.isMuted()) {
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                </svg>
+                } @else {
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                </svg>
+                }
+                <span class="control-label">{{ videoCallService.isMuted() ? 'Unmute' : 'Mute' }}</span>
+            </button>
+
+            <!-- Video Toggle -->
+            <button (click)="toggleVideo()" class="control-btn"
+                [class.control-btn-active]="videoCallService.isVideoOff()">
+                @if (!videoCallService.isVideoOff()) {
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                } @else {
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                </svg>
+                }
+                <span class="control-label">{{ videoCallService.isVideoOff() ? 'Start Video' : 'Stop Video' }}</span>
+            </button>
+
+            <!-- End Call -->
+            <button (click)="endCall()" class="control-btn-end">
+                <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 8l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M5 3a2 2 0 00-2 2v1c0 8.284 6.716 15 15 15h1a2 2 0 002-2v-3.28a1 1 0 00-.684-.948l-4.493-1.498a1 1 0 00-1.21.502l-1.13 2.257a11.042 11.042 0 01-5.516-5.517l2.257-1.128a1 1 0 00.502-1.21L9.228 3.683A1 1 0 008.279 3H5z" />
+                </svg>
+                <span class="control-label">End Call</span>
+            </button>
+        </div>
+    </div>
+    }
+
+    <!-- Call Ended State -->
+    @if (videoCallService.callState() === 'ended') {
+    <div class="state-overlay">
+        <div class="ended-card">
+            <div class="ended-check">
+                <svg class="w-12 h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-white mt-6">Call Ended</h2>
+            <p class="text-gray-400 text-sm mt-2">Duration: {{ formatDuration(videoCallService.callDuration()) }}</p>
+            <p class="text-gray-500 text-xs mt-4">Redirecting back to dashboard...</p>
+        </div>
+    </div>
+    }
+
+    <!-- Idle State (navigated directly) -->
+    @if (videoCallService.callState() === 'idle') {
+    <div class="state-overlay">
+        <div class="idle-card">
+            <svg class="w-16 h-16 text-gray-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <h2 class="text-xl font-bold text-white">No Active Call</h2>
+            <p class="text-gray-400 text-sm mt-2">Navigate back to start a video verification.</p>
+            <button (click)="goBack()"
+                class="mt-6 px-6 py-2.5 bg-violet-600 hover:bg-violet-700 text-white font-semibold rounded-xl transition-all">
+                Go Back
+            </button>
+        </div>
+    </div>
+    }
+</div>

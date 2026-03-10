@@ -88,7 +88,8 @@ namespace API
                         var path = context.HttpContext.Request.Path;
                         
                         if (!string.IsNullOrEmpty(accessToken) && 
-                            path.StartsWithSegments("/hubs/notifications"))
+                            (path.StartsWithSegments("/hubs/notifications") ||
+                             path.StartsWithSegments("/hubs/videocall")))
                         {
                             context.Token = accessToken;
                         }
@@ -173,6 +174,7 @@ namespace API
 
             app.MapControllers();
             app.MapHub<API.Hubs.NotificationHub>("/hubs/notifications");
+            app.MapHub<API.Hubs.VideoCallHub>("/hubs/videocall");
 
             app.Run();
         }

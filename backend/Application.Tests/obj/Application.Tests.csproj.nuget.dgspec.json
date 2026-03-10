@@ -148,6 +148,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Agora-Token-Generator": {
+              "target": "Package",
+              "version": "[1.0.1, )"
+            },
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.1.0, )"

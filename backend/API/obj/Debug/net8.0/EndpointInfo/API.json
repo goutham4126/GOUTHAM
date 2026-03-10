@@ -5,6 +5,27 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/agora/token": {
+      "get": {
+        "tags": [
+          "Agora"
+        ],
+        "parameters": [
+          {
+            "name": "channelName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/auth/register": {
       "post": {
         "tags": [

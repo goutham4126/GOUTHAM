@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { ClaimService } from '../../../services/claim/claim';
 import { ClaimDto } from '../../../models/claim/claim';
 import { ToastService } from '../../../services/toast/toast';
+import { VideoCallService } from '../../../services/video-call/video-call.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-claims-officer-dashboard',
@@ -18,6 +20,8 @@ export class ClaimsOfficerDashboard implements OnInit {
   private claimService = inject(ClaimService);
   private toastService = inject(ToastService);
   private cdr = inject(ChangeDetectorRef);
+  public videoCallService = inject(VideoCallService);
+  private router = inject(Router);
 
   assignedClaims: ClaimDto[] = [];
   loading = true;
@@ -161,5 +165,10 @@ export class ClaimsOfficerDashboard implements OnInit {
         }
       });
     }
+  }
+
+  initiateVideoCall(claim: ClaimDto) {
+    this.videoCallService.initiateCall(claim.id);
+    this.router.navigate(['/video-call', claim.id]);
   }
 }
