@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PlanService } from '../../../services/plan/plan';
 import { PolicyRequestService } from '../../../services/policy-request/policy-request';
@@ -11,7 +11,7 @@ import { ToastService } from '../../../services/toast/toast';
 @Component({
     selector: 'app-customer-plans',
     standalone: true,
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, ReactiveFormsModule],
     templateUrl: './customer-plans.html'
 })
 export class CustomerPlans implements OnInit {
@@ -20,17 +20,18 @@ export class CustomerPlans implements OnInit {
     private toastService = inject(ToastService);
     public router = inject(Router);
     private cdr = inject(ChangeDetectorRef);
+    private fb = inject(FormBuilder);
 
     plans: PlanDto[] = [];
     loading = true;
 
     // Request Modal State
     selectedPlan: PlanDto | null = null;
-    durationInMonths: number = 12;
-    paymentFrequency: string = 'Monthly';
     isRequesting: boolean = false;
     panDocument: File | null = null;
     addressDocument: File | null = null;
+
+    requestForm!: FormGroup;
 
     // Success Dialog State
     successDialogVisible = false;
@@ -49,18 +50,88 @@ export class CustomerPlans implements OnInit {
                 this.cdr.detectChanges();
             }
         });
+
+        this.requestForm = this.fb.group({
+            paymentFrequency: ['Monthly', Validators.required],
+            durationInMonths: [12, [Validators.required]]
+        });
+
+        // Set the custom validator which depends on the plan
+        this.requestForm.get('durationInMonths')?.setValidators([
+            Validators.required,
+            this.durationValidator.bind(this)
+        ]);
+
+        // Re-validate duration when payment frequency changes
+        this.requestForm.get('paymentFrequency')?.valueChanges.subscribe(() => {
+            if (this.selectedPlan) {
+                this.requestForm.get('durationInMonths')?.updateValueAndValidity();
+                this.cdr.detectChanges();
+            }
+        });
+    }
+
+    /** Custom Validator for Duration based on Plan Duration and Payment Frequency */
+    durationValidator(control: AbstractControl): ValidationErrors | null {
+        if (!this.selectedPlan || !control.value) return null;
+
+        const duration = Number(control.value);
+        const frequency = this.requestForm.get('paymentFrequency')?.value;
+        const planDuration = this.selectedPlan.durationInMonths;
+
+        if (!Number.isInteger(duration)) {
+            return { 'notInteger': true };
+        }
+
+        if (duration < planDuration) {
+            return { 'minDuration': { required: planDuration, actual: duration } };
+        }
+
+        if (duration <= 0) {
+            return { 'min': true };
+        }
+
+        if (frequency === 'Quarterly' && duration % 3 !== 0) {
+            return { 'invalidQuarterly': true };
+        }
+
+        if (frequency === 'Yearly' && duration % 12 !== 0) {
+            return { 'invalidYearly': true };
+        }
+
+        return null;
+    }
+
+    // Helpers to get form values
+    get durationInMonths(): number {
+        return this.requestForm.get('durationInMonths')?.value || 0;
+    }
+
+    get paymentFrequency(): string {
+        return this.requestForm.get('paymentFrequency')?.value || 'Monthly';
     }
 
     promptRequest(plan: PlanDto) {
         this.selectedPlan = plan;
-        this.durationInMonths = 12;
-        this.paymentFrequency = 'Monthly';
+
+        // Reset form to defaults when opening modal
+        this.requestForm.patchValue({
+            durationInMonths: plan.durationInMonths,
+            paymentFrequency: 'Monthly'
+        });
+
+        this.panDocument = null;
+        this.addressDocument = null;
+
+        // Ensure validation runs immediately since selectedPlan changed
+        this.requestForm.get('durationInMonths')?.updateValueAndValidity();
     }
 
     cancelRequest() {
         this.selectedPlan = null;
         this.panDocument = null;
         this.addressDocument = null;
+        this.requestForm.reset({ paymentFrequency: 'Monthly', durationInMonths: 12 });
     }
 
     /** Dynamically calculates risk score based on business rules */
@@ -137,33 +208,62 @@ export class CustomerPlans implements OnInit {
     }
 
     confirmRequest() {
-        if (this.selectedPlan && this.durationInMonths > 0 && this.panDocument && this.addressDocument) {
+        if (this.selectedPlan && this.requestForm.valid && this.panDocument && this.addressDocument) {
             this.isRequesting = true;
+
+            // Optimistic UI Update: Show success dialog immediately
+            this.createdRequest = {
+                planName: this.selectedPlan.name,
+                paymentFrequency: this.paymentFrequency,
+                durationInMonths: this.durationInMonths,
+                status: 'Pending'
+            } as PolicyRequest;
+
+            const reqPlanId = this.selectedPlan.id;
+            const reqDuration = this.durationInMonths;
+            const reqFrequency = this.paymentFrequency;
+            const reqPan = this.panDocument;
+            const reqAddress = this.addressDocument;
+
+            this.selectedPlan = null;
+            this.panDocument = null;
+            this.addressDocument = null;
+            this.isRequesting = false;
+            this.successDialogVisible = true;
+            this.requestForm.reset({ paymentFrequency: 'Monthly', durationInMonths: 12 });
+            this.cdr.detectChanges();
+
+            // Perform backend request in the background
             this.policyRequestService.createRequest(
-                this.selectedPlan.id,
-                this.durationInMonths,
-                this.paymentFrequency,
-                this.panDocument,
-                this.addressDocument
+                reqPlanId,
+                reqDuration,
+                reqFrequency,
+                reqPan,
+                reqAddress
             ).subscribe({
                 next: (request: PolicyRequest) => {
-                    this.createdRequest = request;
-                    this.selectedPlan = null;
-                    this.panDocument = null;
-                    this.addressDocument = null;
-                    this.isRequesting = false;
-                    this.successDialogVisible = true;
-                    this.cdr.detectChanges();
+                    if (this.successDialogVisible) {
+                        this.createdRequest = request;
+                        this.cdr.detectChanges();
+                    }
                 },
                 error: (err) => {
-                    console.error(err);
-                    this.isRequesting = false;
-                    this.toastService.error('Failed to submit policy request. Please try again.');
-                    this.cdr.detectChanges();
+                    console.error('Background submission error:', err);
+                    this.toastService.error('There was an issue processing your policy request background upload.');
+                    if (this.successDialogVisible) {
+                        this.successDialogVisible = false;
+                        this.createdRequest = null;
+                        this.cdr.detectChanges();
+                    }
                 }
             });
         } else {
-            this.toastService.error('Please fill all required fields and upload documents.');
+            this.requestForm.markAllAsTouched();
+            if (!this.requestForm.valid) {
+                this.toastService.error('Please fix the errors in duration or frequency fields.');
+            } else {
+                this.toastService.error('Please upload both PAN card and Address Proof documents.');
+            }
         }
     }
 

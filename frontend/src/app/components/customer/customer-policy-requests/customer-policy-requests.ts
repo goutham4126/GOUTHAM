@@ -1,12 +1,11 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { PolicyRequestService } from '../../../services/policy-request/policy-request';
 import { PolicyService } from '../../../services/policy/policy';
 import { ToastService } from '../../../services/toast/toast';
 import { PolicyRequest } from '../../../models/policy-request/policy-request';
 import { AuthService } from '../../../services/auth/auth';
-import { PolicyRequestStatus } from '../../../models/enums/enums';
 
 @Component({
     selector: 'app-customer-policy-requests',
@@ -24,6 +23,12 @@ export class CustomerPolicyRequests implements OnInit {
     requests: PolicyRequest[] = [];
     loading = true;
     purchasingId: string | null = null;
+
+    // Success Dialog Variables
+    successDialogVisible = false;
+    purchasedPolicyName: string | null = null;
+
+    private router = inject(Router);
 
     ngOnInit() {
         this.loadRequests();
@@ -49,17 +54,25 @@ export class CustomerPolicyRequests implements OnInit {
         this.purchasingId = req.id;
         this.policyService.purchasePolicy(req.id).subscribe({
             next: () => {
-                this.toastService.success('Policy successfully purchased!');
+                this.purchasedPolicyName = req.planName;
+                this.successDialogVisible = true;
+
                 this.purchasingId = null;
                 this.cdr.markForCheck();
-                this.loadRequests(); // Refresh the list
+                this.loadRequests();
             },
-            error: (err) => {
+            error: (err: any) => {
                 console.error('Error purchasing policy', err);
                 this.toastService.error('Failed to purchase policy. Please try again.');
                 this.purchasingId = null;
                 this.cdr.markForCheck();
             }
         });
+    }
+
+    closeSuccessDialog() {
+        this.successDialogVisible = false;
+        this.purchasedPolicyName = null;
+        this.router.navigate(['/customer/my-policies']);
     }
 }
