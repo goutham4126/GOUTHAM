@@ -45,8 +45,12 @@
       <div class="relative flex flex-wrap items-center gap-6 p-7 sm:p-9">
         <!-- Avatar -->
         <div
-          class="w-[88px] h-[88px] flex-shrink-0 rounded-full bg-white/20 border-2 border-white/50 flex items-center justify-center text-3xl font-bold text-white tracking-widest backdrop-blur-sm">
+          class="w-[88px] h-[88px] flex-shrink-0 rounded-full bg-white/20 border-2 border-white/50 flex items-center justify-center text-3xl font-bold text-white tracking-widest backdrop-blur-sm overflow-hidden">
+          @if (user.profileImageUrl) {
+          <img [src]="user.profileImageUrl" alt="Profile" class="w-full h-full object-cover">
+          } @else {
           {{ getInitials() }}
+          }
         </div>
         <!-- Name / Email / Badges -->
         <div class="flex-1 min-w-0">

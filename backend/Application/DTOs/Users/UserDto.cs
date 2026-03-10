@@ -12,5 +12,6 @@ public record UserDto(
     string? Address,
     string? Phone,
     DateTime? DateOfBirth,
-    DateTime CreatedAt
+    DateTime CreatedAt,
+    string? ProfileImageUrl
 );

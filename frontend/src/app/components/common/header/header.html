@@ -3,7 +3,6 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16 items-center">
       <div class="flex items-center gap-3">
-        <!-- Mobile Menu Toggle Button -->
         @if (authService.isAuthenticated()) {
         <button (click)="layoutService.toggleSidebar()"
           class="md:hidden p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 transition-colors">
@@ -15,7 +14,7 @@
 
         <div class="flex-shrink-0 flex items-center cursor-pointer gap-2 ml-1"
           [routerLink]="authService.getRole() === 'Customer' ? '/customer/profile' : authService.getRole() === 'Admin' ? '/admin/profile' : authService.getRole() === 'Agent' ? '/agent/profile' : authService.getRole() === 'ClaimOfficer' ? '/claim-officer/profile' : '/'">
-          <div class="w-8 h-8 p-1 rounded-lg flex items-center justify-center shadow-sm overflow-hidden bg-violet-600">
+          <div class="w-8 h-8 p-2 rounded-lg flex items-center justify-center shadow-sm overflow-hidden bg-violet-600">
             <img src="/logo.png" alt="Insure Logo" class="w-full h-full object-cover">
           </div>
           <span class="text-xl font-extrabold text-violet-600 dark:text-violet-400 tracking-tight">Insure</span>

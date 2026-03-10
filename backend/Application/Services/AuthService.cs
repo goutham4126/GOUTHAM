@@ -10,15 +10,18 @@ namespace Application.Services
         private readonly IUserRepository _userRepository;
         private readonly IPasswordService _passwordService;
         private readonly IJwtService _jwtService;
+        private readonly IVercelBlobService _blobService;
 
         public AuthService(
             IUserRepository userRepository,
             IPasswordService passwordService,
-            IJwtService jwtService)
+            IJwtService jwtService,
+            IVercelBlobService blobService)
         {
             _userRepository = userRepository;
             _passwordService = passwordService;
             _jwtService = jwtService;
+            _blobService = blobService;
         }
 
         public async Task<AuthResultDto> RegisterAsync(RegisterDto request)
@@ -27,6 +30,19 @@ namespace Application.Services
 
             if (await _userRepository.EmailExistsAsync(email))
                 throw new InvalidOperationException("Email already registered.");
+
+            string? profileImageUrl = null;
+            if (!string.IsNullOrWhiteSpace(request.ProfileImageBase64))
+            {
+                var base64Data = request.ProfileImageBase64;
+                if (base64Data.Contains(","))
+                {
+                    base64Data = base64Data.Substring(base64Data.IndexOf(",") + 1);
+                }
+                var bytes = Convert.FromBase64String(base64Data);
+                var fileName = $"profile_{Guid.NewGuid()}.jpg";
+                profileImageUrl = await _blobService.UploadFileAsync(bytes, fileName, "profiles", "image/jpeg");
+            }
 
             var user = new User
             {
@@ -38,7 +54,8 @@ namespace Application.Services
                 Address = request.Address,
                 Phone = request.Phone,
                 DateOfBirth = request.DateOfBirth,
-                Role = UserRole.Customer
+                Role = UserRole.Customer,
+                ProfileImageUrl = profileImageUrl
             };
 
             await _userRepository.AddAsync(user);

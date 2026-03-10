@@ -8,7 +8,8 @@ namespace Application.DTOs;
         string? GovernmentId,
         string? Address,
         string? Phone,
-        DateTime? DateOfBirth
+        DateTime? DateOfBirth,
+        string? ProfileImageBase64 = null
     );
 
     public record LoginDto(

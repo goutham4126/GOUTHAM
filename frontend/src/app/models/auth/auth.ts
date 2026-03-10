@@ -5,8 +5,8 @@ export interface RegisterDto {
     password?: string;
     governmentId?: string;
     address?: string;
-    phone?: string;
     dateOfBirth?: string; // ISO date string
+    profileImageBase64?: string;
 }
 
 export interface UpdateProfileDto {
@@ -43,6 +43,7 @@ export interface UserDto {
     phone?: string | null;
     dateOfBirth?: string | null;
     createdAt?: string | null;
+    profileImageUrl?: string | null;
 }
 
 export interface UpdateRoleDto {

@@ -49,7 +49,8 @@ public class UsersController : ControllerBase
             user.Address,
             user.Phone,
             user.DateOfBirth,
-            user.CreatedAt
+            user.CreatedAt,
+            user.ProfileImageUrl
         ));
     }
 
@@ -82,7 +83,8 @@ public class UsersController : ControllerBase
             user.Address,
             user.Phone,
             user.DateOfBirth,
-            user.CreatedAt
+            user.CreatedAt,
+            user.ProfileImageUrl
         ));
     }
 
@@ -102,7 +104,8 @@ public class UsersController : ControllerBase
             u.Address,
             u.Phone,
             u.DateOfBirth,
-            u.CreatedAt
+            u.CreatedAt,
+            u.ProfileImageUrl
         )));
     }
 

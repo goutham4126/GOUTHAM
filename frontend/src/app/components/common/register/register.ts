@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, ChangeDetectorRef, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth/auth';
@@ -10,11 +10,19 @@ import { AuthService } from '../../../services/auth/auth';
   templateUrl: './register.html',
   styleUrl: './register.css'
 })
-export class Register {
+export class Register implements OnDestroy {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
+
+  @ViewChild('video') videoElementRef?: ElementRef<HTMLVideoElement>;
+  @ViewChild('canvas') canvasElementRef?: ElementRef<HTMLCanvasElement>;
+
+  stream: MediaStream | null = null;
+  capturedImage: string | null = null;
+  cameraOpen = false;
+  cameraError = '';
 
   maxDate: string;
 
@@ -83,6 +91,7 @@ export class Register {
       phone: raw.phone ? `+91${raw.phone}` : undefined,
       dateOfBirth: raw.dateOfBirth || undefined,
       address: raw.address || undefined,
+      profileImageBase64: this.capturedImage || undefined
     };
 
     this.authService.register(payload as any).subscribe({
@@ -96,5 +105,68 @@ export class Register {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  async toggleCamera() {
+    if (this.cameraOpen) {
+      this.stopCamera();
+    } else {
+      await this.startCamera();
+    }
+  }
+
+  async startCamera() {
+    this.cameraError = '';
+    try {
+      this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      this.cameraOpen = true;
+      this.cdr.detectChanges();
+
+      if (this.videoElementRef?.nativeElement) {
+        this.videoElementRef.nativeElement.srcObject = this.stream;
+      }
+    } catch (err) {
+      this.cameraError = 'Could not access camera. Please check permissions.';
+      console.error("Camera error", err);
+    }
+    this.cdr.detectChanges();
+  }
+
+  capturePhoto() {
+    const video = this.videoElementRef?.nativeElement;
+    const canvas = this.canvasElementRef?.nativeElement;
+
+    if (!video || !canvas) return;
+
+    const context = canvas.getContext('2d');
+    if (!context) return;
+
+    // Ensure video dimensions are loaded before capture
+    if (video.videoWidth === 0 || video.videoHeight === 0) return;
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    this.capturedImage = canvas.toDataURL('image/jpeg');
+    this.stopCamera();
+  }
+
+  retakePhoto() {
+    this.capturedImage = null;
+    this.startCamera();
+  }
+
+  stopCamera() {
+    if (this.stream) {
+      this.stream.getTracks().forEach(track => track.stop());
+      this.stream = null;
+    }
+    this.cameraOpen = false;
+    this.cdr.detectChanges();
+  }
+
+  ngOnDestroy() {
+    this.stopCamera();
   }
 }

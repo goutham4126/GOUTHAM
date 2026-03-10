@@ -12,6 +12,7 @@ namespace Application.Tests.Services
         private readonly Mock<IUserRepository> _userRepoMock;
         private readonly Mock<IPasswordService> _passwordServiceMock;
         private readonly Mock<IJwtService> _jwtServiceMock;
+        private readonly Mock<IVercelBlobService> _blobMock;
         private readonly AuthService _authService;
 
         public AuthServiceTests()
@@ -19,10 +20,12 @@ namespace Application.Tests.Services
             _userRepoMock = new Mock<IUserRepository>();
             _passwordServiceMock = new Mock<IPasswordService>();
             _jwtServiceMock = new Mock<IJwtService>();
+            _blobMock = new Mock<IVercelBlobService>();
             _authService = new AuthService(
                 _userRepoMock.Object,
                 _passwordServiceMock.Object,
-                _jwtServiceMock.Object);
+                _jwtServiceMock.Object,
+                _blobMock.Object);
         }
 
         // ── Register ──

@@ -15,7 +15,7 @@ namespace Application.Services
             _token = "vercel_blob_rw_4OHZLzvph4cjPlYE_0S3ZUwOy6HEbYx8l8AgTQp7gCjKDVW";
         }
 
-        public async Task<string> UploadFileAsync(byte[] file, string fileName, string folderName)
+        public async Task<string> UploadFileAsync(byte[] file, string fileName, string folderName, string contentType = "application/pdf")
         {
             var requestUrl = $"https://blob.vercel-storage.com/{folderName}/{fileName}";
 
@@ -23,8 +23,7 @@ namespace Application.Services
             
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _token);
             request.Content = new ByteArrayContent(file);
-            // Defaulting to pdf as all our uploads will be invoices
-            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
