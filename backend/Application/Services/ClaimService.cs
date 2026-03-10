@@ -96,6 +96,15 @@ namespace Application.Services
                 await _claimRepo.AddAsync(claim);
                 await transaction.CommitAsync();
 
+                // Notify the assigned claims officer
+                var customer = await _context.Users.FindAsync(userId);
+                var customerName = customer != null ? $"{customer.FirstName} {customer.LastName}" : "A customer";
+                await _notificationService.SendNotificationAsync(
+                    selectedOfficerId,
+                    "New Claim Assigned",
+                    $"A new claim of ₹{amount:N2} has been assigned to you by {customerName}. Please review it from your evaluation desk."
+                );
+
                 return MapClaimToDto(claim);
             }
             catch
@@ -222,6 +231,51 @@ namespace Application.Services
             return claims.OrderByDescending(c => c.SubmittedAt).Select(MapClaimToDto).ToList();
         }
 
+        public async Task ScheduleVideoCallAsync(Guid claimId, Guid officerId, DateTime scheduledDate)
+        {
+            var claim = await _claimRepo.GetByIdAsync(claimId)
+                ?? throw new KeyNotFoundException("Claim not found");
+
+            if (claim.ClaimOfficerId != officerId)
+                throw new UnauthorizedAccessException("Not assigned to this claim");
+
+            claim.ScheduledVideoCallDate = scheduledDate;
+            claim.VideoVerificationStatus = Domain.Enums.VideoVerificationStatus.Scheduled;
+            await _claimRepo.UpdateAsync(claim);
+
+            // Notify customer about the scheduled call
+            var formattedDate = scheduledDate.ToString("MMMM dd, yyyy 'at' hh:mm tt");
+            await _notificationService.SendNotificationAsync(
+                claim.UserId,
+                "Video Verification Scheduled",
+                $"Your video verification call has been scheduled for {formattedDate}. Please join the call at the scheduled time from your claims dashboard."
+            );
+
+            _logger.LogInformation("Video call scheduled for Claim {ClaimId} at {ScheduledDate} by Officer {OfficerId}", claimId, scheduledDate, officerId);
+        }
+
+        public async Task CompleteVideoVerificationAsync(Guid claimId, Guid officerId, string? remarks)
+        {
+            var claim = await _claimRepo.GetByIdAsync(claimId)
+                ?? throw new KeyNotFoundException("Claim not found");
+
+            if (claim.ClaimOfficerId != officerId)
+                throw new UnauthorizedAccessException("Not assigned to this claim");
+
+            claim.VideoVerificationStatus = Domain.Enums.VideoVerificationStatus.Completed;
+            claim.VideoVerificationRemarks = remarks;
+            await _claimRepo.UpdateAsync(claim);
+
+            // Notify customer
+            await _notificationService.SendNotificationAsync(
+                claim.UserId,
+                "Video Verification Completed",
+                "Your video verification has been completed successfully. The officer will now process your claim."
+            );
+
+            _logger.LogInformation("Video verification completed for Claim {ClaimId} by Officer {OfficerId}", claimId, officerId);
+        }
+
         private static ClaimDto MapClaimToDto(Claim claim)
         {
             return new ClaimDto(
@@ -239,7 +293,10 @@ namespace Application.Services
                 claim.DocumentUrl,
                 claim.DocumentHash,
                 claim.PolicyId,
-                claim.Remarks
+                claim.Remarks,
+                claim.ScheduledVideoCallDate,
+                claim.VideoVerificationStatus.ToString(),
+                claim.VideoVerificationRemarks
             );
         }
     }

@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { ClaimService } from '../../../services/claim/claim';
 import { PolicyService } from '../../../services/policy/policy';
@@ -8,6 +9,7 @@ import { ClaimDto } from '../../../models/claim/claim';
 import { ToastService } from '../../../services/toast/toast';
 import { PolicyDto } from '../../../models/policy/policy';
 import { ENV_CONFIG } from '../../../utils/storage.constants';
+import { VideoCallService } from '../../../services/video-call/video-call.service';
 
 @Component({
   selector: 'app-customer-claims',
@@ -21,6 +23,8 @@ export class CustomerClaims implements OnInit {
   private policyService = inject(PolicyService);
   private toastService = inject(ToastService);
   private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
+  public videoCallService = inject(VideoCallService);
 
   claims: ClaimDto[] = [];
   policies: PolicyDto[] = [];
@@ -176,5 +180,10 @@ export class CustomerClaims implements OnInit {
     } else {
       this.toastService.warning('Please complete the required claim fields.');
     }
+  }
+
+  joinScheduledCall(claim: ClaimDto) {
+    this.videoCallService.joinScheduledCall(claim.id);
+    this.router.navigate(['/video-call', claim.id]);
   }
 }

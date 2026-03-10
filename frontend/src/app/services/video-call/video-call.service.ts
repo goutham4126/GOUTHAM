@@ -191,6 +191,22 @@ export class VideoCallService {
         await this.leaveChannel();
     }
 
+    // Join a scheduled call directly (bypasses SignalR ringing)
+    public async joinScheduledCall(claimId: string) {
+        const channelName = `claim-${claimId}`;
+        this.callState.set('connecting');
+        this.currentClaimId.set(claimId);
+        this.currentChannelName.set(channelName);
+
+        try {
+            await this.joinAgoraChannel(channelName);
+        } catch (err) {
+            console.error('Error joining scheduled call:', err);
+            this.toastService.error('Failed to join scheduled call.');
+            this.resetCallState();
+        }
+    }
+
     // Join Agora channel
     private async joinAgoraChannel(channelName: string) {
         try {

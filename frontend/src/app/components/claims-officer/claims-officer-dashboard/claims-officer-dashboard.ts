@@ -167,8 +167,86 @@ export class ClaimsOfficerDashboard implements OnInit {
     }
   }
 
+  // Schedule Call Modal State
+  selectedScheduleClaimId: string | null = null;
+  scheduleDateTime: string = '';
+  isScheduling = false;
+
+  promptSchedule(claimId: string) {
+    this.selectedScheduleClaimId = claimId;
+    // Default to tomorrow at 10:00 AM
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(10, 0, 0, 0);
+    this.scheduleDateTime = tomorrow.toISOString().slice(0, 16);
+  }
+
+  cancelSchedule() {
+    this.selectedScheduleClaimId = null;
+    this.scheduleDateTime = '';
+  }
+
+  confirmSchedule() {
+    if (!this.selectedScheduleClaimId || !this.scheduleDateTime) return;
+    this.isScheduling = true;
+    this.claimService.scheduleCall(this.selectedScheduleClaimId, this.scheduleDateTime).subscribe({
+      next: () => {
+        this.toastService.success('Video call scheduled successfully!');
+        this.isScheduling = false;
+        this.cancelSchedule();
+        this.loadClaims();
+        this.cdr.detectChanges();
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.toastService.error('Failed to schedule call');
+        this.isScheduling = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+  // Complete Verification Modal State
+  selectedVerifyClaimId: string | null = null;
+  verificationRemarks: string = '';
+  isCompletingVerification = false;
+
+  promptCompleteVerification(claimId: string) {
+    this.selectedVerifyClaimId = claimId;
+    this.verificationRemarks = '';
+  }
+
+  cancelCompleteVerification() {
+    this.selectedVerifyClaimId = null;
+    this.verificationRemarks = '';
+  }
+
+  confirmCompleteVerification() {
+    if (!this.selectedVerifyClaimId) return;
+    this.isCompletingVerification = true;
+    this.claimService.completeVerification(this.selectedVerifyClaimId, this.verificationRemarks || undefined).subscribe({
+      next: () => {
+        this.toastService.success('Video verification marked as completed!');
+        this.isCompletingVerification = false;
+        this.cancelCompleteVerification();
+        this.loadClaims();
+        this.cdr.detectChanges();
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.toastService.error('Failed to complete verification');
+        this.isCompletingVerification = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
   initiateVideoCall(claim: ClaimDto) {
     this.videoCallService.initiateCall(claim.id);
+    this.router.navigate(['/video-call', claim.id]);
+  }
+
+  joinScheduledCall(claim: ClaimDto) {
+    this.videoCallService.joinScheduledCall(claim.id);
     this.router.navigate(['/video-call', claim.id]);
   }
 }

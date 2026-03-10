@@ -45,6 +45,13 @@ namespace Domain.Entities
         public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
         public DateTime? ProcessedAt { get; set; }
 
+        public DateTime? ScheduledVideoCallDate { get; set; }
+
+        public VideoVerificationStatus VideoVerificationStatus { get; set; } = VideoVerificationStatus.NotStarted;
+
+        [StringLength(1000)]
+        public string? VideoVerificationRemarks { get; set; }
+
         public Policy Policy { get; set; } = null!;
         public User User { get; set; } = null!;
         public ClaimPayment? ClaimPayment { get; set; }

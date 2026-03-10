@@ -83,6 +83,18 @@ namespace Application.Services
 
             await _policyRequestRepo.AddAsync(request);
 
+            // Notify the assigned agent
+            if (assignedAgentId.HasValue)
+            {
+                var customer = await _context.Users.FindAsync(userId);
+                var customerName = customer != null ? $"{customer.FirstName} {customer.LastName}" : "A customer";
+                await _notificationService.SendNotificationAsync(
+                    assignedAgentId.Value,
+                    "New Policy Request Assigned",
+                    $"A new policy request for \"{plan.Name}\" has been assigned to you by {customerName}. Please review it from your dashboard."
+                );
+            }
+
             _logger.LogInformation("Policy request {RequestId} created for User {UserId}", request.Id, userId);
 
             var fullRequest = await _policyRequestRepo.GetByIdAsync(request.Id);

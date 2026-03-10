@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 using Application.Interfaces;
@@ -162,6 +162,9 @@ namespace Infrastructure.Data
                       .HasPrecision(18, 2);
 
                 entity.Property(c => c.Status)
+                      .HasConversion<string>();
+
+                entity.Property(c => c.VideoVerificationStatus)
                       .HasConversion<string>();
 
                 entity.HasOne(c => c.ClaimPayment)

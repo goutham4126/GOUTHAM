@@ -12,6 +12,9 @@ export interface ClaimDto {
     documentHash?: string;
     policyId: string;
     remarks?: string;
+    scheduledVideoCallDate?: string;
+    videoVerificationStatus: string;
+    videoVerificationRemarks?: string;
 }
 
 export interface CreateClaimRequest {

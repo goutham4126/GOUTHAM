@@ -18,5 +18,7 @@ namespace Application.Interfaces
         Task<List<ClaimDto>> GetAssignedClaimsAsync(Guid officerId);
         Task<List<ClaimDto>> GetUserClaimsAsync(Guid userId);
         Task<List<ClaimDto>> GetAllClaimsAsync();
+        Task ScheduleVideoCallAsync(Guid claimId, Guid officerId, DateTime scheduledDate);
+        Task CompleteVideoVerificationAsync(Guid claimId, Guid officerId, string? remarks);
     }
 }

@@ -13,5 +13,8 @@ public record ClaimDto(
     string? DocumentUrl,
     string? DocumentHash,
     Guid PolicyId,
-    string? Remarks
+    string? Remarks,
+    DateTime? ScheduledVideoCallDate,
+    string VideoVerificationStatus,
+    string? VideoVerificationRemarks
 );

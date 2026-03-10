@@ -96,6 +96,27 @@
   },
   {
     "ContainingType": "API.Controllers.ClaimsController",
+    "Method": "CompleteVerification",
+    "RelativePath": "api/claims/{claimId}/complete-verification",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "claimId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "Application.DTOs.Insurance.CompleteVerificationRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.ClaimsController",
     "Method": "Reject",
     "RelativePath": "api/claims/{claimId}/reject",
     "HttpMethod": "POST",
@@ -110,6 +131,27 @@
       {
         "Name": "request",
         "Type": "Application.DTOs.Insurance.RejectClaimRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.ClaimsController",
+    "Method": "ScheduleCall",
+    "RelativePath": "api/claims/{claimId}/schedule",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "claimId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "Application.DTOs.Insurance.ScheduleCallRequest",
         "IsRequired": true
       }
     ],

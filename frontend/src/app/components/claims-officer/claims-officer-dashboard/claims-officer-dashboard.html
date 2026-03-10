@@ -161,25 +161,90 @@
               </div>
               <!-- Action Enforcement -->
               @if (c.status === 'Pending') {
-              <div class="mt-6 flex justify-end items-center space-x-4 border-t border-orange-200 pt-5">
+
+              <!-- Video Verification Completed -->
+              @if (c.videoVerificationStatus === 'Completed') {
+              <div class="mt-4 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3 flex items-center gap-3">
+                <div class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center shrink-0">
+                  <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <span class="text-xs font-bold text-emerald-700 uppercase tracking-wide">Video Verification
+                    Completed</span>
+                  @if (c.videoVerificationRemarks) {
+                  <span class="text-sm text-emerald-800 block mt-0.5 italic">"{{ c.videoVerificationRemarks }}"</span>
+                  }
+                </div>
+              </div>
+              }
+
+              <!-- Scheduled Call (not yet verified) -->
+              @if (c.videoVerificationStatus === 'Scheduled') {
+              <div
+                class="mt-4 bg-violet-50 border border-violet-200 rounded-xl px-4 py-3 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <svg class="w-5 h-5 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <div>
+                    <span class="text-xs font-bold text-violet-700 uppercase tracking-wide">Scheduled Call</span>
+                    <span class="text-sm font-semibold text-violet-900 block">{{ c.scheduledVideoCallDate |
+                      date:'medium' }}</span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button (click)="joinScheduledCall(c)"
+                    class="px-3 py-1.5 bg-violet-600 text-white font-bold rounded-lg text-xs hover:bg-violet-700 transition-all shadow-sm flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    Join Call
+                  </button>
+                  <button (click)="promptCompleteVerification(c.id)"
+                    class="px-3 py-1.5 bg-emerald-600 text-white font-bold rounded-lg text-xs hover:bg-emerald-700 transition-all shadow-sm flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Mark Verified
+                  </button>
+                </div>
+              </div>
+              }
+
+              <div
+                class="mt-6 flex justify-end items-center space-x-3 border-t border-orange-200 pt-5 flex-wrap gap-y-2">
                 <span class="text-sm text-orange-800 font-semibold italic mr-auto">Documents
                   verified?
                   Choose action:</span>
+                @if (c.videoVerificationStatus !== 'Completed') {
                 <button (click)="initiateVideoCall(c)"
-                  class="px-5 py-2.5 bg-white text-violet-600 hover:bg-violet-50 font-bold rounded-xl border border-violet-200 transition-all shadow-sm flex items-center gap-2">
+                  class="px-4 py-2.5 bg-white text-violet-600 hover:bg-violet-50 font-bold rounded-xl border border-violet-200 transition-all shadow-sm flex items-center gap-2 text-sm">
                   <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                   </svg>
-                  Video Verify
+                  Verify Now
                 </button>
+                <button (click)="promptSchedule(c.id)"
+                  class="px-4 py-2.5 bg-white text-indigo-600 hover:bg-indigo-50 font-bold rounded-xl border border-indigo-200 transition-all shadow-sm flex items-center gap-2 text-sm">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  Schedule Later
+                </button>
+                }
                 <button (click)="promptReject(c.id)"
-                  class="px-5 py-2.5 bg-white text-red-600 hover:bg-red-50 font-bold rounded-xl border border-red-200 transition-all shadow-sm">
+                  class="px-4 py-2.5 bg-white text-red-600 hover:bg-red-50 font-bold rounded-xl border border-red-200 transition-all shadow-sm text-sm">
                   Reject Claim
                 </button>
                 <button (click)="promptApprove(c)"
-                  class="px-5 py-2.5 bg-green-600 text-white hover:bg-green-700 font-bold rounded-xl transition-all shadow-sm">
-                  Approve & Disburse Payout
+                  class="px-4 py-2.5 bg-green-600 text-white hover:bg-green-700 font-bold rounded-xl transition-all shadow-sm text-sm">
+                  Approve & Disburse
                 </button>
               </div>
               }
@@ -326,6 +391,90 @@
       <button (click)="closeSuccessDialog()"
         class="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl shadow transition-all">
         Back to Dashboard
+      </button>
+    </div>
+  </div>
+</div>
+}
+
+<!-- Schedule Call Modal -->
+@if (selectedScheduleClaimId) {
+<div class="fixed inset-0 z-[55] flex items-center justify-center bg-gray-900/60 backdrop-blur-sm p-4">
+  <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 transform transition-all">
+    <div class="flex justify-center mb-6">
+      <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center shadow-sm">
+        <svg class="w-6 h-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      </div>
+    </div>
+    <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Schedule Video Call</h3>
+    <p class="text-sm text-gray-500 font-medium mb-6 text-center">Pick a date and time for the video verification call.
+      The customer will be notified.</p>
+    <div class="mb-8">
+      <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Date & Time</label>
+      <input type="datetime-local" [(ngModel)]="scheduleDateTime"
+        class="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-sm bg-white">
+    </div>
+    <div class="flex justify-end space-x-3">
+      <button (click)="cancelSchedule()"
+        class="px-5 py-3 bg-white border border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm active:bg-gray-100 tracking-wide text-sm flex-1">Cancel</button>
+      <button (click)="confirmSchedule()" [disabled]="isScheduling"
+        class="px-5 py-3 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition shadow-sm tracking-wide text-sm flex-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+        @if (isScheduling) {
+        <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+          </path>
+        </svg>
+        Scheduling...
+        } @else {
+        Confirm Schedule
+        }
+      </button>
+    </div>
+  </div>
+</div>
+}
+
+<!-- Complete Verification Modal -->
+@if (selectedVerifyClaimId) {
+<div class="fixed inset-0 z-[55] flex items-center justify-center bg-gray-900/60 backdrop-blur-sm p-4">
+  <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 transform transition-all">
+    <div class="flex justify-center mb-6">
+      <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center shadow-sm">
+        <svg class="w-6 h-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+    </div>
+    <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Complete Video Verification</h3>
+    <p class="text-sm text-gray-500 font-medium mb-6 text-center">Mark this claim's video verification as completed. You
+      can add optional remarks about the session.</p>
+    <div class="mb-8">
+      <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Verification Remarks
+        (Optional)</label>
+      <textarea [(ngModel)]="verificationRemarks" rows="3" placeholder="e.g., Identity confirmed, damage verified..."
+        class="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition shadow-sm bg-white"></textarea>
+    </div>
+    <div class="flex justify-end space-x-3">
+      <button (click)="cancelCompleteVerification()"
+        class="px-5 py-3 bg-white border border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm active:bg-gray-100 tracking-wide text-sm flex-1">Cancel</button>
+      <button (click)="confirmCompleteVerification()" [disabled]="isCompletingVerification"
+        class="px-5 py-3 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-700 transition shadow-sm tracking-wide text-sm flex-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+        @if (isCompletingVerification) {
+        <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+          </path>
+        </svg>
+        Completing...
+        } @else {
+        Mark as Completed
+        }
       </button>
     </div>
   </div>

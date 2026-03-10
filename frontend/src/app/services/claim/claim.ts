@@ -34,4 +34,12 @@ export class ClaimService {
     public rejectClaim(id: string, dto: RejectClaimRequest): Observable<any> {
         return this.http.post(`${this.apiUrl}/${id}/reject`, dto, { responseType: 'text' });
     }
+
+    public scheduleCall(claimId: string, scheduledDate: string): Observable<any> {
+        return this.http.post(`${this.apiUrl}/${claimId}/schedule`, { scheduledDate }, { responseType: 'text' });
+    }
+
+    public completeVerification(claimId: string, remarks?: string): Observable<any> {
+        return this.http.post(`${this.apiUrl}/${claimId}/complete-verification`, { remarks }, { responseType: 'text' });
+    }
 }

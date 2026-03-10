@@ -91,4 +91,22 @@ public class ClaimsController : ControllerBase
 
         return Ok(claims);
     }
+
+    [Authorize(Roles = "ClaimOfficer")]
+    [HttpPost("{claimId:guid}/schedule")]
+    public async Task<IActionResult> ScheduleCall([FromRoute] Guid claimId, [FromBody] ScheduleCallRequest request)
+    {
+        var officerId = GetUserId();
+        await _claimService.ScheduleVideoCallAsync(claimId, officerId, request.ScheduledDate);
+        return Ok("Video call scheduled successfully");
+    }
+
+    [Authorize(Roles = "ClaimOfficer")]
+    [HttpPost("{claimId:guid}/complete-verification")]
+    public async Task<IActionResult> CompleteVerification([FromRoute] Guid claimId, [FromBody] CompleteVerificationRequest request)
+    {
+        var officerId = GetUserId();
+        await _claimService.CompleteVideoVerificationAsync(claimId, officerId, request.Remarks);
+        return Ok("Video verification marked as completed");
+    }
 }
