@@ -142,57 +142,46 @@ namespace Application.Services
                 request.Status = PolicyRequestStatus.Purchased;
                 await _policyRequestRepo.UpdateAsync(request);
 
-                await transaction.CommitAsync();
-
+                // Generate both invoices INSIDE the transaction so the purchase
+                // only commits when both invoices are successfully created.
                 var customer = await _context.Users.FindAsync(userId);
                 if (customer != null)
                 {
-                    try
-                    {
-                        var pdfBytes = _invoiceGenerator.GeneratePolicyInvoice(policy, customer);
-                        var fileName = $"policy_{policy.Id}_{DateTime.UtcNow.Ticks}.pdf";
-                        var fileUrl = await _blobService.UploadFileAsync(pdfBytes, fileName, "policy_purchase_invoices");
+                    // 1) Policy Purchase Invoice
+                    var pdfBytes = _invoiceGenerator.GeneratePolicyInvoice(policy, customer);
+                    var fileName = $"policy_{policy.Id}_{DateTime.UtcNow.Ticks}.pdf";
+                    var fileUrl = await _blobService.UploadFileAsync(pdfBytes, fileName, "policy_purchase_invoices");
 
-                        var invoice = new Invoice
-                        {
-                            UserId = userId,
-                            ReferenceId = policy.Id,
-                            Type = InvoiceType.PolicyPurchase,
-                            FileUrl = fileUrl
-                        };
-                        _context.Invoices.Add(invoice);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (Exception ex)
+                    var invoice = new Invoice
                     {
-                        _logger.LogError(ex, "Failed to generate policy invoice for policy {PolicyId}", policy.Id);
-                    }
+                        UserId = userId,
+                        ReferenceId = policy.Id,
+                        Type = InvoiceType.PolicyPurchase,
+                        FileUrl = fileUrl
+                    };
+                    _context.Invoices.Add(invoice);
+                    await _context.SaveChangesAsync();
 
-                    // Generate and save initial Payment Invoice OUTSIDE the transaction
+                    // 2) Initial Payment Invoice
                     if (firstPaymentToInvoice != null)
                     {
-                        try
-                        {
-                            var paymentPdfBytes = _invoiceGenerator.GeneratePaymentInvoice(policy, firstPaymentToInvoice, customer);
-                            var paymentFileName = $"payment_{firstPaymentToInvoice.Id}_{DateTime.UtcNow.Ticks}.pdf";
-                            var paymentFileUrl = await _blobService.UploadFileAsync(paymentPdfBytes, paymentFileName, "payment_invoices");
+                        var paymentPdfBytes = _invoiceGenerator.GeneratePaymentInvoice(policy, firstPaymentToInvoice, customer);
+                        var paymentFileName = $"payment_{firstPaymentToInvoice.Id}_{DateTime.UtcNow.Ticks}.pdf";
+                        var paymentFileUrl = await _blobService.UploadFileAsync(paymentPdfBytes, paymentFileName, "payment_invoices");
 
-                            var paymentInvoice = new Invoice
-                            {
-                                UserId = userId,
-                                ReferenceId = firstPaymentToInvoice.Id,
-                                Type = InvoiceType.Payment,
-                                FileUrl = paymentFileUrl
-                            };
-                            _context.Invoices.Add(paymentInvoice);
-                            await _context.SaveChangesAsync();
-                        }
-                        catch (Exception ex)
+                        var paymentInvoice = new Invoice
                         {
-                            _logger.LogError(ex, "Failed to generate initial payment invoice for policy {PolicyId}", policy.Id);
-                        }
+                            UserId = userId,
+                            ReferenceId = firstPaymentToInvoice.Id,
+                            Type = InvoiceType.Payment,
+                            FileUrl = paymentFileUrl
+                        };
+                        _context.Invoices.Add(paymentInvoice);
+                        await _context.SaveChangesAsync();
                     }
                 }
+
+                await transaction.CommitAsync();
 
                 _logger.LogInformation("First installment of {Amount} auto-paid for Policy {PolicyId}", policy.TotalPaid, policy.Id);
 

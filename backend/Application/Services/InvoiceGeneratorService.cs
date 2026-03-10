@@ -122,11 +122,11 @@ namespace Application.Services
 
                 if (actualLogoPath != null)
                 {
-                    row.ConstantItem(100).Height(50).Background(Colors.Purple.Medium).Padding(3).Image(actualLogoPath).FitArea();
+                    row.ConstantItem(100).Height(50).Image(actualLogoPath).FitArea();
                 }
                 else
                 {
-                    row.ConstantItem(100).Height(50).Placeholder(); // Optional: Logo Placeholder
+                    row.ConstantItem(100).Height(50).Placeholder();
                 }
             });
         }
