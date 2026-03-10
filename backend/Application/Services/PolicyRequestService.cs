@@ -41,12 +41,14 @@ namespace Application.Services
             if (!plan.IsActive)
                 throw new InvalidOperationException("Plan is no longer active");
 
-            // Upload PAN
-            var pUrl = await _blobService.UploadFileAsync(panFileBytes, panFileName, "pan_documents");
+            // Upload PAN (unique prefix so the same file can be re-uploaded for a new request)
+            var uniquePanFileName = $"{Guid.NewGuid()}_{panFileName}";
+            var pUrl = await _blobService.UploadFileAsync(panFileBytes, uniquePanFileName, "pan_documents");
             var pHash = ComputeSha256Hash(panFileBytes);
 
-            // Upload Address Proof
-            var aUrl = await _blobService.UploadFileAsync(addressFileBytes, addressFileName, "address_documents");
+            // Upload Address Proof (unique prefix for same reason)
+            var uniqueAddressFileName = $"{Guid.NewGuid()}_{addressFileName}";
+            var aUrl = await _blobService.UploadFileAsync(addressFileBytes, uniqueAddressFileName, "address_documents");
             var aHash = ComputeSha256Hash(addressFileBytes);
 
             var riskScore = CalculateRiskScore(plan, durationMonths, paymentFrequency);

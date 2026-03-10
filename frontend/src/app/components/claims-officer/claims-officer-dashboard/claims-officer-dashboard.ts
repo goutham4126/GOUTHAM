@@ -99,26 +99,24 @@ export class ClaimsOfficerDashboard implements OnInit {
       const reqAmount = this.approvalAmount;
       const reqRemarks = this.approvalRemarks;
 
-      // Optimistic Update
-      this.approvedClaimAmount = reqAmount;
-      this.approvedClaimId = reqId;
-      this.isApproving = false;
-      this.successDialogVisible = true;
-      this.cancelApprove();
-
       this.claimService.approveClaim(reqId, {
         approvedAmount: reqAmount,
         notes: 'Approved via Evaluation Desk',
         remarks: reqRemarks
       }).subscribe({
         next: () => {
-          // update successful in background model
+          this.approvedClaimAmount = reqAmount;
+          this.approvedClaimId = reqId;
+          this.isApproving = false;
+          this.successDialogVisible = true;
+          this.cancelApprove();
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error(err);
           this.toastService.error('Failed to approve claim');
-          this.successDialogVisible = false;
-          this.loadClaims();
+          this.isApproving = false;
+          this.cdr.detectChanges();
         }
       });
     }
@@ -147,20 +145,19 @@ export class ClaimsOfficerDashboard implements OnInit {
       const reqId = this.selectedRejectClaimId;
       const reqRemarks = this.rejectionRemarks;
 
-      // Optimistic Update
-      this.toastService.success('Claim rejected successfully');
-      this.isRejecting = false;
-      this.selectedRejectClaimId = null;
-      this.assignedClaims = this.assignedClaims.filter(c => c.id !== reqId);
-
       this.claimService.rejectClaim(reqId, { remarks: reqRemarks }).subscribe({
         next: () => {
-          // Background update successful
+          this.toastService.success('Claim rejected successfully');
+          this.isRejecting = false;
+          this.selectedRejectClaimId = null;
+          this.loadClaims();
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error(err);
           this.toastService.error('Failed to reject claim');
-          this.loadClaims();
+          this.isRejecting = false;
+          this.cdr.detectChanges();
         }
       });
     }

@@ -210,14 +210,7 @@ export class CustomerPlans implements OnInit {
     confirmRequest() {
         if (this.selectedPlan && this.requestForm.valid && this.panDocument && this.addressDocument) {
             this.isRequesting = true;
-
-            // Optimistic UI Update: Show success dialog immediately
-            this.createdRequest = {
-                planName: this.selectedPlan.name,
-                paymentFrequency: this.paymentFrequency,
-                durationInMonths: this.durationInMonths,
-                status: 'Pending'
-            } as PolicyRequest;
+            this.cdr.detectChanges();
 
             const reqPlanId = this.selectedPlan.id;
             const reqDuration = this.durationInMonths;
@@ -225,15 +218,6 @@ export class CustomerPlans implements OnInit {
             const reqPan = this.panDocument;
             const reqAddress = this.addressDocument;
 
-            this.selectedPlan = null;
-            this.panDocument = null;
-            this.addressDocument = null;
-            this.isRequesting = false;
-            this.successDialogVisible = true;
-            this.requestForm.reset({ paymentFrequency: 'Monthly', durationInMonths: 12 });
-            this.cdr.detectChanges();
-
-            // Perform backend request in the background
             this.policyRequestService.createRequest(
                 reqPlanId,
                 reqDuration,
@@ -242,19 +226,20 @@ export class CustomerPlans implements OnInit {
                 reqAddress
             ).subscribe({
                 next: (request: PolicyRequest) => {
-                    if (this.successDialogVisible) {
-                        this.createdRequest = request;
-                        this.cdr.detectChanges();
-                    }
+                    this.createdRequest = request;
+                    this.selectedPlan = null;
+                    this.panDocument = null;
+                    this.addressDocument = null;
+                    this.isRequesting = false;
+                    this.successDialogVisible = true;
+                    this.requestForm.reset({ paymentFrequency: 'Monthly', durationInMonths: 12 });
+                    this.cdr.detectChanges();
                 },
                 error: (err) => {
-                    console.error('Background submission error:', err);
-                    this.toastService.error('There was an issue processing your policy request background upload.');
-                    if (this.successDialogVisible) {
-                        this.successDialogVisible = false;
-                        this.createdRequest = null;
-                        this.cdr.detectChanges();
-                    }
+                    console.error('Submission error:', err);
+                    this.toastService.error('There was an issue submitting your policy request. Please try again.');
+                    this.isRequesting = false;
+                    this.cdr.detectChanges();
                 }
             });
         } else {
