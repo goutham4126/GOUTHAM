@@ -4,6 +4,7 @@ namespace Domain.Enums
     {
         Pending,
         Approved,
-        Rejected
+        Rejected,
+        Purchased
     }
 }

@@ -139,9 +139,11 @@ namespace Application.Services
 
                 await _policyRepo.UpdateAsync(policy);
 
+                request.Status = PolicyRequestStatus.Purchased;
+                await _policyRequestRepo.UpdateAsync(request);
+
                 await transaction.CommitAsync();
 
-                // Generate and save Policy Invoice OUTSIDE the transaction
                 var customer = await _context.Users.FindAsync(userId);
                 if (customer != null)
                 {

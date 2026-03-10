@@ -122,7 +122,7 @@ namespace Application.Services
 
                 if (actualLogoPath != null)
                 {
-                    row.ConstantItem(100).Height(50).Image(actualLogoPath);
+                    row.ConstantItem(100).Height(50).Background(Colors.Purple.Medium).Padding(3).Image(actualLogoPath).FitArea();
                 }
                 else
                 {
