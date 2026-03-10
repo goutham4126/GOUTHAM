@@ -18,5 +18,6 @@ public record PolicyRequestDto(
     string Status,
     string? RejectionReason,
     DateTime CreatedAt,
-    DateTime? ReviewedAt
+    DateTime? ReviewedAt,
+    string? Remarks
 );

@@ -37,8 +37,10 @@ namespace Domain.Entities
 
         public decimal? ApprovedAmount { get; set; }
 
-        [Required]
         public ClaimStatus Status { get; set; } = ClaimStatus.Pending;
+
+        [StringLength(1000)]
+        public string? Remarks { get; set; }
 
         public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
         public DateTime? ProcessedAt { get; set; }

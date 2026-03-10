@@ -112,7 +112,7 @@ namespace Application.Tests.Services
             var usersDbSetMock = new Mock<DbSet<User>>();
             _contextMock.Setup(c => c.Users).Returns(usersDbSetMock.Object);
 
-            await _service.ApproveClaimAsync(claimId, 800m, officerId);
+            await _service.ApproveClaimAsync(claimId, 800m, officerId, "Approved test");
 
             Assert.Equal(ClaimStatus.Approved, claim.Status);
             Assert.Equal(800m, claim.ApprovedAmount);
@@ -135,7 +135,7 @@ namespace Application.Tests.Services
             _claimRepoMock.Setup(r => r.GetByIdAsync(claimId)).ReturnsAsync(claim);
 
             await Assert.ThrowsAsync<UnauthorizedAccessException>(
-                () => _service.ApproveClaimAsync(claimId, 50m, Guid.NewGuid()));
+                () => _service.ApproveClaimAsync(claimId, 50m, Guid.NewGuid(), "Approved test"));
         }
 
         [Fact]
@@ -144,7 +144,7 @@ namespace Application.Tests.Services
             _claimRepoMock.Setup(r => r.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Claim?)null);
 
             await Assert.ThrowsAsync<Exception>(
-                () => _service.ApproveClaimAsync(Guid.NewGuid(), 100m, Guid.NewGuid()));
+                () => _service.ApproveClaimAsync(Guid.NewGuid(), 100m, Guid.NewGuid(), "Approved test"));
         }
 
         [Fact]
@@ -177,7 +177,7 @@ namespace Application.Tests.Services
             var usersDbSetMock = new Mock<DbSet<User>>();
             _contextMock.Setup(c => c.Users).Returns(usersDbSetMock.Object);
 
-            await _service.RejectClaimAsync(claimId, officerId);
+            await _service.RejectClaimAsync(claimId, officerId, "Reject test");
 
             Assert.Equal(ClaimStatus.Rejected, claim.Status);
             Assert.NotNull(claim.ProcessedAt);
@@ -199,7 +199,7 @@ namespace Application.Tests.Services
             _claimRepoMock.Setup(r => r.GetByIdAsync(claimId)).ReturnsAsync(claim);
 
             await Assert.ThrowsAsync<UnauthorizedAccessException>(
-                () => _service.RejectClaimAsync(claimId, Guid.NewGuid()));
+                () => _service.RejectClaimAsync(claimId, Guid.NewGuid(), "Reject test"));
         }
     }
 }

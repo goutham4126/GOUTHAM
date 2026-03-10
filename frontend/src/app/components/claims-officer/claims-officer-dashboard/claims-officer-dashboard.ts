@@ -25,6 +25,12 @@ export class ClaimsOfficerDashboard implements OnInit {
   // Approval Modal State
   selectedClaimId: string | null = null;
   approvalAmount: number = 0;
+  approvalRemarks: string = '';
+
+  // Rejection Modal State
+  selectedRejectClaimId: string | null = null;
+  rejectionRemarks: string = '';
+  isRejecting = false;
 
   // Success Dialog State
   successDialogVisible = false;
@@ -76,31 +82,43 @@ export class ClaimsOfficerDashboard implements OnInit {
   promptApprove(claim: ClaimDto) {
     this.selectedClaimId = claim.id;
     this.approvalAmount = claim.claimAmount;
+    this.approvalRemarks = '';
   }
 
   cancelApprove() {
     this.selectedClaimId = null;
     this.approvalAmount = 0;
+    this.approvalRemarks = '';
   }
 
   confirmApprove() {
     if (this.selectedClaimId && this.approvalAmount >= 0) {
       this.isApproving = true;
-      this.claimService.approveClaim(this.selectedClaimId, {
-        approvedAmount: this.approvalAmount,
-        notes: 'Approved via Evaluation Desk'
+
+      const reqId = this.selectedClaimId;
+      const reqAmount = this.approvalAmount;
+      const reqRemarks = this.approvalRemarks;
+
+      // Optimistic Update
+      this.approvedClaimAmount = reqAmount;
+      this.approvedClaimId = reqId;
+      this.isApproving = false;
+      this.successDialogVisible = true;
+      this.cancelApprove();
+
+      this.claimService.approveClaim(reqId, {
+        approvedAmount: reqAmount,
+        notes: 'Approved via Evaluation Desk',
+        remarks: reqRemarks
       }).subscribe({
         next: () => {
-          this.approvedClaimAmount = this.approvalAmount;
-          this.approvedClaimId = this.selectedClaimId;
-          this.isApproving = false;
-          this.successDialogVisible = true;
-          this.cancelApprove();
+          // update successful in background model
         },
         error: (err) => {
           console.error(err);
           this.toastService.error('Failed to approve claim');
-          this.isApproving = false;
+          this.successDialogVisible = false;
+          this.loadClaims();
         }
       });
     }
@@ -113,18 +131,38 @@ export class ClaimsOfficerDashboard implements OnInit {
     this.loadClaims();
   }
 
-  rejectClaim(id: string) {
-    this.toastService.confirm('Reject Claim', 'Are you sure you want to reject this claim permanently?', () => {
-      this.claimService.rejectClaim(id).subscribe({
+  promptReject(id: string) {
+    this.selectedRejectClaimId = id;
+    this.rejectionRemarks = '';
+  }
+
+  cancelReject() {
+    this.selectedRejectClaimId = null;
+    this.rejectionRemarks = '';
+  }
+
+  confirmReject() {
+    if (this.selectedRejectClaimId) {
+      this.isRejecting = true;
+      const reqId = this.selectedRejectClaimId;
+      const reqRemarks = this.rejectionRemarks;
+
+      // Optimistic Update
+      this.toastService.success('Claim rejected successfully');
+      this.isRejecting = false;
+      this.selectedRejectClaimId = null;
+      this.assignedClaims = this.assignedClaims.filter(c => c.id !== reqId);
+
+      this.claimService.rejectClaim(reqId, { remarks: reqRemarks }).subscribe({
         next: () => {
-          this.toastService.success('Claim rejected successfully');
-          this.loadClaims();
+          // Background update successful
         },
         error: (err) => {
           console.error(err);
           this.toastService.error('Failed to reject claim');
+          this.loadClaims();
         }
       });
-    });
+    }
   }
 }

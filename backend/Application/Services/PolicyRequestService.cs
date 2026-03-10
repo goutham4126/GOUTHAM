@@ -99,7 +99,7 @@ namespace Application.Services
             return requests.Select(MapToDto).ToList();
         }
 
-        public async Task<PolicyRequestDto> ApproveRequestAsync(Guid requestId, Guid agentId)
+        public async Task<PolicyRequestDto> ApproveRequestAsync(Guid requestId, Guid agentId, string? remarks)
         {
             var request = await _policyRequestRepo.GetByIdAsync(requestId)
                 ?? throw new Exception("Policy request not found");
@@ -109,6 +109,7 @@ namespace Application.Services
 
             request.Status = PolicyRequestStatus.Approved;
             request.AgentId = agentId;
+            request.Remarks = remarks;
             request.ReviewedAt = DateTime.UtcNow;
 
             await _policyRequestRepo.UpdateAsync(request);
@@ -123,7 +124,7 @@ namespace Application.Services
             return MapToDto(request);
         }
 
-        public async Task<PolicyRequestDto> RejectRequestAsync(Guid requestId, Guid agentId, string reason)
+        public async Task<PolicyRequestDto> RejectRequestAsync(Guid requestId, Guid agentId, string reason, string? remarks)
         {
             var request = await _policyRequestRepo.GetByIdAsync(requestId)
                 ?? throw new Exception("Policy request not found");
@@ -134,6 +135,7 @@ namespace Application.Services
             request.Status = PolicyRequestStatus.Rejected;
             request.AgentId = agentId;
             request.RejectionReason = reason;
+            request.Remarks = remarks;
             request.ReviewedAt = DateTime.UtcNow;
 
             await _policyRequestRepo.UpdateAsync(request);
@@ -207,7 +209,8 @@ namespace Application.Services
                 r.Status.ToString(),
                 r.RejectionReason,
                 r.CreatedAt,
-                r.ReviewedAt
+                r.ReviewedAt,
+                r.Remarks
             );
         }
     }

@@ -51,6 +51,15 @@
                         Reason: {{ req.rejectionReason }}
                     </p>
                     }
+                    @if (req.remarks && req.remarks.trim() !== '') {
+                    <p
+                        class="text-sm text-gray-700 font-medium mt-2 p-3 bg-gray-50 border border-gray-100 rounded-lg italic shadow-sm">
+                        <span
+                            class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 not-italic">Evaluator
+                            Remarks</span>
+                        "{{ req.remarks }}"
+                    </p>
+                    }
                     <div class="mt-2 flex space-x-2 items-center">
                         <span [ngClass]="{
                     'bg-yellow-100 text-yellow-800 border-yellow-200': req.status === 'Pending',

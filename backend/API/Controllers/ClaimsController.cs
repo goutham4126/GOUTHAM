@@ -68,16 +68,16 @@ public class ClaimsController : ControllerBase
     public async Task<IActionResult> Approve([FromRoute] Guid claimId, [FromBody] ApproveClaimRequest request)
     {
         var officerId = GetUserId();
-        await _claimService.ApproveClaimAsync(claimId, request.ApprovedAmount, officerId);
+        await _claimService.ApproveClaimAsync(claimId, request.ApprovedAmount, officerId, request.Remarks);
         return Ok("Claim approved and payout processed");
     }
 
     [Authorize(Roles = "ClaimOfficer")]
     [HttpPost("{claimId:guid}/reject")]
-    public async Task<IActionResult> Reject(Guid claimId)
+    public async Task<IActionResult> Reject([FromRoute] Guid claimId, [FromBody] RejectClaimRequest request)
     {
         var officerId = GetUserId();
-        await _claimService.RejectClaimAsync(claimId, officerId);
+        await _claimService.RejectClaimAsync(claimId, officerId, request.Remarks);
         return Ok("Claim rejected");
     }
 

@@ -15,4 +15,5 @@ export interface PolicyRequest {
   rejectionReason?: string;
   createdAt: string;
   reviewedAt?: string;
+  remarks?: string;
 }

@@ -90,6 +90,11 @@
         "Name": "claimId",
         "Type": "System.Guid",
         "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "Application.DTOs.Insurance.RejectClaimRequest",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -396,6 +401,11 @@
       {
         "Name": "id",
         "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "payload",
+        "Type": "API.Controllers.ApproveRequestPayload",
         "IsRequired": true
       }
     ],

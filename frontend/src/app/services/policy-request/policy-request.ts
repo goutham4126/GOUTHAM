@@ -30,11 +30,11 @@ export class PolicyRequestService {
         return this.http.get<PolicyRequest[]>(`${this.apiUrl}/assigned`);
     }
 
-    public approveRequest(requestId: string): Observable<PolicyRequest> {
-        return this.http.post<PolicyRequest>(`${this.apiUrl}/${requestId}/approve`, {});
+    public approveRequest(requestId: string, remarks?: string): Observable<PolicyRequest> {
+        return this.http.post<PolicyRequest>(`${this.apiUrl}/${requestId}/approve`, { remarks });
     }
 
-    public rejectRequest(requestId: string, reason: string): Observable<PolicyRequest> {
-        return this.http.post<PolicyRequest>(`${this.apiUrl}/${requestId}/reject`, { reason });
+    public rejectRequest(requestId: string, reason: string, remarks?: string): Observable<PolicyRequest> {
+        return this.http.post<PolicyRequest>(`${this.apiUrl}/${requestId}/reject`, { reason, remarks });
     }
 }

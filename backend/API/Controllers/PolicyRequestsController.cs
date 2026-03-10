@@ -75,10 +75,10 @@ namespace API.Controllers
 
         [Authorize(Roles = "Agent")]
         [HttpPost("{id:guid}/approve")]
-        public async Task<IActionResult> Approve(Guid id)
+        public async Task<IActionResult> Approve(Guid id, [FromBody] ApproveRequestPayload payload)
         {
             var agentId = GetUserId();
-            var result = await _policyRequestService.ApproveRequestAsync(id, agentId);
+            var result = await _policyRequestService.ApproveRequestAsync(id, agentId, payload.Remarks);
             return Ok(result);
         }
 
@@ -87,7 +87,7 @@ namespace API.Controllers
         public async Task<IActionResult> Reject(Guid id, [FromBody] RejectRequestPayload payload)
         {
             var agentId = GetUserId();
-            var result = await _policyRequestService.RejectRequestAsync(id, agentId, payload.Reason);
+            var result = await _policyRequestService.RejectRequestAsync(id, agentId, payload.Reason, payload.Remarks);
             return Ok(result);
         }
     }
@@ -104,5 +104,11 @@ namespace API.Controllers
     public class RejectRequestPayload
     {
         public string Reason { get; set; } = null!;
+        public string? Remarks { get; set; }
+    }
+
+    public class ApproveRequestPayload
+    {
+        public string? Remarks { get; set; }
     }
 }

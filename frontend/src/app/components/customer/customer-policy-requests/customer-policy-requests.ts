@@ -73,6 +73,6 @@ export class CustomerPolicyRequests implements OnInit {
     closeSuccessDialog() {
         this.successDialogVisible = false;
         this.purchasedPolicyName = null;
-        this.router.navigate(['/customer/my-policies']);
+        this.router.navigate(['/customer/policies']);
     }
 }

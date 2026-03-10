@@ -72,9 +72,9 @@ describe('ClaimsOfficerDashboard', () => {
     component.confirmApprove();
     expect(mockToastService.error).toHaveBeenCalled();
   });
-  it('should call confirm on rejectClaim', () => {
-    component.rejectClaim('c1');
-    expect(mockToastService.confirm).toHaveBeenCalled();
+  it('should set rejected claim id on promptReject', () => {
+    component.promptReject('c1');
+    expect(component.selectedRejectClaimId).toBe('c1');
   });
   it('should call openDocument without error', async () => {
     spyOn(window, 'open');

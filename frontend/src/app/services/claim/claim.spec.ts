@@ -56,7 +56,7 @@ describe('ClaimService', () => {
   });
 
   it('should reject a claim via POST /{id}/reject', () => {
-    service.rejectClaim('c1').subscribe();
+    service.rejectClaim('c1', { remarks: 'Rejected' }).subscribe();
     const req = httpMock.expectOne(`${baseUrl}/c1/reject`);
     expect(req.request.method).toBe('POST');
     req.flush('Rejected');

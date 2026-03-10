@@ -178,6 +178,25 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RejectClaimRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RejectClaimRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RejectClaimRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -630,6 +649,25 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApproveRequestPayload"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApproveRequestPayload"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApproveRequestPayload"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -837,6 +875,20 @@
           "approvedAmount": {
             "type": "number",
             "format": "double"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApproveRequestPayload": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1005,10 +1057,24 @@
         },
         "additionalProperties": false
       },
+      "RejectClaimRequest": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "RejectRequestPayload": {
         "type": "object",
         "properties": {
           "reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "remarks": {
             "type": "string",
             "nullable": true
           }

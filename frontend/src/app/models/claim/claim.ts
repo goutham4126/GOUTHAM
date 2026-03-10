@@ -11,6 +11,7 @@ export interface ClaimDto {
     documentUrl?: string;
     documentHash?: string;
     policyId: string;
+    remarks?: string;
 }
 
 export interface CreateClaimRequest {
@@ -23,4 +24,9 @@ export interface CreateClaimRequest {
 export interface ApproveClaimRequest {
     approvedAmount: number;
     notes?: string;
+    remarks?: string;
+}
+
+export interface RejectClaimRequest {
+    remarks?: string;
 }

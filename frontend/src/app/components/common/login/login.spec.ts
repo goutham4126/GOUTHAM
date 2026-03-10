@@ -50,7 +50,7 @@ describe('Login', () => {
   });
 
   it('should have valid form with correct inputs', () => {
-    component.loginForm.setValue({ email: 'user@test.com', password: 'password123' });
+    component.loginForm.setValue({ email: 'user@test.com', password: 'password123', captchaInput: component.captchaText });
     expect(component.loginForm.valid).toBe(true);
   });
 
@@ -61,28 +61,28 @@ describe('Login', () => {
 
   it('should navigate to admin dashboard for Admin role', () => {
     mockAuthService.login.and.returnValue(of({ role: 'Admin', token: 'tok', email: 'a@b.com', firstName: 'A', lastName: 'B' }));
-    component.loginForm.setValue({ email: 'admin@test.com', password: 'password123' });
+    component.loginForm.setValue({ email: 'admin@test.com', password: 'password123', captchaInput: component.captchaText });
     component.onSubmit();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/admin/dashboard']);
   });
 
   it('should navigate to customer dashboard for Customer role', () => {
     mockAuthService.login.and.returnValue(of({ role: 'Customer', token: 'tok', email: 'c@b.com', firstName: 'C', lastName: 'D' }));
-    component.loginForm.setValue({ email: 'cust@test.com', password: 'password123' });
+    component.loginForm.setValue({ email: 'cust@test.com', password: 'password123', captchaInput: component.captchaText });
     component.onSubmit();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/customer/dashboard']);
   });
 
   it('should navigate to agent dashboard for Agent role', () => {
     mockAuthService.login.and.returnValue(of({ role: 'Agent', token: 'tok', email: 'ag@b.com', firstName: 'A', lastName: 'G' }));
-    component.loginForm.setValue({ email: 'ag@test.com', password: 'password123' });
+    component.loginForm.setValue({ email: 'ag@test.com', password: 'password123', captchaInput: component.captchaText });
     component.onSubmit();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/agent/dashboard']);
   });
 
   it('should set error on login failure', () => {
     mockAuthService.login.and.returnValue(throwError(() => new Error('Invalid')));
-    component.loginForm.setValue({ email: 'user@test.com', password: 'wrongpassword' });
+    component.loginForm.setValue({ email: 'user@test.com', password: 'wrongpass', captchaInput: component.captchaText });
     component.onSubmit();
     expect(component.error).toBe('Invalid credentials. Please try again.');
     expect(component.loading).toBe(false);

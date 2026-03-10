@@ -22,7 +22,12 @@ export class AgentPolicyRequests implements OnInit {
     // Rejection Modal State
     selectedRequest: PolicyRequest | null = null;
     rejectionReason: string = '';
+    rejectionRemarks: string = '';
     isRejecting = false;
+
+    // Approval Modal State
+    selectedApprovalRequest: PolicyRequest | null = null;
+    approvalRemarks: string = '';
     isApproving = false;
 
     ngOnInit() {
@@ -46,13 +51,24 @@ export class AgentPolicyRequests implements OnInit {
         });
     }
 
-    approveRequest(req: PolicyRequest) {
-        if (confirm(`Are you sure you want to approve the request for ${req.customerName}?`)) {
+    promptApprove(req: PolicyRequest) {
+        this.selectedApprovalRequest = req;
+        this.approvalRemarks = '';
+    }
+
+    cancelApprove() {
+        this.selectedApprovalRequest = null;
+        this.approvalRemarks = '';
+    }
+
+    confirmApprove() {
+        if (this.selectedApprovalRequest) {
             this.isApproving = true;
-            this.policyRequestService.approveRequest(req.id).subscribe({
+            this.policyRequestService.approveRequest(this.selectedApprovalRequest.id, this.approvalRemarks).subscribe({
                 next: () => {
                     this.toastService.success('Request approved successfully.');
                     this.isApproving = false;
+                    this.selectedApprovalRequest = null;
                     this.cdr.markForCheck();
                     this.loadRequests();
                 },
@@ -69,17 +85,19 @@ export class AgentPolicyRequests implements OnInit {
     promptReject(req: PolicyRequest) {
         this.selectedRequest = req;
         this.rejectionReason = '';
+        this.rejectionRemarks = '';
     }
 
     cancelReject() {
         this.selectedRequest = null;
         this.rejectionReason = '';
+        this.rejectionRemarks = '';
     }
 
     confirmReject() {
         if (this.selectedRequest && this.rejectionReason.trim()) {
             this.isRejecting = true;
-            this.policyRequestService.rejectRequest(this.selectedRequest.id, this.rejectionReason).subscribe({
+            this.policyRequestService.rejectRequest(this.selectedRequest.id, this.rejectionReason, this.rejectionRemarks).subscribe({
                 next: () => {
                     this.toastService.success('Request rejected.');
                     this.isRejecting = false;

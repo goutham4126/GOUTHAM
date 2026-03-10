@@ -42,18 +42,18 @@ describe('CustomerPlans', () => {
     it('should set selectedPlan on promptRequest', () => { component.promptRequest(mockPlan); expect(component.selectedPlan).toEqual(mockPlan); });
     it('should clear selectedPlan on cancelRequest', () => { component.selectedPlan = mockPlan; component.cancelRequest(); expect(component.selectedPlan).toBeNull(); });
     it('should return 0 riskScore when no plan', () => { component.selectedPlan = null; expect(component.riskScore).toBe(0); });
-    it('should compute correct installment for Monthly', () => { component.selectedPlan = mockPlan; component.paymentFrequency = 'Monthly'; expect(component.computedInstallmentAmount).toBe(500); });
-    it('should compute correct installment for Quarterly', () => { component.selectedPlan = mockPlan; component.paymentFrequency = 'Quarterly'; expect(component.computedInstallmentAmount).toBe(1500); });
-    it('should compute correct installment for Yearly', () => { component.selectedPlan = mockPlan; component.paymentFrequency = 'Yearly'; expect(component.computedInstallmentAmount).toBe(6000); });
+    it('should compute correct installment for Monthly', () => { component.selectedPlan = mockPlan; component.requestForm.controls['paymentFrequency'].setValue('Monthly'); expect(component.computedInstallmentAmount).toBe(500); });
+    it('should compute correct installment for Quarterly', () => { component.selectedPlan = mockPlan; component.requestForm.controls['paymentFrequency'].setValue('Quarterly'); expect(component.computedInstallmentAmount).toBe(1500); });
+    it('should compute correct installment for Yearly', () => { component.selectedPlan = mockPlan; component.requestForm.controls['paymentFrequency'].setValue('Yearly'); expect(component.computedInstallmentAmount).toBe(6000); });
     it('should return correct frequencyLabel', () => {
-        component.paymentFrequency = 'Monthly'; expect(component.frequencyLabel).toBe('month');
-        component.paymentFrequency = 'Quarterly'; expect(component.frequencyLabel).toBe('quarter');
-        component.paymentFrequency = 'Yearly'; expect(component.frequencyLabel).toBe('year');
+        component.requestForm.controls['paymentFrequency'].setValue('Monthly'); expect(component.frequencyLabel).toBe('month');
+        component.requestForm.controls['paymentFrequency'].setValue('Quarterly'); expect(component.frequencyLabel).toBe('quarter');
+        component.requestForm.controls['paymentFrequency'].setValue('Yearly'); expect(component.frequencyLabel).toBe('year');
     });
     it('should show success dialog on request creation', () => {
         mockPolicyRequestService.createRequest.and.returnValue(of({ id: 'req1', planName: 'Casualty Plan', paymentFrequency: 'Monthly', durationInMonths: 12, status: 'Pending' }));
         component.selectedPlan = mockPlan;
-        component.durationInMonths = 12;
+        component.requestForm.controls['durationInMonths'].setValue(12);
         component.panDocument = new File([], 'pan.pdf');
         component.addressDocument = new File([], 'address.pdf');
         component.confirmRequest();
@@ -63,7 +63,7 @@ describe('CustomerPlans', () => {
         spyOn(console, 'error');
         mockPolicyRequestService.createRequest.and.returnValue(throwError(() => new Error('Test error')));
         component.selectedPlan = mockPlan;
-        component.durationInMonths = 12;
+        component.requestForm.controls['durationInMonths'].setValue(12);
         component.panDocument = new File([], 'pan.pdf');
         component.addressDocument = new File([], 'address.pdf');
         component.confirmRequest();

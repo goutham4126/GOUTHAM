@@ -41,6 +41,9 @@ namespace Domain.Entities
 
         public string? RejectionReason { get; set; }
 
+        [StringLength(1000)]
+        public string? Remarks { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime? ReviewedAt { get; set; }

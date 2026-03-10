@@ -116,7 +116,7 @@ namespace Application.Services
             return claims.OrderByDescending(c => c.SubmittedAt).Select(MapClaimToDto).ToList();
         }
 
-        public async Task ApproveClaimAsync(Guid claimId, decimal approvedAmount, Guid officerId)
+        public async Task ApproveClaimAsync(Guid claimId, decimal approvedAmount, Guid officerId, string? remarks)
         {
             var claim = await _claimRepo.GetByIdAsync(claimId)
                 ?? throw new Exception("Claim not found");
@@ -126,6 +126,7 @@ namespace Application.Services
 
             claim.Status = ClaimStatus.Approved;
             claim.ApprovedAmount = approvedAmount;
+            claim.Remarks = remarks;
             claim.ProcessedAt = DateTime.UtcNow;
 
             await _claimRepo.UpdateAsync(claim);
@@ -153,7 +154,7 @@ namespace Application.Services
             );
         }
 
-        public async Task RejectClaimAsync(Guid claimId, Guid officerId)
+        public async Task RejectClaimAsync(Guid claimId, Guid officerId, string? remarks)
         {
             var claim = await _claimRepo.GetByIdAsync(claimId)
                 ?? throw new Exception("Claim not found");
@@ -162,6 +163,7 @@ namespace Application.Services
                 throw new UnauthorizedAccessException("Not assigned to this claim");
 
             claim.Status = ClaimStatus.Rejected;
+            claim.Remarks = remarks;
             claim.ProcessedAt = DateTime.UtcNow;
 
             await _claimRepo.UpdateAsync(claim);
@@ -236,7 +238,8 @@ namespace Application.Services
                     : null,
                 claim.DocumentUrl,
                 claim.DocumentHash,
-                claim.PolicyId
+                claim.PolicyId,
+                claim.Remarks
             );
         }
     }

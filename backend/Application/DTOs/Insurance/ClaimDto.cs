@@ -12,5 +12,6 @@ public record ClaimDto(
     string? ClaimOfficerName,
     string? DocumentUrl,
     string? DocumentHash,
-    Guid PolicyId
+    Guid PolicyId,
+    string? Remarks
 );

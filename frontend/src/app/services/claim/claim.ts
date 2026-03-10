@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ApproveClaimRequest, ClaimDto, CreateClaimRequest } from '../../models/claim/claim';
+import { ApproveClaimRequest, ClaimDto, CreateClaimRequest, RejectClaimRequest } from '../../models/claim/claim';
 
 @Injectable({
     providedIn: 'root'
@@ -31,7 +31,7 @@ export class ClaimService {
         return this.http.post(`${this.apiUrl}/${id}/approve`, dto, { responseType: 'text' });
     }
 
-    public rejectClaim(id: string): Observable<any> {
-        return this.http.post(`${this.apiUrl}/${id}/reject`, {}, { responseType: 'text' });
+    public rejectClaim(id: string, dto: RejectClaimRequest): Observable<any> {
+        return this.http.post(`${this.apiUrl}/${id}/reject`, dto, { responseType: 'text' });
     }
 }
