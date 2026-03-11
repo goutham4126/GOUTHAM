@@ -1,10 +1,11 @@
 <div class="max-w-7xl mx-auto px-4 py-8">
   <div class="flex justify-between items-center mb-8">
-    <h1 class="text-3xl font-extrabold text-text-primary">
+    <h1 class="text-3xl font-bold text-text-primary">
       Claim Evaluation Desk</h1>
   </div>
 
-  <div class="bg-surface rounded-3xl shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-border overflow-hidden transition-shadow duration-300">
+  <div
+    class="bg-surface rounded-3xl shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-border overflow-hidden transition-shadow duration-300">
     <div class="px-6 py-5 border-b border-border bg-bg-base flex justify-between items-center">
       <h3 class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
         <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -29,7 +30,8 @@
               Amount Claimed</th>
             <th scope="col" class="px-6 py-4 text-left text-[10px] font-bold text-text-muted uppercase tracking-widest">
               Status</th>
-            <th scope="col" class="px-6 py-4 text-center text-[10px] font-bold text-text-muted uppercase tracking-widest">
+            <th scope="col"
+              class="px-6 py-4 text-center text-[10px] font-bold text-text-muted uppercase tracking-widest">
               Actions</th>
           </tr>
         </thead>
@@ -55,14 +57,15 @@
           <tr class="hover:bg-bg-base/50 transition-colors cursor-pointer" (click)="toggleExpand(c.id)"
             [class.bg-bg-base]="expandedClaimId === c.id">
             <td class="px-6 py-4">
-              <div class="text-[13px] font-extrabold text-text-primary hover:text-primary transition-colors">#{{
+              <div class="text-[13px] font-bold text-text-primary hover:text-primary transition-colors">#{{
                 c.id.substring(0,8) }}</div>
-              <div class="text-[11px] font-bold text-text-muted uppercase tracking-widest mt-0.5">Filed: {{ c.submittedAt |
+              <div class="text-[11px] font-bold text-text-muted uppercase tracking-widest mt-0.5">Filed: {{
+                c.submittedAt |
                 date:'shortDate' }}</div>
               <div class="text-[12px] font-bold text-text-muted mt-1.5 truncate max-w-xs">{{ c.reason }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-[13px] font-extrabold text-text-primary">₹{{ c.claimAmount | number }}</div>
+              <div class="text-[13px] font-bold text-text-primary">₹{{ c.claimAmount | number }}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <span [ngClass]="{
@@ -73,8 +76,9 @@
                 {{ c.status }}
               </span>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-center text-[13px] font-extrabold flex justify-center items-center">
-              <div class="w-8 h-8 rounded-full hover:bg-bg-base flex justify-center items-center text-text-muted hover:text-primary transition-colors">
+            <td class="px-6 py-4 whitespace-nowrap text-center text-[13px] font-bold flex justify-center items-center">
+              <div
+                class="w-8 h-8 rounded-full hover:bg-bg-base flex justify-center items-center text-text-muted hover:text-primary transition-colors">
                 @if (expandedClaimId !== c.id) {
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -96,14 +100,15 @@
                 <!-- Detailed Info Panel -->
                 <div class="bg-bg-base p-6 rounded-2xl shadow-sm border border-border">
                   <h4
-                    class="font-extrabold text-text-primary mb-4 text-[11px] uppercase tracking-widest border-b border-border pb-3">
+                    class="font-bold text-text-primary mb-4 text-[11px] uppercase tracking-widest border-b border-border pb-3">
                     Incident Details</h4>
                   <div class="space-y-5 pt-1">
                     <div>
-                      <span class="text-[10px] font-bold uppercase tracking-widest text-text-muted block mb-1.5">Customer
+                      <span
+                        class="text-[10px] font-bold uppercase tracking-widest text-text-muted block mb-1.5">Customer
                         Name</span>
                       <span
-                        class="text-[13px] font-extrabold text-text-primary bg-surface border border-border px-3 py-1.5 rounded-lg inline-block">{{
+                        class="text-[13px] font-bold text-text-primary bg-surface border border-border px-3 py-1.5 rounded-lg inline-block">{{
                         c.customerName }}</span>
                     </div>
                     <div>
@@ -117,11 +122,12 @@
                 <!-- Verification Documents Panel -->
                 <div class="bg-bg-base p-6 rounded-2xl shadow-sm border border-border">
                   <h4
-                    class="font-extrabold text-text-primary mb-4 text-[11px] uppercase tracking-widest border-b border-border pb-3">
+                    class="font-bold text-text-primary mb-4 text-[11px] uppercase tracking-widest border-b border-border pb-3">
                     Provided Documents</h4>
                   <div class="space-y-5 pt-1">
                     <div>
-                      <span class="text-[10px] font-bold uppercase tracking-widest text-text-muted block mb-1.5">Media Evidence</span>
+                      <span class="text-[10px] font-bold uppercase tracking-widest text-text-muted block mb-1.5">Media
+                        Evidence</span>
                       @if (c.documentUrl && c.documentUrl !== 'N/A') {
                       <div class="flex gap-4 mt-2">
                         <button (click)="openDocument(c.documentUrl)"
@@ -150,7 +156,8 @@
                       }
                     </div>
                     <div>
-                      <span class="text-[10px] font-bold uppercase tracking-widest text-text-muted block mb-1.5">Integrity
+                      <span
+                        class="text-[10px] font-bold uppercase tracking-widest text-text-muted block mb-1.5">Integrity
                         Hash</span>
                       <span
                         class="text-[11px] font-mono font-bold text-text-muted break-all bg-surface p-2.5 rounded-lg border border-border block shadow-sm">{{
@@ -164,17 +171,20 @@
 
               <!-- Video Verification Completed -->
               @if (c.videoVerificationStatus === 'Completed') {
-              <div class="mt-6 bg-accent-green/5 border border-accent-green/20 rounded-[16px] px-5 py-4 flex items-center gap-4 shadow-sm">
-                <div class="w-10 h-10 bg-accent-green/10 rounded-full flex items-center justify-center shrink-0 border border-accent-green/20">
+              <div
+                class="mt-6 bg-accent-green/5 border border-accent-green/20 rounded-[16px] px-5 py-4 flex items-center gap-4 shadow-sm">
+                <div
+                  class="w-10 h-10 bg-accent-green/10 rounded-full flex items-center justify-center shrink-0 border border-accent-green/20">
                   <svg class="w-5 h-5 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
                 <div class="flex-1">
-                  <span class="text-[12px] font-extrabold text-accent-green uppercase tracking-widest">Video Verification
+                  <span class="text-[12px] font-bold text-accent-green uppercase tracking-widest">Video Verification
                     Completed</span>
                   @if (c.videoVerificationRemarks) {
-                  <span class="text-[13px] text-text-primary block mt-1 font-bold italic">"{{ c.videoVerificationRemarks }}"</span>
+                  <span class="text-[13px] text-text-primary block mt-1 font-bold italic">"{{ c.videoVerificationRemarks
+                    }}"</span>
                   }
                 </div>
               </div>
@@ -185,15 +195,17 @@
               <div
                 class="mt-6 bg-primary/5 border border-primary/20 rounded-[16px] px-5 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
                 <div class="flex items-center gap-4">
-                  <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center shrink-0 border border-primary/20">
+                  <div
+                    class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center shrink-0 border border-primary/20">
                     <svg class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                   </div>
                   <div>
-                    <span class="text-[11px] font-bold text-primary uppercase tracking-widest block mb-1">Scheduled Call</span>
-                    <span class="text-[14px] font-extrabold text-text-primary block">{{ c.scheduledVideoCallDate |
+                    <span class="text-[11px] font-bold text-primary uppercase tracking-widest block mb-1">Scheduled
+                      Call</span>
+                    <span class="text-[14px] font-bold text-text-primary block">{{ c.scheduledVideoCallDate |
                       date:'medium' }}</span>
                   </div>
                 </div>
@@ -217,15 +229,17 @@
               </div>
               }
 
-              <div
-                class="mt-8 flex justify-end items-center space-x-4 border-t border-border pt-6 flex-wrap gap-y-3">
+              <div class="mt-8 flex justify-end items-center space-x-4 border-t border-border pt-6 flex-wrap gap-y-3">
                 <span class="text-[12px] text-text-muted font-bold tracking-wide mr-auto flex items-center gap-2">
-                  <svg class="w-4 h-4 text-text-muted/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                  <svg class="w-4 h-4 text-text-muted/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
                   Documents verified? Choose action:
                 </span>
                 @if (c.videoVerificationStatus !== 'Completed') {
                 <button (click)="initiateVideoCall(c)"
-                  class="px-5 py-2.5 bg-surface text-primary hover:bg-primary/5 font-extrabold rounded-[14px] border border-border shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:border-primary/30 transition-all flex items-center gap-2 text-[12px] uppercase tracking-wider">
+                  class="px-5 py-2.5 bg-surface text-primary hover:bg-primary/5 font-bold rounded-[14px] border border-border shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:border-primary/30 transition-all flex items-center gap-2 text-[12px] uppercase tracking-wider">
                   <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -233,7 +247,7 @@
                   Verify Now
                 </button>
                 <button (click)="promptSchedule(c.id)"
-                  class="px-5 py-2.5 bg-surface text-text-primary hover:bg-bg-base font-extrabold rounded-[14px] border border-border shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:border-border transition-all flex items-center gap-2 text-[12px] uppercase tracking-wider">
+                  class="px-5 py-2.5 bg-surface text-text-primary hover:bg-bg-base font-bold rounded-[14px] border border-border shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:border-border transition-all flex items-center gap-2 text-[12px] uppercase tracking-wider">
                   <svg class="w-4 h-4 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -242,18 +256,22 @@
                 </button>
                 }
                 <button (click)="promptReject(c.id)"
-                  class="px-5 py-2.5 bg-surface text-accent-red hover:bg-accent-red/5 font-extrabold rounded-[14px] border border-border shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:border-accent-red/30 transition-all text-[12px] uppercase tracking-wider">
+                  class="px-5 py-2.5 bg-surface text-accent-red hover:bg-accent-red/5 font-bold rounded-[14px] border border-border shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:border-accent-red/30 transition-all text-[12px] uppercase tracking-wider">
                   Reject Claim
                 </button>
                 <button (click)="promptApprove(c)"
-                  class="px-5 py-2.5 bg-primary text-white hover:bg-primary/95 border border-primary/20 font-extrabold rounded-[14px] transition-all shadow-sm text-[12px] uppercase tracking-wider">
+                  class="px-5 py-2.5 bg-primary text-white hover:bg-primary/95 border border-primary/20 font-bold rounded-[14px] transition-all shadow-sm text-[12px] uppercase tracking-wider">
                   Approve & Disburse
                 </button>
               </div>
               }
               @if (c.status !== 'Pending') {
               <div class="mt-6 border-t border-border pt-4">
-                <span class="text-[12px] font-bold text-text-muted italic block text-right flex items-center justify-end gap-1.5"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>This claim has already
+                <span
+                  class="text-[12px] font-bold text-text-muted italic block text-right flex items-center justify-end gap-1.5"><svg
+                    class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>This claim has already
                   been evaluated by an officer.</span>
               </div>
               }
@@ -269,22 +287,21 @@
   <!-- Approval Modal -->
   @if (selectedClaimId) {
   <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-    <div class="bg-surface rounded-3xl shadow-2xl border border-border p-8 max-w-md w-full transform transition-all">
-      <div class="flex justify-center mb-6">
-        <div class="w-16 h-16 p-3 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center shadow-sm">
+    <div class="bg-surface rounded-3xl shadow-2xl border border-border p-4 max-w-md w-full transform transition-all">
+      <div class="flex justify-center mb-4">
+        <div
+          class="w-16 h-16 p-3 bg-primary/90 border border-primary/20 rounded-full flex items-center justify-center shadow-sm">
           <img src="/logo.png" alt="Insure Logo" class="w-full h-full object-contain">
         </div>
       </div>
-      <h3 class="text-xl font-extrabold text-text-primary mb-2 text-center">Confirm Approval Amount</h3>
-      <p class="text-[13px] font-bold text-text-muted mb-8 text-center px-4">Please finalize the amount to be disbursed to the
-        customer
-        for this
-        claim.</p>
+      <h3 class="text-xl font-bold text-text-primary mb-2 text-center">Confirm Approval Amount</h3>
+      <p class="text-[13px] font-bold text-text-muted mb-8 text-center px-4">Please finalize the amount to be disbursed.
+      </p>
       <div class="mb-5">
         <label class="block text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 mt-2">Approved Payout
           (₹)</label>
         <input type="number" [(ngModel)]="approvalAmount" [min]="0"
-          class="w-full bg-bg-base border border-border rounded-xl p-4 text-[18px] font-extrabold font-mono text-text-primary focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none shadow-sm placeholder-text-muted/50 text-center">
+          class="w-full bg-bg-base border border-border rounded-xl p-4 text-[18px] font-bold font-mono text-text-primary focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none shadow-sm placeholder-text-muted/50 text-center">
       </div>
       <div class="mb-6">
         <label class="block text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 mt-2">Remarks
@@ -294,9 +311,9 @@
       </div>
       <div class="flex gap-4 justify-end pt-5 border-t border-border">
         <button (click)="cancelApprove()"
-          class="px-5 py-2.5 bg-bg-base border border-border text-text-primary text-[12px] uppercase tracking-wider font-extrabold rounded-xl hover:bg-border/50 transition-all shadow-sm flex-1">Cancel</button>
+          class="px-5 py-2.5 bg-bg-base border border-border text-text-primary text-[12px] uppercase tracking-wider font-bold rounded-xl hover:bg-border/50 transition-all shadow-sm flex-1">Cancel</button>
         <button (click)="confirmApprove()" [disabled]="isApproving"
-          class="px-5 py-2.5 bg-primary text-white text-[12px] uppercase tracking-wider font-extrabold border border-primary/20 rounded-xl hover:bg-primary/95 transition shadow-sm flex-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+          class="px-5 py-2.5 bg-primary text-white text-[12px] uppercase tracking-wider font-bold border border-primary/20 rounded-xl hover:bg-primary/95 transition shadow-sm flex-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
           @if (isApproving) {
           <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
             viewBox="0 0 24 24">
@@ -321,27 +338,29 @@
 <div class="fixed inset-0 z-[55] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
   <div class="bg-surface border border-border rounded-3xl shadow-2xl p-8 max-w-md w-full transform transition-all">
     <div class="flex justify-center mb-6">
-      <div class="w-14 h-14 bg-accent-red/10 border border-accent-red/20 rounded-full flex items-center justify-center shadow-sm">
+      <div
+        class="w-14 h-14 bg-accent-red/10 border border-accent-red/20 rounded-full flex items-center justify-center shadow-sm">
         <svg class="w-6 h-6 text-accent-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
         </svg>
       </div>
     </div>
-    <h3 class="text-xl font-extrabold text-text-primary mb-2 text-center">Reject Claim</h3>
+    <h3 class="text-xl font-bold text-text-primary mb-2 text-center">Reject Claim</h3>
     <p class="text-[13px] font-bold text-text-muted mb-8 text-center px-4">Are you sure you want to reject this claim
       permanently? You can
       provide optional remarks.</p>
     <div class="mb-6">
-      <label class="block text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 mt-2">Remarks (Optional)</label>
+      <label class="block text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 mt-2">Remarks
+        (Optional)</label>
       <textarea [(ngModel)]="rejectionRemarks" rows="3" placeholder="Rejection remarks..."
         class="w-full bg-bg-base border border-border rounded-xl p-4 text-[13px] font-bold text-text-primary focus:ring-1 focus:ring-accent-red focus:border-accent-red focus:outline-none shadow-sm placeholder-text-muted/50"></textarea>
     </div>
     <div class="flex gap-4 justify-end pt-5 border-t border-border">
       <button (click)="cancelReject()"
-        class="px-5 py-2.5 bg-bg-base border border-border text-text-primary text-[12px] uppercase tracking-wider font-extrabold rounded-xl hover:bg-border/50 transition-all shadow-sm flex-1">Cancel</button>
+        class="px-5 py-2.5 bg-bg-base border border-border text-text-primary text-[12px] uppercase tracking-wider font-bold rounded-xl hover:bg-border/50 transition-all shadow-sm flex-1">Cancel</button>
       <button (click)="confirmReject()" [disabled]="isRejecting"
-        class="px-5 py-2.5 bg-accent-red text-white text-[12px] uppercase tracking-wider font-extrabold border border-accent-red/20 rounded-xl hover:bg-accent-red/90 transition shadow-sm flex-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+        class="px-5 py-2.5 bg-accent-red text-white text-[12px] uppercase tracking-wider font-bold border border-accent-red/20 rounded-xl hover:bg-accent-red/90 transition shadow-sm flex-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
         @if (isRejecting) {
         <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -368,38 +387,40 @@
     <!-- Green top accent -->
     <div class="bg-accent-green px-8 pt-10 pb-8 text-center border-b border-accent-green/20 relative overflow-hidden">
       <!-- Decor circle -->
-      <div class="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 rounded-full bg-white opacity-10 pointer-events-none"></div>
-      
+      <div class="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 rounded-full bg-white opacity-10 pointer-events-none">
+      </div>
+
       <div class="flex items-center justify-center mx-auto mb-5 relative z-10">
         <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-            <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-            </svg>
+          <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+          </svg>
         </div>
       </div>
-      <h3 class="text-2xl font-extrabold text-white relative z-10 font-sans tracking-tight">Payout Approved</h3>
+      <h3 class="text-2xl font-bold text-white relative z-10 font-sans tracking-tight">Payout Approved</h3>
       <p class="text-white/80 text-[13px] font-bold mt-2 relative z-10">Funds are processing for disbursement.</p>
     </div>
     <!-- Details -->
     <div class="px-8 py-8 space-y-4">
       <div class="flex justify-between items-center text-[13px]">
         <span class="text-text-muted font-bold uppercase tracking-widest text-[10px]">Claim ID</span>
-        <span class="font-extrabold text-text-primary font-mono text-[13px]">#{{ approvedClaimId?.substring(0,8) }}</span>
+        <span class="font-bold text-text-primary font-mono text-[13px]">#{{ approvedClaimId?.substring(0,8) }}</span>
       </div>
-      
+
       <!-- Payout Highlight -->
-      <div class="flex justify-between items-center bg-accent-green/10 border border-accent-green/20 rounded-2xl px-5 py-4 shadow-sm mt-4">
+      <div
+        class="flex justify-between items-center bg-accent-green/10 border border-accent-green/20 rounded-2xl px-5 py-4 shadow-sm mt-4">
         <div>
           <p class="text-[10px] font-bold text-accent-green uppercase tracking-widest">Approved Payout</p>
-          <p class="text-[12px] font-extrabold text-accent-green/80 mt-0.5">Ready to send</p>
+          <p class="text-[12px] font-bold text-accent-green/80 mt-0.5">Ready to send</p>
         </div>
-        <span class="text-2xl font-extrabold text-accent-green font-mono">₹{{ approvedClaimAmount | number:'1.2-2' }}</span>
+        <span class="text-2xl font-bold text-accent-green font-mono">₹{{ approvedClaimAmount | number:'1.2-2' }}</span>
       </div>
     </div>
     <!-- Action -->
     <div class="px-8 pb-8 pt-2">
       <button (click)="closeSuccessDialog()"
-        class="w-full py-3.5 bg-accent-green hover:bg-accent-green/90 border border-accent-green/20 text-white font-extrabold uppercase tracking-wider text-[12px] rounded-[14px] shadow-[0_4px_14px_rgba(16,185,129,0.3)] transition-all">
+        class="w-full py-3.5 bg-accent-green hover:bg-accent-green/90 border border-accent-green/20 text-white font-bold uppercase tracking-wider text-[12px] rounded-[14px] shadow-[0_4px_14px_rgba(16,185,129,0.3)] transition-all">
         Back to Dashboard
       </button>
     </div>
@@ -412,15 +433,17 @@
 <div class="fixed inset-0 z-[55] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
   <div class="bg-surface rounded-3xl shadow-2xl border border-border p-8 max-w-md w-full transform transition-all">
     <div class="flex justify-center mb-6">
-      <div class="w-14 h-14 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center shadow-sm">
+      <div
+        class="w-14 h-14 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center shadow-sm">
         <svg class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
       </div>
     </div>
-    <h3 class="text-xl font-extrabold text-text-primary mb-2 text-center">Schedule Video Call</h3>
-    <p class="text-[13px] font-bold text-text-muted mb-8 text-center px-4">Pick a date and time for the video verification call.
+    <h3 class="text-xl font-bold text-text-primary mb-2 text-center">Schedule Video Call</h3>
+    <p class="text-[13px] font-bold text-text-muted mb-8 text-center px-4">Pick a date and time for the video
+      verification call.
       The customer will be notified.</p>
     <div class="mb-6">
       <label class="block text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 mt-2">Date & Time</label>
@@ -429,9 +452,9 @@
     </div>
     <div class="flex gap-4 justify-end pt-5 border-t border-border">
       <button (click)="cancelSchedule()"
-        class="px-5 py-2.5 bg-bg-base border border-border text-text-primary text-[12px] uppercase tracking-wider font-extrabold rounded-xl hover:bg-border/50 transition-all shadow-sm flex-1">Cancel</button>
+        class="px-5 py-2.5 bg-bg-base border border-border text-text-primary text-[12px] uppercase tracking-wider font-bold rounded-xl hover:bg-border/50 transition-all shadow-sm flex-1">Cancel</button>
       <button (click)="confirmSchedule()" [disabled]="isScheduling"
-        class="px-5 py-2.5 bg-primary text-white text-[12px] uppercase tracking-wider font-extrabold border border-primary/20 rounded-xl hover:bg-primary/95 transition shadow-sm flex-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+        class="px-5 py-2.5 bg-primary text-white text-[12px] uppercase tracking-wider font-bold border border-primary/20 rounded-xl hover:bg-primary/95 transition shadow-sm flex-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
         @if (isScheduling) {
         <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -454,26 +477,29 @@
 <div class="fixed inset-0 z-[55] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
   <div class="bg-surface rounded-3xl shadow-2xl border border-border p-8 max-w-md w-full transform transition-all">
     <div class="flex justify-center mb-6">
-      <div class="w-14 h-14 bg-accent-green/10 border border-accent-green/20 rounded-full flex items-center justify-center shadow-sm">
+      <div
+        class="w-14 h-14 bg-accent-green/10 border border-accent-green/20 rounded-full flex items-center justify-center shadow-sm">
         <svg class="w-6 h-6 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
       </div>
     </div>
-    <h3 class="text-xl font-extrabold text-text-primary mb-2 text-center">Complete Video Verification</h3>
-    <p class="text-[13px] font-bold text-text-muted mb-8 text-center px-4">Mark this claim's video verification as completed. You
+    <h3 class="text-xl font-bold text-text-primary mb-2 text-center">Complete Video Verification</h3>
+    <p class="text-[13px] font-bold text-text-muted mb-8 text-center px-4">Mark this claim's video verification as
+      completed. You
       can add optional remarks about the session.</p>
     <div class="mb-6">
-      <label class="block text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 mt-2">Verification Remarks
+      <label class="block text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 mt-2">Verification
+        Remarks
         (Optional)</label>
       <textarea [(ngModel)]="verificationRemarks" rows="3" placeholder="e.g., Identity confirmed, damage verified..."
         class="w-full bg-bg-base border border-border rounded-xl p-4 text-[13px] font-bold text-text-primary focus:ring-1 focus:ring-accent-green focus:border-accent-green focus:outline-none shadow-sm placeholder-text-muted/50"></textarea>
     </div>
     <div class="flex gap-4 justify-end pt-5 border-t border-border">
       <button (click)="cancelCompleteVerification()"
-        class="px-5 py-2.5 bg-bg-base border border-border text-text-primary text-[12px] uppercase tracking-wider font-extrabold rounded-xl hover:bg-border/50 transition-all shadow-sm flex-1">Cancel</button>
+        class="px-5 py-2.5 bg-bg-base border border-border text-text-primary text-[12px] uppercase tracking-wider font-bold rounded-xl hover:bg-border/50 transition-all shadow-sm flex-1">Cancel</button>
       <button (click)="confirmCompleteVerification()" [disabled]="isCompletingVerification"
-        class="px-5 py-2.5 bg-accent-green text-white text-[12px] uppercase tracking-wider font-extrabold border border-accent-green/20 rounded-xl hover:bg-accent-green/90 transition shadow-sm flex-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+        class="px-5 py-2.5 bg-accent-green text-white text-[12px] uppercase tracking-wider font-bold border border-accent-green/20 rounded-xl hover:bg-accent-green/90 transition shadow-sm flex-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
         @if (isCompletingVerification) {
         <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

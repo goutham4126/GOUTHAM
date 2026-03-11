@@ -62,16 +62,27 @@
                 <!-- Phone Number -->
                 <div>
                     <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Phone Number</label>
-                    <input type="text" formControlName="phone"
-                        class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow placeholder:text-text-muted/60"
-                        placeholder="+1 (555) 000-0000">
+                    <div class="flex">
+                        <span class="flex items-center px-4 border border-r-0 border-border rounded-l-lg bg-surface text-text-muted text-[14px]">
+                            +91
+                        </span>
+                        <input type="tel" formControlName="phone" maxlength="10"
+                            class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-r-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow placeholder:text-text-muted/60"
+                            placeholder="9876543210">
+                    </div>
+                    @if (registerForm.get('phone')?.touched && registerForm.get('phone')?.errors?.['pattern']) {
+                    <span class="text-accent-red text-xs mt-1.5 font-bold block">Enter a valid 10-digit Indian mobile number.</span>
+                    }
                 </div>
 
                 <!-- Date Of Birth -->
                 <div>
                     <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Date of Birth</label>
-                    <input type="date" formControlName="dateOfBirth"
-                        class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow text-text-muted">
+                    <input type="date" formControlName="dateOfBirth" [max]="maxDate"
+                        class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow text-text-primary">
+                    @if (registerForm.get('dateOfBirth')?.touched && registerForm.get('dateOfBirth')?.errors?.['underAge']) {
+                    <span class="text-accent-red text-xs mt-1.5 font-bold block">You must be at least 18 years old to register.</span>
+                    }
                 </div>
             </div>
 

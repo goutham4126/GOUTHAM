@@ -1,5 +1,5 @@
 <header
-  class="bg-surface shadow-[0_2px_10px_rgba(0,0,0,0.02)] border-b border-border sticky top-0 z-50 transition-colors">
+  class="bg-surface shadow-[0_2px_10px_rgba(0,0,0,0.02)] border-b border-border z-50 transition-colors flex-shrink-0">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16 items-center">
       <div class="flex items-center gap-3">
@@ -17,7 +17,7 @@
           <div class="w-8 h-8 p-1.5 rounded-lg flex items-center justify-center shadow-sm overflow-hidden bg-primary">
             <img src="/logo.png" alt="Insure Logo" class="w-full h-full object-cover">
           </div>
-          <span class="hidden sm:block text-xl font-extrabold text-primary tracking-tight">Insure</span>
+          <span class="hidden sm:block text-xl font-bold text-primary tracking-tight">Insure</span>
         </div>
       </div>
 
@@ -93,8 +93,7 @@
           <!-- Notification Dropdown -->
           <div *ngIf="isNotificationOpen"
             class="absolute right-0 mt-2 w-80 sm:w-96 bg-surface rounded-xl shadow-lg border border-border overflow-hidden z-50">
-            <div
-              class="p-4 border-b border-border flex justify-between items-center bg-bg-base">
+            <div class="p-4 border-b border-border flex justify-between items-center bg-bg-base">
               <h3 class="font-bold text-text-primary">Notifications</h3>
               <button *ngIf="notificationService.unreadCount() > 0" (click)="markAllAsRead()"
                 class="text-xs text-primary hover:text-primary-light font-medium transition-colors">
@@ -104,16 +103,14 @@
 
             <div class="max-h-[28rem] overflow-y-auto">
               <!-- Loading State or Empty State -->
-              <div *ngIf="!notificationService.notifications().length"
-                class="p-6 text-center text-text-muted">
+              <div *ngIf="!notificationService.notifications().length" class="p-6 text-center text-text-muted">
                 <p>No notifications yet.</p>
               </div>
 
               <!-- Notifications List -->
               <ul class="divide-y divide-border">
                 <li *ngFor="let notification of notificationService.notifications()"
-                  (click)="markAsRead(notification.id)"
-                  class="p-4 cursor-pointer hover:bg-bg-base transition-colors"
+                  (click)="markAsRead(notification.id)" class="p-4 cursor-pointer hover:bg-bg-base transition-colors"
                   [class.bg-primary/5]="!notification.isRead">
                   <div class="flex items-start gap-3">
                     <div class="flex-shrink-0 mt-1">

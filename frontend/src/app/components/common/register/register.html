@@ -1,10 +1,14 @@
-<div class="flex items-center justify-center min-h-[80vh] py-8 px-4">
-  <div class="w-full max-w-lg bg-surface rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-border p-8 border-t-[3px] border-t-primary">
-    <h2 class="text-3xl font-extrabold text-center text-text-primary mb-2 tracking-tight">Create Account</h2>
+<div class="flex items-center justify-center min-h-[85vh] py-8 px-4">
+  <div class="w-full max-w-6xl bg-surface rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-border overflow-hidden flex flex-col lg:flex-row-reverse">
+    
+    <!-- Right: Form -->
+    <div class="w-full lg:w-[60%] p-8 sm:p-12 flex flex-col justify-center max-w-2xl mx-auto">
+    <h2 class="text-3xl font-bold text-center text-text-primary mb-2 tracking-tight">Create Account</h2>
     <p class="text-center text-[14px] text-text-muted mb-6">Fill in your details to get started</p>
 
     @if (error) {
-    <div class="mb-4 p-3 bg-accent-red/10 border border-accent-red/20 text-accent-red rounded-xl text-[13px] font-medium text-center">
+    <div
+      class="mb-4 p-3 bg-accent-red/10 border border-accent-red/20 text-accent-red rounded-xl text-[13px] font-medium text-center">
       {{ error }}
     </div>
     }
@@ -39,7 +43,8 @@
 
       <!-- Email -->
       <div>
-        <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Email <span class="text-accent-red">*</span></label>
+        <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Email <span
+            class="text-accent-red">*</span></label>
         <input type="email" formControlName="email" placeholder="you@example.com"
           [class]="'w-full px-4 py-2.5 border rounded-xl text-[14px] text-text-primary focus:outline-none transition-all shadow-sm ' + (registerForm.get('email')?.invalid && registerForm.get('email')?.touched ? 'border-accent-red/50 focus:ring-1 focus:ring-accent-red focus:border-accent-red bg-accent-red/5' : 'border-border bg-bg-base/40 focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary')">
         @if (registerForm.get('email')?.touched && registerForm.get('email')?.errors) {
@@ -55,17 +60,36 @@
 
       <!-- Password -->
       <div>
-        <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Password <span class="text-accent-red">*</span></label>
-        <input type="password" formControlName="password" placeholder="Min. 8 characters"
-          [class]="'w-full px-4 py-2.5 border rounded-xl text-[14px] text-text-primary focus:outline-none transition-all shadow-sm ' + (registerForm.get('password')?.invalid && registerForm.get('password')?.touched ? 'border-accent-red/50 focus:ring-1 focus:ring-accent-red focus:border-accent-red bg-accent-red/5' : 'border-border bg-bg-base/40 focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary')">
+        <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Password <span
+            class="text-accent-red">*</span></label>
+        <div class="relative">
+          <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Min. 8 characters"
+            [class]="'w-full px-4 py-2.5 pr-11 border rounded-xl text-[14px] text-text-primary focus:outline-none transition-all shadow-sm ' + (registerForm.get('password')?.invalid && registerForm.get('password')?.touched ? 'border-accent-red/50 focus:ring-1 focus:ring-accent-red focus:border-accent-red bg-accent-red/5' : 'border-border bg-bg-base/40 focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary')">
+          <button type="button" (click)="showPassword = !showPassword"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary transition-colors focus:outline-none"
+            tabindex="-1">
+            @if (showPassword) {
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M13.875 18.825A10.05 10.05 0 0112 19c-5 0-9.27-3.11-11-7.5a11.72 11.72 0 013.168-4.477M6.343 6.343A9.97 9.97 0 0112 5c5 0 9.27 3.11 11 7.5a11.72 11.72 0 01-4.168 4.477M6.343 6.343L3 3m3.343 3.343l2.829 2.829m4.486 4.486l2.829 2.829M6.343 6.343l11.314 11.314M14.121 14.121A3 3 0 009.879 9.879" />
+            </svg>
+            } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            }
+          </button>
+        </div>
         @if (registerForm.get('password')?.touched && registerForm.get('password')?.errors) {
         <div class="mt-1.5 text-xs text-accent-red flex items-center gap-1">
           @if (registerForm.get('password')?.errors?.['required']) {
           <span>Password is required.</span>
           } @else if (registerForm.get('password')?.errors?.['minlength']) {
           <span>Password must be at least 8 characters.</span>
-          } @else if (registerForm.get('password')?.errors?.['maxlength']) {
-          <span>Password must be at most 12 characters.</span>
           }
         </div>
         }
@@ -77,17 +101,21 @@
         <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Profile Photo</label>
         <div class="border border-border rounded-xl p-4 bg-bg-base flex flex-col items-center justify-center gap-4">
           @if (!cameraOpen && !capturedImage) {
-            <button type="button" (click)="toggleCamera()" class="px-4 py-2 bg-surface border border-border rounded-xl text-[14px] font-medium text-text-primary hover:bg-bg-base transition-colors shadow-sm flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              Use Camera
-            </button>
+          <button type="button" (click)="toggleCamera()"
+            class="px-4 py-2 bg-surface border border-border rounded-xl text-[14px] font-medium text-text-primary hover:bg-bg-base transition-colors shadow-sm flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-text-muted" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            Use Camera
+          </button>
           }
 
           @if (cameraError) {
-            <div class="text-[13px] text-accent-red text-center">{{ cameraError }}</div>
+          <div class="text-[13px] text-accent-red text-center">{{ cameraError }}</div>
           }
 
           <div [class.hidden]="!cameraOpen" class="w-full flex flex-col items-center gap-3">
@@ -95,39 +123,46 @@
               <video #video autoplay playsinline [muted]="true" class="w-full h-full object-cover"></video>
             </div>
             <div class="flex gap-2">
-              <button type="button" (click)="capturePhoto()" class="px-4 py-1.5 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-light transition shadow-sm">
+              <button type="button" (click)="capturePhoto()"
+                class="px-4 py-1.5 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-light transition shadow-sm">
                 Capture
               </button>
-              <button type="button" (click)="stopCamera()" class="px-4 py-1.5 bg-surface border border-border rounded-lg text-sm font-medium text-text-primary hover:bg-bg-base transition shadow-sm">
+              <button type="button" (click)="stopCamera()"
+                class="px-4 py-1.5 bg-surface border border-border rounded-lg text-sm font-medium text-text-primary hover:bg-bg-base transition shadow-sm">
                 Cancel
               </button>
             </div>
           </div>
 
           @if (capturedImage) {
-            <div class="w-full flex flex-col items-center gap-3">
-              <div class="relative w-40 h-40 rounded-full overflow-hidden border-4 border-surface shadow-[0_4px_14px_rgba(0,0,0,0.1)]">
-                <img [src]="capturedImage" alt="Captured Profile" class="w-full h-full object-cover">
-              </div>
-              <button type="button" (click)="retakePhoto()" class="px-4 py-1.5 bg-surface border border-border rounded-lg text-sm font-medium text-text-primary hover:bg-bg-base transition shadow-sm flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-                Retake
-              </button>
+          <div class="w-full flex flex-col items-center gap-3">
+            <div
+              class="relative w-40 h-40 rounded-full overflow-hidden border-4 border-surface shadow-[0_4px_14px_rgba(0,0,0,0.1)]">
+              <img [src]="capturedImage" alt="Captured Profile" class="w-full h-full object-cover">
             </div>
+            <button type="button" (click)="retakePhoto()"
+              class="px-4 py-1.5 bg-surface border border-border rounded-lg text-sm font-medium text-text-primary hover:bg-bg-base transition shadow-sm flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-text-muted" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Retake
+            </button>
+          </div>
           }
           <!-- Hidden canvas for capturing frame -->
           <canvas #canvas class="hidden"></canvas>
         </div>
       </div>
-      
+
       <div class="relative my-6">
         <div class="absolute inset-0 flex items-center">
           <div class="w-full border-t border-border"></div>
         </div>
         <div class="relative flex justify-center px-2">
-          <span class="bg-surface px-2 text-text-muted text-[11px] uppercase tracking-widest font-bold">Optional Details</span>
+          <span class="bg-surface px-2 text-text-muted text-[11px] uppercase tracking-widest font-bold">Optional
+            Details</span>
         </div>
       </div>
 
@@ -137,20 +172,16 @@
           <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Phone</label>
 
           <div class="flex">
-            <span class="flex items-center px-4 border border-r-0 border-border rounded-l-xl bg-bg-base/70 text-text-muted text-[14px]">
+            <span
+              class="flex items-center px-4 border border-r-0 border-border rounded-l-xl bg-bg-base/70 text-text-muted text-[14px]">
               +91
             </span>
 
-            <input
-              type="tel"
-              formControlName="phone"
-              maxlength="10"
-              placeholder="9876543210"
+            <input type="tel" formControlName="phone" maxlength="10" placeholder="9876543210"
               [class]="'w-full px-4 py-2.5 border rounded-r-xl text-[14px] text-text-primary focus:outline-none transition-all shadow-sm ' +
               (registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched
                 ? 'border-accent-red/50 focus:ring-1 focus:ring-accent-red focus:border-accent-red bg-accent-red/5'
-                : 'border-border bg-bg-base/40 focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary')"
-            >
+                : 'border-border bg-bg-base/40 focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary')">
           </div>
 
           @if (registerForm.get('phone')?.touched && registerForm.get('phone')?.errors?.['pattern']) {
@@ -164,20 +195,16 @@
             Date of Birth
           </label>
 
-          <input
-            type="date"
-            formControlName="dateOfBirth"
-            [max]="maxDate"
+          <input type="date" formControlName="dateOfBirth" [max]="maxDate"
             [class]="'w-full px-4 py-2.5 border rounded-xl text-[14px] text-text-primary focus:outline-none transition-all shadow-sm ' +
               (registerForm.get('dateOfBirth')?.invalid && registerForm.get('dateOfBirth')?.touched
                 ? 'border-accent-red/50 focus:ring-1 focus:ring-accent-red focus:border-accent-red bg-accent-red/5'
-                : 'border-border bg-bg-base/40 focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary')"
-          >
+                : 'border-border bg-bg-base/40 focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary')">
 
           @if (registerForm.get('dateOfBirth')?.touched && registerForm.get('dateOfBirth')?.errors?.['underAge']) {
-            <div class="mt-1.5 text-[12px] text-accent-red">
-              You must be at least 18 years old to register.
-            </div>
+          <div class="mt-1.5 text-[12px] text-accent-red">
+            You must be at least 18 years old to register.
+          </div>
           }
         </div>
       </div>
@@ -213,5 +240,65 @@
       Already a customer?
       <a routerLink="/login" class="text-primary font-semibold hover:text-primary-light transition-colors">Sign in</a>
     </p>
+    </div>
+
+    <!-- Left: Decorative -->
+    <div class="hidden lg:flex w-full lg:w-[40%] bg-violet-700 relative items-center justify-center p-12 overflow-hidden">
+      <!-- Decorative background circles -->
+      <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute bottom-[-10%] right-[-10%] w-80 h-80 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+      
+
+      <!-- Pattern SVG -->
+      <svg class="absolute inset-0 w-full h-full opacity-5 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="grid-pattern-reg" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M0 40V0H40" fill="none" stroke="currentColor" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid-pattern-reg)" />
+      </svg>
+
+      <div class="relative z-10 text-white text-center">
+        <div class="mx-auto mb-8 inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+        </div>
+        <h3 class="text-3xl font-extrabold mb-4 tracking-tight leading-tight">Join Our Community.</h3>
+        <p class="text-white/80 text-[15px] leading-relaxed font-medium">Create your account to get tailored insurance plans, simplified claims processing, and 24/7 support.</p>
+        
+        <div class="mt-12 space-y-4 text-left">
+          <div class="flex items-center gap-5 bg-white/5 p-5 rounded-[1.5rem] border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.1)] backdrop-blur-md">
+            <div class="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+               <svg class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <div>
+              <h4 class="font-extrabold text-[15px] mb-0.5">Lightning Fast Claims</h4>
+              <p class="text-[13px] text-white/80 font-medium">Automated processing for quick payouts.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-5 bg-white/5 p-5 rounded-[1.5rem] border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.1)] backdrop-blur-md">
+            <div class="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+               <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            </div>
+            <div>
+              <h4 class="font-extrabold text-[15px] mb-0.5">Top-Notch Security</h4>
+              <p class="text-[13px] text-white/80 font-medium">Your data is encrypted and safe with us.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-5 bg-white/5 p-5 rounded-[1.5rem] border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.1)] backdrop-blur-md">
+            <div class="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+               <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 14l9-5-9-5-9 5 9 5z" /><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" /></svg>
+            </div>
+            <div>
+              <h4 class="font-extrabold text-[15px] mb-0.5">Personalized Coverage</h4>
+              <p class="text-[13px] text-white/80 font-medium">Plans tailored to your unique needs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>

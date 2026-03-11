@@ -18,14 +18,17 @@
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 
             <!-- Total Users Card (Purple) -->
-            <div class="bg-gradient-to-br from-surface to-primary/5 hover:to-primary/10 rounded-2xl p-5 border border-border mt-3 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.1)] hover:-translate-y-0.5 hover:border-primary/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
+            <div
+                class="bg-gradient-to-br from-surface to-primary/5 hover:to-primary/10 rounded-2xl p-5 border border-border mt-3 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.1)] hover:-translate-y-0.5 hover:border-primary/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
                 <div class="flex flex-row justify-between items-start">
-                    <div class="w-[52px] h-[52px] bg-primary/10 rounded-2xl text-primary flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                    <div
+                        class="w-[52px] h-[52px] bg-primary/10 rounded-2xl text-primary flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
                     </div>
-                    <h4 class="text-[28px] leading-none font-extrabold text-text-primary mt-1">{{ totalUsers }}</h4>
+                    <h4 class="text-[28px] leading-none font-bold text-text-primary mt-1">{{ totalUsers }}</h4>
                 </div>
                 <div class="mt-4 pt-3 border-t border-border/50">
                     <p class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
@@ -35,14 +38,17 @@
             </div>
 
             <!-- Total Plans Card (Blue) -->
-            <div class="bg-gradient-to-br from-surface to-accent-blue/5 hover:to-accent-blue/10 rounded-2xl p-5 border border-border mt-3 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(76,111,255,0.1)] hover:-translate-y-0.5 hover:border-accent-blue/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
+            <div
+                class="bg-gradient-to-br from-surface to-accent-blue/5 hover:to-accent-blue/10 rounded-2xl p-5 border border-border mt-3 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(76,111,255,0.1)] hover:-translate-y-0.5 hover:border-accent-blue/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
                 <div class="flex flex-row justify-between items-start">
-                    <div class="w-[52px] h-[52px] bg-accent-blue/10 rounded-2xl text-accent-blue flex items-center justify-center shrink-0 group-hover:bg-accent-blue group-hover:text-white transition-colors duration-300">
+                    <div
+                        class="w-[52px] h-[52px] bg-accent-blue/10 rounded-2xl text-accent-blue flex items-center justify-center shrink-0 group-hover:bg-accent-blue group-hover:text-white transition-colors duration-300">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                         </svg>
                     </div>
-                    <h4 class="text-[28px] leading-none font-extrabold text-text-primary mt-1">{{ totalPlans }}</h4>
+                    <h4 class="text-[28px] leading-none font-bold text-text-primary mt-1">{{ totalPlans }}</h4>
                 </div>
                 <div class="mt-4 pt-3 border-t border-border/50">
                     <p class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
@@ -52,14 +58,17 @@
             </div>
 
             <!-- Active Policies Card (Green) -->
-            <div class="bg-gradient-to-br from-surface to-accent-green/5 hover:to-accent-green/10 rounded-2xl p-5 border border-border mt-3 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,196,140,0.1)] hover:-translate-y-0.5 hover:border-accent-green/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
+            <div
+                class="bg-gradient-to-br from-surface to-accent-green/5 hover:to-accent-green/10 rounded-2xl p-5 border border-border mt-3 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,196,140,0.1)] hover:-translate-y-0.5 hover:border-accent-green/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
                 <div class="flex flex-row justify-between items-start">
-                    <div class="w-[52px] h-[52px] bg-accent-green/10 rounded-2xl text-accent-green flex items-center justify-center shrink-0 group-hover:bg-accent-green group-hover:text-white transition-colors duration-300">
+                    <div
+                        class="w-[52px] h-[52px] bg-accent-green/10 rounded-2xl text-accent-green flex items-center justify-center shrink-0 group-hover:bg-accent-green group-hover:text-white transition-colors duration-300">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                     </div>
-                    <h4 class="text-[28px] leading-none font-extrabold text-text-primary mt-1">{{ activePolicies }}</h4>
+                    <h4 class="text-[28px] leading-none font-bold text-text-primary mt-1">{{ activePolicies }}</h4>
                 </div>
                 <div class="mt-4 pt-3 border-t border-border/50">
                     <p class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
@@ -69,14 +78,18 @@
             </div>
 
             <!-- Revenue Card (Teal) -->
-            <div class="bg-gradient-to-br from-surface to-teal-500/5 hover:to-teal-500/10 rounded-2xl p-5 border border-border mt-3 hover:shadow-[0_8px_30px_rgba(20,184,166,0.1)] hover:-translate-y-0.5 hover:border-teal-500/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
+            <div
+                class="bg-gradient-to-br from-surface to-teal-500/5 hover:to-teal-500/10 rounded-2xl p-5 border border-border mt-3 hover:shadow-[0_8px_30px_rgba(20,184,166,0.1)] hover:-translate-y-0.5 hover:border-teal-500/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
                 <div class="flex flex-row justify-between items-start">
-                    <div class="w-[52px] h-[52px] bg-teal-500/10 rounded-2xl text-teal-500 flex items-center justify-center shrink-0 group-hover:bg-teal-500 group-hover:text-white transition-colors duration-300">
+                    <div
+                        class="w-[52px] h-[52px] bg-teal-500/10 rounded-2xl text-teal-500 flex items-center justify-center shrink-0 group-hover:bg-teal-500 group-hover:text-white transition-colors duration-300">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
-                    <h4 class="text-[28px] leading-none font-extrabold text-text-primary mt-1">₹{{ totalRevenue | number:'1.0-0' }}</h4>
+                    <h4 class="text-[28px] leading-none font-bold text-text-primary mt-1">₹{{ totalRevenue |
+                        number:'1.0-0' }}</h4>
                 </div>
                 <div class="mt-4 pt-3 border-t border-border/50">
                     <p class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
@@ -86,14 +99,17 @@
             </div>
 
             <!-- Pending Claims (Amber) -->
-            <div class="bg-gradient-to-br from-surface to-amber-500/5 hover:to-amber-500/10 rounded-2xl p-5 border border-border mt-3 hover:shadow-[0_8px_30px_rgba(245,158,11,0.1)] hover:-translate-y-0.5 hover:border-amber-500/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
+            <div
+                class="bg-gradient-to-br from-surface to-amber-500/5 hover:to-amber-500/10 rounded-2xl p-5 border border-border mt-3 hover:shadow-[0_8px_30px_rgba(245,158,11,0.1)] hover:-translate-y-0.5 hover:border-amber-500/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
                 <div class="flex flex-row justify-between items-start">
-                    <div class="w-[52px] h-[52px] bg-amber-500/10 rounded-2xl text-amber-500 flex items-center justify-center shrink-0 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
+                    <div
+                        class="w-[52px] h-[52px] bg-amber-500/10 rounded-2xl text-amber-500 flex items-center justify-center shrink-0 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
-                    <h4 class="text-[28px] leading-none font-extrabold text-text-primary mt-1">{{ pendingClaims }}</h4>
+                    <h4 class="text-[28px] leading-none font-bold text-text-primary mt-1">{{ pendingClaims }}</h4>
                 </div>
                 <div class="mt-4 pt-3 border-t border-border/50">
                     <p class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
@@ -103,14 +119,18 @@
             </div>
 
             <!-- Claims Paid (Rose) -->
-            <div class="bg-gradient-to-br from-surface to-rose-500/5 hover:to-rose-500/10 rounded-2xl p-5 border border-border mt-3 hover:shadow-[0_8px_30px_rgba(244,63,94,0.1)] hover:-translate-y-0.5 hover:border-rose-500/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
+            <div
+                class="bg-gradient-to-br from-surface to-rose-500/5 hover:to-rose-500/10 rounded-2xl p-5 border border-border mt-3 hover:shadow-[0_8px_30px_rgba(244,63,94,0.1)] hover:-translate-y-0.5 hover:border-rose-500/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
                 <div class="flex flex-row justify-between items-start">
-                    <div class="w-[52px] h-[52px] bg-rose-500/10 rounded-2xl text-rose-500 flex items-center justify-center shrink-0 group-hover:bg-rose-500 group-hover:text-white transition-colors duration-300">
+                    <div
+                        class="w-[52px] h-[52px] bg-rose-500/10 rounded-2xl text-rose-500 flex items-center justify-center shrink-0 group-hover:bg-rose-500 group-hover:text-white transition-colors duration-300">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                     </div>
-                    <h4 class="text-[28px] leading-none font-extrabold text-text-primary mt-1">₹{{ totalClaimsPaid | number:'1.0-0' }}</h4>
+                    <h4 class="text-[28px] leading-none font-bold text-text-primary mt-1">₹{{ totalClaimsPaid |
+                        number:'1.0-0' }}</h4>
                 </div>
                 <div class="mt-4 pt-3 border-t border-border/50">
                     <p class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
@@ -125,9 +145,9 @@
         <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
 
             <!-- Table Section -->
-            <div class="lg:col-span-2 bg-surface rounded-[24px] shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-border overflow-hidden h-full">
-                <div
-                    class="px-6 py-4 border-b border-border bg-surface flex justify-between items-center">
+            <div
+                class="lg:col-span-2 bg-surface rounded-[24px] shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-border overflow-hidden h-full">
+                <div class="px-6 py-4 border-b border-border bg-surface flex justify-between items-center">
                     <h3 class="text-xs font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
                         <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -158,7 +178,8 @@
                             @for (u of users; track u) {
                             <tr class="hover:bg-bg-base/50 transition-colors duration-150 group">
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm font-semibold text-text-primary">{{ u.firstName }} {{ u.lastName }}
+                                    <div class="text-sm font-semibold text-text-primary">{{ u.firstName }} {{ u.lastName
+                                        }}
                                     </div>
                                     <div class="text-[13px] text-text-muted mt-0.5">{{ u.email }}</div>
                                 </td>
@@ -190,7 +211,8 @@
             </div>
 
             <!-- Chart Section -->
-            <div class="bg-surface rounded-[24px] shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-border overflow-hidden h-full flex flex-col">
+            <div
+                class="bg-surface rounded-[24px] shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-border overflow-hidden h-full flex flex-col">
                 <div class="px-6 py-4 border-b border-border bg-surface shrink-0">
                     <h3 class="text-xs font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">User
                         Roles Demographics</h3>
@@ -198,11 +220,12 @@
                 <div class="p-6 flex-1 flex flex-col items-center justify-center relative min-h-[380px]">
                     <div class="w-full h-48 relative z-10 flex justify-center">
                         <div class="w-48 h-48 max-w-full">
-                            <canvas baseChart [data]="doughnutChartData" [options]="doughnutChartOptions" [plugins]="doughnutChartPlugins" type="doughnut">
+                            <canvas baseChart [data]="doughnutChartData" [options]="doughnutChartOptions"
+                                [plugins]="doughnutChartPlugins" type="doughnut">
                             </canvas>
                         </div>
                     </div>
-                    
+
                     <!-- Custom Legend -->
                     <div class="mt-8 flex flex-col gap-3 items-start w-fit">
                         <div class="flex items-center gap-2">
@@ -228,42 +251,46 @@
         </div>
 
         <!-- Line Chart Stats Overlay -->
-        <div class="mt-8 bg-surface rounded-[24px] shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-border overflow-hidden flex flex-col relative">
+        <div
+            class="mt-8 bg-surface rounded-[24px] shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-border overflow-hidden flex flex-col relative">
             <div class="px-6 py-4 border-b border-border bg-surface flex justify-between items-center relative z-10">
                 <h3 class="text-xs font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
                     <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
                     </svg>
                     Application Activity & Generation Metrics (6 Months)
                 </h3>
             </div>
-            
+
             <div class="px-6 pt-4 flex gap-3 relative z-10">
                 <!-- Custom Toggles -->
-                <button (click)="toggleDataset(0)" 
-                        class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold transition-all border outline-none"
-                        [ngClass]="policiesActive ? 'bg-[#00C48C]/10 text-text-primary border-[#00C48C]/20' : 'bg-surface text-text-muted border-border hover:bg-bg-base/50'">
-                    <span class="w-2 h-2 rounded-full transition-colors" [ngClass]="policiesActive ? 'bg-[#00C48C]' : 'bg-border'"></span>
+                <button (click)="toggleDataset(0)"
+                    class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold transition-all border outline-none"
+                    [ngClass]="policiesActive ? 'bg-[#00C48C]/10 text-text-primary border-[#00C48C]/20' : 'bg-surface text-text-muted border-border hover:bg-bg-base/50'">
+                    <span class="w-2 h-2 rounded-full transition-colors"
+                        [ngClass]="policiesActive ? 'bg-[#00C48C]' : 'bg-border'"></span>
                     Policies Generated
                 </button>
-                <button (click)="toggleDataset(1)" 
-                        class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold transition-all border outline-none"
-                        [ngClass]="claimsActive ? 'bg-amber-500/10 text-text-primary border-amber-500/20' : 'bg-surface text-text-muted border-border hover:bg-bg-base/50'">
-                    <span class="w-2 h-2 rounded-full transition-colors" [ngClass]="claimsActive ? 'bg-amber-500' : 'bg-border'"></span>
+                <button (click)="toggleDataset(1)"
+                    class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold transition-all border outline-none"
+                    [ngClass]="claimsActive ? 'bg-amber-500/10 text-text-primary border-amber-500/20' : 'bg-surface text-text-muted border-border hover:bg-bg-base/50'">
+                    <span class="w-2 h-2 rounded-full transition-colors"
+                        [ngClass]="claimsActive ? 'bg-amber-500' : 'bg-border'"></span>
                     Claims Submitted
                 </button>
             </div>
 
             <div class="p-6 w-full h-96 relative z-10 hidden sm:block">
-                 <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [plugins]="lineChartPlugins"
-                      [legend]="lineChartLegend" type="line">
-                 </canvas>
+                <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [plugins]="lineChartPlugins"
+                    [legend]="lineChartLegend" type="line">
+                </canvas>
             </div>
             <!-- Mobile Fallback -->
             <div class="p-6 w-full h-64 relative z-10 block sm:hidden">
-                 <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [plugins]="lineChartPlugins"
-                      [legend]="lineChartLegend" type="line">
-                 </canvas>
+                <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [plugins]="lineChartPlugins"
+                    [legend]="lineChartLegend" type="line">
+                </canvas>
             </div>
         </div>
         }

@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-bg-base text-text-primary transition-colors duration-300 flex flex-col">
+<div class="h-screen bg-bg-base text-text-primary transition-colors duration-300 flex flex-col overflow-hidden">
   <app-incoming-call></app-incoming-call>
   <app-toast></app-toast>
   <app-header></app-header>
@@ -8,10 +8,13 @@
     <app-sidebar class="z-40 flex-shrink-0 md:w-64 md:block"></app-sidebar>
     }
 
-    <main class="flex-grow min-w-0 w-full p-4 md:p-8 overflow-y-auto overflow-x-hidden bg-bg-base transition-colors">
-      <router-outlet></router-outlet>
+    <main class="flex-grow min-w-0 w-full overflow-y-auto overflow-x-hidden bg-bg-base transition-colors">
+      <div class="p-4 md:p-8">
+        <router-outlet></router-outlet>
+      </div>
+      @if (!authService.isAuthenticated()) {
+      <app-footer></app-footer>
+      }
     </main>
   </div>
-
-  <app-footer></app-footer>
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../services/user/user';
 import { ToastService } from '../../../services/toast/toast';
@@ -23,6 +23,29 @@ export class AdminRegisterEmployee implements OnInit {
     isSubmitting = false;
     role: 'Agent' | 'ClaimOfficer' = 'Agent';
     pageTitle = 'Employee Registration';
+    maxDate: string;
+
+    constructor() {
+        const today = new Date();
+        today.setFullYear(today.getFullYear() - 18);
+        this.maxDate = today.toISOString().split('T')[0];
+    }
+
+    ageValidator(control: AbstractControl): ValidationErrors | null {
+        if (!control.value) return null;
+
+        const birthDate = new Date(control.value);
+        const today = new Date();
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        return age < 18 ? { underAge: true } : null;
+    }
 
     ngOnInit(): void {
         const path = this.route.snapshot.routeConfig?.path;
@@ -37,13 +60,26 @@ export class AdminRegisterEmployee implements OnInit {
         this.registerForm = this.fb.group({
             firstName: ['', [Validators.required, Validators.maxLength(50)]],
             lastName: ['', [Validators.required, Validators.maxLength(50)]],
-            email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
+            email: [
+                '',
+                [
+                    Validators.required,
+                    Validators.email,
+                    Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
+                    Validators.maxLength(100)
+                ]
+            ],
             password: ['', [Validators.required, Validators.minLength(8)]],
             role: [this.role],
             governmentId: ['', [Validators.maxLength(50)]],
-            phone: ['', [Validators.maxLength(15)]],
+            phone: [
+                '',
+                [
+                    Validators.pattern(/^[6-9]\d{9}$/)
+                ]
+            ],
             address: ['', [Validators.maxLength(250)]],
-            dateOfBirth: ['']
+            dateOfBirth: ['', this.ageValidator.bind(this)]
         });
     }
 

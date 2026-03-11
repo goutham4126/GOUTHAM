@@ -36,6 +36,7 @@ export class Login {
     captchaInput: ['', Validators.required]
   });
 
+  showPassword = false;
   loading = false;
   error = '';
 

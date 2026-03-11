@@ -73,6 +73,7 @@ export class Register implements OnDestroy {
     address: ['']
   });
 
+  showPassword = false;
   loading = false;
   error = '';
 

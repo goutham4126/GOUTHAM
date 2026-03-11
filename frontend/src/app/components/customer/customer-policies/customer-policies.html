@@ -1,60 +1,71 @@
 <div class="flex items-center justify-between mb-6">
-  <div class="hidden sm:block text-[13px] font-bold text-text-muted bg-surface border border-border px-4 py-2 rounded-full shadow-sm">
-      Welcome back, <span class="text-primary">{{ authService.currentUser()?.fullName }}</span>
+  <div
+    class="hidden sm:block text-[13px] font-bold text-text-muted bg-surface border border-border px-4 py-2 rounded-full shadow-sm">
+    Welcome back, <span class="text-primary">{{ authService.currentUser()?.fullName }}</span>
   </div>
 </div>
 
 <!-- Metrics Cards -->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
   <!-- Total Policies Card (Primary) -->
-  <div class="bg-gradient-to-br from-surface to-primary/5 hover:to-primary/10 rounded-2xl p-5 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.1)] hover:-translate-y-0.5 hover:border-primary/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
-      <div class="flex flex-row justify-between items-start">
-          <div class="w-[52px] h-[52px] bg-primary/10 rounded-2xl text-primary flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-          </div>
-          <h4 class="text-[28px] leading-none font-extrabold text-text-primary mt-1">{{ totalPolicies }}</h4>
+  <div
+    class="bg-gradient-to-br from-surface to-primary/5 hover:to-primary/10 rounded-2xl p-5 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.1)] hover:-translate-y-0.5 hover:border-primary/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
+    <div class="flex flex-row justify-between items-start">
+      <div
+        class="w-[52px] h-[52px] bg-primary/10 rounded-2xl text-primary flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
       </div>
-      <div class="mt-4 pt-3 border-t border-border/50">
-          <p class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-primary inline-block"></span> Total Policies
-          </p>
-      </div>
+      <h4 class="text-[28px] leading-none font-bold text-text-primary mt-1">{{ totalPolicies }}</h4>
+    </div>
+    <div class="mt-4 pt-3 border-t border-border/50">
+      <p class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-primary inline-block"></span> Total Policies
+      </p>
+    </div>
   </div>
 
   <!-- Active Policies Card (Green) -->
-  <div class="bg-gradient-to-br from-surface to-accent-green/5 hover:to-accent-green/10 rounded-2xl p-5 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,196,140,0.1)] hover:-translate-y-0.5 hover:border-accent-green/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
-      <div class="flex flex-row justify-between items-start">
-          <div class="w-[52px] h-[52px] bg-accent-green/10 rounded-2xl text-accent-green flex items-center justify-center shrink-0 group-hover:bg-accent-green group-hover:text-white transition-colors duration-300">
-              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-          </div>
-          <h4 class="text-[28px] leading-none font-extrabold text-text-primary mt-1">{{ activePolicies }}</h4>
+  <div
+    class="bg-gradient-to-br from-surface to-accent-green/5 hover:to-accent-green/10 rounded-2xl p-5 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,196,140,0.1)] hover:-translate-y-0.5 hover:border-accent-green/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
+    <div class="flex flex-row justify-between items-start">
+      <div
+        class="w-[52px] h-[52px] bg-accent-green/10 rounded-2xl text-accent-green flex items-center justify-center shrink-0 group-hover:bg-accent-green group-hover:text-white transition-colors duration-300">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
       </div>
-      <div class="mt-4 pt-3 border-t border-border/50">
-          <p class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-accent-green inline-block"></span> Active Policies
-          </p>
-      </div>
+      <h4 class="text-[28px] leading-none font-bold text-text-primary mt-1">{{ activePolicies }}</h4>
+    </div>
+    <div class="mt-4 pt-3 border-t border-border/50">
+      <p class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-accent-green inline-block"></span> Active Policies
+      </p>
+    </div>
   </div>
 
   <!-- Premiums Paid Card (Teal) -->
-  <div class="bg-gradient-to-br from-surface to-teal-500/5 hover:to-teal-500/10 rounded-2xl p-5 border border-border hover:shadow-[0_8px_30px_rgba(20,184,166,0.1)] hover:-translate-y-0.5 hover:border-teal-500/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
-      <div class="flex flex-row justify-between items-start">
-          <div class="w-[52px] h-[52px] bg-teal-500/10 rounded-2xl text-teal-500 flex items-center justify-center shrink-0 group-hover:bg-teal-500 group-hover:text-white transition-colors duration-300">
-              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-          </div>
-          <h4 class="text-[28px] leading-none font-extrabold text-text-primary mt-1">₹{{ totalPremiumPaid | number:'1.0-0' }}</h4>
+  <div
+    class="bg-gradient-to-br from-surface to-teal-500/5 hover:to-teal-500/10 rounded-2xl p-5 border border-border hover:shadow-[0_8px_30px_rgba(20,184,166,0.1)] hover:-translate-y-0.5 hover:border-teal-500/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
+    <div class="flex flex-row justify-between items-start">
+      <div
+        class="w-[52px] h-[52px] bg-teal-500/10 rounded-2xl text-teal-500 flex items-center justify-center shrink-0 group-hover:bg-teal-500 group-hover:text-white transition-colors duration-300">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
       </div>
-      <div class="mt-4 pt-3 border-t border-border/50">
-          <p class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-teal-500 inline-block"></span> Premiums Paid
-          </p>
-      </div>
+      <h4 class="text-[28px] leading-none font-bold text-text-primary mt-1">₹{{ totalPremiumPaid | number:'1.0-0' }}
+      </h4>
+    </div>
+    <div class="mt-4 pt-3 border-t border-border/50">
+      <p class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-teal-500 inline-block"></span> Premiums Paid
+      </p>
+    </div>
   </div>
 </div>
 
@@ -77,8 +88,7 @@
   <div class="p-6">
     @if (loadingPolicies) {
     <div class="flex justify-center items-center py-12 gap-3 text-text-muted">
-      <svg class="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none"
-        viewBox="0 0 24 24">
+      <svg class="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
         <path class="opacity-75" fill="currentColor"
           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
@@ -96,8 +106,9 @@
             d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
       </div>
-      <h4 class="text-xl font-extrabold text-text-primary mb-2">No Active Policies</h4>
-      <p class="text-text-muted text-sm mb-6 max-w-sm mx-auto">You don't have any active policies yet. Browse plans to get insured.</p>
+      <h4 class="text-xl font-bold text-text-primary mb-2">No Active Policies</h4>
+      <p class="text-text-muted text-sm mb-6 max-w-sm mx-auto">You don't have any active policies yet. Browse plans to
+        get insured.</p>
       <a routerLink="/customer/plans"
         class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 text-[13px] font-bold transition shadow-sm border border-primary/20">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -116,8 +127,7 @@
 
         <div class="flex items-start justify-between">
           <div>
-            <h4
-              class="font-extrabold text-text-primary text-xl group-hover:text-primary transition-colors leading-tight">
+            <h4 class="font-bold text-text-primary text-xl group-hover:text-primary transition-colors leading-tight">
               {{ p.plan.name || 'Insurance Plan' }}
             </h4>
             <p class="text-xs text-text-muted font-bold mt-1">Policy #{{ p.id.substring(0,8) }}</p>
@@ -133,17 +143,17 @@
         <div class="grid grid-cols-3 gap-3">
           <div class="bg-bg-base rounded-xl p-3 text-center border border-border/50">
             <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Premium</p>
-            <p class="font-extrabold text-text-primary text-sm">₹{{ p.plan.premiumAmount | number }}</p>
+            <p class="font-bold text-text-primary text-sm">₹{{ p.plan.premiumAmount | number }}</p>
             <p class="text-[10px] text-text-muted mt-0.5">/ {{ p.paymentFrequency }}</p>
           </div>
           <div class="bg-bg-base rounded-xl p-3 text-center border border-border/50">
             <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Total</p>
-            <p class="font-extrabold text-text-primary text-sm">₹{{ p.totalPremium | number }}</p>
+            <p class="font-bold text-text-primary text-sm">₹{{ p.totalPremium | number }}</p>
             <p class="text-[10px] text-text-muted mt-0.5">due</p>
           </div>
           <div class="bg-bg-base rounded-xl p-3 text-center border border-border/50">
             <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Paid</p>
-            <p class="font-extrabold text-accent-green text-sm">₹{{ p.totalPaid | number }}</p>
+            <p class="font-bold text-accent-green text-sm">₹{{ p.totalPaid | number }}</p>
             <p class="text-[10px] text-text-muted mt-0.5">so far</p>
           </div>
         </div>
@@ -151,7 +161,7 @@
         <div>
           <div class="flex justify-between items-center mb-2">
             <span class="text-[10px] font-bold text-text-muted uppercase tracking-widest">Payment Progress</span>
-            <span class="text-[11px] font-extrabold text-text-primary">
+            <span class="text-[11px] font-bold text-text-primary">
               {{ p.totalPremium > 0 ? ((p.totalPaid / p.totalPremium) * 100 | number:'1.0-0') : 0 }}%
             </span>
           </div>
@@ -165,7 +175,8 @@
         <div class="mt-auto pt-2">
           <button (click)="viewSummary(p)"
             class="w-full py-3 bg-bg-base hover:bg-primary text-text-primary hover:text-white text-[13px] font-bold rounded-xl transition-all border border-border hover:border-primary flex items-center justify-center gap-2 group/btn">
-            <svg class="w-4 h-4 text-text-muted group-hover/btn:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="w-4 h-4 text-text-muted group-hover/btn:text-white transition-colors" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
@@ -189,7 +200,7 @@
     <div class="px-6 py-5 border-b border-border bg-surface flex justify-between items-center z-10 sticky top-0">
       <div>
         <h3 class="text-xs font-bold text-text-muted uppercase tracking-widest">Policy Document Summary</h3>
-        <p class="text-sm text-text-primary font-extrabold mt-0.5">{{ selectedPolicySummary.plan.name }}</p>
+        <p class="text-sm text-text-primary font-bold mt-0.5">{{ selectedPolicySummary.plan.name }}</p>
       </div>
       <button (click)="closeSummary()"
         class="p-2 text-text-muted hover:text-text-primary hover:bg-bg-base rounded-lg transition-colors border border-transparent hover:border-border">
@@ -201,7 +212,7 @@
 
     <div class="p-6 overflow-y-auto flex-grow bg-bg-base/30">
       <div class="mb-6 pb-6 border-b border-border">
-        <h4 class="text-2xl font-extrabold text-text-primary mb-2">{{ selectedPolicySummary.plan.name }}</h4>
+        <h4 class="text-2xl font-bold text-text-primary mb-2">{{ selectedPolicySummary.plan.name }}</h4>
         <p class="text-text-muted text-[13px] leading-relaxed">{{ selectedPolicySummary.plan.description }}</p>
       </div>
 
@@ -212,24 +223,25 @@
         </div>
         <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
           <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Status</p>
-          <span class="bg-accent-green/10 text-accent-green border border-accent-green/20 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">{{
+          <span
+            class="bg-accent-green/10 text-accent-green border border-accent-green/20 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">{{
             selectedPolicySummary.status }}</span>
         </div>
         <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
           <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Duration</p>
-          <p class="font-extrabold text-text-primary">{{ selectedPolicySummary.durationInMonths }} Months</p>
+          <p class="font-bold text-text-primary">{{ selectedPolicySummary.durationInMonths }} Months</p>
         </div>
         <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
           <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Max Coverage</p>
-          <p class="font-extrabold text-accent-blue text-lg">₹{{ selectedPolicySummary.coverageAmount | number }}</p>
+          <p class="font-bold text-accent-blue text-lg">₹{{ selectedPolicySummary.coverageAmount | number }}</p>
         </div>
         <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
           <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Total Premium</p>
-          <p class="font-extrabold text-text-primary text-lg">₹{{ selectedPolicySummary.totalPremium | number }}</p>
+          <p class="font-bold text-text-primary text-lg">₹{{ selectedPolicySummary.totalPremium | number }}</p>
         </div>
         <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
           <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Total Paid</p>
-          <p class="font-extrabold text-accent-green text-lg">₹{{ selectedPolicySummary.totalPaid | number }}</p>
+          <p class="font-bold text-accent-green text-lg">₹{{ selectedPolicySummary.totalPaid | number }}</p>
         </div>
       </div>
 
@@ -268,7 +280,7 @@
               </button>
               }
               <div>
-                <span class="font-extrabold text-base block mb-0.5" [ngClass]="{
+                <span class="font-bold text-base block mb-0.5" [ngClass]="{
                       'text-accent-green': payment.status === 'Paid',
                       'text-accent-red': payment.status === 'Pending' && (payment?.dueDate | date:'yyyy-MM-dd')! < (today | date:'yyyy-MM-dd')!,
                       'text-amber-500': payment.status === 'Pending' && (payment?.dueDate | date:'yyyy-MM-dd')! >= (today | date:'yyyy-MM-dd')!

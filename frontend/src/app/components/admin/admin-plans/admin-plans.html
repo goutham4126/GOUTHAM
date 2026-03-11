@@ -2,7 +2,7 @@
   <!-- Header -->
   <div class="flex items-center justify-between">
     <div>
-      <h2 class="text-3xl font-extrabold text-text-primary tracking-tight">Insurance Plans Configuration
+      <h2 class="text-3xl font-bold text-text-primary tracking-tight">Insurance Plans Configuration
       </h2>
       <p class="mt-1 text-sm text-text-muted font-semibold">Design and publish new insurance products for
         your customers.</p>
@@ -16,7 +16,8 @@
   </div>
 
   <!-- Create Plan Form Section (Stripe-like SaaS UI) -->
-  <div class="bg-surface rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.05),0_10px_15px_-5px_rgba(0,0,0,0.02)] border border-border overflow-hidden relative">
+  <div
+    class="bg-surface rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.05),0_10px_15px_-5px_rgba(0,0,0,0.02)] border border-border overflow-hidden relative">
     <div class="px-8 py-5 border-b border-border bg-bg-base/30 flex items-center justify-between gap-3 relative z-10">
       <div class="flex items-center gap-3">
         <div class="bg-primary/10 p-2 rounded-lg text-primary flex items-center justify-center shadow-sm">
@@ -24,7 +25,8 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
         </div>
-        <h3 class="text-base font-bold text-text-primary">{{ editingPlanId ? 'Edit Pricing Package' : 'Create New Package' }}</h3>
+        <h3 class="text-base font-bold text-text-primary">{{ editingPlanId ? 'Edit Pricing Package' : 'Create New
+          Package' }}</h3>
       </div>
       @if (editingPlanId) {
       <button type="button" (click)="cancelEdit()"
@@ -36,133 +38,168 @@
 
     <div class="p-8">
       <form (ngSubmit)="createPlan()" [formGroup]="planForm" class="flex flex-col gap-8">
-        
+
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-8">
-            <!-- Left Side: Basic Info -->
-            <div class="flex flex-col gap-6">
-                <div>
-                    <h4 class="text-sm font-bold text-text-primary mb-1">Package Details</h4>
-                    <p class="text-[13px] text-text-muted mb-4">Define the core information facing the customer.</p>
-                </div>
-
-                <div>
-                    <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Package Name</label>
-                    <input type="text" formControlName="name" placeholder="e.g., Premium Auto Cover"
-                    class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow placeholder:text-text-muted/60">
-                </div>
-
-                <div>
-                    <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Description</label>
-                    <textarea formControlName="description" placeholder="Summarize the core benefits..." rows="3"
-                    class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] resize-none transition-shadow placeholder:text-text-muted/60"></textarea>
-                </div>
+          <!-- Left Side: Basic Info -->
+          <div class="flex flex-col gap-6">
+            <div>
+              <h4 class="text-sm font-bold text-text-primary mb-1">Package Details</h4>
+              <p class="text-[13px] text-text-muted mb-4">Define the core information facing the customer.</p>
             </div>
 
-            <!-- Right Side: Pricing & Config -->
-            <div class="flex flex-col gap-6">
-                <div>
-                    <h4 class="text-sm font-bold text-text-primary mb-1">Pricing & Configuration</h4>
-                    <p class="text-[13px] text-text-muted mb-4">Set financial limits and billing cycles.</p>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Premium Amount</label>
-                        <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span class="text-text-muted text-[14px]">₹</span>
-                        </div>
-                        <input type="number" formControlName="premiumAmount" placeholder="0.00"
-                            class="w-full pl-7 pr-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] font-mono transition-shadow placeholder:text-text-muted/60">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Total Coverage</label>
-                        <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span class="text-text-muted text-[14px]">₹</span>
-                        </div>
-                        <input type="number" formControlName="coverageAmount" placeholder="0.00"
-                            class="w-full pl-7 pr-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] font-mono transition-shadow placeholder:text-text-muted/60">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="relative z-30">
-                        <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Payment Frequency</label>
-                        <!-- Custom Select Wrapper -->
-                        <div class="relative">
-                            @if (isPaymentDropdownOpen) {
-                                <div class="fixed inset-0 z-40" (click)="isPaymentDropdownOpen = false"></div>
-                            }
-                            <div (click)="isPaymentDropdownOpen = !isPaymentDropdownOpen"
-                                class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] cursor-pointer flex justify-between items-center relative z-50 hover:bg-bg-base/50 transition-colors">
-                                <span class="font-medium">{{ currentPaymentFreq === 'Yearly' ? 'Annual Billing' : 'Monthly Billing' }}</span>
-                                <svg class="h-4 w-4 text-text-muted transition-transform duration-200" [class.rotate-180]="isPaymentDropdownOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </div>
-                            
-                            @if (isPaymentDropdownOpen) {
-                            <div class="absolute top-full left-0 w-full mt-1 bg-surface border border-border rounded-lg shadow-[0_10px_25px_rgba(0,0,0,0.1)] z-50 overflow-hidden py-1">
-                                <div (click)="setPaymentFreq('Monthly')" class="px-3.5 py-2 hover:bg-bg-base cursor-pointer transition-colors flex items-center justify-between" [class.bg-bg-base/80]="currentPaymentFreq === 'Monthly'">
-                                <span class="text-[13px] font-medium text-text-primary">Monthly Billing</span>
-                                @if (currentPaymentFreq === 'Monthly') {
-                                    <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                }
-                                </div>
-                                <div (click)="setPaymentFreq('Yearly')" class="px-3.5 py-2 hover:bg-bg-base cursor-pointer transition-colors flex items-center justify-between" [class.bg-bg-base/80]="currentPaymentFreq === 'Yearly'">
-                                <span class="text-[13px] font-medium text-text-primary">Annual Billing</span>
-                                @if (currentPaymentFreq === 'Yearly') {
-                                    <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                }
-                                </div>
-                            </div>
-                            }
-                        </div>
-                    </div>
-
-                    <div class="relative z-20">
-                        <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Plan Type</label>
-                        <div class="relative">
-                            @if (isPlanTypeDropdownOpen) {
-                                <div class="fixed inset-0 z-40" (click)="isPlanTypeDropdownOpen = false"></div>
-                            }
-                            <div (click)="isPlanTypeDropdownOpen = !isPlanTypeDropdownOpen"
-                                class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] cursor-pointer flex justify-between items-center relative z-50 hover:bg-bg-base/50 transition-colors">
-                                <span class="font-medium">{{ currentPlanType === 'Disaster' ? 'Disaster Protection' : 'Property & Casualty' }}</span>
-                                <svg class="h-4 w-4 text-text-muted transition-transform duration-200" [class.rotate-180]="isPlanTypeDropdownOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </div>
-                            
-                            @if (isPlanTypeDropdownOpen) {
-                            <div class="absolute top-full left-0 w-full mt-1 bg-surface border border-border rounded-lg shadow-[0_10px_25px_rgba(0,0,0,0.1)] z-50 overflow-hidden py-1">
-                                <div (click)="setPlanType('Casualty')" class="px-3.5 py-2 hover:bg-bg-base cursor-pointer transition-colors flex items-center justify-between" [class.bg-bg-base/80]="currentPlanType === 'Casualty'">
-                                <span class="text-[13px] font-medium text-text-primary">Property & Casualty</span>
-                                @if (currentPlanType === 'Casualty') {
-                                    <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                }
-                                </div>
-                                <div (click)="setPlanType('Disaster')" class="px-3.5 py-2 hover:bg-bg-base cursor-pointer transition-colors flex items-center justify-between" [class.bg-bg-base/80]="currentPlanType === 'Disaster'">
-                                <span class="text-[13px] font-medium text-text-primary">Disaster Protection</span>
-                                @if (currentPlanType === 'Disaster') {
-                                    <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                }
-                                </div>
-                            </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Duration <span class="text-text-muted font-normal text-[12px]">(Months)</span></label>
-                    <input type="number" formControlName="durationInMonths" placeholder="12"
-                        class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] font-mono transition-shadow placeholder:text-text-muted/60">
-                </div>
+            <div>
+              <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Package Name</label>
+              <input type="text" formControlName="name" placeholder="e.g., Premium Auto Cover"
+                class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow placeholder:text-text-muted/60">
             </div>
+
+            <div>
+              <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Description</label>
+              <textarea formControlName="description" placeholder="Summarize the core benefits..." rows="3"
+                class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] resize-none transition-shadow placeholder:text-text-muted/60"></textarea>
+            </div>
+          </div>
+
+          <!-- Right Side: Pricing & Config -->
+          <div class="flex flex-col gap-6">
+            <div>
+              <h4 class="text-sm font-bold text-text-primary mb-1">Pricing & Configuration</h4>
+              <p class="text-[13px] text-text-muted mb-4">Set financial limits and billing cycles.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Premium Amount</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="text-text-muted text-[14px]">₹</span>
+                  </div>
+                  <input type="number" formControlName="premiumAmount" placeholder="0.00"
+                    class="w-full pl-7 pr-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] font-mono transition-shadow placeholder:text-text-muted/60">
+                </div>
+              </div>
+              <div>
+                <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Total Coverage</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="text-text-muted text-[14px]">₹</span>
+                  </div>
+                  <input type="number" formControlName="coverageAmount" placeholder="0.00"
+                    class="w-full pl-7 pr-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] font-mono transition-shadow placeholder:text-text-muted/60">
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div class="relative z-30">
+                <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Payment Frequency</label>
+                <!-- Custom Select Wrapper -->
+                <div class="relative">
+                  @if (isPaymentDropdownOpen) {
+                  <div class="fixed inset-0 z-40" (click)="isPaymentDropdownOpen = false"></div>
+                  }
+                  <div (click)="isPaymentDropdownOpen = !isPaymentDropdownOpen"
+                    class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] cursor-pointer flex justify-between items-center relative z-50 hover:bg-bg-base/50 transition-colors">
+                    <span class="font-medium">
+                      {{ currentPaymentFreq === 'Yearly' ? 'Annual Billing' : (currentPaymentFreq === 'Quarterly' ?
+                      'Quarterly Billing' : 'Monthly Billing') }}
+                    </span>
+                    <svg class="h-4 w-4 text-text-muted transition-transform duration-200"
+                      [class.rotate-180]="isPaymentDropdownOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </div>
+
+                  @if (isPaymentDropdownOpen) {
+                  <div
+                    class="absolute top-full left-0 w-full mt-1 bg-surface border border-border rounded-lg shadow-[0_10px_25px_rgba(0,0,0,0.1)] z-50 overflow-hidden py-1">
+                    <div (click)="setPaymentFreq('Monthly')"
+                      class="px-3.5 py-2 hover:bg-bg-base cursor-pointer transition-colors flex items-center justify-between"
+                      [class.bg-bg-base/80]="currentPaymentFreq === 'Monthly'">
+                      <span class="text-[13px] font-medium text-text-primary">Monthly Billing</span>
+                      @if (currentPaymentFreq === 'Monthly') {
+                      <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      }
+                    </div>
+                    <div (click)="setPaymentFreq('Quarterly')"
+                      class="px-3.5 py-2 hover:bg-bg-base cursor-pointer transition-colors flex items-center justify-between"
+                      [class.bg-bg-base/80]="currentPaymentFreq === 'Quarterly'">
+                      <span class="text-[13px] font-medium text-text-primary">Quarterly Billing</span>
+                      @if (currentPaymentFreq === 'Quarterly') {
+                      <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      }
+                    </div>
+                    <div (click)="setPaymentFreq('Yearly')"
+                      class="px-3.5 py-2 hover:bg-bg-base cursor-pointer transition-colors flex items-center justify-between"
+                      [class.bg-bg-base/80]="currentPaymentFreq === 'Yearly'">
+                      <span class="text-[13px] font-medium text-text-primary">Annual Billing</span>
+                      @if (currentPaymentFreq === 'Yearly') {
+                      <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      }
+                    </div>
+                  </div>
+                  }
+                </div>
+              </div>
+
+              <div class="relative z-20">
+                <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Plan Type</label>
+                <div class="relative">
+                  @if (isPlanTypeDropdownOpen) {
+                  <div class="fixed inset-0 z-40" (click)="isPlanTypeDropdownOpen = false"></div>
+                  }
+                  <div (click)="isPlanTypeDropdownOpen = !isPlanTypeDropdownOpen"
+                    class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] cursor-pointer flex justify-between items-center relative z-50 hover:bg-bg-base/50 transition-colors">
+                    <span class="font-medium">{{ currentPlanType === 'Disaster' ? 'Disaster Protection' : 'Property &
+                      Casualty' }}</span>
+                    <svg class="h-4 w-4 text-text-muted transition-transform duration-200"
+                      [class.rotate-180]="isPlanTypeDropdownOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </div>
+
+                  @if (isPlanTypeDropdownOpen) {
+                  <div
+                    class="absolute top-full left-0 w-full mt-1 bg-surface border border-border rounded-lg shadow-[0_10px_25px_rgba(0,0,0,0.1)] z-50 overflow-hidden py-1">
+                    <div (click)="setPlanType('Casualty')"
+                      class="px-3.5 py-2 hover:bg-bg-base cursor-pointer transition-colors flex items-center justify-between"
+                      [class.bg-bg-base/80]="currentPlanType === 'Casualty'">
+                      <span class="text-[13px] font-medium text-text-primary">Property & Casualty</span>
+                      @if (currentPlanType === 'Casualty') {
+                      <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      }
+                    </div>
+                    <div (click)="setPlanType('Disaster')"
+                      class="px-3.5 py-2 hover:bg-bg-base cursor-pointer transition-colors flex items-center justify-between"
+                      [class.bg-bg-base/80]="currentPlanType === 'Disaster'">
+                      <span class="text-[13px] font-medium text-text-primary">Disaster Protection</span>
+                      @if (currentPlanType === 'Disaster') {
+                      <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      }
+                    </div>
+                  </div>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Duration <span
+                  class="text-text-muted font-normal text-[12px]">(Months)</span></label>
+              <input type="number" formControlName="durationInMonths" placeholder="12"
+                class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] font-mono transition-shadow placeholder:text-text-muted/60">
+            </div>
+          </div>
         </div>
 
         <!-- Submit -->
@@ -184,7 +221,8 @@
     <div class="px-8 py-6 border-b border-border flex justify-between items-center bg-surface">
       <h3 class="text-lg font-bold text-text-primary flex items-center gap-3">
         Active Packages Directory
-        <span class="bg-primary/10 text-primary border border-primary/20 text-xs py-1 px-3 rounded-full font-bold">{{ plans.length }}
+        <span class="bg-primary/10 text-primary border border-primary/20 text-xs py-1 px-3 rounded-full font-bold">{{
+          plans.length }}
           Total</span>
       </h3>
     </div>
@@ -193,7 +231,8 @@
       <table class="min-w-full divide-y divide-border">
         <thead class="bg-bg-base border-b border-border">
           <tr>
-            <th scope="col" class="px-8 py-5 text-left text-[11px] font-bold text-text-muted uppercase tracking-wider">Package
+            <th scope="col" class="px-8 py-5 text-left text-[11px] font-bold text-text-muted uppercase tracking-wider">
+              Package
               Details</th>
             <th scope="col" class="px-8 py-5 text-left text-[11px] font-bold text-text-muted uppercase tracking-wider">
               Category</th>
@@ -201,7 +240,8 @@
               Premium</th>
             <th scope="col" class="px-8 py-5 text-right text-[11px] font-bold text-text-muted uppercase tracking-wider">
               Coverage Limit</th>
-            <th scope="col" class="px-8 py-5 text-center text-[11px] font-bold text-text-muted uppercase tracking-wider">
+            <th scope="col"
+              class="px-8 py-5 text-center text-[11px] font-bold text-text-muted uppercase tracking-wider">
               Actions</th>
           </tr>
         </thead>
@@ -225,8 +265,7 @@
           <tr class="hover:bg-bg-base/50 transition-colors duration-200 group">
             <td class="px-8 py-5">
               <div class="flex items-center gap-4">
-                <div
-                  class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
                   <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
@@ -241,7 +280,8 @@
               </div>
             </td>
             <td class="px-8 py-5 whitespace-nowrap">
-              <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
+              <span
+                class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
                 [ngClass]="{'bg-accent-red/10 text-accent-red border border-accent-red/20': p.planType === 'Disaster', 'bg-accent-green/10 text-accent-green border border-accent-green/20': p.planType === 'Casualty'}">
                 <span class="w-1.5 h-1.5 rounded-full mr-1.5"
                   [ngClass]="{'bg-accent-red': p.planType === 'Disaster', 'bg-accent-green': p.planType === 'Casualty'}"></span>
@@ -253,18 +293,16 @@
               <div class="text-[10px] text-text-muted font-bold uppercase mt-0.5">{{ p.paymentFrequency }}</div>
             </td>
             <td class="px-8 py-5 whitespace-nowrap text-right">
-              <div class="text-sm font-bold text-primary bg-primary/10 border border-primary/20 inline-block px-3 py-1 rounded-lg">₹{{
+              <div
+                class="text-sm font-bold text-primary bg-primary/10 border border-primary/20 inline-block px-3 py-1 rounded-lg">
+                ₹{{
                 p.coverageAmount | number:'1.2-2' }}</div>
             </td>
             <td class="px-8 py-5 whitespace-nowrap text-center">
               <div class="flex justify-center gap-2 relative">
-                @if (!p.isActive) {
-                <span
-                  class="absolute -top-6 text-[10px] font-bold text-accent-red uppercase tracking-wider bg-accent-red/10 border border-accent-red/20 px-2 py-0.5 rounded-md">Inactive</span>
-                }
-
                 <button type="button" (click)="editPlan(p)"
-                  class="p-2 text-primary bg-primary/10 hover:bg-primary/20 rounded-lg transition-colors shadow-[0_1px_2px_rgba(0,0,0,0.05)]" title="Edit Plan">
+                  class="p-2 text-primary bg-primary/10 hover:bg-primary/20 rounded-lg transition-colors shadow-[0_1px_2px_rgba(0,0,0,0.05)]"
+                  title="Edit Plan">
                   <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
