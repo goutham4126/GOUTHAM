@@ -14,12 +14,8 @@ describe('Home', () => {
   });
 
   it('should create', () => { expect(component).toBeTruthy(); });
-  it('should start with activeTab = home', () => { expect(component.activeTab()).toBe('home'); });
-  it('should have 4 packages', () => { expect(component.packages.length).toBe(4); });
-  it('should update activeTab via setTab', () => { component.setTab('features'); expect(component.activeTab()).toBe('features'); });
-  it('should have one active package (Personal Casualty)', () => {
-    const active = component.packages.filter(p => p.active);
-    expect(active.length).toBe(1);
-    expect(active[0].title).toBe('Personal Casualty');
-  });
+  it('should have 6 workflow steps', () => { expect(component.workflowSteps.length).toBe(6); });
+  it('should have 4 system roles', () => { expect(component.systemRoles.length).toBe(4); });
+  it('should have 3 insurance plans', () => { expect(component.insurancePlans.length).toBe(3); });
+  it('should have 5 platform benefits', () => { expect(component.platformBenefits.length).toBe(5); });
 });

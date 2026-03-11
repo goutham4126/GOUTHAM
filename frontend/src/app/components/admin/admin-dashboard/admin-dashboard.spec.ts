@@ -26,17 +26,17 @@ describe('AdminDashboard', () => {
 
     const mockPolicyService = {
         getAllPolicies: jasmine.createSpy('getAllPolicies').and.returnValue(of([
-            { id: '1', status: 'Approved' },
-            { id: '2', status: 'Pending' },
-            { id: '3', status: 'Rejected' },
-            { id: '4', status: 'Approved' }
+            { id: '1', status: 'Approved', totalPaid: 100 },
+            { id: '2', status: 'Pending', totalPaid: 50 },
+            { id: '3', status: 'Active', totalPaid: 200 },
+            { id: '4', status: 'Active', totalPaid: 150 }
         ]))
     };
 
     const mockClaimService = {
         getAllClaims: jasmine.createSpy('getAllClaims').and.returnValue(of([
-            { id: '1', status: 'Pending' },
-            { id: '2', status: 'Approved' }
+            { id: '1', status: 'Pending', approvedAmount: 0 },
+            { id: '2', status: 'Approved', approvedAmount: 500 }
         ]))
     };
 
@@ -72,13 +72,11 @@ describe('AdminDashboard', () => {
         expect(component.totalPlans).toBe(1);
 
         expect(component.totalPolicies).toBe(4);
-        expect(component.approvedPolicies).toBe(2);
-        expect(component.pendingPolicies).toBe(1);
-        expect(component.rejectedPolicies).toBe(1);
+        expect(component.activePolicies).toBe(2);
+        expect(component.totalRevenue).toBe(500);
 
         expect(component.totalClaims).toBe(2);
-        expect(component.approvedClaims).toBe(1);
         expect(component.pendingClaims).toBe(1);
-        expect(component.rejectedClaims).toBe(0);
+        expect(component.totalClaimsPaid).toBe(500);
     });
 });
