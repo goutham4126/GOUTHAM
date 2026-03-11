@@ -25,6 +25,18 @@ export class CustomerPolicies implements OnInit {
   selectedPolicySummary: PolicyDto | null = null;
   today: Date = new Date();
 
+  get totalPolicies(): number {
+    return this.policies.length;
+  }
+
+  get activePolicies(): number {
+    return this.policies.filter(p => p.status === 'Active').length;
+  }
+
+  get totalPremiumPaid(): number {
+    return this.policies.reduce((sum, p) => sum + (p.totalPaid || 0), 0);
+  }
+
   ngOnInit() {
     this.loadPolicies();
   }

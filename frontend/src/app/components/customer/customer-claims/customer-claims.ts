@@ -43,6 +43,24 @@ export class CustomerClaims implements OnInit {
     amount: [0, [Validators.required, Validators.min(1)]]
   });
 
+  isPolicyDropdownOpen = false;
+
+  togglePolicyDropdown() {
+    this.isPolicyDropdownOpen = !this.isPolicyDropdownOpen;
+  }
+
+  selectPolicy(policyId: string) {
+    this.claimForm.patchValue({ policyId });
+    this.isPolicyDropdownOpen = false;
+  }
+
+  get selectedPolicyName(): string {
+    const policyId = this.claimForm.get('policyId')?.value;
+    if (!policyId) return 'Select a policy to claim against...';
+    const policy = this.availablePolicies.find(p => p.id === policyId);
+    return policy ? `${policy.plan.name} (Policy #${policy.id.substring(0,8)})` : 'Select a policy to claim against...';
+  }
+
   ngOnInit() {
     this.loadPolicies();
     this.loadClaims();

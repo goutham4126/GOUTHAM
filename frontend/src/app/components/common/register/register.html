@@ -1,10 +1,10 @@
 <div class="flex items-center justify-center min-h-[80vh] py-8 px-4">
-  <div class="w-full max-w-lg bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-    <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Create Account</h2>
-    <p class="text-center text-sm text-gray-500 mb-6">Fill in your details to get started</p>
+  <div class="w-full max-w-lg bg-surface rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-border p-8 border-t-[3px] border-t-primary">
+    <h2 class="text-3xl font-extrabold text-center text-text-primary mb-2 tracking-tight">Create Account</h2>
+    <p class="text-center text-[14px] text-text-muted mb-6">Fill in your details to get started</p>
 
     @if (error) {
-    <div class="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm text-center">
+    <div class="mb-4 p-3 bg-accent-red/10 border border-accent-red/20 text-accent-red rounded-xl text-[13px] font-medium text-center">
       {{ error }}
     </div>
     }
@@ -14,23 +14,23 @@
       <!-- Name row -->
       <div class="grid grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">First Name <span
-              class="text-red-500">*</span></label>
+          <label class="block text-[13px] font-semibold text-text-muted mb-1.5">First Name <span
+              class="text-accent-red">*</span></label>
           <input type="text" formControlName="firstName" placeholder="Goutham"
-            [class]="'w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition ' + (registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched ? 'border-red-400 focus:ring-red-300 focus:border-red-400 bg-red-50' : 'border-gray-300 focus:ring-violet-500 focus:border-violet-500')">
+            [class]="'w-full px-4 py-2.5 border rounded-xl text-[14px] text-text-primary focus:outline-none transition-all shadow-sm ' + (registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched ? 'border-accent-red/50 focus:ring-1 focus:ring-accent-red focus:border-accent-red bg-accent-red/5' : 'border-border bg-bg-base/40 focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary')">
           @if (registerForm.get('firstName')?.touched && registerForm.get('firstName')?.errors) {
-          <div class="mt-1.5 text-xs text-red-600 flex items-center gap-1">
+          <div class="mt-1.5 text-xs text-accent-red flex items-center gap-1">
             <span>First Name is required.</span>
           </div>
           }
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Last Name <span
-              class="text-red-500">*</span></label>
+          <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Last Name <span
+              class="text-accent-red">*</span></label>
           <input type="text" formControlName="lastName" placeholder="Kumar"
-            [class]="'w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition ' + (registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched ? 'border-red-400 focus:ring-red-300 focus:border-red-400 bg-red-50' : 'border-gray-300 focus:ring-violet-500 focus:border-violet-500')">
+            [class]="'w-full px-4 py-2.5 border rounded-xl text-[14px] text-text-primary focus:outline-none transition-all shadow-sm ' + (registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched ? 'border-accent-red/50 focus:ring-1 focus:ring-accent-red focus:border-accent-red bg-accent-red/5' : 'border-border bg-bg-base/40 focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary')">
           @if (registerForm.get('lastName')?.touched && registerForm.get('lastName')?.errors) {
-          <div class="mt-1.5 text-xs text-red-600 flex items-center gap-1">
+          <div class="mt-1.5 text-xs text-accent-red flex items-center gap-1">
             <span>Last Name is required.</span>
           </div>
           }
@@ -39,11 +39,11 @@
 
       <!-- Email -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+        <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Email <span class="text-accent-red">*</span></label>
         <input type="email" formControlName="email" placeholder="you@example.com"
-          [class]="'w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition ' + (registerForm.get('email')?.invalid && registerForm.get('email')?.touched ? 'border-red-400 focus:ring-red-300 focus:border-red-400 bg-red-50' : 'border-gray-300 focus:ring-violet-500 focus:border-violet-500')">
+          [class]="'w-full px-4 py-2.5 border rounded-xl text-[14px] text-text-primary focus:outline-none transition-all shadow-sm ' + (registerForm.get('email')?.invalid && registerForm.get('email')?.touched ? 'border-accent-red/50 focus:ring-1 focus:ring-accent-red focus:border-accent-red bg-accent-red/5' : 'border-border bg-bg-base/40 focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary')">
         @if (registerForm.get('email')?.touched && registerForm.get('email')?.errors) {
-        <div class="mt-1.5 text-xs text-red-600 flex items-center gap-1">
+        <div class="mt-1.5 text-xs text-accent-red flex items-center gap-1">
           @if (registerForm.get('email')?.errors?.['required']) {
           <span>Email is required.</span>
           } @else if (registerForm.get('email')?.errors?.['email'] || registerForm.get('email')?.errors?.['pattern']) {
@@ -55,11 +55,11 @@
 
       <!-- Password -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Password <span class="text-red-500">*</span></label>
+        <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Password <span class="text-accent-red">*</span></label>
         <input type="password" formControlName="password" placeholder="Min. 8 characters"
-          [class]="'w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition ' + (registerForm.get('password')?.invalid && registerForm.get('password')?.touched ? 'border-red-400 focus:ring-red-300 focus:border-red-400 bg-red-50' : 'border-gray-300 focus:ring-violet-500 focus:border-violet-500')">
+          [class]="'w-full px-4 py-2.5 border rounded-xl text-[14px] text-text-primary focus:outline-none transition-all shadow-sm ' + (registerForm.get('password')?.invalid && registerForm.get('password')?.touched ? 'border-accent-red/50 focus:ring-1 focus:ring-accent-red focus:border-accent-red bg-accent-red/5' : 'border-border bg-bg-base/40 focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary')">
         @if (registerForm.get('password')?.touched && registerForm.get('password')?.errors) {
-        <div class="mt-1.5 text-xs text-red-600 flex items-center gap-1">
+        <div class="mt-1.5 text-xs text-accent-red flex items-center gap-1">
           @if (registerForm.get('password')?.errors?.['required']) {
           <span>Password is required.</span>
           } @else if (registerForm.get('password')?.errors?.['minlength']) {
@@ -74,11 +74,11 @@
 
       <!-- Profile Photo -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Profile Photo</label>
-        <div class="border border-gray-300 rounded-lg p-4 bg-gray-50 flex flex-col items-center justify-center gap-4">
+        <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Profile Photo</label>
+        <div class="border border-border rounded-xl p-4 bg-bg-base flex flex-col items-center justify-center gap-4">
           @if (!cameraOpen && !capturedImage) {
-            <button type="button" (click)="toggleCamera()" class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition shadow-sm flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button type="button" (click)="toggleCamera()" class="px-4 py-2 bg-surface border border-border rounded-xl text-[14px] font-medium text-text-primary hover:bg-bg-base transition-colors shadow-sm flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
@@ -87,18 +87,18 @@
           }
 
           @if (cameraError) {
-            <div class="text-sm text-red-600 text-center">{{ cameraError }}</div>
+            <div class="text-[13px] text-accent-red text-center">{{ cameraError }}</div>
           }
 
           <div [class.hidden]="!cameraOpen" class="w-full flex flex-col items-center gap-3">
-            <div class="relative w-40 h-40 rounded-full overflow-hidden border-4 border-white shadow-lg bg-gray-200">
+            <div class="relative w-40 h-40 rounded-full overflow-hidden border-4 border-surface shadow-lg bg-bg-base">
               <video #video autoplay playsinline [muted]="true" class="w-full h-full object-cover"></video>
             </div>
             <div class="flex gap-2">
-              <button type="button" (click)="capturePhoto()" class="px-4 py-1.5 bg-violet-600 text-white rounded-lg text-sm font-medium hover:bg-violet-700 transition shadow-sm">
+              <button type="button" (click)="capturePhoto()" class="px-4 py-1.5 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-light transition shadow-sm">
                 Capture
               </button>
-              <button type="button" (click)="stopCamera()" class="px-4 py-1.5 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition shadow-sm">
+              <button type="button" (click)="stopCamera()" class="px-4 py-1.5 bg-surface border border-border rounded-lg text-sm font-medium text-text-primary hover:bg-bg-base transition shadow-sm">
                 Cancel
               </button>
             </div>
@@ -106,11 +106,11 @@
 
           @if (capturedImage) {
             <div class="w-full flex flex-col items-center gap-3">
-              <div class="relative w-40 h-40 rounded-full overflow-hidden border-4 border-white shadow-lg">
+              <div class="relative w-40 h-40 rounded-full overflow-hidden border-4 border-surface shadow-[0_4px_14px_rgba(0,0,0,0.1)]">
                 <img [src]="capturedImage" alt="Captured Profile" class="w-full h-full object-cover">
               </div>
-              <button type="button" (click)="retakePhoto()" class="px-4 py-1.5 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition shadow-sm flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <button type="button" (click)="retakePhoto()" class="px-4 py-1.5 bg-surface border border-border rounded-lg text-sm font-medium text-text-primary hover:bg-bg-base transition shadow-sm flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
                 Retake
@@ -124,20 +124,20 @@
       
       <div class="relative my-6">
         <div class="absolute inset-0 flex items-center">
-          <div class="w-full border-t border-gray-200"></div>
+          <div class="w-full border-t border-border"></div>
         </div>
         <div class="relative flex justify-center px-2">
-          <span class="bg-white px-2 text-violet-600 text-sm font-semibold">Optional Details</span>
+          <span class="bg-surface px-2 text-text-muted text-[11px] uppercase tracking-widest font-bold">Optional Details</span>
         </div>
       </div>
 
       <!-- Phone & DOB row -->
       <div class="grid grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+          <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Phone</label>
 
           <div class="flex">
-            <span class="flex items-center px-3 border border-r-0 border-gray-300 rounded-l-lg bg-gray-50 text-gray-600 text-sm">
+            <span class="flex items-center px-4 border border-r-0 border-border rounded-l-xl bg-bg-base/70 text-text-muted text-[14px]">
               +91
             </span>
 
@@ -146,21 +146,21 @@
               formControlName="phone"
               maxlength="10"
               placeholder="9876543210"
-              [class]="'w-full px-4 py-2.5 border rounded-r-lg text-sm focus:outline-none focus:ring-2 transition ' +
+              [class]="'w-full px-4 py-2.5 border rounded-r-xl text-[14px] text-text-primary focus:outline-none transition-all shadow-sm ' +
               (registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched
-                ? 'border-red-400 focus:ring-red-300 focus:border-red-400 bg-red-50'
-                : 'border-gray-300 focus:ring-violet-500 focus:border-violet-500')"
+                ? 'border-accent-red/50 focus:ring-1 focus:ring-accent-red focus:border-accent-red bg-accent-red/5'
+                : 'border-border bg-bg-base/40 focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary')"
             >
           </div>
 
           @if (registerForm.get('phone')?.touched && registerForm.get('phone')?.errors?.['pattern']) {
-          <div class="mt-1.5 text-xs text-red-600">
+          <div class="mt-1.5 text-[12px] text-accent-red">
             Enter a valid 10-digit Indian mobile number.
           </div>
           }
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">
+          <label class="block text-[13px] font-semibold text-text-muted mb-1.5">
             Date of Birth
           </label>
 
@@ -168,14 +168,14 @@
             type="date"
             formControlName="dateOfBirth"
             [max]="maxDate"
-            [class]="'w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition ' +
+            [class]="'w-full px-4 py-2.5 border rounded-xl text-[14px] text-text-primary focus:outline-none transition-all shadow-sm ' +
               (registerForm.get('dateOfBirth')?.invalid && registerForm.get('dateOfBirth')?.touched
-                ? 'border-red-400 focus:ring-red-300 focus:border-red-400 bg-red-50'
-                : 'border-gray-300 focus:ring-violet-500 focus:border-violet-500')"
+                ? 'border-accent-red/50 focus:ring-1 focus:ring-accent-red focus:border-accent-red bg-accent-red/5'
+                : 'border-border bg-bg-base/40 focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary')"
           >
 
           @if (registerForm.get('dateOfBirth')?.touched && registerForm.get('dateOfBirth')?.errors?.['underAge']) {
-            <div class="mt-1.5 text-xs text-red-600">
+            <div class="mt-1.5 text-[12px] text-accent-red">
               You must be at least 18 years old to register.
             </div>
           }
@@ -184,21 +184,21 @@
 
       <!-- Address -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+        <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Address</label>
         <input type="text" formControlName="address" placeholder="Street, City, State"
-          class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition">
+          class="w-full px-4 py-2.5 border border-border bg-bg-base/40 rounded-xl text-[14px] text-text-primary focus:outline-none focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm">
       </div>
 
       <!-- Government ID -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Government ID</label>
+        <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Government ID</label>
         <input type="text" formControlName="governmentId" placeholder="Aadhar / PAN / Passport"
-          class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition">
+          class="w-full px-4 py-2.5 border border-border bg-bg-base/40 rounded-xl text-[14px] text-text-primary focus:outline-none focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm">
       </div>
 
       <!-- Submit -->
       <button type="submit" [disabled]="registerForm.invalid || loading"
-        class="w-full mt-2 bg-violet-600 text-white font-semibold flex items-center justify-center gap-2 py-3 rounded-xl hover:bg-violet-700 active:bg-violet-800 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm text-sm tracking-wide">
+        class="w-full mt-4 bg-primary text-white font-semibold flex items-center justify-center gap-2 py-3.5 rounded-xl hover:bg-primary-light transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_14px_rgba(124,58,237,0.3)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.4)] text-[14px]">
         @if (loading) {
         <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -209,9 +209,9 @@
       </button>
     </form>
 
-    <p class="mt-6 text-center text-sm text-gray-600">
-      Already a customer ?
-      <a routerLink="/login" class="text-violet-600 font-semibold hover:underline">Sign in</a>
+    <p class="mt-8 text-center text-[13px] text-text-muted">
+      Already a customer?
+      <a routerLink="/login" class="text-primary font-semibold hover:text-primary-light transition-colors">Sign in</a>
     </p>
   </div>
 </div>

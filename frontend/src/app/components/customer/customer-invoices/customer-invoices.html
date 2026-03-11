@@ -1,7 +1,7 @@
 <div class="space-y-6">
-  <div class="mb-2">
-    <h1 class="text-2xl font-bold tracking-tight text-gray-800 dark:text-white">My Invoices</h1>
-    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 font-medium">View and download all your generated invoices.
+  <div class="mb-4">
+    <h1 class="text-3xl font-extrabold tracking-tight text-text-primary">My Invoices</h1>
+    <p class="text-[13px] text-text-muted mt-1 font-bold">View and download all your generated invoices.
     </p>
   </div>
 
@@ -22,15 +22,16 @@
   }
 
   @if (!isLoading && !error) {
-  <div class="space-y-8">
+  <div class="space-y-10">
     <!-- Policy Purchases Section -->
     <section>
       <h2
-        class="text-sm font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest border-b border-gray-100 dark:border-gray-800 pb-3 mb-5">
+        class="text-[11px] font-bold text-text-muted uppercase tracking-widest border-b border-border pb-3 mb-6 flex items-center gap-2">
+        <svg class="w-4 h-4 text-text-muted/70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
         Policy Purchase Invoices</h2>
       @if (policyInvoices.length === 0) {
       <div
-        class="text-sm text-gray-500 dark:text-gray-400 text-center py-6 bg-gray-50/50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800">
+        class="text-[13px] text-text-muted font-bold text-center py-8 bg-surface rounded-[20px] border border-border shadow-sm">
         No policy purchase invoices found.
       </div>
       }
@@ -38,24 +39,24 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         @for (invoice of policyInvoices; track invoice) {
         <div
-          class="border border-gray-100 rounded-2xl p-5 bg-white shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col group">
-          <div class="flex justify-between items-start mb-3">
+          class="border border-border rounded-[20px] p-6 bg-surface shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.05)] hover:border-primary/30 transition-all duration-300 flex flex-col group">
+          <div class="flex justify-between items-start mb-4">
             <span
-              class="inline-flex items-center rounded-lg bg-blue-50 px-2.5 py-1 text-[11px] font-bold text-blue-700 uppercase tracking-wider">Policy
+              class="inline-flex items-center rounded-full bg-accent-blue/10 border border-accent-blue/20 px-3 py-1 text-[10px] font-bold text-accent-blue uppercase tracking-widest">Policy
               Purchase</span>
-            <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">{{ invoice.createdAt | date:'mediumDate'
+            <span class="text-[11px] text-text-muted font-bold tracking-wider uppercase">{{ invoice.createdAt | date:'mediumDate'
               }}</span>
           </div>
           <p
-            class="text-sm text-gray-800 dark:text-gray-500 mb-5 font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex-grow">
+            class="text-[13px] text-text-primary mb-6 font-bold group-hover:text-primary transition-colors flex-grow flex items-center gap-2">
             Ref: {{ invoice.referenceId | slice:0:8 }}...</p>
           <div class="flex gap-3 mt-auto">
             <button (click)="openDocument(invoice.fileUrl)"
-              class="flex-1 inline-flex justify-center items-center rounded-xl bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all active:bg-gray-100 mt-0">
+              class="flex-1 inline-flex justify-center items-center rounded-xl bg-bg-base px-3 py-2.5 text-[12px] uppercase tracking-wider font-bold text-text-primary border border-border shadow-sm hover:bg-border/50 transition-all text-center">
               View PDF
             </button>
             <a [href]="invoice.fileUrl" target="_blank" download
-              class="flex-1 inline-flex justify-center items-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition">
+              class="flex-1 inline-flex justify-center items-center rounded-xl bg-primary px-3 py-2.5 text-[12px] uppercase tracking-wider font-bold text-white shadow-sm hover:bg-primary/95 transition-all text-center border border-primary/20">
               Download
             </a>
           </div>
@@ -67,11 +68,12 @@
     <!-- Payments Section -->
     <section>
       <h2
-        class="text-sm font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest border-b border-gray-100 dark:border-gray-800 pb-3 mb-5 mt-6">
+        class="text-[11px] font-bold text-text-muted uppercase tracking-widest border-b border-border pb-3 mb-6 mt-8 flex items-center gap-2">
+        <svg class="w-4 h-4 text-text-muted/70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
         Payment Receipts</h2>
       @if (paymentInvoices.length === 0) {
       <div
-        class="text-sm text-gray-500 dark:text-gray-400 text-center py-6 bg-gray-50/50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800">
+        class="text-[13px] text-text-muted font-bold text-center py-8 bg-surface rounded-[20px] border border-border shadow-sm">
         No payment invoices found.
       </div>
       }
@@ -79,23 +81,23 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         @for (invoice of paymentInvoices; track invoice) {
         <div
-          class="border border-gray-100 rounded-2xl p-5 bg-white shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col group">
-          <div class="flex justify-between items-start mb-3">
+          class="border border-border rounded-[20px] p-6 bg-surface shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.05)] hover:border-primary/30 transition-all duration-300 flex flex-col group">
+          <div class="flex justify-between items-start mb-4">
             <span
-              class="inline-flex items-center rounded-lg bg-green-50 px-2.5 py-1 text-[11px] font-bold text-green-700 uppercase tracking-wider">Payment</span>
-            <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">{{ invoice.createdAt | date:'mediumDate'
+              class="inline-flex items-center rounded-full bg-accent-green/10 border border-accent-green/20 px-3 py-1 text-[10px] font-bold text-accent-green uppercase tracking-widest">Payment</span>
+            <span class="text-[11px] text-text-muted font-bold tracking-wider uppercase">{{ invoice.createdAt | date:'mediumDate'
               }}</span>
           </div>
           <p
-            class="text-sm text-gray-800 dark:text-gray-500 mb-5 font-semibold group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors flex-grow">
+            class="text-[13px] text-text-primary mb-6 font-bold group-hover:text-primary transition-colors flex-grow">
             Ref: {{ invoice.referenceId | slice:0:8 }}...</p>
           <div class="flex gap-3 mt-auto">
             <button (click)="openDocument(invoice.fileUrl)"
-              class="flex-1 inline-flex justify-center items-center rounded-xl bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all active:bg-gray-100 cursor-pointer">
+              class="flex-1 inline-flex justify-center items-center rounded-xl bg-bg-base px-3 py-2.5 text-[12px] uppercase tracking-wider font-bold text-text-primary border border-border shadow-sm hover:bg-border/50 transition-all text-center">
               View PDF
             </button>
             <a [href]="invoice.fileUrl" target="_blank" download
-              class="flex-1 inline-flex justify-center items-center rounded-xl bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 transition">
+              class="flex-1 inline-flex justify-center items-center rounded-xl bg-primary px-3 py-2.5 text-[12px] uppercase tracking-wider font-bold text-white shadow-sm hover:bg-primary/95 transition-all text-center border border-primary/20">
               Download
             </a>
           </div>
@@ -107,11 +109,12 @@
     <!-- Claim Status Section -->
     <section>
       <h2
-        class="text-sm font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest border-b border-gray-100 dark:border-gray-800 pb-3 mb-5 mt-6">
+        class="text-[11px] font-bold text-text-muted uppercase tracking-widest border-b border-border pb-3 mb-6 mt-8 flex items-center gap-2">
+        <svg class="w-4 h-4 text-text-muted/70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
         Claim Status Invoices</h2>
       @if (claimInvoices.length === 0) {
       <div
-        class="text-sm text-gray-500 dark:text-gray-400 text-center py-6 bg-gray-50/50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800">
+        class="text-[13px] text-text-muted font-bold text-center py-8 bg-surface rounded-[20px] border border-border shadow-sm">
         No claim invoices found.
       </div>
       }
@@ -119,24 +122,24 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         @for (invoice of claimInvoices; track invoice) {
         <div
-          class="border border-gray-100 rounded-2xl p-5 bg-white shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col group">
-          <div class="flex justify-between items-start mb-3">
+          class="border border-border rounded-[20px] p-6 bg-surface shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.05)] hover:border-primary/30 transition-all duration-300 flex flex-col group">
+          <div class="flex justify-between items-start mb-4">
             <span
-              class="inline-flex items-center rounded-lg bg-purple-50 px-2.5 py-1 text-[11px] font-bold text-purple-700 uppercase tracking-wider">Claim
+              class="inline-flex items-center rounded-full bg-primary/10 border border-primary/20 px-3 py-1 text-[10px] font-bold text-primary uppercase tracking-widest">Claim
               Status</span>
-            <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">{{ invoice.createdAt | date:'mediumDate'
+            <span class="text-[11px] text-text-muted font-bold tracking-wider uppercase">{{ invoice.createdAt | date:'mediumDate'
               }}</span>
           </div>
           <p
-            class="text-sm text-gray-800 dark:text-gray-500 mb-5 font-semibold group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors flex-grow">
+            class="text-[13px] text-text-primary mb-6 font-bold group-hover:text-primary transition-colors flex-grow">
             Ref: {{ invoice.referenceId | slice:0:8 }}...</p>
           <div class="flex gap-3 mt-auto">
             <button (click)="openDocument(invoice.fileUrl)"
-              class="flex-1 inline-flex justify-center items-center rounded-xl bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all active:bg-gray-100">
+              class="flex-1 inline-flex justify-center items-center rounded-xl bg-bg-base px-3 py-2.5 text-[12px] uppercase tracking-wider font-bold text-text-primary border border-border shadow-sm hover:bg-border/50 transition-all text-center">
               View PDF
             </button>
             <a [href]="invoice.fileUrl" target="_blank" download
-              class="flex-1 inline-flex justify-center items-center rounded-xl bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-700 transition">
+              class="flex-1 inline-flex justify-center items-center rounded-xl bg-primary px-3 py-2.5 text-[12px] uppercase tracking-wider font-bold text-white shadow-sm hover:bg-primary/95 transition-all text-center border border-primary/20">
               Download
             </a>
           </div>

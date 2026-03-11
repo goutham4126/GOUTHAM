@@ -7,12 +7,12 @@
 
 <!-- Sidebar Container -->
 <aside [class.-translate-x-full]="!layoutService.isSidebarOpen()" [class.translate-x-0]="layoutService.isSidebarOpen()"
-  class="fixed inset-y-0 left-0 z-40 w-64 bg-white dark:bg-black border-r border-gray-100 dark:border-gray-800 flex flex-col pt-5 pb-4 overflow-y-auto transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:h-full flex-shrink-0 transition-colors">
+  class="fixed inset-y-0 left-0 z-40 w-64 bg-surface border-r border-border flex flex-col pt-5 pb-4 overflow-y-auto transition-transform duration-300 ease-in-out md:translate-x-0 md:sticky md:top-0 md:h-screen flex-shrink-0 transition-colors custom-scrollbar">
 
   <div class="px-6 mb-6 flex justify-between items-center">
-    <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Navigation</h3>
+    <h3 class="text-[10px] font-bold text-text-muted uppercase tracking-widest">Navigation</h3>
     <button (click)="layoutService.closeSidebar()"
-      class="md:hidden text-gray-400 hover:text-gray-600 focus:outline-none focus:text-gray-600">
+      class="md:hidden text-text-muted hover:text-text-primary focus:outline-none focus:text-text-primary">
       <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
       </svg>
@@ -23,18 +23,20 @@
   <nav class="mt-2 flex-1 px-4 space-y-2 relative">
     <!-- Customer Links -->
     @if (authService.getRole() === 'Customer') {
-    <a (click)="onLinkClick()" routerLink="/customer/policies" routerLinkActive="bg-blue-50 text-blue-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors">
-      <svg class="text-gray-400 group-hover:text-blue-500 mr-3 flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg"
+    <a (click)="onLinkClick()" routerLink="/customer/policies"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg"
         fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
       </svg>
-      My Policies
+      Dashboard
     </a>
-    <a (click)="onLinkClick()" routerLink="/customer/plans" routerLinkActive="bg-blue-50 text-blue-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
-      <svg class="text-gray-400 group-hover:text-blue-500 mr-3 flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg"
+    <a (click)="onLinkClick()" routerLink="/customer/plans"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 mt-2">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg"
         fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -42,26 +44,28 @@
       Browse Plans
     </a>
     <a (click)="onLinkClick()" routerLink="/customer/my-policy-requests"
-      routerLinkActive="bg-blue-50 text-blue-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
-      <svg class="text-gray-400 group-hover:text-blue-500 mr-3 flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 mt-2">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg"
         fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
       </svg>
       My Requests
     </a>
-    <a (click)="onLinkClick()" routerLink="/customer/claims" routerLinkActive="bg-blue-50 text-blue-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
-      <svg class="text-gray-400 group-hover:text-blue-500 mr-3 flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg"
+    <a (click)="onLinkClick()" routerLink="/customer/claims"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 mt-2">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg"
         fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM12 9v2m0 4h.01" />
       </svg>
       File a Claim
     </a>
-    <a (click)="onLinkClick()" routerLink="/customer/invoices" routerLinkActive="bg-blue-50 text-blue-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
-      <svg class="text-gray-400 group-hover:text-blue-500 mr-3 flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg"
+    <a (click)="onLinkClick()" routerLink="/customer/invoices"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 mt-2">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg"
         fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -69,10 +73,11 @@
       My Invoices
     </a>
     <!-- Profile -->
-    <div class="my-2 border-t border-gray-100 dark:border-gray-800 mx-2"></div>
-    <a (click)="onLinkClick()" routerLink="/customer/profile" routerLinkActive="bg-blue-50 text-blue-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors">
-      <svg class="text-gray-400 group-hover:text-blue-500 mr-3 flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg"
+    <div class="my-3 border-t border-border mx-2"></div>
+    <a (click)="onLinkClick()" routerLink="/customer/profile"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg"
         fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -83,38 +88,41 @@
     <!-- Admin Links -->
     @if (authService.getRole() === 'Admin') {
     <a (click)="onLinkClick()" routerLink="/admin/dashboard"
-      routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors">
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200">
       Dashboard
     </a>
-    <a (click)="onLinkClick()" routerLink="/admin/plans" routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
+    <a (click)="onLinkClick()" routerLink="/admin/plans"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 mt-2">
       Manage Plans
     </a>
     <a (click)="onLinkClick()" routerLink="/admin/policies"
-      routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 mt-2">
       System Policies
     </a>
-    <a (click)="onLinkClick()" routerLink="/admin/claims" routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
+    <a (click)="onLinkClick()" routerLink="/admin/claims"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 mt-2">
       System Claims
     </a>
     <a (click)="onLinkClick()" routerLink="/admin/register-agent"
-      routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 mt-2">
       Agent Registration
     </a>
     <a (click)="onLinkClick()" routerLink="/admin/register-claims-officer"
-      routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 mt-2">
       Claims Officer Registration
     </a>
     <!-- Profile -->
-    <div class="my-2 border-t border-gray-100 dark:border-gray-800 mx-2"></div>
-    <a (click)="onLinkClick()" routerLink="/admin/profile" routerLinkActive="bg-violet-50 text-violet-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors">
-      <svg class="text-gray-400 group-hover:text-indigo-500 mr-3 flex-shrink-0 h-5 w-5"
+    <div class="my-3 border-t border-border mx-2"></div>
+    <a (click)="onLinkClick()" routerLink="/admin/profile"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all"
         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -124,24 +132,36 @@
     }
     <!-- Agent Links -->
     @if (authService.getRole() === 'Agent') {
-    <a (click)="onLinkClick()" routerLink="/agent/policies" routerLinkActive="bg-teal-50 text-teal-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors">
+    <a (click)="onLinkClick()" routerLink="/agent/policies"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
       Assigned Policies
     </a>
-    <a (click)="onLinkClick()" routerLink="/agent/customers" routerLinkActive="bg-teal-50 text-teal-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
+    <a (click)="onLinkClick()" routerLink="/agent/customers"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 mt-2">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+      </svg>
       My Customers
     </a>
     <a (click)="onLinkClick()" routerLink="/agent/policy-requests"
-      routerLinkActive="bg-teal-50 text-teal-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors mt-1">
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 mt-2">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
       Policy Requests
     </a>
     <!-- Profile -->
-    <div class="my-2 border-t border-gray-100 dark:border-gray-800 mx-2"></div>
-    <a (click)="onLinkClick()" routerLink="/agent/profile" routerLinkActive="bg-teal-50 text-teal-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors">
-      <svg class="text-gray-400 group-hover:text-teal-500 mr-3 flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg"
+    <div class="my-3 border-t border-border mx-2"></div>
+    <a (click)="onLinkClick()" routerLink="/agent/profile"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg"
         fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -152,16 +172,19 @@
     <!-- Claim Officer Links -->
     @if (authService.getRole() === 'ClaimOfficer') {
     <a (click)="onLinkClick()" routerLink="/claim-officer/dashboard"
-      routerLinkActive="bg-orange-50 text-orange-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors">
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+      </svg>
       Dashboard
     </a>
     <!-- Profile -->
-    <div class="my-2 border-t border-gray-100 dark:border-gray-800 mx-2"></div>
+    <div class="my-3 border-t border-border mx-2"></div>
     <a (click)="onLinkClick()" routerLink="/claim-officer/profile"
-      routerLinkActive="bg-orange-50 text-orange-700 font-semibold"
-      class="text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-colors">
-      <svg class="text-gray-400 group-hover:text-orange-500 mr-3 flex-shrink-0 h-5 w-5"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
+      class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all"
         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -174,7 +197,7 @@
 
   @if (!authService.isAuthenticated()) {
   <div
-    class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 text-center mt-10 border-t border-gray-100 dark:border-gray-800">
+    class="px-6 py-4 text-sm text-text-muted text-center mt-10 border-t border-border">
     Please log in to access the portal features.
   </div>
   }

@@ -1,11 +1,11 @@
 <header
-  class="bg-white dark:bg-black shadow-sm border-b border-gray-100 dark:border-gray-800 sticky top-0 z-50 transition-colors">
+  class="bg-surface shadow-[0_2px_10px_rgba(0,0,0,0.02)] border-b border-border sticky top-0 z-50 transition-colors">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16 items-center">
       <div class="flex items-center gap-3">
         @if (authService.isAuthenticated()) {
         <button (click)="layoutService.toggleSidebar()"
-          class="md:hidden p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 transition-colors">
+          class="md:hidden p-2 rounded-lg text-text-muted hover:bg-bg-base hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors">
           <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
@@ -14,23 +14,23 @@
 
         <div class="flex-shrink-0 flex items-center cursor-pointer gap-2 ml-1"
           [routerLink]="authService.getRole() === 'Customer' ? '/customer/profile' : authService.getRole() === 'Admin' ? '/admin/profile' : authService.getRole() === 'Agent' ? '/agent/profile' : authService.getRole() === 'ClaimOfficer' ? '/claim-officer/profile' : '/'">
-          <div class="w-8 h-8 p-2 rounded-lg flex items-center justify-center shadow-sm overflow-hidden bg-violet-600">
+          <div class="w-8 h-8 p-1.5 rounded-lg flex items-center justify-center shadow-sm overflow-hidden bg-primary">
             <img src="/logo.png" alt="Insure Logo" class="w-full h-full object-cover">
           </div>
-          <span class="text-xl font-extrabold text-violet-600 dark:text-violet-400 tracking-tight">Insure</span>
+          <span class="hidden sm:block text-xl font-extrabold text-primary tracking-tight">Insure</span>
         </div>
       </div>
 
       <div class="flex items-center space-x-4">
         @if (!authService.isAuthenticated()) {
         <a routerLink="/login"
-          class="bg-violet-600 dark:bg-violet-500 text-white hover:bg-violet-700 dark:hover:bg-violet-600 px-4 py-2 rounded-lg text-sm font-bold shadow-sm transition-colors">Login</a>
+          class="bg-primary text-white hover:bg-primary-light px-4 py-2 rounded-lg text-sm font-bold shadow-sm transition-colors">Login</a>
         }
 
 
         <!-- Theme Toggle Button -->
         <button (click)="themeService.toggleTheme()"
-          class="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 transition-colors"
+          class="p-2 rounded-lg text-text-muted hover:bg-bg-base hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors"
           title="Toggle Dark/Light Mode">
           @if (!themeService.isDarkMode()) {
           <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -57,7 +57,7 @@
           }
           @if (authService.getRole() === 'Admin') {
           <span
-            class="px-2.5 py-0.5 bg-violet-100 text-violet-700 text-xs font-bold rounded-full border border-violet-200 tracking-wide uppercase">{{
+            class="px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full border border-primary/20 tracking-wide uppercase">{{
             authService.getRole() }}</span>
           }
           @if (authService.getRole() === 'Agent') {
@@ -71,7 +71,7 @@
             authService.getRole() }}</span>
           }
           <button (click)="logout()"
-            class="ml-3 text-sm font-semibold text-rose-500 hover:text-rose-700 dark:hover:text-rose-400 transition">Logout</button>
+            class="ml-3 text-sm font-semibold text-accent-red hover:text-red-700 transition">Logout</button>
         </div>
         }
 
@@ -79,7 +79,7 @@
         <!-- Notification Bell -->
         <div class="relative">
           <button (click)="isNotificationOpen = !isNotificationOpen"
-            class="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 transition-colors relative">
+            class="p-2 rounded-full text-text-muted hover:bg-bg-base hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors relative">
             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
@@ -92,12 +92,12 @@
 
           <!-- Notification Dropdown -->
           <div *ngIf="isNotificationOpen"
-            class="absolute right-0 mt-2 w-80 sm:w-96 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 overflow-hidden z-50">
+            class="absolute right-0 mt-2 w-80 sm:w-96 bg-surface rounded-xl shadow-lg border border-border overflow-hidden z-50">
             <div
-              class="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
-              <h3 class="font-bold text-gray-900 dark:text-white">Notifications</h3>
+              class="p-4 border-b border-border flex justify-between items-center bg-bg-base">
+              <h3 class="font-bold text-text-primary">Notifications</h3>
               <button *ngIf="notificationService.unreadCount() > 0" (click)="markAllAsRead()"
-                class="text-xs text-violet-600 dark:text-violet-400 hover:text-violet-800 dark:hover:text-violet-300 font-medium transition-colors">
+                class="text-xs text-primary hover:text-primary-light font-medium transition-colors">
                 Mark all as read
               </button>
             </div>
@@ -105,28 +105,28 @@
             <div class="max-h-[28rem] overflow-y-auto">
               <!-- Loading State or Empty State -->
               <div *ngIf="!notificationService.notifications().length"
-                class="p-6 text-center text-gray-500 dark:text-gray-400">
+                class="p-6 text-center text-text-muted">
                 <p>No notifications yet.</p>
               </div>
 
               <!-- Notifications List -->
-              <ul class="divide-y divide-gray-100 dark:divide-gray-800">
+              <ul class="divide-y divide-border">
                 <li *ngFor="let notification of notificationService.notifications()"
                   (click)="markAsRead(notification.id)"
-                  class="p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/80 transition-colors"
-                  [class.bg-violet-50]="!notification.isRead" [class.dark:bg-violet-900/20]="!notification.isRead">
+                  class="p-4 cursor-pointer hover:bg-bg-base transition-colors"
+                  [class.bg-primary/5]="!notification.isRead">
                   <div class="flex items-start gap-3">
                     <div class="flex-shrink-0 mt-1">
-                      <div class="w-2 h-2 rounded-full" [class.bg-violet-600]="!notification.isRead"></div>
+                      <div class="w-2 h-2 rounded-full" [class.bg-primary]="!notification.isRead"></div>
                     </div>
                     <div class="flex-1 min-w-0">
-                      <p class="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                      <p class="text-sm font-semibold text-text-primary truncate">
                         {{ notification.title }}
                       </p>
-                      <p class="text-sm text-gray-600 dark:text-gray-300 mt-0.5 whitespace-pre-line text-balance">
+                      <p class="text-sm text-text-muted mt-0.5 whitespace-pre-line text-balance">
                         {{ notification.message }}
                       </p>
-                      <p class="text-xs text-gray-400 dark:text-gray-500 mt-2">
+                      <p class="text-xs text-text-muted mt-2">
                         {{ notification.createdAt | date:'short' }}
                       </p>
                     </div>

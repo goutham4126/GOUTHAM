@@ -37,6 +37,17 @@ export class CustomerPlans implements OnInit {
     successDialogVisible = false;
     createdRequest: PolicyRequest | null = null;
 
+    isFrequencyDropdownOpen = false;
+
+    toggleFrequencyDropdown() {
+        this.isFrequencyDropdownOpen = !this.isFrequencyDropdownOpen;
+    }
+
+    selectFrequency(frequency: string) {
+        this.requestForm.patchValue({ paymentFrequency: frequency });
+        this.isFrequencyDropdownOpen = false;
+    }
+
     ngOnInit() {
         this.loading = true;
         this.planService.getAllPlans().subscribe({

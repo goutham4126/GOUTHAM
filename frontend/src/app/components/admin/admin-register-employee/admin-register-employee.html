@@ -1,103 +1,104 @@
-<div
-    class="max-w-2xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-200 mt-6">
-    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/80 flex justify-between items-center backdrop-blur-sm">
-        <h3 class="text-sm font-bold text-gray-700 uppercase tracking-widest flex items-center gap-2">
-            <svg class="w-5 h-5 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
+<div class="w-full bg-surface rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.05),0_10px_15px_-5px_rgba(0,0,0,0.02)] border border-border overflow-hidden relative mt-6">
+    <div class="px-8 py-5 border-b border-border bg-bg-base/30 flex justify-between items-center relative z-10">
+        <h3 class="text-base font-bold text-text-primary flex items-center gap-3">
+            <div class="bg-primary/10 p-2 rounded-lg text-primary flex items-center justify-center shadow-sm">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+            </div>
             {{ pageTitle }}
         </h3>
     </div>
 
-    <div class="p-6">
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <div class="p-8">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-8">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
                 <!-- First Name -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+                    <label class="block text-[13px] font-semibold text-text-primary mb-1.5">First Name *</label>
                     <input type="text" formControlName="firstName"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 outline-none transition-shadow text-black bg-white"
+                        class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow placeholder:text-text-muted/60"
                         placeholder="John">
                     @if (registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched) {
-                    <span class="text-red-500 text-xs mt-1 block">First Name is required.</span>
+                    <span class="text-accent-red text-xs mt-1.5 font-bold block">First Name is required.</span>
                     }
                 </div>
 
                 <!-- Last Name -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+                    <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Last Name *</label>
                     <input type="text" formControlName="lastName"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 outline-none transition-shadow text-black bg-white"
+                        class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow placeholder:text-text-muted/60"
                         placeholder="Doe">
                     @if (registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched) {
-                    <span class="text-red-500 text-xs mt-1 block">Last Name is required.</span>
+                    <span class="text-accent-red text-xs mt-1.5 font-bold block">Last Name is required.</span>
                     }
                 </div>
-            </div>
+                
+                <!-- Email -->
+                <div>
+                    <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Email Address *</label>
+                    <input type="email" formControlName="email"
+                        class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow placeholder:text-text-muted/60"
+                        placeholder="john.doe@example.com">
+                    @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+                    <span class="text-accent-red text-xs mt-1.5 font-bold block">A valid email is required.</span>
+                    }
+                </div>
 
-            <!-- Email -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
-                <input type="email" formControlName="email"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 outline-none transition-shadow text-black bg-white"
-                    placeholder="john.doe@example.com">
-                @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
-                <span class="text-red-500 text-xs mt-1 block">A valid email is required.</span>
-                }
-            </div>
+                <!-- Password -->
+                <div>
+                    <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Password *</label>
+                    <input type="password" formControlName="password"
+                        class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow placeholder:text-text-muted/60"
+                        placeholder="••••••••">
+                    @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+                    <span class="text-accent-red text-xs mt-1.5 font-bold block">Password must be at least 8 characters.</span>
+                    }
+                </div>
 
-            <!-- Password -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Password *</label>
-                <input type="password" formControlName="password"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 outline-none transition-shadow text-black bg-white"
-                    placeholder="••••••••">
-                @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
-                <span class="text-red-500 text-xs mt-1 block">Password must be at least 8 characters.</span>
-                }
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Phone Number -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Phone Number</label>
                     <input type="text" formControlName="phone"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 outline-none transition-shadow text-black bg-white"
+                        class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow placeholder:text-text-muted/60"
                         placeholder="+1 (555) 000-0000">
                 </div>
 
                 <!-- Date Of Birth -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                    <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Date of Birth</label>
                     <input type="date" formControlName="dateOfBirth"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 outline-none transition-shadow text-black bg-white">
+                        class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow text-text-muted">
                 </div>
             </div>
 
-            <!-- Government ID -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Government ID</label>
-                <input type="text" formControlName="governmentId"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 outline-none transition-shadow text-black bg-white"
-                    placeholder="SSN or National ID">
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                <!-- Government ID -->
+                <div>
+                    <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Government ID</label>
+                    <input type="text" formControlName="governmentId"
+                        class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow placeholder:text-text-muted/60"
+                        placeholder="SSN or National ID">
+                </div>
 
-            <!-- Address -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
-                <textarea formControlName="address" rows="3"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 outline-none transition-shadow resize-none text-black bg-white"
-                    placeholder="123 Main St..."></textarea>
+                <!-- Address -->
+                <div>
+                    <label class="block text-[13px] font-semibold text-text-primary mb-1.5">Address</label>
+                    <input type="text" formControlName="address"
+                        class="w-full px-3.5 py-2.5 bg-surface border border-border rounded-lg text-[14px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow placeholder:text-text-muted/60"
+                        placeholder="123 Main St..."/>
+                </div>
             </div>
 
             <!-- Submit Button -->
-            <div class="flex justify-end pt-4 border-t border-gray-100">
+            <div class="flex justify-end pt-6 mt-2 border-t border-border">
                 <button type="submit" [disabled]="registerForm.invalid || isSubmitting"
-                    class="px-6 py-2.5 bg-violet-600 hover:bg-violet-700 disabled:bg-violet-300 text-white font-medium rounded-lg shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 flex items-center gap-2">
+                    class="px-6 py-2.5 bg-primary text-white text-[14px] font-semibold rounded-lg hover:bg-primary-light active:bg-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-[0_4px_10px_rgba(124,58,237,0.3)] flex items-center gap-2">
                     @if (isSubmitting) {
-                    <svg class="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                    <svg class="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
                         </circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z">

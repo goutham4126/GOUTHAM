@@ -32,6 +32,23 @@ export class AdminPlans implements OnInit {
     planType: ['Casualty', Validators.required]
   });
 
+  // Custom Dropdown States
+  isPaymentDropdownOpen = false;
+  isPlanTypeDropdownOpen = false;
+
+  get currentPaymentFreq() { return this.planForm.get('paymentFrequency')?.value; }
+  get currentPlanType() { return this.planForm.get('planType')?.value; }
+
+  setPaymentFreq(val: string) {
+    this.planForm.patchValue({ paymentFrequency: val });
+    this.isPaymentDropdownOpen = false;
+  }
+
+  setPlanType(val: string) {
+    this.planForm.patchValue({ planType: val });
+    this.isPlanTypeDropdownOpen = false;
+  }
+
   ngOnInit() {
     this.loadPlans();
   }

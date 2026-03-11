@@ -1,5 +1,32 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+@theme {
+  --color-primary: #7C3AED;
+  --color-primary-light: #9F67FF;
+  --color-accent-blue: #4C6FFF;
+  --color-accent-green: #00C48C;
+  --color-accent-red: #FF4D4F;
+  --color-accent-purple: #A855F7;
+  --color-surface: #FFFFFF;
+  --color-bg-base: #F5F6FA;
+  --color-sidebar-bg: #FFFFFF;
+  --color-sidebar-active: #7C3AED;
+  --color-text-primary: #1A1D23;
+  --color-text-muted: #8A94A6;
+  --color-border: #EAECF0;
+}
+
+body {
+  background-color: var(--color-bg-base, #F5F6FA);
+  color: var(--color-text-primary, #1A1D23);
+}
+
+.dark {
+  --color-surface: #1E293B;
+  --color-bg-base: #0F172A;
+  --color-sidebar-bg: #1E293B;
+  --color-text-primary: #F8FAFC;
+  --color-text-muted: #94A3B8;
+  --color-border: #334155;
+  color-scheme: dark;
+}

@@ -1,50 +1,105 @@
-﻿<h1 class="text-xl font-bold mb-5 dark:text-white text-gray-500 hidden sm:block">
-  Welcome, {{authService.currentUser()?.fullName }}
-</h1>
+<div class="flex items-center justify-between mb-6">
+  <div class="hidden sm:block text-[13px] font-bold text-text-muted bg-surface border border-border px-4 py-2 rounded-full shadow-sm">
+      Welcome back, <span class="text-primary">{{ authService.currentUser()?.fullName }}</span>
+  </div>
+</div>
 
-<div
-  class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-200">
+<!-- Metrics Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+  <!-- Total Policies Card (Primary) -->
+  <div class="bg-gradient-to-br from-surface to-primary/5 hover:to-primary/10 rounded-2xl p-5 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.1)] hover:-translate-y-0.5 hover:border-primary/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
+      <div class="flex flex-row justify-between items-start">
+          <div class="w-[52px] h-[52px] bg-primary/10 rounded-2xl text-primary flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+          </div>
+          <h4 class="text-[28px] leading-none font-extrabold text-text-primary mt-1">{{ totalPolicies }}</h4>
+      </div>
+      <div class="mt-4 pt-3 border-t border-border/50">
+          <p class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-primary inline-block"></span> Total Policies
+          </p>
+      </div>
+  </div>
+
+  <!-- Active Policies Card (Green) -->
+  <div class="bg-gradient-to-br from-surface to-accent-green/5 hover:to-accent-green/10 rounded-2xl p-5 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,196,140,0.1)] hover:-translate-y-0.5 hover:border-accent-green/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
+      <div class="flex flex-row justify-between items-start">
+          <div class="w-[52px] h-[52px] bg-accent-green/10 rounded-2xl text-accent-green flex items-center justify-center shrink-0 group-hover:bg-accent-green group-hover:text-white transition-colors duration-300">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+          </div>
+          <h4 class="text-[28px] leading-none font-extrabold text-text-primary mt-1">{{ activePolicies }}</h4>
+      </div>
+      <div class="mt-4 pt-3 border-t border-border/50">
+          <p class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-accent-green inline-block"></span> Active Policies
+          </p>
+      </div>
+  </div>
+
+  <!-- Premiums Paid Card (Teal) -->
+  <div class="bg-gradient-to-br from-surface to-teal-500/5 hover:to-teal-500/10 rounded-2xl p-5 border border-border hover:shadow-[0_8px_30px_rgba(20,184,166,0.1)] hover:-translate-y-0.5 hover:border-teal-500/30 transition-all duration-300 flex flex-col justify-between cursor-default group min-h-[140px]">
+      <div class="flex flex-row justify-between items-start">
+          <div class="w-[52px] h-[52px] bg-teal-500/10 rounded-2xl text-teal-500 flex items-center justify-center shrink-0 group-hover:bg-teal-500 group-hover:text-white transition-colors duration-300">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+          </div>
+          <h4 class="text-[28px] leading-none font-extrabold text-text-primary mt-1">₹{{ totalPremiumPaid | number:'1.0-0' }}</h4>
+      </div>
+      <div class="mt-4 pt-3 border-t border-border/50">
+          <p class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-teal-500 inline-block"></span> Premiums Paid
+          </p>
+      </div>
+  </div>
+</div>
+
+<div class="bg-surface rounded-[24px] shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-border overflow-hidden">
   <!-- Header -->
-  <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/80 flex justify-between items-center backdrop-blur-sm">
-    <h3 class="text-xs font-bold text-gray-600 uppercase tracking-widest flex items-center gap-2">
-      <svg class="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <div class="px-6 py-5 border-b border-border bg-surface flex justify-between items-center">
+    <h3 class="text-xs font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
+      <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
       My System Policies
     </h3>
     <span
-      class="bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-full tracking-wide">
+      class="bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold px-3 py-1 rounded-full tracking-wider uppercase">
       {{ policies.length }} Active
     </span>
   </div>
 
   <div class="p-6">
     @if (loadingPolicies) {
-    <div class="flex justify-center items-center py-12 gap-3 text-gray-500">
-      <svg class="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+    <div class="flex justify-center items-center py-12 gap-3 text-text-muted">
+      <svg class="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none"
         viewBox="0 0 24 24">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
         <path class="opacity-75" fill="currentColor"
           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
         </path>
       </svg>
-      <span class="text-sm font-medium">Loading your policies...</span>
+      <span class="text-sm font-bold">Loading your policies...</span>
     </div>
     }
 
     @if (!loadingPolicies && policies.length === 0) {
-    <div class="text-center py-14">
-      <div class="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-        <svg class="h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div class="text-center py-16">
+      <div class="w-16 h-16 bg-bg-base rounded-2xl flex items-center justify-center mx-auto mb-5 border border-border">
+        <svg class="h-8 w-8 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
             d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
       </div>
-      <h4 class="text-base font-bold text-gray-900 mb-1">No Active Policies</h4>
-      <p class="text-gray-400 text-sm mb-6">You don't have any active policies yet.</p>
+      <h4 class="text-xl font-extrabold text-text-primary mb-2">No Active Policies</h4>
+      <p class="text-text-muted text-sm mb-6 max-w-sm mx-auto">You don't have any active policies yet. Browse plans to get insured.</p>
       <a routerLink="/customer/plans"
-        class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 text-sm font-bold transition shadow-sm">
+        class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 text-[13px] font-bold transition shadow-sm border border-primary/20">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
         </svg>
@@ -57,77 +112,65 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
       @for (p of policies; track p) {
       <div
-        class="group relative border border-gray-100 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex flex-col">
+        class="group relative border border-border rounded-[20px] overflow-hidden bg-surface pb-5 pt-6 px-6 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.05)] hover:-translate-y-0.5 hover:border-primary/30 transition-all duration-300 flex flex-col gap-5">
 
-        <!-- Top color accent bar -->
-        <div class="h-1 w-full" [ngClass]="{
-              'bg-gradient-to-r from-green-400 to-emerald-500': p.status === 'Active',
-              'bg-gradient-to-r from-red-400 to-rose-500': p.status !== 'Active'
-            }"></div>
+        <div class="flex items-start justify-between">
+          <div>
+            <h4
+              class="font-extrabold text-text-primary text-xl group-hover:text-primary transition-colors leading-tight">
+              {{ p.plan.name || 'Insurance Plan' }}
+            </h4>
+            <p class="text-xs text-text-muted font-bold mt-1">Policy #{{ p.id.substring(0,8) }}</p>
+          </div>
+          <span [ngClass]="{
+                'bg-accent-green/10 text-accent-green border border-accent-green/20': p.status === 'Active',
+                'bg-accent-red/10 text-accent-red border border-accent-red/20': p.status !== 'Active'
+              }" class="shrink-0 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+            {{ p.status }}
+          </span>
+        </div>
 
-        <div class="p-5 flex-grow flex flex-col">
-          <!-- Plan name + status -->
-          <div class="flex items-start justify-between mb-4 gap-3">
-            <div>
-              <h4
-                class="font-extrabold text-gray-900 text-base group-hover:text-blue-600 transition-colors leading-tight">
-                {{ p.plan.name || 'Insurance Plan' }}
-              </h4>
-              <p class="text-xs text-gray-400 font-medium mt-0.5">Policy #{{ p.id.substring(0,8) }}</p>
-            </div>
-            <span [ngClass]="{
-                  'bg-green-100 text-green-700 border-green-200': p.status === 'Active',
-                  'bg-red-100 text-red-700 border-red-200': p.status !== 'Active'
-                }" class="shrink-0 text-[10px] font-bold px-2.5 py-1 rounded-full border uppercase tracking-wide">
-              {{ p.status }}
+        <div class="grid grid-cols-3 gap-3">
+          <div class="bg-bg-base rounded-xl p-3 text-center border border-border/50">
+            <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Premium</p>
+            <p class="font-extrabold text-text-primary text-sm">₹{{ p.plan.premiumAmount | number }}</p>
+            <p class="text-[10px] text-text-muted mt-0.5">/ {{ p.paymentFrequency }}</p>
+          </div>
+          <div class="bg-bg-base rounded-xl p-3 text-center border border-border/50">
+            <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Total</p>
+            <p class="font-extrabold text-text-primary text-sm">₹{{ p.totalPremium | number }}</p>
+            <p class="text-[10px] text-text-muted mt-0.5">due</p>
+          </div>
+          <div class="bg-bg-base rounded-xl p-3 text-center border border-border/50">
+            <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Paid</p>
+            <p class="font-extrabold text-accent-green text-sm">₹{{ p.totalPaid | number }}</p>
+            <p class="text-[10px] text-text-muted mt-0.5">so far</p>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-[10px] font-bold text-text-muted uppercase tracking-widest">Payment Progress</span>
+            <span class="text-[11px] font-extrabold text-text-primary">
+              {{ p.totalPremium > 0 ? ((p.totalPaid / p.totalPremium) * 100 | number:'1.0-0') : 0 }}%
             </span>
           </div>
-
-          <!-- Stats row -->
-          <div class="grid grid-cols-3 gap-3 mb-4">
-            <div class="bg-gray-50 rounded-xl p-3 text-center">
-              <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Premium</p>
-              <p class="font-bold text-gray-900 text-sm">₹{{ p.plan.premiumAmount | number }}</p>
-              <p class="text-[10px] text-gray-400 mt-0.5">/ {{ p.paymentFrequency }}</p>
-            </div>
-            <div class="bg-gray-50 rounded-xl p-3 text-center">
-              <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Total</p>
-              <p class="font-bold text-gray-900 text-sm">₹{{ p.totalPremium | number }}</p>
-              <p class="text-[10px] text-gray-400 mt-0.5">due</p>
-            </div>
-            <div class="bg-gray-50 rounded-xl p-3 text-center">
-              <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Paid</p>
-              <p class="font-bold text-emerald-600 text-sm">₹{{ p.totalPaid | number }}</p>
-              <p class="text-[10px] text-gray-400 mt-0.5">so far</p>
+          <div class="h-2 w-full bg-bg-base rounded-full overflow-hidden border border-border/50">
+            <div class="h-full bg-accent-green rounded-full transition-all duration-500"
+              [style.width.%]="p.totalPremium > 0 ? (p.totalPaid / p.totalPremium) * 100 : 0">
             </div>
           </div>
+        </div>
 
-          <!-- Progress bar -->
-          <div class="mb-4">
-            <div class="flex justify-between items-center mb-1.5">
-              <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Payment Progress</span>
-              <span class="text-[10px] font-bold text-gray-600">
-                {{ p.totalPremium > 0 ? ((p.totalPaid / p.totalPremium) * 100 | number:'1.0-0') : 0 }}%
-              </span>
-            </div>
-            <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-blue-500 to-emerald-500 rounded-full transition-all duration-500"
-                [style.width.%]="p.totalPremium > 0 ? (p.totalPaid / p.totalPremium) * 100 : 0">
-              </div>
-            </div>
-          </div>
-
-          <!-- CTA button -->
-          <div class="mt-auto">
-            <button (click)="viewSummary(p)"
-              class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 group-hover:shadow-md">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-              View Details & Pay
-            </button>
-          </div>
+        <div class="mt-auto pt-2">
+          <button (click)="viewSummary(p)"
+            class="w-full py-3 bg-bg-base hover:bg-primary text-text-primary hover:text-white text-[13px] font-bold rounded-xl transition-all border border-border hover:border-primary flex items-center justify-center gap-2 group/btn">
+            <svg class="w-4 h-4 text-text-muted group-hover/btn:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            View Details & Pay
+          </button>
         </div>
       </div>
       }
@@ -139,103 +182,101 @@
 <!-- Policy Summary Modal -->
 @if (selectedPolicySummary) {
 <div
-  class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 backdrop-blur-sm overflow-y-auto pt-10 pb-10">
+  class="fixed inset-0 z-50 flex items-center justify-center bg-[#1A1D23]/60 backdrop-blur-md overflow-y-auto pt-10 pb-10">
   <div
-    class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 overflow-hidden flex flex-col max-h-full transform transition-all">
+    class="bg-surface rounded-2xl shadow-2xl max-w-2xl w-full mx-4 overflow-hidden flex flex-col max-h-full transform transition-all border border-border">
 
-    <!-- Modal Header -->
-    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/80 flex justify-between items-center backdrop-blur-sm">
+    <div class="px-6 py-5 border-b border-border bg-surface flex justify-between items-center z-10 sticky top-0">
       <div>
-        <h3 class="text-sm font-bold text-gray-800 uppercase tracking-widest">Policy Document Summary</h3>
-        <p class="text-xs text-gray-400 mt-0.5">{{ selectedPolicySummary.plan.name }}</p>
+        <h3 class="text-xs font-bold text-text-muted uppercase tracking-widest">Policy Document Summary</h3>
+        <p class="text-sm text-text-primary font-extrabold mt-0.5">{{ selectedPolicySummary.plan.name }}</p>
       </div>
       <button (click)="closeSummary()"
-        class="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition">
+        class="p-2 text-text-muted hover:text-text-primary hover:bg-bg-base rounded-lg transition-colors border border-transparent hover:border-border">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
 
-    <div class="p-6 overflow-y-auto flex-grow">
-      <!-- Plan name & desc -->
-      <div class="mb-6 pb-6 border-b border-gray-100">
-        <h4 class="text-xl font-bold text-blue-800 mb-1">{{ selectedPolicySummary.plan.name }}</h4>
-        <p class="text-gray-500 text-sm">{{ selectedPolicySummary.plan.description }}</p>
+    <div class="p-6 overflow-y-auto flex-grow bg-bg-base/30">
+      <div class="mb-6 pb-6 border-b border-border">
+        <h4 class="text-2xl font-extrabold text-text-primary mb-2">{{ selectedPolicySummary.plan.name }}</h4>
+        <p class="text-text-muted text-[13px] leading-relaxed">{{ selectedPolicySummary.plan.description }}</p>
       </div>
 
-      <!-- Details Grid -->
-      <div class="grid grid-cols-2 gap-4 mb-6">
-        <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
-          <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Policy ID</p>
-          <p class="font-mono text-gray-700 text-xs break-all">{{ selectedPolicySummary.id }}</p>
+      <div class="grid grid-cols-2 gap-4 mb-8">
+        <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
+          <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Policy ID</p>
+          <p class="font-mono font-bold text-text-primary text-xs break-all">{{ selectedPolicySummary.id }}</p>
         </div>
-        <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
-          <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Status</p>
-          <span class="bg-green-100 text-green-800 text-xs font-bold px-2.5 py-1 rounded-full">{{
+        <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
+          <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Status</p>
+          <span class="bg-accent-green/10 text-accent-green border border-accent-green/20 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">{{
             selectedPolicySummary.status }}</span>
         </div>
-        <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
-          <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Duration</p>
-          <p class="font-bold text-gray-900">{{ selectedPolicySummary.durationInMonths }} Months</p>
+        <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
+          <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Duration</p>
+          <p class="font-extrabold text-text-primary">{{ selectedPolicySummary.durationInMonths }} Months</p>
         </div>
-        <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
-          <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Max Coverage</p>
-          <p class="font-bold text-emerald-600 text-lg">₹{{ selectedPolicySummary.coverageAmount | number }}</p>
+        <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
+          <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Max Coverage</p>
+          <p class="font-extrabold text-accent-blue text-lg">₹{{ selectedPolicySummary.coverageAmount | number }}</p>
         </div>
-        <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
-          <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Total Premium</p>
-          <p class="font-bold text-gray-900">₹{{ selectedPolicySummary.totalPremium | number }}</p>
+        <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
+          <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Total Premium</p>
+          <p class="font-extrabold text-text-primary text-lg">₹{{ selectedPolicySummary.totalPremium | number }}</p>
         </div>
-        <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
-          <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Total Paid</p>
-          <p class="font-bold text-emerald-600">₹{{ selectedPolicySummary.totalPaid | number }}</p>
+        <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
+          <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Total Paid</p>
+          <p class="font-extrabold text-accent-green text-lg">₹{{ selectedPolicySummary.totalPaid | number }}</p>
         </div>
       </div>
 
-      <!-- Payment Schedule -->
-      <div class="bg-blue-50/60 rounded-xl p-5 border border-blue-100">
-        <h5 class="font-bold text-blue-900 mb-4 flex items-center gap-2 text-sm">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          Payment Schedule
+      <div class="bg-surface rounded-2xl p-6 border border-border shadow-sm">
+        <h5 class="font-bold text-text-primary mb-5 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            Payment Schedule
+          </div>
           <span
-            class="text-[10px] font-semibold text-blue-500 bg-blue-100 border border-blue-200 px-2 py-0.5 rounded-full uppercase">
+            class="text-[10px] font-bold text-accent-blue bg-accent-blue/10 border border-accent-blue/20 px-2.5 py-1 rounded-full uppercase tracking-wider">
             {{ selectedPolicySummary.paymentFrequency }}
           </span>
         </h5>
-        <div class="flex flex-col gap-2.5">
+        <div class="flex flex-col gap-3">
           @for (payment of selectedPolicySummary.payments; track payment; let i = $index) {
           <div
-            class="flex justify-between items-center bg-white p-3.5 rounded-xl shadow-sm border-l-4 border border-gray-100"
+            class="flex justify-between items-center bg-bg-base p-4 rounded-xl border border-border hover:border-primary/20 transition-colors"
             [ngClass]="{
-                'border-l-green-500': payment.status === 'Paid',
-                'border-l-red-500': payment.status === 'Pending' && (payment?.dueDate | date:'yyyy-MM-dd')! < (today | date:'yyyy-MM-dd')!,
-                'border-l-yellow-400': payment.status === 'Pending' && (payment?.dueDate | date:'yyyy-MM-dd')! >= (today | date:'yyyy-MM-dd')!
+                'shadow-[inset_4px_0_0_0_#00C48C]': payment.status === 'Paid',
+                'shadow-[inset_4px_0_0_0_#F43F5E]': payment.status === 'Pending' && (payment?.dueDate | date:'yyyy-MM-dd')! < (today | date:'yyyy-MM-dd')!,
+                'shadow-[inset_4px_0_0_0_#F59E0B]': payment.status === 'Pending' && (payment?.dueDate | date:'yyyy-MM-dd')! >= (today | date:'yyyy-MM-dd')!
               }">
             <div>
-              <span class="text-gray-900 font-bold text-sm block">Installment #{{ i + 1 }}</span>
-              <span class="text-xs text-gray-400">Due: {{ payment?.dueDate | date:'mediumDate' }}</span>
+              <span class="text-text-primary font-bold text-sm block mb-1">Installment #{{ i + 1 }}</span>
+              <span class="text-[11px] font-bold text-text-muted">Due: {{ payment?.dueDate | date:'mediumDate' }}</span>
             </div>
-            <div class="flex items-center gap-3 text-right">
+            <div class="flex items-center gap-4 text-right">
               @if (canPay(payment, selectedPolicySummary)) {
               <button (click)="payPremium(payment.id)"
-                class="px-3 py-1.5 text-xs font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition shadow-sm">
+                class="px-4 py-2 text-[11px] font-bold text-white bg-primary rounded-xl hover:bg-primary/90 transition border border-primary/20 shadow-sm uppercase tracking-wider">
                 Pay Now
               </button>
               }
               <div>
-                <span class="font-bold text-base block" [ngClass]="{
-                      'text-green-600': payment.status === 'Paid',
-                      'text-red-600': payment.status === 'Pending' && (payment?.dueDate | date:'yyyy-MM-dd')! < (today | date:'yyyy-MM-dd')!,
-                      'text-yellow-600': payment.status === 'Pending' && (payment?.dueDate | date:'yyyy-MM-dd')! >= (today | date:'yyyy-MM-dd')!
+                <span class="font-extrabold text-base block mb-0.5" [ngClass]="{
+                      'text-accent-green': payment.status === 'Paid',
+                      'text-accent-red': payment.status === 'Pending' && (payment?.dueDate | date:'yyyy-MM-dd')! < (today | date:'yyyy-MM-dd')!,
+                      'text-amber-500': payment.status === 'Pending' && (payment?.dueDate | date:'yyyy-MM-dd')! >= (today | date:'yyyy-MM-dd')!
                     }">₹{{ payment.amount | number }}</span>
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" [ngClass]="{
-                      'bg-green-100 text-green-800': payment.status === 'Paid',
-                      'bg-red-100 text-red-800': payment.status === 'Pending' && (payment?.dueDate | date:'yyyy-MM-dd')! < (today | date:'yyyy-MM-dd')!,
-                      'bg-yellow-100 text-yellow-800': payment.status === 'Pending' && (payment?.dueDate | date:'yyyy-MM-dd')! >= (today | date:'yyyy-MM-dd')!
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider" [ngClass]="{
+                      'bg-accent-green/10 text-accent-green': payment.status === 'Paid',
+                      'bg-accent-red/10 text-accent-red': payment.status === 'Pending' && (payment?.dueDate | date:'yyyy-MM-dd')! < (today | date:'yyyy-MM-dd')!,
+                      'bg-amber-500/10 text-amber-500': payment.status === 'Pending' && (payment?.dueDate | date:'yyyy-MM-dd')! >= (today | date:'yyyy-MM-dd')!
                     }">
                   {{ payment.status === 'Paid' ? 'Paid' : ((payment?.dueDate | date:'yyyy-MM-dd')! < (today |
                     date:'yyyy-MM-dd')! ? 'Overdue' : 'Upcoming' ) }} </span>
@@ -247,11 +288,10 @@
       </div>
     </div>
 
-    <!-- Modal Footer -->
-    <div class="px-6 py-4 border-t border-gray-100 bg-gray-50/80 flex justify-end backdrop-blur-sm">
+    <div class="px-6 py-4 border-t border-border bg-surface flex justify-end z-10 sticky bottom-0">
       <button (click)="closeSummary()"
-        class="px-5 py-2.5 bg-white border border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm text-sm">
-        Close
+        class="px-6 py-2.5 bg-bg-base border border-border text-text-primary font-bold rounded-xl hover:bg-border/50 transition-colors text-[13px]">
+        Close Summary
       </button>
     </div>
   </div>
