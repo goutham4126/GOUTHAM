@@ -187,13 +187,15 @@ export class CustomerPlans implements OnInit {
         }
     }
 
-    /** Calculates the installment amount based on frequency */
+    /** Calculates the installment amount based on frequency and risk score */
     get computedInstallmentAmount(): number {
         if (!this.selectedPlan) return 0;
         const base = this.selectedPlan.premiumAmount;
-        if (this.paymentFrequency === 'Quarterly') return base * 3;
-        if (this.paymentFrequency === 'Yearly') return base * 12;
-        return base; // Monthly
+        const riskMultiplier = 1 + (this.riskScore / 100);
+        
+        if (this.paymentFrequency === 'Quarterly') return base * 3 * riskMultiplier;
+        if (this.paymentFrequency === 'Yearly') return base * 12 * riskMultiplier;
+        return base * riskMultiplier; // Monthly
     }
 
     /** Calculates projected coverage for the chosen duration */
@@ -208,6 +210,35 @@ export class CustomerPlans implements OnInit {
         return this.paymentFrequency === 'Monthly' ? 'month'
             : this.paymentFrequency === 'Quarterly' ? 'quarter'
                 : 'year';
+    }
+
+    /** Frequency interval in months */
+    get frequencyInterval(): number {
+        return this.paymentFrequency === 'Quarterly' ? 3
+            : this.paymentFrequency === 'Yearly' ? 12
+                : 1;
+    }
+
+    /** Base installment WITHOUT risk adjustment */
+    get baseInstallment(): number {
+        if (!this.selectedPlan) return 0;
+        return this.selectedPlan.premiumAmount * this.frequencyInterval;
+    }
+
+    /** Risk adjustment amount added to the base installment */
+    get riskAdjustmentAmount(): number {
+        return this.baseInstallment * (this.riskScore / 100);
+    }
+
+    /** Total number of installments */
+    get numberOfInstallments(): number {
+        if (this.frequencyInterval === 0) return 0;
+        return Math.ceil(this.durationInMonths / this.frequencyInterval);
+    }
+
+    /** Total premium = adjusted installment × number of installments */
+    get totalPremium(): number {
+        return this.computedInstallmentAmount * this.numberOfInstallments;
     }
 
     onFileChange(event: any, docType: 'pan' | 'address') {

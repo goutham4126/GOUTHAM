@@ -53,6 +53,19 @@ namespace Application.Services
 
             var riskScore = CalculateRiskScore(plan, durationMonths, paymentFrequency);
 
+            // Compute snapshot values
+            int interval = paymentFrequency switch
+            {
+                PaymentFrequency.Monthly => 1,
+                PaymentFrequency.Quarterly => 3,
+                PaymentFrequency.Yearly => 12,
+                _ => 1
+            };
+            decimal basePremium = plan.PremiumAmount;
+            decimal planDefaultDuration = plan.DurationInMonths > 0 ? plan.DurationInMonths : durationMonths;
+            decimal computedCoverage = plan.CoverageAmount * ((decimal)durationMonths / planDefaultDuration);
+            decimal finalPremiumAmount = basePremium * interval * (1m + (riskScore / 100m));
+
             var agents = await _context.Users
                 .Where(u => u.Role == UserRole.Agent && !u.IsDeleted)
                 .Select(u => new {
@@ -73,6 +86,11 @@ namespace Application.Services
                 DurationInMonths = durationMonths,
                 PaymentFrequency = paymentFrequency,
                 RiskScore = riskScore,
+                BasePremiumAmount = basePremium,
+                CoverageAmount = computedCoverage,
+                FinalPremiumAmount = finalPremiumAmount,
+                PlanType = plan.PlanType ?? "Unknown",
+                PlanDescription = plan.Description ?? "",
                 PanDocumentUrl = pUrl,
                 PanDocumentHash = pHash,
                 AddressProofUrl = aUrl,
@@ -210,16 +228,21 @@ namespace Application.Services
             return new PolicyRequestDto(
                 r.Id,
                 r.PlanId,
-                r.Plan.Name,
+                r.Plan?.Name ?? "Unknown Plan",
                 r.UserId,
-                r.User.FirstName + " " + r.User.LastName,
+                r.User != null ? r.User.FirstName + " " + r.User.LastName : "Unknown User",
                 r.AgentId,
                 r.Agent != null ? r.Agent.FirstName + " " + r.Agent.LastName : null,
                 r.DurationInMonths,
                 r.PaymentFrequency.ToString(),
                 r.RiskScore,
-                r.PanDocumentUrl,
-                r.AddressProofUrl,
+                r.BasePremiumAmount,
+                r.CoverageAmount,
+                r.FinalPremiumAmount,
+                r.PlanType,
+                r.PlanDescription,
+                r.PanDocumentUrl ?? "",
+                r.AddressProofUrl ?? "",
                 r.Status.ToString(),
                 r.RejectionReason,
                 r.CreatedAt,

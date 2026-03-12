@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using Domain.Entities;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -72,7 +72,12 @@ namespace Application.Services
 
                 // Snapshot plan values at purchase time (plan may change in future)
                 var snapshotBaseCoverage = plan.CoverageAmount;
-                var snapshotBasePremium  = plan.PremiumAmount;
+                
+                // Calculate risk multiplier
+                decimal riskMultiplier = 1m + (request.RiskScore / 100m);
+                decimal adjustedMonthlyPremium = plan.PremiumAmount * riskMultiplier;
+                
+                var snapshotBasePremium  = adjustedMonthlyPremium;
                 var planDefaultDuration  = plan.DurationInMonths > 0 ? plan.DurationInMonths : durationInMonths;
 
                 // Coverage scales proportionally with the chosen duration
@@ -87,10 +92,10 @@ namespace Application.Services
                     EndDate = DateTime.UtcNow.AddMonths(durationInMonths),
                     DurationInMonths = durationInMonths,
                     PaymentFrequency = paymentFrequency,
-                    TotalPremium = plan.PremiumAmount * durationInMonths,
+                    TotalPremium = adjustedMonthlyPremium * durationInMonths,
                     TotalPaid = 0,
                     Status = PolicyStatus.Active,
-                    // Frozen snapshots � never updated after creation
+                    // Frozen snapshots never updated after creation
                     PlanBaseCoverageAmount = snapshotBaseCoverage,
                     PlanBasePremiumAmount  = snapshotBasePremium,
                     CoverageAmount         = calculatedCoverage
@@ -118,7 +123,7 @@ namespace Application.Services
                     var payment = new PolicyPayment
                     {
                         PolicyId = policy.Id,
-                        Amount = plan.PremiumAmount * interval,
+                        Amount = adjustedMonthlyPremium * interval,
                         DueDate = paymentDate,
                         Status = PaymentStatus.Pending
                     };

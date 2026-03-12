@@ -276,33 +276,99 @@
 
       </div>
 
-      <div class="flex flex-col sm:flex-row gap-5 mb-6">
-        <!-- Coverage Preview -->
-        <div
-          class="flex-1 bg-surface border border-border rounded-xl px-5 py-4 flex flex-col justify-between group hover:border-accent-green/30 transition-colors shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
-          <div>
-            <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2">Coverage Amount</p>
-            <span class="text-2xl sm:text-3xl font-bold text-accent-green block mb-1">₹{{ computedCoverage |
-              number:'1.0-0' }}</span>
-            <p class="text-[11px] font-bold text-text-muted">Maximum claim allowance</p>
-          </div>
-          <p class="text-[11px] font-bold text-text-primary mt-4 pt-3 border-t border-border">For {{ durationInMonths }}
-            months
-            <span class="text-text-muted block mt-0.5">on {{ selectedPlan.name }}</span>
-          </p>
+      <!-- Premium Calculation Breakdown -->
+      <div class="bg-surface border border-border rounded-2xl overflow-hidden mb-6 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+        <div class="px-5 py-3.5 bg-bg-base border-b border-border flex items-center gap-2">
+          <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+          </svg>
+          <h4 class="text-xs font-bold text-text-muted uppercase tracking-widest">Premium Calculation Breakdown</h4>
         </div>
-        <!-- Installment Preview -->
-        <div
-          class="flex-1 bg-surface border border-border rounded-xl px-5 py-4 flex flex-col justify-between group hover:border-primary/30 transition-colors shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
-          <div>
-            <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2">First Installment</p>
-            <div class="flex items-baseline gap-1.5 mb-1 text-primary">
-              <span class="text-2xl sm:text-3xl font-bold">₹{{ computedInstallmentAmount | number:'1.2-2' }}</span>
+
+        <div class="px-5 py-4 space-y-0">
+          <!-- Coverage -->
+          <div class="flex justify-between items-center py-3 border-b border-border/60">
+            <div>
+              <p class="text-[13px] font-bold text-text-primary">Coverage Amount</p>
+              <p class="text-[11px] text-text-muted mt-0.5">{{ selectedPlan.name }} · {{ durationInMonths }} months</p>
             </div>
-            <p class="text-[11px] font-bold text-text-muted">/ {{ frequencyLabel }}</p>
+            <span class="text-lg font-black text-accent-green">₹{{ computedCoverage | number:'1.0-0' }}</span>
           </div>
-          <p class="text-[11px] font-bold text-text-primary mt-4 pt-3 border-t border-border">Due upon policy <span
-              class="text-text-muted">activation.</span></p>
+
+          <!-- Base Premium -->
+          <div class="flex justify-between items-center py-3 border-b border-border/60">
+            <div>
+              <p class="text-[13px] font-bold text-text-primary">Base Premium</p>
+              <p class="text-[11px] text-text-muted mt-0.5">Plan's monthly rate</p>
+            </div>
+            <span class="text-[15px] font-bold text-text-primary">₹{{ selectedPlan.premiumAmount | number:'1.2-2' }}<span
+                class="text-text-muted font-semibold text-xs"> /mo</span></span>
+          </div>
+
+          <!-- Frequency Multiplier -->
+          <div class="flex justify-between items-center py-3 border-b border-border/60">
+            <div>
+              <p class="text-[13px] font-bold text-text-primary">Frequency Multiplier</p>
+              <p class="text-[11px] text-text-muted mt-0.5">{{ paymentFrequency }} = × {{ frequencyInterval }} months</p>
+            </div>
+            <span class="text-[15px] font-bold text-text-primary">× {{ frequencyInterval }}</span>
+          </div>
+
+          <!-- Base Installment -->
+          <div class="flex justify-between items-center py-3 border-b border-border/60 bg-bg-base/40 -mx-5 px-5">
+            <div>
+              <p class="text-[13px] font-bold text-text-primary">Base Installment</p>
+              <p class="text-[11px] text-text-muted mt-0.5">₹{{ selectedPlan.premiumAmount | number:'1.2-2' }} × {{
+                frequencyInterval }}</p>
+            </div>
+            <span class="text-[15px] font-bold text-text-primary">₹{{ baseInstallment | number:'1.2-2' }}<span
+                class="text-text-muted font-semibold text-xs"> /{{ frequencyLabel }}</span></span>
+          </div>
+
+          <!-- Risk Adjustment -->
+          <div class="flex justify-between items-center py-3 border-b border-border/60">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full" [ngClass]="riskLevel.indicatorClass"></span>
+              <div>
+                <p class="text-[13px] font-bold" [ngClass]="riskLevel.colorClass">Risk Adjustment ({{ riskLevel.label }})</p>
+                <p class="text-[11px] text-text-muted mt-0.5">+{{ riskScore }}% of base installment</p>
+              </div>
+            </div>
+            <span class="text-[15px] font-bold" [ngClass]="riskLevel.colorClass">+₹{{ riskAdjustmentAmount |
+              number:'1.2-2' }}</span>
+          </div>
+
+          <!-- Adjusted Installment -->
+          <div
+            class="flex justify-between items-center py-3.5 border-b-2 border-primary/20 bg-primary/5 -mx-5 px-5">
+            <div>
+              <p class="text-[14px] font-bold text-primary">Adjusted Installment</p>
+              <p class="text-[11px] text-text-muted mt-0.5">Base + Risk adjustment</p>
+            </div>
+            <span class="text-xl font-black text-primary">₹{{ computedInstallmentAmount | number:'1.2-2' }}<span
+                class="text-primary/70 font-semibold text-xs"> /{{ frequencyLabel }}</span></span>
+          </div>
+
+          <!-- Number of Installments -->
+          <div class="flex justify-between items-center py-3 border-b border-border/60">
+            <div>
+              <p class="text-[13px] font-bold text-text-primary">Number of Installments</p>
+              <p class="text-[11px] text-text-muted mt-0.5">{{ durationInMonths }} months ÷ {{ frequencyInterval }} = {{
+                numberOfInstallments }} installments</p>
+            </div>
+            <span class="text-[15px] font-bold text-text-primary">× {{ numberOfInstallments }}</span>
+          </div>
+
+          <!-- Total Premium -->
+          <div class="flex justify-between items-center py-4 -mx-5 px-5 bg-bg-base rounded-b-xl">
+            <div>
+              <p class="text-[15px] font-black text-text-primary">Total Premium</p>
+              <p class="text-[11px] text-text-muted mt-0.5">₹{{ computedInstallmentAmount | number:'1.2-2' }} × {{
+                numberOfInstallments }} installments</p>
+            </div>
+            <span class="text-2xl font-black text-text-primary">₹{{ totalPremium | number:'1.2-2' }}</span>
+          </div>
         </div>
       </div>
 

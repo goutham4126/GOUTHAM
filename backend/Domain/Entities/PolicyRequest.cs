@@ -25,6 +25,26 @@ namespace Domain.Entities
         [Required]
         public decimal RiskScore { get; set; }
 
+        /// <summary>Snapshot of plan's base monthly premium at request time.</summary>
+        [Required]
+        public decimal BasePremiumAmount { get; set; }
+
+        /// <summary>Computed coverage for the chosen duration.</summary>
+        [Required]
+        public decimal CoverageAmount { get; set; }
+
+        /// <summary>Risk-adjusted premium per installment period.</summary>
+        [Required]
+        public decimal FinalPremiumAmount { get; set; }
+
+        /// <summary>Snapshot of plan type (Disaster / Casualty).</summary>
+        [Required]
+        public string PlanType { get; set; } = null!;
+
+        /// <summary>Snapshot of plan description.</summary>
+        [Required]
+        public string PlanDescription { get; set; } = null!;
+
         [Required]
         public string PanDocumentUrl { get; set; } = null!;
 

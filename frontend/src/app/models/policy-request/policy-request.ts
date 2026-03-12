@@ -9,6 +9,11 @@ export interface PolicyRequest {
   durationInMonths: number;
   paymentFrequency: string;
   riskScore: number;
+  basePremiumAmount: number;
+  coverageAmount: number;
+  finalPremiumAmount: number;
+  planType: string;
+  planDescription: string;
   panDocumentUrl: string;
   addressProofUrl: string;
   status: string;

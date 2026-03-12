@@ -198,6 +198,15 @@ namespace Infrastructure.Data
                 entity.Property(p => p.RiskScore)
                       .HasPrecision(18, 2);
 
+                entity.Property(p => p.BasePremiumAmount)
+                      .HasPrecision(18, 2);
+
+                entity.Property(p => p.CoverageAmount)
+                      .HasPrecision(18, 2);
+
+                entity.Property(p => p.FinalPremiumAmount)
+                      .HasPrecision(18, 2);
+
                 entity.Property(p => p.Status)
                       .HasConversion<string>();
 
