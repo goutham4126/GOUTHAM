@@ -143,45 +143,90 @@
 
         <!-- Incident Location Map Section (full-width below the grid) -->
         <div class="mt-10 pt-8 border-t border-border">
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h4 class="text-base font-bold text-text-primary mb-1 flex items-center gap-2">
-                <svg class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                Incident Location
-              </h4>
-              <p class="text-[13px] text-text-muted">Click on the map to mark where the incident occurred.</p>
+          <div class="rounded-2xl overflow-hidden border border-border shadow-sm bg-surface">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent px-6 py-4 flex items-center justify-between border-b border-border">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shadow-sm">
+                  <svg class="w-[18px] h-[18px] text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="text-[13px] font-bold text-text-primary tracking-tight">Incident Location</h4>
+                  <p class="text-[11px] text-text-muted font-medium">Click on the map to mark where the incident occurred</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                @if (isLocating) {
+                <span class="flex items-center gap-2 text-[12px] font-bold text-primary bg-primary/10 border border-primary/20 px-3 py-1.5 rounded-lg">
+                  <svg class="animate-spin w-3.5 h-3.5" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Detecting location...
+                </span>
+                }
+                @if (selectedLatitude !== null) {
+                <div class="flex items-center gap-2">
+                  <span class="relative flex h-2.5 w-2.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-green opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-green"></span>
+                  </span>
+                  <div class="flex flex-col bg-bg-base border border-border px-3 py-1.5 rounded-lg shadow-sm">
+                    <span class="text-[12px] font-mono font-bold text-text-primary">
+                      {{ selectedLatitude!.toFixed(5) }}, {{ selectedLongitude!.toFixed(5) }}
+                    </span>
+                    @if (selectedLocationName) {
+                    <span class="text-[10px] text-primary font-semibold mt-0.5 flex items-center gap-1 max-w-[260px] truncate">
+                      <svg class="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      {{ selectedLocationName }}
+                    </span>
+                    } @else {
+                    <span class="text-[10px] text-text-muted font-medium mt-0.5 italic">Resolving...</span>
+                    }
+                  </div>
+                </div>
+                <button type="button" (click)="clearMapSelection()"
+                  class="text-[11px] font-bold text-accent-red bg-accent-red/10 border border-accent-red/20 px-3 py-1.5 rounded-lg hover:bg-accent-red/20 transition-colors uppercase tracking-wider">
+                  Clear
+                </button>
+                }
+              </div>
             </div>
-            @if (selectedLatitude !== null) {
-            <div class="flex items-center gap-3">
-              <span
-                class="text-[12px] font-bold text-accent-green bg-accent-green/10 border border-accent-green/20 px-3 py-1.5 rounded-lg flex items-center gap-1.5">
-                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+
+            <!-- Map Body -->
+            <div class="p-5 bg-bg-base">
+              @if (locationError && selectedLatitude === null) {
+              <div class="mb-4 flex items-center gap-2 text-[12px] text-amber-600 bg-amber-500/10 border border-amber-500/20 px-4 py-2.5 rounded-xl">
+                <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
-                {{ selectedLatitude!.toFixed(4) }}, {{ selectedLongitude!.toFixed(4) }}
-              </span>
-              <button type="button" (click)="clearMapSelection()"
-                class="text-[11px] font-bold text-accent-red bg-accent-red/10 border border-accent-red/20 px-3 py-1.5 rounded-lg hover:bg-accent-red/20 transition-colors uppercase tracking-wider">
-                Clear
-              </button>
+                {{ locationError }}
+              </div>
+              }
+              <div class="rounded-xl overflow-hidden ring-1 ring-border shadow-md">
+                <div id="claim-incident-map" class="w-full h-[380px]"></div>
+              </div>
+              @if (selectedLatitude === null && !isLocating) {
+              <p class="text-[12px] text-text-muted mt-3 flex items-center gap-1.5 font-medium">
+                <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span><span class="text-blue-500 font-bold">Blue dot</span> = your current location · Click anywhere on the map to pin the incident spot</span>
+              </p>
+              }
             </div>
-            }
           </div>
-          <div id="claim-incident-map" class="w-full h-[350px] rounded-2xl border border-border overflow-hidden shadow-sm z-0"></div>
-          @if (selectedLatitude === null) {
-          <p class="text-[12px] text-text-muted mt-3 flex items-center gap-1.5 italic">
-            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            No location selected yet. Click anywhere on the map to pin the incident spot.
-          </p>
-          }
         </div>
 
         <!-- Submit Button -->

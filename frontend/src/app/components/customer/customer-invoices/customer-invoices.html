@@ -84,17 +84,8 @@
         <div class="p-4 flex flex-col gap-1.5 bg-surface">
           <div class="flex items-center justify-between">
             <h3 class="text-[14px] font-bold text-text-primary truncate" title="Invoice {{ invoice.referenceId }}">
-              Invoice {{ invoice.referenceId | slice:0:8 }}
+              Invoice {{ invoice.referenceId }}
             </h3>
-            <div class="min-w-[4rem] text-right">
-              @if (invoice.amount !== null && invoice.amount !== undefined) {
-              <span class="text-[13px] font-bold text-text-primary whitespace-nowrap">
-                ₹{{ invoice.amount | number:'1.2-2' }}
-              </span>
-              } @else {
-              <span class="text-[13px] font-medium text-text-muted italic">-</span>
-              }
-            </div>
           </div>
           <div class="flex items-center text-[12px] text-text-muted font-medium">
             <svg class="w-3.5 h-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -185,7 +176,7 @@
         </div>
         }
         @if (policyInvoices.length > 0) {
-        <div [class]="viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5' : 'bg-surface border border-border border-b-0 rounded-xl overflow-hidden'">
+        <div [class]="viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5' : 'bg-surface border border-border border-b-0 rounded-xl overflow-hidden'">
           @for (invoice of policyInvoices; track invoice) {
             @if (viewMode === 'grid') {
             <ng-container *ngTemplateOutlet="documentGridCard; context: { invoice: invoice, iconColor: 'text-accent-blue', tagLabel: 'Policy' }"></ng-container>
@@ -208,7 +199,7 @@
         </div>
         }
         @if (paymentInvoices.length > 0) {
-        <div [class]="viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5' : 'bg-surface border border-border border-b-0 rounded-xl overflow-hidden'">
+        <div [class]="viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5' : 'bg-surface border border-border border-b-0 rounded-xl overflow-hidden'">
           @for (invoice of paymentInvoices; track invoice) {
             @if (viewMode === 'grid') {
             <ng-container *ngTemplateOutlet="documentGridCard; context: { invoice: invoice, iconColor: 'text-accent-green', tagLabel: 'Payment' }"></ng-container>
@@ -231,7 +222,7 @@
         </div>
         }
         @if (claimInvoices.length > 0) {
-        <div [class]="viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5' : 'bg-surface border border-border border-b-0 rounded-xl overflow-hidden'">
+        <div [class]="viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5' : 'bg-surface border border-border border-b-0 rounded-xl overflow-hidden'">
           @for (invoice of claimInvoices; track invoice) {
             @if (viewMode === 'grid') {
             <ng-container *ngTemplateOutlet="documentGridCard; context: { invoice: invoice, iconColor: 'text-primary', tagLabel: 'Claim' }"></ng-container>

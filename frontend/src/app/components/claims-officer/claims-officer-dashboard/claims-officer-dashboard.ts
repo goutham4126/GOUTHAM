@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -17,11 +17,17 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
-const incidentIcon = new L.Icon({
-  iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32],
+const incidentIcon = L.divIcon({
+  className: '',
+  html: `
+    <div class="pulse-marker">
+      <div class="pulse-ring"></div>
+      <div class="pulse-core"></div>
+    </div>
+  `,
+  iconSize: [24, 24],
+  iconAnchor: [12, 12],
+  popupAnchor: [0, -14],
 });
 
 @Component({
@@ -30,7 +36,8 @@ const incidentIcon = new L.Icon({
   imports: [CommonModule, FormsModule],
   providers: [DatePipe],
   templateUrl: './claims-officer-dashboard.html',
-  styleUrl: './claims-officer-dashboard.css'
+  styleUrl: './claims-officer-dashboard.css',
+  encapsulation: ViewEncapsulation.None
 })
 export class ClaimsOfficerDashboard implements OnInit {
   private claimService = inject(ClaimService);
@@ -65,6 +72,7 @@ export class ClaimsOfficerDashboard implements OnInit {
 
   // Incident map instances for expanded claims
   private incidentMaps: Map<string, L.Map> = new Map();
+  locationNames: Map<string, string> = new Map();
 
   toggleExpand(claimId: string) {
     // Clean up previous map if collapsing
@@ -85,7 +93,37 @@ export class ClaimsOfficerDashboard implements OnInit {
     }
   }
 
-  private initIncidentMap(claim: ClaimDto) {
+  private async reverseGeocode(lat: number, lng: number): Promise<string> {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`,
+        { headers: { 'Accept-Language': 'en' } }
+      );
+      if (!response.ok) return 'Unknown location';
+      const data = await response.json();
+      const addr = data.address;
+      if (!addr) return data.display_name || 'Unknown location';
+
+      const parts: string[] = [];
+      const place = addr.amenity || addr.building || addr.shop || addr.tourism || addr.leisure || '';
+      const road = addr.road || addr.pedestrian || addr.footway || '';
+      const neighbourhood = addr.neighbourhood || addr.suburb || addr.hamlet || '';
+      const city = addr.city || addr.town || addr.village || addr.county || '';
+      const state = addr.state || '';
+
+      if (place) parts.push(place);
+      if (road) parts.push(road);
+      if (neighbourhood && neighbourhood !== road) parts.push(neighbourhood);
+      if (city) parts.push(city);
+      if (state && state !== city) parts.push(state);
+
+      return parts.length > 0 ? parts.join(', ') : (data.display_name || 'Unknown location');
+    } catch {
+      return 'Unknown location';
+    }
+  }
+
+  private async initIncidentMap(claim: ClaimDto) {
     const mapId = `officer-incident-map-${claim.id}`;
     const el = document.getElementById(mapId);
     if (!el || !claim.incidentLatitude || !claim.incidentLongitude) return;
@@ -93,25 +131,58 @@ export class ClaimsOfficerDashboard implements OnInit {
     // Destroy existing map on this element if any
     this.destroyIncidentMap(claim.id);
 
+    const lat = claim.incidentLatitude;
+    const lng = claim.incidentLongitude;
+
     const map = L.map(mapId, {
-      scrollWheelZoom: false,
+      scrollWheelZoom: true,
       dragging: true,
       zoomControl: true,
-    }).setView([claim.incidentLatitude, claim.incidentLongitude], 14);
+    }).setView([lat, lng], 14);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors',
       maxZoom: 19,
     }).addTo(map);
 
-    L.marker([claim.incidentLatitude, claim.incidentLongitude], { icon: incidentIcon })
+    const marker = L.marker([lat, lng], { icon: incidentIcon })
       .addTo(map)
-      .bindPopup(
-        `<strong>Incident Location</strong><br>Lat: ${claim.incidentLatitude.toFixed(5)}<br>Lng: ${claim.incidentLongitude.toFixed(5)}`
-      )
+      .bindPopup(`
+        <div class="map-popup-card">
+          <div class="map-popup-header red">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span>Incident Location</span>
+          </div>
+          <div class="map-popup-body">
+            <div class="map-popup-row map-popup-location"><svg class="map-popup-spin" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4m10-10h-4M6 12H2m15.07-5.07l-2.83 2.83M9.76 14.24l-2.83 2.83m11.14 0l-2.83-2.83M9.76 9.76L6.93 6.93"/></svg><span class="map-popup-place loading">Resolving location...</span></div>
+            <div class="map-popup-row"><span class="map-popup-label">Lat</span><span class="map-popup-value">${lat.toFixed(5)}</span></div>
+            <div class="map-popup-row"><span class="map-popup-label">Lng</span><span class="map-popup-value">${lng.toFixed(5)}</span></div>
+          </div>
+        </div>
+      `, { className: 'custom-popup', closeButton: false, minWidth: 220 })
       .openPopup();
 
     this.incidentMaps.set(claim.id, map);
+
+    // Reverse geocode and update popup + header
+    const locationName = await this.reverseGeocode(lat, lng);
+    this.locationNames.set(claim.id, locationName);
+
+    marker.bindPopup(`
+      <div class="map-popup-card">
+        <div class="map-popup-header red">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <span>Incident Location</span>
+        </div>
+        <div class="map-popup-body">
+          <div class="map-popup-row map-popup-location"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span class="map-popup-place">${locationName}</span></div>
+          <div class="map-popup-row"><span class="map-popup-label">Lat</span><span class="map-popup-value">${lat.toFixed(5)}</span></div>
+          <div class="map-popup-row"><span class="map-popup-label">Lng</span><span class="map-popup-value">${lng.toFixed(5)}</span></div>
+        </div>
+      </div>
+    `, { className: 'custom-popup', closeButton: false, minWidth: 220 }).openPopup();
+
+    this.cdr.detectChanges();
   }
 
   private destroyIncidentMap(claimId: string) {
