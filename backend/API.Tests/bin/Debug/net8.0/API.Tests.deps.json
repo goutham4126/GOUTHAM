@@ -1154,6 +1154,7 @@
       "xunit.runner.visualstudio/2.5.3": {},
       "API/1.0.0": {
         "dependencies": {
+          "Agora-Token-Generator": "1.0.1",
           "Application": "1.0.0",
           "Infrastructure": "1.0.0",
           "Swashbuckle.AspNetCore": "6.6.2"

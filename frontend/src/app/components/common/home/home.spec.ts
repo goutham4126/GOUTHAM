@@ -1,13 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Home } from './home';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 describe('Home', () => {
   let component: Home;
   let fixture: ComponentFixture<Home>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [Home, CommonModule] }).compileComponents();
+    await TestBed.configureTestingModule({ 
+      imports: [Home, CommonModule],
+      providers: [
+        { provide: ActivatedRoute, useValue: {} }
+      ]
+    }).compileComponents();
     fixture = TestBed.createComponent(Home);
     component = fixture.componentInstance;
     fixture.detectChanges();

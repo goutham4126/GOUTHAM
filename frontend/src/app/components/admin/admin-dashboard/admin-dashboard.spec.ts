@@ -6,6 +6,9 @@ import { PolicyService } from '../../../services/policy/policy';
 import { ClaimService } from '../../../services/claim/claim';
 import { ToastService } from '../../../services/toast/toast';
 import { of } from 'rxjs';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 describe('AdminDashboard', () => {
     let component: AdminDashboard;
