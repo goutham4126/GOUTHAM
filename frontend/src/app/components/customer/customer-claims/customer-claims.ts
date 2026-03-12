@@ -1,7 +1,8 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as L from 'leaflet';
 
 import { ClaimService } from '../../../services/claim/claim';
 import { PolicyService } from '../../../services/policy/policy';
@@ -11,6 +12,21 @@ import { PolicyDto } from '../../../models/policy/policy';
 import { ENV_CONFIG } from '../../../utils/storage.constants';
 import { VideoCallService } from '../../../services/video-call/video-call.service';
 
+// Fix default marker icon paths (known webpack/angular issue)
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
+
+const incidentIcon = new L.Icon({
+  iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
+
 @Component({
   selector: 'app-customer-claims',
   standalone: true,
@@ -18,7 +34,7 @@ import { VideoCallService } from '../../../services/video-call/video-call.servic
   templateUrl: './customer-claims.html',
   styleUrl: './customer-claims.css'
 })
-export class CustomerClaims implements OnInit {
+export class CustomerClaims implements OnInit, AfterViewInit, OnDestroy {
   private claimService = inject(ClaimService);
   private policyService = inject(PolicyService);
   private toastService = inject(ToastService);
@@ -34,13 +50,19 @@ export class CustomerClaims implements OnInit {
   isProcessingUpload = false;
   selectedFile: File | null = null;
 
-
+  // Map state
+  private map: L.Map | null = null;
+  private marker: L.Marker | null = null;
+  selectedLatitude: number | null = null;
+  selectedLongitude: number | null = null;
 
   private fb = inject(FormBuilder);
   claimForm: FormGroup = this.fb.group({
     policyId: ['', Validators.required],
     reason: ['', Validators.required],
-    amount: [0, [Validators.required, Validators.min(1)]]
+    amount: [0, [Validators.required, Validators.min(1)]],
+    incidentLatitude: [null as number | null],
+    incidentLongitude: [null as number | null]
   });
 
   isPolicyDropdownOpen = false;
@@ -64,6 +86,68 @@ export class CustomerClaims implements OnInit {
   ngOnInit() {
     this.loadPolicies();
     this.loadClaims();
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => this.initMap(), 100);
+  }
+
+  ngOnDestroy() {
+    if (this.map) {
+      this.map.remove();
+      this.map = null;
+    }
+  }
+
+  private initMap() {
+    const mapEl = document.getElementById('claim-incident-map');
+    if (!mapEl) return;
+
+    this.map = L.map('claim-incident-map').setView([20.5937, 78.9629], 5);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+      maxZoom: 19,
+    }).addTo(this.map);
+
+    this.map.on('click', (e: L.LeafletMouseEvent) => {
+      this.setIncidentLocation(e.latlng.lat, e.latlng.lng);
+    });
+  }
+
+  private setIncidentLocation(lat: number, lng: number) {
+    this.selectedLatitude = lat;
+    this.selectedLongitude = lng;
+    this.claimForm.patchValue({
+      incidentLatitude: lat,
+      incidentLongitude: lng
+    });
+
+    if (this.marker && this.map) {
+      this.marker.setLatLng([lat, lng]);
+    } else if (this.map) {
+      this.marker = L.marker([lat, lng], { icon: incidentIcon }).addTo(this.map);
+    }
+
+    this.marker?.bindPopup(
+      `<strong>Incident Location</strong><br>Lat: ${lat.toFixed(5)}<br>Lng: ${lng.toFixed(5)}`
+    ).openPopup();
+
+    this.cdr.detectChanges();
+  }
+
+  clearMapSelection() {
+    if (this.marker && this.map) {
+      this.map.removeLayer(this.marker);
+      this.marker = null;
+    }
+    this.selectedLatitude = null;
+    this.selectedLongitude = null;
+    this.claimForm.patchValue({
+      incidentLatitude: null,
+      incidentLongitude: null
+    });
+    this.cdr.detectChanges();
   }
 
   loadPolicies() {
@@ -182,8 +266,9 @@ export class CustomerClaims implements OnInit {
       this.claimService.submitClaim(payload).subscribe({
         next: () => {
           this.loadClaims();
-          this.claimForm.reset({ policyId: '', reason: '', amount: 0 });
+          this.claimForm.reset({ policyId: '', reason: '', amount: 0, incidentLatitude: null, incidentLongitude: null });
           this.selectedFile = null;
+          this.clearMapSelection();
           this.isProcessingUpload = false;
           this.toastService.success('Claim submitted successfully. It is now Pending review.');
           this.cdr.detectChanges();

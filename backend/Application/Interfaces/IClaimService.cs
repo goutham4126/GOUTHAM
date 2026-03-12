@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Insurance;
+using Application.DTOs.Insurance;
 using Domain.Entities;
 
 namespace Application.Interfaces
@@ -11,7 +11,9 @@ namespace Application.Interfaces
             string reason,
             decimal amount,
             string documentUrl,
-            string documentHash
+            string documentHash,
+            double? incidentLatitude,
+            double? incidentLongitude
         );
         Task ApproveClaimAsync(Guid claimId, decimal approvedAmount, Guid officerId, string? remarks);
         Task RejectClaimAsync(Guid claimId, Guid officerId, string? remarks);

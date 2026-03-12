@@ -15,6 +15,8 @@ export interface ClaimDto {
     scheduledVideoCallDate?: string;
     videoVerificationStatus: string;
     videoVerificationRemarks?: string;
+    incidentLatitude?: number;
+    incidentLongitude?: number;
 }
 
 export interface CreateClaimRequest {
@@ -22,6 +24,8 @@ export interface CreateClaimRequest {
     reason: string;
     claimAmount: number;
     documentUrl?: string; // Mock upload
+    incidentLatitude?: number;
+    incidentLongitude?: number;
 }
 
 export interface ApproveClaimRequest {

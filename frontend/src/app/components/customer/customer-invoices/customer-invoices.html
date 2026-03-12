@@ -1,166 +1,249 @@
-<div class="space-y-6">
-  <div class="mb-4">
-    <h1 class="text-3xl font-bold tracking-tight text-text-primary">My Invoices</h1>
-    <p class="text-[13px] text-text-muted mt-1 font-bold">View and download all your generated invoices.
-    </p>
+<div class="space-y-6 w-full px-4 sm:px-6 lg:px-8 mx-auto pb-12 transition-all duration-300">
+  <div class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-bold tracking-tight text-text-primary">My Invoices</h1>
+      <p class="text-[13px] text-text-muted mt-1 font-medium">View and manage all your generated invoices.</p>
+    </div>
+    
+    <!-- View Toggle -->
+    @if (!isLoading && !error) {
+    <div class="flex items-center bg-surface border border-border rounded-lg p-1 shadow-sm shrink-0">
+      <button (click)="toggleView('grid')" title="Grid View"
+        [class]="viewMode === 'grid' ? 'bg-primary/10 text-primary shadow-sm' : 'text-text-muted hover:text-text-primary hover:bg-bg-base'"
+        class="p-2 rounded-md transition-all">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+        </svg>
+      </button>
+      <button (click)="toggleView('list')" title="List View"
+        [class]="viewMode === 'list' ? 'bg-primary/10 text-primary shadow-sm' : 'text-text-muted hover:text-text-primary hover:bg-bg-base'"
+        class="p-2 rounded-md transition-all">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+    }
   </div>
 
   @if (isLoading) {
   <div class="flex justify-center py-12">
-    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
   </div>
   }
 
   @if (error) {
-  <div class="rounded-md bg-red-50 p-4">
+  <div class="rounded-xl bg-accent-red/5 border border-accent-red/20 p-4">
     <div class="flex">
       <div class="ml-3">
-        <h3 class="text-sm font-medium text-red-800">{{ error }}</h3>
+        <h3 class="text-sm font-medium text-accent-red">{{ error }}</h3>
       </div>
     </div>
   </div>
   }
 
   @if (!isLoading && !error) {
-  <div class="space-y-10">
-    <!-- Policy Purchases Section -->
-    <section>
-      <h2
-        class="text-[11px] font-bold text-text-muted uppercase tracking-widest border-b border-border pb-3 mb-6 flex items-center gap-2">
-        <svg class="w-4 h-4 text-text-muted/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-        Policy Purchase Invoices
-      </h2>
-      @if (policyInvoices.length === 0) {
+  <div class="space-y-12">
+
+    <!-- GRID TEMPLATE -->
+    <ng-template #documentGridCard let-invoice="invoice" let-iconColor="iconColor" let-tagLabel="tagLabel">
       <div
-        class="text-[13px] text-text-muted font-bold text-center py-8 bg-surface rounded-[20px] border border-border shadow-sm">
-        No policy purchase invoices found.
-      </div>
-      }
-      @if (policyInvoices.length > 0) {
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        @for (invoice of policyInvoices; track invoice) {
-        <div
-          class="border border-border rounded-[20px] p-6 bg-surface shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.05)] hover:border-primary/30 transition-all duration-300 flex flex-col group">
-          <div class="flex justify-between items-start mb-4">
+        class="group relative flex flex-col bg-surface border border-border rounded-xl hover:shadow-md transition-all duration-300 overflow-hidden outline-none hover:border-border-hover">
+        <div class="relative h-44 bg-[#F8F9FA] border-b border-border flex items-center justify-center overflow-hidden">
+          <svg class="w-16 h-16 {{ iconColor }} opacity-80" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z"
+              fill="currentColor" />
+            <path d="M14 2V8H20" fill="white" opacity="0.5" />
+          </svg>
+          <div class="absolute top-3 left-3">
             <span
-              class="inline-flex items-center rounded-full bg-accent-blue/10 border border-accent-blue/20 px-3 py-1 text-[10px] font-bold text-accent-blue uppercase tracking-widest">Policy
-              Purchase</span>
-            <span class="text-[11px] text-text-muted font-bold tracking-wider uppercase">{{ invoice.createdAt |
-              date:'mediumDate'
-              }}</span>
+              class="inline-flex items-center rounded bg-surface border border-border px-2 py-0.5 text-[10px] font-bold text-text-primary uppercase tracking-widest shadow-sm">
+              {{ tagLabel }}
+            </span>
           </div>
-          <p
-            class="text-[13px] text-text-primary mb-6 font-bold group-hover:text-primary transition-colors flex-grow flex items-center gap-2">
-            Ref: {{ invoice.referenceId | slice:0:8 }}...</p>
-          <div class="flex gap-3 mt-auto">
-            <button (click)="openDocument(invoice.fileUrl)"
-              class="flex-1 inline-flex justify-center items-center rounded-xl bg-bg-base px-3 py-2.5 text-[12px] uppercase tracking-wider font-bold text-text-primary border border-border shadow-sm hover:bg-border/50 transition-all text-center">
-              View PDF
+          <div
+            class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-3">
+            <button (click)="openDocument(invoice.fileUrl)" title="Preview"
+              class="p-2.5 bg-white text-text-primary rounded-full hover:bg-gray-100 transition-transform hover:scale-105">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
             </button>
-            <a [href]="invoice.fileUrl" target="_blank" download
-              class="flex-1 inline-flex justify-center items-center rounded-xl bg-primary px-3 py-2.5 text-[12px] uppercase tracking-wider font-bold text-white shadow-sm hover:bg-primary/95 transition-all text-center border border-primary/20">
-              Download
+            <a [href]="invoice.fileUrl" target="_blank" download title="Download"
+              class="p-2.5 bg-white text-text-primary rounded-full hover:bg-gray-100 transition-transform hover:scale-105 cursor-pointer">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
             </a>
           </div>
         </div>
-        }
-      </div>
-      }
-    </section>
-    <!-- Payments Section -->
-    <section>
-      <h2
-        class="text-[11px] font-bold text-text-muted uppercase tracking-widest border-b border-border pb-3 mb-6 mt-8 flex items-center gap-2">
-        <svg class="w-4 h-4 text-text-muted/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-        </svg>
-        Payment Receipts
-      </h2>
-      @if (paymentInvoices.length === 0) {
-      <div
-        class="text-[13px] text-text-muted font-bold text-center py-8 bg-surface rounded-[20px] border border-border shadow-sm">
-        No payment invoices found.
-      </div>
-      }
-      @if (paymentInvoices.length > 0) {
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        @for (invoice of paymentInvoices; track invoice) {
-        <div
-          class="border border-border rounded-[20px] p-6 bg-surface shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.05)] hover:border-primary/30 transition-all duration-300 flex flex-col group">
-          <div class="flex justify-between items-start mb-4">
-            <span
-              class="inline-flex items-center rounded-full bg-accent-green/10 border border-accent-green/20 px-3 py-1 text-[10px] font-bold text-accent-green uppercase tracking-widest">Payment</span>
-            <span class="text-[11px] text-text-muted font-bold tracking-wider uppercase">{{ invoice.createdAt |
-              date:'mediumDate'
-              }}</span>
+        <div class="p-4 flex flex-col gap-1.5 bg-surface">
+          <div class="flex items-center justify-between">
+            <h3 class="text-[14px] font-bold text-text-primary truncate" title="Invoice {{ invoice.referenceId }}">
+              Invoice {{ invoice.referenceId | slice:0:8 }}
+            </h3>
+            <div class="min-w-[4rem] text-right">
+              @if (invoice.amount !== null && invoice.amount !== undefined) {
+              <span class="text-[13px] font-bold text-text-primary whitespace-nowrap">
+                ₹{{ invoice.amount | number:'1.2-2' }}
+              </span>
+              } @else {
+              <span class="text-[13px] font-medium text-text-muted italic">-</span>
+              }
+            </div>
           </div>
-          <p class="text-[13px] text-text-primary mb-6 font-bold group-hover:text-primary transition-colors flex-grow">
-            Ref: {{ invoice.referenceId | slice:0:8 }}...</p>
-          <div class="flex gap-3 mt-auto">
-            <button (click)="openDocument(invoice.fileUrl)"
-              class="flex-1 inline-flex justify-center items-center rounded-xl bg-bg-base px-3 py-2.5 text-[12px] uppercase tracking-wider font-bold text-text-primary border border-border shadow-sm hover:bg-border/50 transition-all text-center">
-              View PDF
+          <div class="flex items-center text-[12px] text-text-muted font-medium">
+            <svg class="w-3.5 h-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            {{ invoice.createdAt | date:'mediumDate' }}
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- LIST TEMPLATE -->
+    <ng-template #documentListCard let-invoice="invoice" let-iconColor="iconColor" let-tagLabel="tagLabel">
+      <div
+        class="group flex items-center justify-between bg-surface border-b border-border p-3 hover:bg-bg-base transition-colors duration-200">
+        
+        <div class="flex items-center gap-4 flex-1 min-w-0">
+          <!-- Small Icon -->
+          <div class="shrink-0 w-10 h-10 bg-[#F8F9FA] border border-border rounded flex items-center justify-center">
+            <svg class="w-6 h-6 {{ iconColor }}" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" fill="currentColor" />
+              <path d="M14 2V8H20" fill="white" opacity="0.6" />
+            </svg>
+          </div>
+          
+          <!-- Details (Name and Badge) -->
+          <div class="flex items-center flex-1 min-w-0 gap-4">
+            <h3 class="text-[14px] font-bold text-text-primary truncate w-64 shrink-0" title="Invoice {{ invoice.referenceId }}">
+              Invoice {{ invoice.referenceId | slice:0:8 }}
+            </h3>
+            <span class="inline-flex items-center rounded bg-surface border border-border px-2 py-0.5 text-[10px] font-bold text-text-muted uppercase tracking-widest shrink-0">
+              {{ tagLabel }}
+            </span>
+            <div class="flex items-center text-[13px] text-text-muted font-medium shrink-0 ml-4">
+              <svg class="w-3.5 h-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              {{ invoice.createdAt | date:'mediumDate' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-8 shrink-0">
+          <!-- Amount -->
+          <div class="w-24 text-right">
+            @if (invoice.amount !== null && invoice.amount !== undefined) {
+            <span class="text-[14px] font-bold text-text-primary">
+              ₹{{ invoice.amount | number:'1.2-2' }}
+            </span>
+            } @else {
+            <span class="text-[14px] font-medium text-text-muted italic">-</span>
+            }
+          </div>
+
+          <!-- Actions -->
+          <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity focus-within:opacity-100">
+            <button (click)="openDocument(invoice.fileUrl)" title="Preview"
+              class="p-2 text-text-muted hover:text-text-primary hover:bg-border/50 rounded-full transition-colors">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
             </button>
-            <a [href]="invoice.fileUrl" target="_blank" download
-              class="flex-1 inline-flex justify-center items-center rounded-xl bg-primary px-3 py-2.5 text-[12px] uppercase tracking-wider font-bold text-white shadow-sm hover:bg-primary/95 transition-all text-center border border-primary/20">
-              Download
+            <a [href]="invoice.fileUrl" target="_blank" download title="Download"
+              class="p-2 text-text-muted hover:text-text-primary hover:bg-border/50 rounded-full transition-colors cursor-pointer">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
             </a>
           </div>
         </div>
-        }
       </div>
-      }
-    </section>
-    <!-- Claim Status Section -->
-    <section>
-      <h2
-        class="text-[11px] font-bold text-text-muted uppercase tracking-widest border-b border-border pb-3 mb-6 mt-8 flex items-center gap-2">
-        <svg class="w-4 h-4 text-text-muted/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-        Claim Status Invoices
-      </h2>
-      @if (claimInvoices.length === 0) {
-      <div
-        class="text-[13px] text-text-muted font-bold text-center py-8 bg-surface rounded-[20px] border border-border shadow-sm">
-        No claim invoices found.
-      </div>
-      }
-      @if (claimInvoices.length > 0) {
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        @for (invoice of claimInvoices; track invoice) {
-        <div
-          class="border border-border rounded-[20px] p-6 bg-surface shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.05)] hover:border-primary/30 transition-all duration-300 flex flex-col group">
-          <div class="flex justify-between items-start mb-4">
-            <span
-              class="inline-flex items-center rounded-full bg-primary/10 border border-primary/20 px-3 py-1 text-[10px] font-bold text-primary uppercase tracking-widest">Claim
-              Status</span>
-            <span class="text-[11px] text-text-muted font-bold tracking-wider uppercase">{{ invoice.createdAt |
-              date:'mediumDate'
-              }}</span>
-          </div>
-          <p class="text-[13px] text-text-primary mb-6 font-bold group-hover:text-primary transition-colors flex-grow">
-            Ref: {{ invoice.referenceId | slice:0:8 }}...</p>
-          <div class="flex gap-3 mt-auto">
-            <button (click)="openDocument(invoice.fileUrl)"
-              class="flex-1 inline-flex justify-center items-center rounded-xl bg-bg-base px-3 py-2.5 text-[12px] uppercase tracking-wider font-bold text-text-primary border border-border shadow-sm hover:bg-border/50 transition-all text-center">
-              View PDF
-            </button>
-            <a [href]="invoice.fileUrl" target="_blank" download
-              class="flex-1 inline-flex justify-center items-center rounded-xl bg-primary px-3 py-2.5 text-[12px] uppercase tracking-wider font-bold text-white shadow-sm hover:bg-primary/95 transition-all text-center border border-primary/20">
-              Download
-            </a>
-          </div>
+    </ng-template>
+
+    <!-- Content Sections -->
+    <div class="space-y-10">
+      
+      <!-- Policy Purchases Section -->
+      <section>
+        <h2 class="text-[16px] font-bold text-text-primary mb-4 flex items-center gap-2">
+          Policy Purchase Invoices
+        </h2>
+        @if (policyInvoices.length === 0) {
+        <div class="text-[13px] text-text-muted font-medium py-4">
+          No policy purchase invoices found.
         </div>
         }
-      </div>
-      }
-    </section>
+        @if (policyInvoices.length > 0) {
+        <div [class]="viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5' : 'bg-surface border border-border border-b-0 rounded-xl overflow-hidden'">
+          @for (invoice of policyInvoices; track invoice) {
+            @if (viewMode === 'grid') {
+            <ng-container *ngTemplateOutlet="documentGridCard; context: { invoice: invoice, iconColor: 'text-accent-blue', tagLabel: 'Policy' }"></ng-container>
+            } @else {
+            <ng-container *ngTemplateOutlet="documentListCard; context: { invoice: invoice, iconColor: 'text-accent-blue', tagLabel: 'Policy' }"></ng-container>
+            }
+          }
+        </div>
+        }
+      </section>
+
+      <!-- Payments Section -->
+      <section>
+        <h2 class="text-[16px] font-bold text-text-primary mb-4 flex items-center gap-2">
+          Payment Receipts
+        </h2>
+        @if (paymentInvoices.length === 0) {
+        <div class="text-[13px] text-text-muted font-medium py-4">
+          No payment receipts found.
+        </div>
+        }
+        @if (paymentInvoices.length > 0) {
+        <div [class]="viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5' : 'bg-surface border border-border border-b-0 rounded-xl overflow-hidden'">
+          @for (invoice of paymentInvoices; track invoice) {
+            @if (viewMode === 'grid') {
+            <ng-container *ngTemplateOutlet="documentGridCard; context: { invoice: invoice, iconColor: 'text-accent-green', tagLabel: 'Payment' }"></ng-container>
+            } @else {
+            <ng-container *ngTemplateOutlet="documentListCard; context: { invoice: invoice, iconColor: 'text-accent-green', tagLabel: 'Payment' }"></ng-container>
+            }
+          }
+        </div>
+        }
+      </section>
+
+      <!-- Claim Status Section -->
+      <section>
+        <h2 class="text-[16px] font-bold text-text-primary mb-4 flex items-center gap-2">
+          Claim Status Invoices
+        </h2>
+        @if (claimInvoices.length === 0) {
+        <div class="text-[13px] text-text-muted font-medium py-4">
+          No claim invoices found.
+        </div>
+        }
+        @if (claimInvoices.length > 0) {
+        <div [class]="viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5' : 'bg-surface border border-border border-b-0 rounded-xl overflow-hidden'">
+          @for (invoice of claimInvoices; track invoice) {
+            @if (viewMode === 'grid') {
+            <ng-container *ngTemplateOutlet="documentGridCard; context: { invoice: invoice, iconColor: 'text-primary', tagLabel: 'Claim' }"></ng-container>
+            } @else {
+            <ng-container *ngTemplateOutlet="documentListCard; context: { invoice: invoice, iconColor: 'text-primary', tagLabel: 'Claim' }"></ng-container>
+            }
+          }
+        </div>
+        }
+      </section>
+
+    </div>
   </div>
   }
 </div>

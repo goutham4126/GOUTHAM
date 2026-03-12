@@ -7,6 +7,22 @@ import { ClaimDto } from '../../../models/claim/claim';
 import { ToastService } from '../../../services/toast/toast';
 import { VideoCallService } from '../../../services/video-call/video-call.service';
 import { Router } from '@angular/router';
+import * as L from 'leaflet';
+
+// Fix default marker icon paths
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
+
+const incidentIcon = new L.Icon({
+  iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
 
 @Component({
   selector: 'app-claims-officer-dashboard',
@@ -47,8 +63,63 @@ export class ClaimsOfficerDashboard implements OnInit {
   isApproving = false;
 
 
+  // Incident map instances for expanded claims
+  private incidentMaps: Map<string, L.Map> = new Map();
+
   toggleExpand(claimId: string) {
-    this.expandedClaimId = this.expandedClaimId === claimId ? null : claimId;
+    // Clean up previous map if collapsing
+    if (this.expandedClaimId === claimId) {
+      this.destroyIncidentMap(claimId);
+      this.expandedClaimId = null;
+    } else {
+      // Clean up old expanded map
+      if (this.expandedClaimId) {
+        this.destroyIncidentMap(this.expandedClaimId);
+      }
+      this.expandedClaimId = claimId;
+      // Initialize map after DOM renders
+      const claim = this.assignedClaims.find(c => c.id === claimId);
+      if (claim?.incidentLatitude && claim?.incidentLongitude) {
+        setTimeout(() => this.initIncidentMap(claim), 150);
+      }
+    }
+  }
+
+  private initIncidentMap(claim: ClaimDto) {
+    const mapId = `officer-incident-map-${claim.id}`;
+    const el = document.getElementById(mapId);
+    if (!el || !claim.incidentLatitude || !claim.incidentLongitude) return;
+
+    // Destroy existing map on this element if any
+    this.destroyIncidentMap(claim.id);
+
+    const map = L.map(mapId, {
+      scrollWheelZoom: false,
+      dragging: true,
+      zoomControl: true,
+    }).setView([claim.incidentLatitude, claim.incidentLongitude], 14);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+      maxZoom: 19,
+    }).addTo(map);
+
+    L.marker([claim.incidentLatitude, claim.incidentLongitude], { icon: incidentIcon })
+      .addTo(map)
+      .bindPopup(
+        `<strong>Incident Location</strong><br>Lat: ${claim.incidentLatitude.toFixed(5)}<br>Lng: ${claim.incidentLongitude.toFixed(5)}`
+      )
+      .openPopup();
+
+    this.incidentMaps.set(claim.id, map);
+  }
+
+  private destroyIncidentMap(claimId: string) {
+    const map = this.incidentMaps.get(claimId);
+    if (map) {
+      map.remove();
+      this.incidentMaps.delete(claimId);
+    }
   }
 
   async openDocument(url: string) {

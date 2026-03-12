@@ -175,23 +175,6 @@ namespace Application.Services
 
                         MetaLine(right, "REFERENCE NO.", referenceNumber);
                         MetaLine(right, "ISSUE DATE", issueDate.ToString("dd MMM yyyy").ToUpper());
-
-                        // Logo
-                        var currentDir = Directory.GetCurrentDirectory();
-                        var baseDir    = AppDomain.CurrentDomain.BaseDirectory;
-
-                        var possiblePaths = new[]
-                        {
-                            Path.Combine(currentDir, "..", "Infrastructure", "Assets", "logo.png"),
-                            Path.Combine(currentDir, "Infrastructure", "Assets", "logo.png"),
-                            Path.Combine(baseDir, "..", "..", "..", "..", "Infrastructure", "Assets", "logo.png"),
-                            @"c:\Users\DELL\Desktop\GOUTHAM\backend\Infrastructure\Assets\logo.png"
-                        };
-
-                        var actualLogoPath = possiblePaths.FirstOrDefault(System.IO.File.Exists);
-
-                        if (actualLogoPath != null)
-                            right.Item().PaddingTop(12).Height(38).AlignRight().Image(actualLogoPath).FitArea();
                     });
                 });
 

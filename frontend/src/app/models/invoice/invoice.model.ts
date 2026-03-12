@@ -4,4 +4,5 @@ export interface Invoice {
     type: 'PolicyPurchase' | 'ClaimStatus' | 'Payment';
     fileUrl: string;
     createdAt: string;
+    amount?: number;
 }

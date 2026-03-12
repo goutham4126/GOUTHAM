@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using Domain.Entities;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -41,7 +41,9 @@ namespace Application.Services
         string reason,
         decimal amount,
         string documentUrl,
-        string documentHash)
+        string documentHash,
+        double? incidentLatitude,
+        double? incidentLongitude)
         {
             await using var transaction = await _context.Database.BeginTransactionAsync();
             try
@@ -90,7 +92,9 @@ namespace Application.Services
                     ClaimOfficerId = selectedOfficerId,
                     DocumentUrl = documentUrl,
                     DocumentHash = documentHash,
-                    Status = ClaimStatus.Pending
+                    Status = ClaimStatus.Pending,
+                    IncidentLatitude = incidentLatitude,
+                    IncidentLongitude = incidentLongitude
                 };
 
                 await _claimRepo.AddAsync(claim);
@@ -296,7 +300,9 @@ namespace Application.Services
                 claim.Remarks,
                 claim.ScheduledVideoCallDate,
                 claim.VideoVerificationStatus.ToString(),
-                claim.VideoVerificationRemarks
+                claim.VideoVerificationRemarks,
+                claim.IncidentLatitude,
+                claim.IncidentLongitude
             );
         }
     }

@@ -141,6 +141,49 @@
           </div>
         </div>
 
+        <!-- Incident Location Map Section (full-width below the grid) -->
+        <div class="mt-10 pt-8 border-t border-border">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h4 class="text-base font-bold text-text-primary mb-1 flex items-center gap-2">
+                <svg class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                Incident Location
+              </h4>
+              <p class="text-[13px] text-text-muted">Click on the map to mark where the incident occurred.</p>
+            </div>
+            @if (selectedLatitude !== null) {
+            <div class="flex items-center gap-3">
+              <span
+                class="text-[12px] font-bold text-accent-green bg-accent-green/10 border border-accent-green/20 px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                {{ selectedLatitude!.toFixed(4) }}, {{ selectedLongitude!.toFixed(4) }}
+              </span>
+              <button type="button" (click)="clearMapSelection()"
+                class="text-[11px] font-bold text-accent-red bg-accent-red/10 border border-accent-red/20 px-3 py-1.5 rounded-lg hover:bg-accent-red/20 transition-colors uppercase tracking-wider">
+                Clear
+              </button>
+            </div>
+            }
+          </div>
+          <div id="claim-incident-map" class="w-full h-[350px] rounded-2xl border border-border overflow-hidden shadow-sm z-0"></div>
+          @if (selectedLatitude === null) {
+          <p class="text-[12px] text-text-muted mt-3 flex items-center gap-1.5 italic">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            No location selected yet. Click anywhere on the map to pin the incident spot.
+          </p>
+          }
+        </div>
+
         <!-- Submit Button -->
         <div class="mt-10 pt-6 border-t border-border flex justify-end">
           <button type="submit" [disabled]="!claimForm.valid || isProcessingUpload"

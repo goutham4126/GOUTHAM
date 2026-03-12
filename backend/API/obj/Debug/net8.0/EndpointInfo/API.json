@@ -1030,6 +1030,16 @@
           "documentHash": {
             "type": "string",
             "nullable": true
+          },
+          "incidentLatitude": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "incidentLongitude": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
           }
         },
         "additionalProperties": false

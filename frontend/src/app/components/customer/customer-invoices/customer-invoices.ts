@@ -20,6 +20,12 @@ export class CustomerInvoices implements OnInit {
 
   isLoading = true;
   error = '';
+  
+  viewMode: 'grid' | 'list' = 'grid';
+
+  toggleView(mode: 'grid' | 'list') {
+    this.viewMode = mode;
+  }
 
   ngOnInit(): void {
     this.loadInvoices();

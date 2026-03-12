@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Insurance;
+using Application.DTOs.Insurance;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +40,9 @@ public class ClaimsController : ControllerBase
             request.Reason,
             request.Amount,
             request.DocumentUrl,
-            request.DocumentHash
+            request.DocumentHash,
+            request.IncidentLatitude,
+            request.IncidentLongitude
         );
 
         return Ok(claim);

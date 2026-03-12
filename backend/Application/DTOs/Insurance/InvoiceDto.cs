@@ -7,6 +7,7 @@ namespace Application.DTOs.Insurance
         string ReferenceId,
         string Type,
         string FileUrl,
-        DateTime CreatedAt
+        DateTime CreatedAt,
+        decimal? Amount
     );
 }

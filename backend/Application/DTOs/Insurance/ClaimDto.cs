@@ -1,4 +1,4 @@
-﻿namespace Application.DTOs.Insurance;
+namespace Application.DTOs.Insurance;
 
 public record ClaimDto(
     Guid Id,
@@ -16,5 +16,7 @@ public record ClaimDto(
     string? Remarks,
     DateTime? ScheduledVideoCallDate,
     string VideoVerificationStatus,
-    string? VideoVerificationRemarks
+    string? VideoVerificationRemarks,
+    double? IncidentLatitude,
+    double? IncidentLongitude
 );

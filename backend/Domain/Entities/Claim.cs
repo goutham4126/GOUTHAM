@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Domain.Enums;
 
@@ -51,6 +51,9 @@ namespace Domain.Entities
 
         [StringLength(1000)]
         public string? VideoVerificationRemarks { get; set; }
+
+        public double? IncidentLatitude { get; set; }
+        public double? IncidentLongitude { get; set; }
 
         public Policy Policy { get; set; } = null!;
         public User User { get; set; } = null!;
