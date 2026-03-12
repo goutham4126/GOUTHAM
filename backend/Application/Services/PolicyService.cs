@@ -19,6 +19,7 @@ namespace Application.Services
         private readonly ILogger<PolicyService> _logger;
         private readonly INotificationService _notificationService;
         private readonly IWebhookNotificationService _webhookNotificationService;
+        private readonly IAiDocumentService _aiDocumentService;
 
         public PolicyService(
         IPolicyRepository policyRepo,
@@ -30,7 +31,8 @@ namespace Application.Services
         IInvoiceGeneratorService invoiceGenerator,
         ILogger<PolicyService> logger,
         INotificationService notificationService,
-        IWebhookNotificationService webhookNotificationService)
+        IWebhookNotificationService webhookNotificationService,
+        IAiDocumentService aiDocumentService)
         {
             _policyRepo = policyRepo;
             _planRepo = planRepo;
@@ -42,6 +44,7 @@ namespace Application.Services
             _logger = logger;
             _notificationService = notificationService;
             _webhookNotificationService = webhookNotificationService;
+            _aiDocumentService = aiDocumentService;
         }
 
         public async Task<PolicyDto> PurchasePolicyAsync(Guid userId, Guid requestId)
@@ -153,7 +156,26 @@ namespace Application.Services
                 if (customer != null)
                 {
                     // 1) Policy Purchase Invoice
-                    var pdfBytes = _invoiceGenerator.GeneratePolicyInvoice(policy, customer);
+                    PolicyAiDocumentResponseDto? aiSections = null;
+                    if (customer != null)
+                    {
+                        var aiRequest = new PolicyAiDocumentRequestDto
+                        {
+                            PolicyId = policy.Id.ToString(),
+                            CustomerName = $"{customer.FirstName} {customer.LastName}",
+                            CustomerEmail = customer.Email,
+                            PlanName = plan.Name,
+                            CoverageAmount = policy.CoverageAmount,
+                            PolicyDurationMonths = policy.DurationInMonths,
+                            PaymentFrequency = policy.PaymentFrequency.ToString(),
+                            TotalPremium = policy.TotalPremium,
+                            PolicyStartDate = policy.StartDate.ToString("yyyy-MM-dd"),
+                            PolicyCompletionDate = policy.EndDate.ToString("yyyy-MM-dd")
+                        };
+                        aiSections = await _aiDocumentService.GenerateDocumentSectionsAsync(aiRequest);
+                    }
+
+                    var pdfBytes = _invoiceGenerator.GeneratePolicyInvoice(policy, customer, aiSections);
                     var fileName = $"policy_{policy.Id}_{DateTime.UtcNow.Ticks}.pdf";
                     var fileUrl = await _blobService.UploadFileAsync(pdfBytes, fileName, "policy_purchase_invoices");
 

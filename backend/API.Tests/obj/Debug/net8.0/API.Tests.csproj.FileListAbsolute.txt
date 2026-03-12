@@ -211,3 +211,8 @@ C:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\obj\Debug\net8.0\ref\API.Tests.d
 C:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.staticwebassets.runtime.json
 C:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\AgoraIO.dll
 C:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\Crc32.NET.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\System.IO.Pipelines.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\System.Net.Http.Json.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\System.Text.Encodings.Web.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\System.Text.Json.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll

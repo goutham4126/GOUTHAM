@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "94NeSUw8wlw=",
+  "dgSpecHash": "fAI2QzieXAs=",
   "success": true,
   "projectFilePath": "C:\\Users\\DELL\\Desktop\\GOUTHAM\\backend\\Application.Tests\\Application.Tests.csproj",
   "expectedPackageFiles": [
@@ -38,9 +38,12 @@
     "C:\\Users\\DELL\\.nuget\\packages\\questpdf\\2026.2.2\\questpdf.2026.2.2.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\system.buffers\\4.6.0\\system.buffers.4.6.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\system.diagnostics.eventlog\\6.0.0\\system.diagnostics.eventlog.6.0.0.nupkg.sha512",
-    "C:\\Users\\DELL\\.nuget\\packages\\system.io.pipelines\\8.0.0\\system.io.pipelines.8.0.0.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\system.io.pipelines\\10.0.5\\system.io.pipelines.10.0.5.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\system.net.http.json\\10.0.5\\system.net.http.json.10.0.5.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\system.reflection.emit\\4.7.0\\system.reflection.emit.4.7.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\system.reflection.metadata\\1.6.0\\system.reflection.metadata.1.6.0.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\system.text.encodings.web\\10.0.5\\system.text.encodings.web.10.0.5.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\system.text.json\\10.0.5\\system.text.json.10.0.5.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\system.threading.channels\\8.0.0\\system.threading.channels.8.0.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\xunit\\2.5.3\\xunit.2.5.3.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\xunit.abstractions\\2.0.3\\xunit.abstractions.2.0.3.nupkg.sha512",

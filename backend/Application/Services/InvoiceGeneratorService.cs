@@ -27,11 +27,7 @@ namespace Application.Services
             QuestPDF.Settings.License = LicenseType.Community;
         }
 
-        // ══════════════════════════════════════════════════════════════════════
-        //  PUBLIC METHODS  (logic unchanged)
-        // ══════════════════════════════════════════════════════════════════════
-
-        public byte[] GeneratePolicyInvoice(Policy policy, User customer)
+        public byte[] GeneratePolicyInvoice(Policy policy, User customer, Application.DTOs.Insurance.PolicyAiDocumentResponseDto? aiSections = null)
         {
             return Document.Create(container =>
             {
@@ -45,6 +41,13 @@ namespace Application.Services
                         {
                             ComposeCustomerDetails(col, customer);
                             col.Item().PaddingTop(25).Element(c2 => ComposePolicyDetails(c2, policy));
+                            
+                            col.Item().PaddingTop(20).Element(c2 => ComposePremiumBreakdown(c2, policy));
+                            
+                            if (aiSections != null)
+                            {
+                                col.Item().PaddingTop(20).Element(c2 => ComposeAiSections(c2, aiSections));
+                            }
                         });
                     });
                     page.Footer().Element(ComposeFooter);
@@ -96,9 +99,6 @@ namespace Application.Services
             }).GeneratePdf();
         }
 
-        // ══════════════════════════════════════════════════════════════════════
-        //  PAGE SETUP
-        // ══════════════════════════════════════════════════════════════════════
 
         private void SetupPage(PageDescriptor page)
         {
@@ -107,10 +107,6 @@ namespace Application.Services
             page.PageColor(IvoryBg);
             page.DefaultTextStyle(x => x.FontSize(10).FontFamily(Fonts.TimesNewRoman).FontColor(SlateText));
         }
-
-        // ══════════════════════════════════════════════════════════════════════
-        //  HEADER
-        // ══════════════════════════════════════════════════════════════════════
 
         private void ComposeHeader(IContainer container, string title, string referenceNumber,
                                    DateTime issueDate, string? badge = null)
@@ -198,9 +194,6 @@ namespace Application.Services
                 .FontColor(White);
         }
 
-        // ══════════════════════════════════════════════════════════════════════
-        //  CUSTOMER DETAILS
-        // ══════════════════════════════════════════════════════════════════════
 
         private void ComposeCustomerDetails(ColumnDescriptor column, User customer)
         {
@@ -249,10 +242,6 @@ namespace Application.Services
                 });
             });
         }
-
-        // ══════════════════════════════════════════════════════════════════════
-        //  POLICY DETAILS
-        // ══════════════════════════════════════════════════════════════════════
 
         private void ComposePolicyDetails(IContainer container, Policy policy)
         {
@@ -336,9 +325,105 @@ namespace Application.Services
             });
         }
 
-        // ══════════════════════════════════════════════════════════════════════
-        //  CLAIM DETAILS
-        // ══════════════════════════════════════════════════════════════════════
+        private void ComposePremiumBreakdown(IContainer container, Policy policy)
+        {
+            var plan = policy.Plan;
+            var riskScore = CalculateRiskScore(plan, policy.DurationInMonths, policy.PaymentFrequency);
+            
+            int frequencyInterval = policy.PaymentFrequency switch
+            {
+                Domain.Enums.PaymentFrequency.Monthly => 1,
+                Domain.Enums.PaymentFrequency.Quarterly => 3,
+                Domain.Enums.PaymentFrequency.Yearly => 12,
+                _ => 1
+            };
+            string frequencyLabel = policy.PaymentFrequency switch
+            {
+                Domain.Enums.PaymentFrequency.Monthly => "mo",
+                Domain.Enums.PaymentFrequency.Quarterly => "qtr",
+                Domain.Enums.PaymentFrequency.Yearly => "yr",
+                _ => "mo"
+            };
+
+            decimal baseMonthlyPremium = plan?.PremiumAmount ?? 0;
+            decimal baseInstallment = baseMonthlyPremium * frequencyInterval;
+            decimal riskAdjustmentAmount = baseInstallment * (riskScore / 100m);
+            decimal adjustedInstallment = baseInstallment + riskAdjustmentAmount;
+            int numberOfInstallments = policy.DurationInMonths / frequencyInterval;
+
+            string riskLabel = riskScore <= 15 ? "Low" :
+                               riskScore <= 30 ? "Moderate" :
+                               riskScore <= 50 ? "High" : "Severe";
+            
+            string riskColor = riskScore <= 15 ? SuccessGreen :
+                               riskScore <= 30 ? WarnAmber :
+                               riskScore <= 50 ? "#b78a52ff" : "#B91C1C"; // PDF safe colors for Orange/Red
+
+            container.PaddingHorizontal(30).Column(col =>
+            {
+                SectionLabel(col, "PREMIUM CALCULATION BREAKDOWN");
+
+                col.Item().PaddingTop(10).Border(0.5f).BorderColor(DividerLine).Column(card =>
+                {
+                    void AddRow(string title, string subtitle, string value, string valueSuffix = "", bool isHighlighted = false, bool isTotal = false)
+                    {
+                        card.Item().Background(isHighlighted ? GoldPrimary + "11" : isTotal ? NavyDeep : White)
+                            .BorderBottom(isTotal ? 0 : 0.5f).BorderColor(DividerLine)
+                            .PaddingVertical(8).PaddingHorizontal(12).Row(row =>
+                        {
+                            row.RelativeItem().Column(c =>
+                            {
+                                c.Item().Text(title).FontSize(isTotal ? 11 : 9.5f).Bold().FontColor(isTotal ? White : NavyDeep);
+                                if (!string.IsNullOrEmpty(subtitle))
+                                {
+                                    c.Item().Text(subtitle).FontSize(7.5f).FontColor(isTotal ? GoldLight : MutedText);
+                                }
+                            });
+                            
+                            row.ConstantItem(120).AlignRight().AlignMiddle().Text(t =>
+                            {
+                                t.Span(value).FontSize(isTotal ? 14 : 10.5f).Bold().FontColor(isTotal ? White : NavyDeep);
+                                if (!string.IsNullOrEmpty(valueSuffix))
+                                {
+                                    t.Span(valueSuffix).FontSize(7.5f).Bold().FontColor(isTotal ? GoldLight : MutedText);
+                                }
+                            });
+                        });
+                    }
+
+                    void AddRiskRow(string title, string subtitle, string value)
+                    {
+                        card.Item().Background(White)
+                            .BorderBottom(0.5f).BorderColor(DividerLine)
+                            .PaddingVertical(8).PaddingHorizontal(12).Row(row =>
+                        {
+                            row.RelativeItem().Column(c =>
+                            {
+                                c.Item().Text(t => {
+                                    t.Span("● ").FontSize(8).FontColor(riskColor);
+                                    t.Span(title).FontSize(9.5f).Bold().FontColor(riskColor);
+                                });
+                                c.Item().Text(subtitle).FontSize(7.5f).FontColor(MutedText);
+                            });
+                            
+                            row.ConstantItem(120).AlignRight().AlignMiddle()
+                                .Text(value).FontSize(10.5f).Bold().FontColor(riskColor);
+                        });
+                    }
+
+                    AddRow("Coverage Amount", $"{plan?.Name}  ·  {policy.DurationInMonths} months", $"${policy.CoverageAmount:N0}");
+                    AddRow("Base Premium", "Plan's monthly rate", $"${baseMonthlyPremium:N2}", " /mo");
+                    AddRow("Frequency Multiplier", $"{policy.PaymentFrequency} = × {frequencyInterval} months", $"× {frequencyInterval}");
+                    AddRow("Base Installment", $"${baseMonthlyPremium:N2} × {frequencyInterval}", $"${baseInstallment:N2}", $" /{frequencyLabel}", isHighlighted: true);
+                    
+                    AddRiskRow($"Risk Adjustment ({riskLabel})", $"+{riskScore:N1}% of base installment", $"+${riskAdjustmentAmount:N2}");
+                    
+                    AddRow("Adjusted Installment", "Base + Risk adjustment", $"${adjustedInstallment:N2}", $" /{frequencyLabel}", isHighlighted: true);
+                    AddRow("Number of Installments", $"{policy.DurationInMonths} months ÷ {frequencyInterval} = {numberOfInstallments} installments", $"× {numberOfInstallments}");
+                    AddRow("Total Premium", $"${adjustedInstallment:N2} × {numberOfInstallments} installments", $"${policy.TotalPremium:N2}", isTotal: true);
+                });
+            });
+        }
 
         private void ComposeClaimDetails(IContainer container, Claim claim)
         {
@@ -357,6 +442,47 @@ namespace Application.Services
                     highlightLast: claim.ApprovedAmount.HasValue));
 
                 col.Item().PaddingTop(16).LineHorizontal(0.75f).LineColor(DividerLine);
+            });
+        }
+
+        private void ComposeAiSections(IContainer container, Application.DTOs.Insurance.PolicyAiDocumentResponseDto aiSections)
+        {
+            container.PaddingHorizontal(30).Column(col =>
+            {
+                if (!string.IsNullOrWhiteSpace(aiSections.PlanDetails))
+                {
+                    SectionLabel(col, "PLAN DETAILS");
+                    col.Item().PaddingTop(8).Text(aiSections.PlanDetails)
+                        .FontSize(9.5f).FontColor(SlateText).LineHeight(1.4f);
+                }
+
+                if (!string.IsNullOrWhiteSpace(aiSections.PolicySchedule))
+                {
+                    SectionLabel(col, "POLICY SCHEDULE");
+                    col.Item().PaddingTop(8).Text(aiSections.PolicySchedule)
+                        .FontSize(9.5f).FontColor(SlateText).LineHeight(1.4f);
+                }
+
+                if (!string.IsNullOrWhiteSpace(aiSections.CoverageExplanation))
+                {
+                    SectionLabel(col, "COVERAGE EXPLANATION");
+                    col.Item().PaddingTop(8).Text(aiSections.CoverageExplanation)
+                        .FontSize(9.5f).FontColor(SlateText).LineHeight(1.4f);
+                }
+
+                if (!string.IsNullOrWhiteSpace(aiSections.RiskDeclaration))
+                {
+                    SectionLabel(col, "RISK DECLARATION");
+                    col.Item().PaddingTop(8).Text(aiSections.RiskDeclaration)
+                        .FontSize(9.5f).FontColor(SlateText).LineHeight(1.4f);
+                }
+
+                if (!string.IsNullOrWhiteSpace(aiSections.TermsAndConditions))
+                {
+                    SectionLabel(col, "TERMS & CONDITIONS");
+                    col.Item().PaddingTop(8).Text(aiSections.TermsAndConditions)
+                        .FontSize(9.5f).FontColor(SlateText).LineHeight(1.4f);
+                }
             });
         }
 
@@ -499,6 +625,39 @@ namespace Application.Services
                     cell.Text(values[i]);
                 }
             });
+        }
+
+         private static decimal CalculateRiskScore(Plan? plan, int durationMonths, Domain.Enums.PaymentFrequency frequency)
+        {
+            if (plan == null) return 0m;
+            decimal score = 5m; // Base score
+
+            // Plan Risk
+            if (plan.PlanType != null && plan.PlanType.Contains("Disaster", StringComparison.OrdinalIgnoreCase))
+            {
+                score += 20m;
+            }
+            else
+            {
+                score += 15m;
+            }
+
+            // Duration Risk
+            decimal durationYears = durationMonths / 12.0m;
+            score += Math.Min(15m, 1.2m * durationYears);
+
+            // Frequency Risk
+            if (frequency == Domain.Enums.PaymentFrequency.Monthly)
+                score += 6m;
+            else if (frequency == Domain.Enums.PaymentFrequency.Quarterly)
+                score += 3m;
+
+            // Coverage Risk
+            decimal defaultDuration = plan.DurationInMonths > 0 ? plan.DurationInMonths : durationMonths;
+            decimal computedCoverage = plan.CoverageAmount * ((decimal)durationMonths / defaultDuration);
+            score += Math.Min(15m, (computedCoverage / 500000m) * 2m);
+
+            return Math.Min(100m, score);
         }
     }
 }

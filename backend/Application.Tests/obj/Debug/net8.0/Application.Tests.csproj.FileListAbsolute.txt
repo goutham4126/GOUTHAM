@@ -170,3 +170,7 @@ C:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\obj\Debug\net8.0\Applica
 C:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\obj\Debug\net8.0\ref\Application.Tests.dll
 C:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\AgoraIO.dll
 C:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Crc32.NET.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\System.Net.Http.Json.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\System.Text.Encodings.Web.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\System.Text.Json.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll

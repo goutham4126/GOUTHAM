@@ -21,6 +21,7 @@ namespace Application.Tests.Services
         private readonly Mock<Microsoft.Extensions.Logging.ILogger<PolicyService>> _loggerMock;
         private readonly Mock<INotificationService> _notificationMock;
         private readonly Mock<IWebhookNotificationService> _webhookNotificationMock;
+        private readonly Mock<IAiDocumentService> _aiDocumentMock;
         private readonly PolicyService _service;
 
         public PolicyServiceTests()
@@ -35,6 +36,7 @@ namespace Application.Tests.Services
             _loggerMock = new Mock<Microsoft.Extensions.Logging.ILogger<PolicyService>>();
             _notificationMock = new Mock<INotificationService>();
             _webhookNotificationMock = new Mock<IWebhookNotificationService>();
+            _aiDocumentMock = new Mock<IAiDocumentService>();
 
             _service = new PolicyService(
                 _policyRepoMock.Object,
@@ -46,7 +48,8 @@ namespace Application.Tests.Services
                 _invoiceMock.Object,
                 _loggerMock.Object,
                 _notificationMock.Object,
-                _webhookNotificationMock.Object);
+                _webhookNotificationMock.Object,
+                _aiDocumentMock.Object);
         }
 
         [Fact]
