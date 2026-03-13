@@ -6,6 +6,7 @@ import { ClaimService } from '../../../services/claim/claim';
 import { ClaimDto } from '../../../models/claim/claim';
 import { ToastService } from '../../../services/toast/toast';
 import { VideoCallService } from '../../../services/video-call/video-call.service';
+import { GeoVerificationService, VerificationResult, AmbeeDisasterData } from '../../../services/geo-verification/geo-verification.service';
 import { Router } from '@angular/router';
 import * as L from 'leaflet';
 
@@ -44,6 +45,7 @@ export class ClaimsOfficerDashboard implements OnInit {
   private toastService = inject(ToastService);
   private cdr = inject(ChangeDetectorRef);
   public videoCallService = inject(VideoCallService);
+  private geoVerificationService = inject(GeoVerificationService);
   private router = inject(Router);
 
   assignedClaims: ClaimDto[] = [];
@@ -72,25 +74,65 @@ export class ClaimsOfficerDashboard implements OnInit {
 
   // Incident map instances for expanded claims
   private incidentMaps: Map<string, L.Map> = new Map();
+  private historyMaps: Map<string, L.Map> = new Map();
   locationNames: Map<string, string> = new Map();
+
+  // Verification results
+  verificationResults: Map<string, VerificationResult> = new Map();
+  disasterHistory: AmbeeDisasterData[] = [];
+  isVerifying: Map<string, boolean> = new Map();
 
   toggleExpand(claimId: string) {
     // Clean up previous map if collapsing
     if (this.expandedClaimId === claimId) {
       this.destroyIncidentMap(claimId);
+      this.destroyHistoryMap(claimId);
       this.expandedClaimId = null;
     } else {
       // Clean up old expanded map
       if (this.expandedClaimId) {
         this.destroyIncidentMap(this.expandedClaimId);
+        this.destroyHistoryMap(this.expandedClaimId);
       }
       this.expandedClaimId = claimId;
       // Initialize map after DOM renders
       const claim = this.assignedClaims.find(c => c.id === claimId);
       if (claim?.incidentLatitude && claim?.incidentLongitude) {
-        setTimeout(() => this.initIncidentMap(claim), 150);
+        setTimeout(() => {
+          this.initIncidentMap(claim);
+          this.fetchVerificationDetails(claim);
+          this.initHistoryMap(claim);
+        }, 150);
       }
     }
+  }
+
+  fetchVerificationDetails(claim: ClaimDto) {
+    this.isVerifying.set(claim.id, true);
+    this.geoVerificationService.verifyClaim(claim.id).subscribe({
+      next: (res) => {
+        if (res) {
+          this.verificationResults.set(claim.id, res);
+        }
+        this.isVerifying.set(claim.id, false);
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error verifying claim:', err);
+        this.isVerifying.set(claim.id, false);
+        this.cdr.detectChanges();
+      }
+    });
+
+    this.geoVerificationService.getDisasterHistory().subscribe({
+      next: (res) => {
+        if (res && res.data) {
+          this.disasterHistory = res.data;
+          this.updateHistoryMap(claim.id);
+        }
+      },
+      error: (err) => console.error('Error fetching history:', err)
+    });
   }
 
   private async reverseGeocode(lat: number, lng: number): Promise<string> {
@@ -193,6 +235,81 @@ export class ClaimsOfficerDashboard implements OnInit {
     }
   }
 
+  private initHistoryMap(claim: ClaimDto) {
+    const mapId = `officer-history-map-${claim.id}`;
+    const el = document.getElementById(mapId);
+    if (!el || !claim.incidentLatitude || !claim.incidentLongitude) return;
+
+    this.destroyHistoryMap(claim.id);
+
+    const lat = claim.incidentLatitude;
+    const lng = claim.incidentLongitude;
+
+    const map = L.map(mapId, {
+      scrollWheelZoom: true,
+      dragging: true,
+      zoomControl: true,
+    }).setView([lat, lng], 10);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+      maxZoom: 19,
+    }).addTo(map);
+
+    // Current claim marker (Special color)
+    L.circleMarker([lat, lng], {
+      radius: 8,
+      fillColor: '#FF3B30',
+      color: '#fff',
+      weight: 2,
+      opacity: 1,
+      fillOpacity: 0.8
+    }).addTo(map).bindPopup('<b>Current Incident</b>');
+
+    this.historyMaps.set(claim.id, map);
+    this.updateHistoryMap(claim.id);
+  }
+
+  private updateHistoryMap(claimId: string) {
+    const map = this.historyMaps.get(claimId);
+    if (!map || !this.disasterHistory || this.disasterHistory.length === 0) return;
+
+    this.disasterHistory.forEach(d => {
+      // Heatmap effect using circles
+      L.circle([d.lat, d.lng], {
+        radius: 5000, // 5km radius
+        color: '#FF9500',
+        fillColor: '#FF9500',
+        fillOpacity: 0.1,
+        weight: 1
+      }).addTo(map).bindPopup(`
+        <div class="disaster-popup">
+          <strong>${d.event_type}</strong><br/>
+          Date: ${d.date}<br/>
+          ID: ${d.event_id}
+        </div>
+      `);
+      
+      // Center point
+      L.circleMarker([d.lat, d.lng], {
+        radius: 3,
+        fillColor: '#FF9500',
+        color: '#fff',
+        weight: 1,
+        opacity: 0.8,
+        fillOpacity: 0.8
+      }).addTo(map);
+    });
+  }
+
+  private destroyHistoryMap(claimId: string) {
+    const map = this.historyMaps.get(claimId);
+    if (map) {
+      map.remove();
+      this.historyMaps.delete(claimId);
+    }
+  }
+
   async openDocument(url: string) {
     try {
       const response = await fetch(url);
@@ -214,11 +331,13 @@ export class ClaimsOfficerDashboard implements OnInit {
     this.loading = true;
     this.claimService.getAssignedClaims().subscribe({
       next: (data) => {
-        this.assignedClaims = data;
+        this.assignedClaims = data || [];
         this.loading = false;
         this.cdr.detectChanges();
       },
-      error: () => {
+      error: (err) => {
+        console.error('Error loading claims:', err);
+        this.assignedClaims = [];
         this.loading = false;
         this.cdr.detectChanges();
       }

@@ -195,3 +195,21 @@
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
 }
+
+.disaster-popup {
+  padding: 4px;
+  font-family: 'Inter', sans-serif;
+}
+
+.disaster-popup strong {
+  color: #FF9500;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+
+.disaster-popup {
+  font-size: 12px;
+  line-height: 1.4;
+  color: #374151;
+}
