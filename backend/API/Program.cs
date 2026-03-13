@@ -55,6 +55,7 @@ namespace API
             builder.Services.AddHttpClient<IAiDocumentService, AiDocumentService>();
             builder.Services.AddScoped<IInvoiceGeneratorService, InvoiceGeneratorService>();
             builder.Services.AddScoped<INotificationService, NotificationService>();
+            builder.Services.AddHttpClient<IGeoVerificationService, GeoVerificationService>();
             builder.Services.AddSignalR();
 
 

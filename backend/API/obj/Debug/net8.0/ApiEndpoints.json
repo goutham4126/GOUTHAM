@@ -178,6 +178,43 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "API.Controllers.GeoVerificationController",
+    "Method": "GetHistory",
+    "RelativePath": "api/geo-verification/history",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.GeoVerificationController",
+    "Method": "VerifyClaim",
+    "RelativePath": "api/geo-verification/verify/{claimId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "claimId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "API.Controllers.InvoicesController",
     "Method": "MyInvoices",
     "RelativePath": "api/invoices/my",
