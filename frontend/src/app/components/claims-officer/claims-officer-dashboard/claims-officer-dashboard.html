@@ -4,6 +4,67 @@
       Claim Evaluation Desk</h1>
   </div>
 
+  <!-- Global Disaster Verification Section -->
+  <div class="mb-8 overflow-hidden bg-surface rounded-3xl border border-border shadow-sm">
+    <div class="px-6 py-4 border-b border-border bg-bg-base flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center border border-orange-500/20">
+          <svg class="w-4 h-4 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-[13px] font-bold text-text-primary uppercase tracking-wider">Global Disaster Verification</h3>
+          <p class="text-[10px] text-text-muted font-bold font-mono">Real-time status from Ambee (n8n Webhook)</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        @if (disasterHistory.length > 0) {
+          <span class="text-[11px] font-bold text-orange-500 bg-orange-500/10 px-3 py-1 rounded-full border border-orange-500/20 uppercase tracking-widest">
+            {{ disasterHistory.length }} Disasters Loaded
+          </span>
+        }
+        <button (click)="fetchGlobalDisasterHistory()" 
+                [disabled]="globalLoading"
+                class="p-2 hover:bg-bg-base rounded-lg transition-colors text-text-muted hover:text-primary active:scale-95 disabled:opacity-50">
+          <svg class="w-4 h-4" [class.animate-spin]="globalLoading" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="relative min-h-[400px] bg-bg-base p-4">
+      @if (globalLoading) {
+        <div class="absolute inset-0 z-[1001] flex flex-col items-center justify-center bg-surface/50 backdrop-blur-[2px]">
+          <div class="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+          <p class="text-[13px] font-bold text-text-primary">Syncing with Ambee disaster database...</p>
+          <p class="text-[11px] text-text-muted mt-1 uppercase tracking-widest font-bold">Verifying global events</p>
+        </div>
+      }
+
+      @if (globalError) {
+        <div class="flex flex-col items-center justify-center py-12 px-6 text-center">
+          <div class="w-16 h-16 bg-accent-red/10 rounded-full flex items-center justify-center mb-4 border border-accent-red/20 shadow-sm">
+            <svg class="w-8 h-8 text-accent-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h4 class="text-[14px] font-bold text-text-primary mb-2">Sync Error Detected</h4>
+          <p class="text-[12px] text-text-muted mb-6 max-w-sm font-bold">{{ globalError }}</p>
+          <button (click)="fetchGlobalDisasterHistory()" 
+                  class="px-6 py-2.5 bg-primary text-white text-[11px] font-bold uppercase tracking-widest rounded-xl hover:bg-primary/90 transition-all shadow-md active:scale-95">
+            Retry Connection
+          </button>
+        </div>
+      } @else {
+        <div class="rounded-2xl overflow-hidden border border-border shadow-lg">
+          <div id="global-disaster-map" class="w-full h-[500px]"></div>
+        </div>
+      }
+    </div>
+  </div>
+
   <div
     class="bg-surface rounded-3xl shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-border overflow-hidden transition-shadow duration-300">
     <div class="px-6 py-5 border-b border-border bg-bg-base flex justify-between items-center">
@@ -306,7 +367,7 @@
                   <h4 class="font-bold text-text-primary mb-4 text-[11px] uppercase tracking-widest border-b border-border pb-3">
                     Disaster History Map (Last 28 Days)
                   </h4>
-                  <div class="flex-1 rounded-xl overflow-hidden ring-1 ring-border shadow-sm min-h-[250px] relative">
+                  <div class="flex-1 rounded-xl overflow-hidden ring-1 ring-border shadow-sm min-h-[500px] relative">
                     <div [id]="'officer-history-map-' + c.id" class="w-full h-full"></div>
                     <!-- Legend -->
                     <div class="absolute bottom-2 right-2 bg-surface/90 backdrop-blur-sm border border-border p-2 rounded-lg z-[1000] text-[9px] font-bold uppercase tracking-wider space-y-1">

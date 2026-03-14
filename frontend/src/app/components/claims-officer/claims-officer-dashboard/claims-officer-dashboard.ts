@@ -41,6 +41,13 @@ const incidentIcon = L.divIcon({
   encapsulation: ViewEncapsulation.None
 })
 export class ClaimsOfficerDashboard implements OnInit {
+  public disasterHistory: AmbeeDisasterData[] = [];
+  public globalLoading = false;
+  public globalError: string | null = null;
+  public verificationResults: Map<string, VerificationResult> = new Map();
+  public isVerifying: Map<string, boolean> = new Map();
+  public globalHistoryMap: L.Map | null = null;
+
   private claimService = inject(ClaimService);
   private toastService = inject(ToastService);
   private cdr = inject(ChangeDetectorRef);
@@ -77,10 +84,7 @@ export class ClaimsOfficerDashboard implements OnInit {
   private historyMaps: Map<string, L.Map> = new Map();
   locationNames: Map<string, string> = new Map();
 
-  // Verification results
-  verificationResults: Map<string, VerificationResult> = new Map();
-  disasterHistory: AmbeeDisasterData[] = [];
-  isVerifying: Map<string, boolean> = new Map();
+
 
   toggleExpand(claimId: string) {
     // Clean up previous map if collapsing
@@ -107,6 +111,88 @@ export class ClaimsOfficerDashboard implements OnInit {
     }
   }
 
+  fetchGlobalDisasterHistory() {
+    this.globalLoading = true;
+    this.globalError = null;
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+    fetch('https://goutham4126.app.n8n.cloud/webhook/disasters', { signal: controller.signal })
+      .then(r => {
+        clearTimeout(timeoutId);
+        if (!r.ok) throw new Error(`HTTP Error: ${r.status}`);
+        return r.json();
+      })
+      .then(res => {
+        const data = Array.isArray(res) ? res[0] : res;
+        const disasterList = data.disasters || data.data;
+
+        if (disasterList && Array.isArray(disasterList)) {
+          this.disasterHistory = disasterList;
+          this.initGlobalHistoryMap();
+        } else {
+          throw new Error('No disaster data found');
+        }
+        this.globalLoading = false;
+        this.cdr.detectChanges();
+      })
+      .catch(err => {
+        clearTimeout(timeoutId);
+        this.globalError = err.name === 'AbortError' ? 'Timeout' : err.message;
+        this.globalLoading = false;
+        this.cdr.detectChanges();
+      });
+  }
+
+  private initGlobalHistoryMap() {
+    setTimeout(() => {
+      const mapId = 'global-disaster-map';
+      const el = document.getElementById(mapId);
+      if (!el || !this.disasterHistory.length) return;
+
+      if (this.globalHistoryMap) {
+        this.globalHistoryMap.remove();
+      }
+
+      const map = L.map(mapId, {
+        scrollWheelZoom: true,
+        dragging: true,
+        zoomControl: true,
+      }).setView([20, 0], 2);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 19,
+      }).addTo(map);
+
+      const bounds = L.latLngBounds([]);
+      this.disasterHistory.forEach((d: AmbeeDisasterData) => {
+        bounds.extend([d.lat, d.lng]);
+        L.circleMarker([d.lat, d.lng], {
+          radius: 6,
+          fillColor: '#FF9500',
+          color: '#fff',
+          weight: 1,
+          opacity: 0.9,
+          fillOpacity: 0.9
+        }).addTo(map).bindPopup(`
+          <div class="disaster-popup">
+            <strong>${d.event_type || 'Disaster'}</strong><br/>
+            Date: ${d.date}<br/>
+            ID: ${d.event_id}
+          </div>
+        `);
+      });
+
+      if (bounds.isValid()) {
+        map.fitBounds(bounds, { padding: [40, 40] });
+      }
+
+      this.globalHistoryMap = map;
+    }, 100);
+  }
+
   fetchVerificationDetails(claim: ClaimDto) {
     this.isVerifying.set(claim.id, true);
     this.geoVerificationService.verifyClaim(claim.id).subscribe({
@@ -124,15 +210,9 @@ export class ClaimsOfficerDashboard implements OnInit {
       }
     });
 
-    this.geoVerificationService.getDisasterHistory().subscribe({
-      next: (res) => {
-        if (res && res.data) {
-          this.disasterHistory = res.data;
-          this.updateHistoryMap(claim.id);
-        }
-      },
-      error: (err) => console.error('Error fetching history:', err)
-    });
+    if (this.disasterHistory.length > 0) {
+      this.updateHistoryMap(claim.id);
+    }
   }
 
   private async reverseGeocode(lat: number, lng: number): Promise<string> {
@@ -274,32 +354,35 @@ export class ClaimsOfficerDashboard implements OnInit {
     const map = this.historyMaps.get(claimId);
     if (!map || !this.disasterHistory || this.disasterHistory.length === 0) return;
 
-    this.disasterHistory.forEach(d => {
-      // Heatmap effect using circles
-      L.circle([d.lat, d.lng], {
-        radius: 5000, // 5km radius
-        color: '#FF9500',
+    const bounds = L.latLngBounds([]);
+    const claim = this.assignedClaims.find(c => c.id === claimId);
+    if (claim && claim.incidentLatitude && claim.incidentLongitude) {
+      bounds.extend([claim.incidentLatitude, claim.incidentLongitude]);
+    }
+
+    this.disasterHistory.forEach((d: AmbeeDisasterData) => {
+      bounds.extend([d.lat, d.lng]);
+
+      // Center point
+      L.circleMarker([d.lat, d.lng], {
+        radius: 6,
         fillColor: '#FF9500',
-        fillOpacity: 0.1,
-        weight: 1
+        color: '#fff',
+        weight: 1,
+        opacity: 0.9,
+        fillOpacity: 0.9
       }).addTo(map).bindPopup(`
         <div class="disaster-popup">
-          <strong>${d.event_type}</strong><br/>
+          <strong>${d.event_type || 'Disaster'}</strong><br/>
           Date: ${d.date}<br/>
           ID: ${d.event_id}
         </div>
       `);
-      
-      // Center point
-      L.circleMarker([d.lat, d.lng], {
-        radius: 3,
-        fillColor: '#FF9500',
-        color: '#fff',
-        weight: 1,
-        opacity: 0.8,
-        fillOpacity: 0.8
-      }).addTo(map);
     });
+
+    if (bounds.isValid()) {
+      map.fitBounds(bounds, { padding: [30, 30] });
+    }
   }
 
   private destroyHistoryMap(claimId: string) {
@@ -325,6 +408,7 @@ export class ClaimsOfficerDashboard implements OnInit {
 
   ngOnInit() {
     this.loadClaims();
+    this.fetchGlobalDisasterHistory();
   }
 
   loadClaims() {

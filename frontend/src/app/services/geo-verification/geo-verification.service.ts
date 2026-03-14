@@ -15,7 +15,8 @@ export interface AmbeeDisasterData {
 
 export interface AmbeeHistoryResponse {
   message: string;
-  data: AmbeeDisasterData[];
+  data?: AmbeeDisasterData[];
+  disasters?: AmbeeDisasterData[];
 }
 
 export interface VerificationResult {
