@@ -4,7 +4,7 @@ namespace Application.Interfaces;
 
 public interface IGeoVerificationService
 {
-    Task<AmbeeHistoryResponse> GetDisasterHistoryAsync(DateTime fromDate, int page = 1, int limit = 30);
+    Task<AmbeeHistoryResponse> GetDisasterHistoryAsync();
     Task<VerificationResultDto> VerifyClaimAsync(Guid claimId);
 }
 

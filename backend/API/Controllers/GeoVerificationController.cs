@@ -16,10 +16,9 @@ public class GeoVerificationController : ControllerBase
     }
 
     [HttpGet("history")]
-    public async Task<IActionResult> GetHistory([FromQuery] int page = 1, [FromQuery] int limit = 30)
+    public async Task<IActionResult> GetHistory()
     {
-        var fromDate = DateTime.UtcNow.AddDays(-28);
-        var history = await _geoService.GetDisasterHistoryAsync(fromDate, page, limit);
+        var history = await _geoService.GetDisasterHistoryAsync();
         return Ok(history);
     }
 

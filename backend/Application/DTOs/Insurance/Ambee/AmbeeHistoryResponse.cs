@@ -11,6 +11,15 @@ public class AmbeeHistoryResponse
     public List<AmbeeDisasterData> Data { get; set; } = new();
 }
 
+public class WebhookDisasterResponse
+{
+    [JsonPropertyName("message")]
+    public string Message { get; set; } = string.Empty;
+
+    [JsonPropertyName("disasters")]
+    public List<AmbeeDisasterData> Disasters { get; set; } = new();
+}
+
 public class AmbeeDisasterData
 {
     [JsonPropertyName("date")]
