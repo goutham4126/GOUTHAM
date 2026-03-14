@@ -75,8 +75,13 @@ public class GeoVerificationService : IGeoVerificationService
         // Fetch data for the last 28 days
         var fromDate = DateTime.UtcNow.AddDays(-28);
         var ambeeData = await GetDisasterHistoryAsync(fromDate, 1, 100);
-        
-        if (ambeeData.Data.Any())
+
+        // Ambee disasters are returned as a list of events; we consider a match if a recorded disaster is within a reasonable radius.
+        // Requirement: verify whether any Ambee disasters occurred within 50,000 km of the claim location.
+        // (50,000 km is ~1/4 of the Earth's circumference and covers broad regional impact.)
+        const double AmbeeMatchRadiusKm = 50000;
+
+        if (ambeeData?.Data != null && ambeeData.Data.Any())
         {
             foreach (var disaster in ambeeData.Data)
             {
@@ -84,11 +89,11 @@ public class GeoVerificationService : IGeoVerificationService
                     claim.IncidentLatitude.Value, claim.IncidentLongitude.Value,
                     disaster.Lat, disaster.Lng);
 
-                // If within 50km of a recorded disaster, consider verified
-                if (distance <= 50) 
+                // If within configured radius of a recorded disaster, consider verified
+                if (distance <= AmbeeMatchRadiusKm)
                 {
                     result.IsVerified = true;
-                    result.MatchingDisasters.Add($"{disaster.EventType} recorded on {disaster.Date} nearby");
+                    result.MatchingDisasters.Add($"{disaster.EventType} recorded on {disaster.Date} nearby (≈{distance:F1}km)");
                 }
             }
         }

@@ -61,6 +61,46 @@
         <div class="rounded-2xl overflow-hidden border border-border shadow-lg">
           <div id="global-disaster-map" class="w-full h-[500px]"></div>
         </div>
+
+        @if (disasterHistory.length > 0) {
+        <div class="mt-6 bg-bg-base p-5 rounded-2xl border border-border shadow-sm">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+            <div>
+              <h4 class="text-sm font-bold text-text-primary">Recent Disasters</h4>
+              <p class="text-[11px] text-text-muted">Showing the latest 50 events sourced from Ambee.</p>
+            </div>
+            <span class="text-[11px] font-bold text-text-muted uppercase tracking-wider">
+              Total: {{ disasterHistory.length }}
+            </span>
+          </div>
+
+          <div class="overflow-x-auto max-h-[340px] rounded-xl border border-border">
+            <table class="min-w-full text-[11px]">
+              <thead class="bg-surface sticky top-0 z-10">
+                <tr>
+                  <th class="px-4 py-3 text-left font-bold text-text-muted uppercase tracking-wider">Event</th>
+                  <th class="px-4 py-3 text-left font-bold text-text-muted uppercase tracking-wider">Date</th>
+                  <th class="px-4 py-3 text-left font-bold text-text-muted uppercase tracking-wider">Coordinates</th>
+                  <th class="px-4 py-3 text-left font-bold text-text-muted uppercase tracking-wider">Ends</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-border">
+                @for (d of disasterHistory | slice:0:50; track d.event_id) {
+                <tr class="hover:bg-bg-base/50 transition-colors cursor-pointer group">
+                  <td class="px-4 py-3">
+                    <div class="font-bold text-text-primary group-hover:text-primary">{{ d.event_type || 'Disaster' }}</div>
+                    <div class="text-[10px] text-text-muted mt-1">ID: {{ d.event_id }}</div>
+                  </td>
+                  <td class="px-4 py-3">{{ d.date | date:'short' }}</td>
+                  <td class="px-4 py-3">{{ d.lat.toFixed(3) }}, {{ d.lng.toFixed(3) }}</td>
+                  <td class="px-4 py-3">{{ d.estimated_end_date ? (d.estimated_end_date | date:'short') : 'N/A' }}</td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+        }
       }
     </div>
   </div>

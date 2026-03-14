@@ -47,6 +47,8 @@ export class ClaimsOfficerDashboard implements OnInit {
   public verificationResults: Map<string, VerificationResult> = new Map();
   public isVerifying: Map<string, boolean> = new Map();
   public globalHistoryMap: L.Map | null = null;
+  public globalDisasterLayer: L.LayerGroup | null = null;
+  private historyDisasterLayers: Map<string, L.LayerGroup> = new Map();
 
   private claimService = inject(ClaimService);
   private toastService = inject(ToastService);
@@ -145,6 +147,70 @@ export class ClaimsOfficerDashboard implements OnInit {
       });
   }
 
+  private clearGlobalDisasterMarkers() {
+    if (this.globalDisasterLayer) {
+      this.globalDisasterLayer.clearLayers();
+    }
+  }
+
+  private getDisasterPopupHtml(disaster: AmbeeDisasterData): string {
+    return `
+      <div class="disaster-popup-card">
+        <div class="disaster-popup-header">
+          <span class="disaster-popup-title">${disaster.event_type || 'Disaster'}</span>
+          <span class="disaster-popup-date">${new Date(disaster.date).toLocaleString()}</span>
+        </div>
+        <div class="disaster-popup-body">
+          <div><strong>ID:</strong> ${disaster.event_id}</div>
+          <div><strong>Coords:</strong> ${disaster.lat.toFixed(3)}, ${disaster.lng.toFixed(3)}</div>
+          ${disaster.estimated_end_date ? `<div><strong>Ends:</strong> ${new Date(disaster.estimated_end_date).toLocaleString()}</div>` : ''}
+          ${disaster.continent ? `<div><strong>Region:</strong> ${disaster.continent}</div>` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  private getDisasterTooltipHtml(disaster: AmbeeDisasterData): string {
+    return `
+      <div class="disaster-tooltip-card">
+        <strong>${disaster.event_type || 'Disaster'}</strong><br/>
+        ${new Date(disaster.date).toLocaleDateString()} • ${disaster.lat.toFixed(2)}, ${disaster.lng.toFixed(2)}
+      </div>
+    `;
+  }
+
+  private createDisasterMarker(map: L.Map, disaster: AmbeeDisasterData, layer?: L.LayerGroup) {
+    const marker = L.circleMarker([disaster.lat, disaster.lng], {
+      radius: 8,
+      fillColor: '#FF9500',
+      color: '#fff',
+      weight: 1.5,
+      opacity: 0.95,
+      fillOpacity: 0.9
+    });
+
+    marker.addTo(layer ?? this.globalDisasterLayer ?? map);
+
+    marker.bindPopup(this.getDisasterPopupHtml(disaster), {
+      className: 'custom-popup disaster-popup-card',
+      closeButton: false,
+      minWidth: 260
+    });
+
+    marker.bindTooltip(this.getDisasterTooltipHtml(disaster), {
+      className: 'disaster-tooltip',
+      direction: 'top',
+      offset: [0, -12],
+      sticky: true,
+      opacity: 0.95
+    });
+
+    marker.on('mouseover', () => marker.openPopup());
+    marker.on('mouseout', () => marker.closePopup());
+
+    return marker;
+  }
+
   private initGlobalHistoryMap() {
     setTimeout(() => {
       const mapId = 'global-disaster-map';
@@ -161,28 +227,19 @@ export class ClaimsOfficerDashboard implements OnInit {
         zoomControl: true,
       }).setView([20, 0], 2);
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors',
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors &amp; <a href="https://carto.com/attributions">CARTO</a>',
         maxZoom: 19,
       }).addTo(map);
+
+      // create or re-use a layer for disaster markers so the map does not need to be fully recreated
+      this.globalDisasterLayer = L.layerGroup().addTo(map);
+      this.clearGlobalDisasterMarkers();
 
       const bounds = L.latLngBounds([]);
       this.disasterHistory.forEach((d: AmbeeDisasterData) => {
         bounds.extend([d.lat, d.lng]);
-        L.circleMarker([d.lat, d.lng], {
-          radius: 6,
-          fillColor: '#FF9500',
-          color: '#fff',
-          weight: 1,
-          opacity: 0.9,
-          fillOpacity: 0.9
-        }).addTo(map).bindPopup(`
-          <div class="disaster-popup">
-            <strong>${d.event_type || 'Disaster'}</strong><br/>
-            Date: ${d.date}<br/>
-            ID: ${d.event_id}
-          </div>
-        `);
+        this.createDisasterMarker(map, d);
       });
 
       if (bounds.isValid()) {
@@ -331,10 +388,14 @@ export class ClaimsOfficerDashboard implements OnInit {
       zoomControl: true,
     }).setView([lat, lng], 10);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors',
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors &amp; <a href="https://carto.com/attributions">CARTO</a>',
       maxZoom: 19,
     }).addTo(map);
+
+    // Keep a separate layer for historical disaster markers so we can refresh without resetting the map.
+    const historyLayer = L.layerGroup().addTo(map);
+    this.historyDisasterLayers.set(claim.id, historyLayer);
 
     // Current claim marker (Special color)
     L.circleMarker([lat, lng], {
@@ -352,7 +413,11 @@ export class ClaimsOfficerDashboard implements OnInit {
 
   private updateHistoryMap(claimId: string) {
     const map = this.historyMaps.get(claimId);
-    if (!map || !this.disasterHistory || this.disasterHistory.length === 0) return;
+    const historyLayer = this.historyDisasterLayers.get(claimId);
+    if (!map || !historyLayer || !this.disasterHistory || this.disasterHistory.length === 0) return;
+
+    // Reset markers before rendering updated set
+    historyLayer.clearLayers();
 
     const bounds = L.latLngBounds([]);
     const claim = this.assignedClaims.find(c => c.id === claimId);
@@ -362,22 +427,7 @@ export class ClaimsOfficerDashboard implements OnInit {
 
     this.disasterHistory.forEach((d: AmbeeDisasterData) => {
       bounds.extend([d.lat, d.lng]);
-
-      // Center point
-      L.circleMarker([d.lat, d.lng], {
-        radius: 6,
-        fillColor: '#FF9500',
-        color: '#fff',
-        weight: 1,
-        opacity: 0.9,
-        fillOpacity: 0.9
-      }).addTo(map).bindPopup(`
-        <div class="disaster-popup">
-          <strong>${d.event_type || 'Disaster'}</strong><br/>
-          Date: ${d.date}<br/>
-          ID: ${d.event_id}
-        </div>
-      `);
+      this.createDisasterMarker(map, d, historyLayer);
     });
 
     if (bounds.isValid()) {
