@@ -122,7 +122,24 @@ export const routes: Routes = [
     // Claim Officer Routes
     {
         path: 'claim-officer/dashboard',
-        loadComponent: () => import('./components/claims-officer/claims-officer-dashboard/claims-officer-dashboard').then(m => m.ClaimsOfficerDashboard),
+        redirectTo: 'claim-officer/disaster-monitor',
+        pathMatch: 'full'
+    },
+    {
+        path: 'claim-officer/claims-desk',
+        loadComponent: () => import('./components/claims-officer/claims-desk/claims-desk').then(m => m.ClaimsDesk),
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'ClaimOfficer' }
+    },
+    {
+        path: 'claim-officer/claims-history',
+        loadComponent: () => import('./components/claims-officer/claims-history/claims-history').then(m => m.ClaimsHistory),
+        canActivate: [authGuard, roleGuard],
+        data: { role: 'ClaimOfficer' }
+    },
+    {
+        path: 'claim-officer/disaster-monitor',
+        loadComponent: () => import('./components/claims-officer/disaster-monitor/disaster-monitor').then(m => m.DisasterMonitor),
         canActivate: [authGuard, roleGuard],
         data: { role: 'ClaimOfficer' }
     },

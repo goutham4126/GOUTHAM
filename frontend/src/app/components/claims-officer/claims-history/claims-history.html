@@ -1,0 +1,214 @@
+<div class="max-w-7xl mx-auto">
+  <div class="bg-surface rounded-3xl shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-border overflow-hidden transition-shadow duration-300">
+    <div class="px-6 py-5 border-b border-border bg-bg-base flex justify-between items-center">
+      <h3 class="text-[11px] font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">
+        <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        Past Evaluated Claims
+      </h3>
+      <span class="bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold px-3 py-1 rounded-full tracking-widest">{{ historyClaims.length }}</span>
+    </div>
+
+    <div class="p-0 overflow-x-auto">
+      <table class="min-w-full divide-y divide-border">
+        <thead class="bg-surface">
+          <tr>
+            <th scope="col" class="px-6 py-4 text-left text-[10px] font-bold text-text-muted uppercase tracking-widest">Claim Summary</th>
+            <th scope="col" class="px-6 py-4 text-left text-[10px] font-bold text-text-muted uppercase tracking-widest">Amount Claimed</th>
+            <th scope="col" class="px-6 py-4 text-left text-[10px] font-bold text-text-muted uppercase tracking-widest">Status</th>
+            <th scope="col" class="px-6 py-4 text-center text-[10px] font-bold text-text-muted uppercase tracking-widest">Details</th>
+          </tr>
+        </thead>
+        <tbody class="bg-surface divide-y divide-border">
+          @if (loading) {
+          <tr>
+            <td colspan="4" class="px-6 py-8 text-center text-[13px] font-bold text-text-muted">
+              <div class="inline-block animate-spin w-6 h-6 border-2 border-primary border-t-transparent rounded-full mb-3"></div>
+              <p>Loading history claims...</p>
+            </td>
+          </tr>
+          }
+          @if (!loading && historyClaims.length === 0) {
+          <tr>
+            <td colspan="4" class="px-6 py-8 text-center text-[13px] font-bold text-text-muted">
+              You haven't evaluated any claims yet.
+            </td>
+          </tr>
+          }
+          @for (c of historyClaims; track c.id) {
+          <tr class="hover:bg-bg-base/50 transition-colors cursor-pointer" (click)="toggleExpand(c.id)" [class.bg-bg-base]="expandedClaimId === c.id">
+            <td class="px-6 py-4">
+              <div class="text-[13px] font-bold text-text-primary hover:text-primary transition-colors">#{{ c.id.substring(0,8) }}</div>
+              <div class="text-[11px] font-bold text-text-muted uppercase tracking-widest mt-0.5">Filed: {{ c.submittedAt | date:'shortDate' }}</div>
+              <div class="text-[12px] font-bold text-text-muted mt-1.5 truncate max-w-xs">{{ c.reason }}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-[13px] font-bold text-text-primary">₹{{ c.claimAmount | number }}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+               <span [ngClass]="{
+                    'bg-amber-500/10 text-amber-500 border-amber-500/20': c.status === 'Pending',
+                    'bg-accent-green/10 text-accent-green border-accent-green/20': c.status === 'Approved',
+                    'bg-accent-red/10 text-accent-red border-accent-red/20': c.status === 'Rejected'
+                  }" class="px-3 py-1 inline-flex text-[10px] font-bold uppercase tracking-widest rounded-full border">
+                {{ c.status }}
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-center text-[13px] font-bold flex justify-center items-center">
+              <div class="w-8 h-8 rounded-full hover:bg-bg-base flex justify-center items-center text-text-muted hover:text-primary transition-colors">
+                @if (expandedClaimId !== c.id) {
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                }
+                @if (expandedClaimId === c.id) {
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+                }
+              </div>
+            </td>
+          </tr>
+          <!-- Expanded Documents View -->
+          @if (expandedClaimId === c.id) {
+          <tr class="bg-surface border-b border-border shadow-inner">
+            <td colspan="4" class="px-8 py-8">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Detailed Info Panel -->
+                <div class="bg-bg-base p-6 rounded-2xl shadow-sm border border-border">
+                  <h4 class="font-bold text-text-primary mb-4 text-[11px] uppercase tracking-widest border-b border-border pb-3">Incident Details</h4>
+                  <div class="space-y-5 pt-1">
+                    <div>
+                      <span class="text-[10px] font-bold uppercase tracking-widest text-text-muted block mb-1.5">Customer Name</span>
+                      <span class="text-[13px] font-bold text-text-primary bg-surface border border-border px-3 py-1.5 rounded-lg inline-block">{{ c.customerName }}</span>
+                    </div>
+                    <div>
+                      <span class="text-[10px] font-bold uppercase tracking-widest text-text-muted block mb-1.5">Full Description</span>
+                      <span class="text-[13px] font-bold text-text-primary leading-relaxed block">{{ c.reason }}</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Verification Documents Panel -->
+                <div class="bg-bg-base p-6 rounded-2xl shadow-sm border border-border">
+                  <h4 class="font-bold text-text-primary mb-4 text-[11px] uppercase tracking-widest border-b border-border pb-3">Provided Documents</h4>
+                  <div class="space-y-5 pt-1">
+                    <div>
+                      <span class="text-[10px] font-bold uppercase tracking-widest text-text-muted block mb-1.5">Media Evidence</span>
+                      @if (c.documentUrl && c.documentUrl !== 'N/A') {
+                      <div class="flex gap-4 mt-2">
+                        <button (click)="openDocument(c.documentUrl)" class="px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-[11px] font-bold text-primary hover:bg-primary/20 transition-colors uppercase tracking-widest flex items-center gap-2 shadow-sm">
+                          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg> View Attachment
+                        </button>
+                        <a [href]="c.documentUrl" target="_blank" download class="px-3 py-1.5 rounded-lg bg-accent-green/10 border border-accent-green/20 text-[11px] font-bold text-accent-green hover:bg-accent-green/20 transition-colors uppercase tracking-widest flex items-center gap-2 shadow-sm">
+                          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg> Download
+                        </a>
+                      </div>
+                      }
+                      @if (!c.documentUrl || c.documentUrl === 'N/A') {
+                      <span class="text-[12px] font-bold text-text-muted italic">No media provided</span>
+                      }
+                    </div>
+                    <div>
+                      <span class="text-[10px] font-bold uppercase tracking-widest text-text-muted block mb-1.5">Integrity Hash</span>
+                      <span class="text-[11px] font-mono font-bold text-text-muted break-all bg-surface p-2.5 rounded-lg border border-border block shadow-sm">{{ c.documentHash || 'N/A' }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Incident Location Map Panel -->
+              <div class="mt-6 col-span-1 md:col-span-2 rounded-2xl overflow-hidden border border-border shadow-sm bg-surface">
+                <div class="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent px-6 py-4 flex items-center justify-between border-b border-border">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shadow-sm">
+                      <svg class="w-[18px] h-[18px] text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    </div>
+                    <div>
+                      <h4 class="text-[13px] font-bold text-text-primary tracking-tight">Incident Location</h4>
+                      <p class="text-[11px] text-text-muted font-medium">Reported GPS coordinates</p>
+                    </div>
+                  </div>
+                  @if (c.incidentLatitude && c.incidentLongitude) {
+                  <div class="flex items-center gap-2">
+                    <div class="flex flex-col bg-bg-base border border-border px-3 py-1.5 rounded-lg shadow-sm">
+                      <span class="text-[12px] font-mono font-bold text-text-primary">
+                        {{ c.incidentLatitude.toFixed(5) }}, {{ c.incidentLongitude.toFixed(5) }}
+                      </span>
+                      @if (locationNames.get(c.id)) {
+                      <span class="text-[10px] text-primary font-semibold mt-0.5 flex items-center gap-1 max-w-[260px] truncate">
+                        {{ locationNames.get(c.id) }}
+                      </span>
+                      }
+                    </div>
+                  </div>
+                  }
+                </div>
+
+                <div class="p-5 bg-bg-base">
+                  @if (c.incidentLatitude && c.incidentLongitude) {
+                  <div class="rounded-xl overflow-hidden ring-1 ring-border shadow-md">
+                    <div [id]="'officer-history-incident-map-' + c.id" class="w-full h-[360px]"></div>
+                  </div>
+                  }
+                </div>
+              </div>
+
+              <!-- Geo-Verification & Risk Analysis Panel -->
+              <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Verification Status -->
+                <div class="bg-bg-base p-6 rounded-2xl shadow-sm border border-border">
+                  <h4 class="font-bold text-text-primary mb-4 text-[11px] uppercase tracking-widest border-b border-border pb-3">Geo-Verification & Risk Analysis</h4>
+                  @if (isVerifying.get(c.id)) {
+                    <div class="flex items-center justify-center py-8">
+                      <div class="animate-spin w-5 h-5 border-2 border-primary border-t-transparent rounded-full mr-3"></div>
+                      <span class="text-[12px] font-bold text-text-muted">Analyzing spatial data...</span>
+                    </div>
+                  } @else {
+                    @let res = verificationResults.get(c.id);
+                    @if (res) {
+                      <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 rounded-xl" [ngClass]="res.riskFlag ? 'bg-accent-red/10 border border-accent-red/20' : 'bg-accent-green/10 border border-accent-green/20'">
+                          <div>
+                            <span class="text-[10px] font-bold uppercase tracking-widest block" [ngClass]="res.riskFlag ? 'text-accent-red' : 'text-accent-green'">Risk Status</span>
+                            <span class="text-[14px] font-extrabold" [ngClass]="res.riskFlag ? 'text-accent-red' : 'text-accent-green'">
+                              {{ res.riskFlag ? 'Flagged (Potential Fraud)' : 'Verified (Low Risk)' }}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                          <div class="bg-surface p-3 rounded-xl border border-border">
+                            <span class="text-[9px] font-bold text-text-muted uppercase tracking-wider block mb-1">Confidence Score</span>
+                            <span class="text-[16px] font-black text-text-primary">{{ (res.confidenceScore * 100).toFixed(0) }}%</span>
+                          </div>
+                          <div class="bg-surface p-3 rounded-xl border border-border">
+                            <span class="text-[9px] font-bold text-text-muted uppercase tracking-wider block mb-1">Nearby Claims (5km)</span>
+                            <span class="text-[16px] font-black text-text-primary">{{ res.nearbyClaimsCount }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    } @else {
+                      <div class="text-center py-8">
+                        <p class="text-[12px] font-bold text-text-muted">No verification data available</p>
+                      </div>
+                    }
+                  }
+                </div>
+
+                <!-- Disaster History Map -->
+                <div class="bg-bg-base p-6 rounded-2xl shadow-sm border border-border flex flex-col">
+                  <h4 class="font-bold text-text-primary mb-4 text-[11px] uppercase tracking-widest border-b border-border pb-3">Disaster History Map (Last 28 Days)</h4>
+                  <div class="flex-1 rounded-xl overflow-hidden ring-1 ring-border shadow-sm min-h-[500px] relative">
+                    <div [id]="'officer-history-archive-map-' + c.id" class="w-full h-full"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-6 border-t border-border pt-4">
+                <span class="text-[12px] font-bold text-text-muted italic block text-right flex items-center justify-end gap-1.5"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>This claim has already been evaluated by an officer.</span>
+              </div>
+            </td>
+          </tr>
+          }
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

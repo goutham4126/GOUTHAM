@@ -1,0 +1,265 @@
+<div class="max-w-8xl mx-auto">
+  <div class="flex flex-col lg:flex-row gap-6">
+    
+    <!-- LEFT SIDEBAR: FILTERS -->
+    <div class="w-full lg:w-[280px] shrink-0">
+      <div class="bg-surface rounded-3xl shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-border sticky top-6 overflow-hidden">
+        <!-- Filter Header -->
+        <div class="px-5 py-5 border-b border-border flex justify-between items-center bg-bg-base">
+          <h2 class="font-bold text-text-primary text-[15px] uppercase tracking-wider flex items-center gap-2">
+            <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+            Filters
+          </h2>
+          @if (hasActiveFilters()) {
+            <button (click)="clearAllFilters()" class="text-[10px] font-bold text-primary uppercase tracking-wider hover:bg-primary/10 px-2 py-1 rounded transition-colors duration-200">Clear All</button>
+          }
+        </div>
+
+        <!-- Search -->
+        <div class="p-5 border-b border-border">
+          <div class="relative">
+            <input type="text" [value]="searchQuery" (input)="searchQuery = $any($event.target).value; onSearchChange()" placeholder="Search ID or Type..." 
+                   class="w-full bg-bg-base border border-border rounded-xl pl-9 pr-4 py-3 text-[12px] font-bold text-text-primary focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none placeholder-text-muted/60 shadow-inner">
+            <svg class="w-4 h-4 text-text-muted absolute left-3 top-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+          </div>
+        </div>
+
+        <!-- TIME RANGE -->
+        <div class="border-b border-border bg-bg-base/30">
+          <button (click)="toggleSection('time')" class="w-full px-5 py-4 flex justify-between items-center hover:bg-bg-base/80 transition-colors">
+            <span class="font-bold text-[11px] uppercase tracking-widest text-text-primary">Time Period</span>
+            <svg class="w-4 h-4 text-text-muted transition-transform duration-300" [class.rotate-180]="expandedSections.time" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          @if (expandedSections.time) {
+            <div class="px-5 pb-6 space-y-4 pt-2">
+              <label class="flex items-center gap-3 cursor-pointer group">
+                <input type="radio" name="timeFilter" value="all" [checked]="timeFilter === 'all'" (change)="setTimeFilter('all')" class="hidden peer">
+                <div class="w-4 h-4 rounded-full border-2 border-border peer-checked:border-primary peer-checked:border-[4.5px] transition-all duration-200 bg-surface shadow-sm"></div>
+                <span class="text-[12px] font-bold text-text-muted group-hover:text-text-primary peer-checked:text-text-primary transition-colors">All Time</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer group">
+                <input type="radio" name="timeFilter" value="24h" [checked]="timeFilter === '24h'" (change)="setTimeFilter('24h')" class="hidden peer">
+                <div class="w-4 h-4 rounded-full border-2 border-border peer-checked:border-primary peer-checked:border-[4.5px] transition-all duration-200 bg-surface shadow-sm"></div>
+                <span class="text-[12px] font-bold text-text-muted group-hover:text-text-primary peer-checked:text-text-primary transition-colors">Last 24 Hours</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer group">
+                <input type="radio" name="timeFilter" value="7d" [checked]="timeFilter === '7d'" (change)="setTimeFilter('7d')" class="hidden peer">
+                <div class="w-4 h-4 rounded-full border-2 border-border peer-checked:border-primary peer-checked:border-[4.5px] transition-all duration-200 bg-surface shadow-sm"></div>
+                <span class="text-[12px] font-bold text-text-muted group-hover:text-text-primary peer-checked:text-text-primary transition-colors">Last 7 Days</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer group">
+                <input type="radio" name="timeFilter" value="30d" [checked]="timeFilter === '30d'" (change)="setTimeFilter('30d')" class="hidden peer">
+                <div class="w-4 h-4 rounded-full border-2 border-border peer-checked:border-primary peer-checked:border-[4.5px] transition-all duration-200 bg-surface shadow-sm"></div>
+                <span class="text-[12px] font-bold text-text-muted group-hover:text-text-primary peer-checked:text-text-primary transition-colors">Last 30 Days</span>
+              </label>
+            </div>
+          }
+        </div>
+
+        <!-- EVENT TYPE -->
+        <div class="border-b border-border bg-bg-base/30">
+          <button (click)="toggleSection('type')" class="w-full px-5 py-4 flex justify-between items-center hover:bg-bg-base/80 transition-colors">
+            <span class="font-bold text-[11px] uppercase tracking-widest text-text-primary">Event Type</span>
+            <svg class="w-4 h-4 text-text-muted transition-transform duration-300" [class.rotate-180]="expandedSections.type" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          @if (expandedSections.type) {
+            <div class="px-5 pb-6 space-y-4 pt-2 max-h-[250px] overflow-y-auto custom-scrollbar">
+              @for (type of availableTypes; track type) {
+                <label class="flex items-center gap-3 cursor-pointer group">
+                  <div class="relative flex items-center justify-center">
+                    <input type="checkbox" [checked]="selectedTypes[type]" (change)="toggleType(type)" class="peer hidden">
+                    <div class="w-4 h-4 border-2 border-border rounded flex items-center justify-center bg-surface peer-checked:bg-primary peer-checked:border-primary transition-all duration-200 shadow-sm shadow-black/5">
+                      <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    </div>
+                  </div>
+                  <span class="text-[12px] font-bold text-text-muted group-hover:text-text-primary transition-colors flex-1 truncate" [title]="type">{{ type }}</span>
+                </label>
+              }
+              @if (availableTypes.length === 0) {
+                <span class="text-[11px] text-text-muted italic px-1">No types available</span>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- CONTINENT -->
+        <div class="bg-bg-base/30">
+          <button (click)="toggleSection('location')" class="w-full px-5 py-4 flex justify-between items-center hover:bg-bg-base/80 transition-colors">
+            <span class="font-bold text-[11px] uppercase tracking-widest text-text-primary">Continent</span>
+            <svg class="w-4 h-4 text-text-muted transition-transform duration-300" [class.rotate-180]="expandedSections.location" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          @if (expandedSections.location) {
+            <div class="px-5 pb-6 space-y-4 pt-2 max-h-[250px] overflow-y-auto custom-scrollbar">
+              @for (cont of availableContinents; track cont) {
+                <label class="flex items-center gap-3 cursor-pointer group">
+                  <div class="relative flex items-center justify-center">
+                    <input type="checkbox" [checked]="selectedContinents[cont]" (change)="toggleContinent(cont)" class="peer hidden">
+                    <div class="w-4 h-4 border-2 border-border rounded flex items-center justify-center bg-surface peer-checked:bg-primary peer-checked:border-primary transition-all duration-200 shadow-sm shadow-black/5">
+                      <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    </div>
+                  </div>
+                  <span class="text-[12px] font-bold text-text-muted group-hover:text-text-primary transition-colors">{{ cont }}</span>
+                </label>
+              }
+              @if (availableContinents.length === 0) {
+                <span class="text-[11px] text-text-muted italic px-1">No continents available</span>
+              }
+            </div>
+          }
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT CONTENT: MAP AND LIST -->
+    <div class="flex-1 min-w-0 flex flex-col gap-6">
+      
+      <!-- Top header bar within right content -->
+      <div class="overflow-hidden bg-surface rounded-3xl border border-border shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+        <div class="px-6 py-5 bg-bg-base flex flex-col md:flex-row md:justify-between md:items-center gap-4 border-b border-border">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center border border-orange-500/20 shadow-inner">
+              <svg class="w-[18px] h-[18px] text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-[14px] font-bold text-text-primary uppercase tracking-widest">Global Disaster Verification</h3>
+              <p class="text-[11px] text-text-muted font-bold font-mono mt-0.5">Real-time status from Ambee</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="flex items-center bg-surface border border-border rounded-xl px-2 py-1 shadow-sm">
+              <label class="text-[9px] font-bold text-text-muted uppercase tracking-widest px-2">Sort</label>
+              <select class="bg-transparent text-[11px] font-bold text-text-primary focus:outline-none border-l border-border pl-2 py-1.5 cursor-pointer" (change)="onSortChange($event)">
+                <option value="newest" [selected]="sortBy === 'newest'">Newest First</option>
+                <option value="oldest" [selected]="sortBy === 'oldest'">Oldest First</option>
+              </select>
+            </div>
+            <button (click)="fetchGlobalDisasterHistory()" 
+                    [disabled]="globalLoading"
+                    title="Refresh Data"
+                    class="p-2.5 bg-surface border border-border hover:bg-bg-base rounded-xl transition-all text-text-muted hover:text-primary active:scale-95 disabled:opacity-50 shadow-sm">
+              <svg class="w-4 h-4" [class.animate-spin]="globalLoading" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="relative min-h-[450px] bg-bg-base p-5">
+          @if (globalLoading) {
+            <div class="absolute inset-0 z-[1001] flex flex-col items-center justify-center bg-surface/60 backdrop-blur-sm rounded-b-3xl">
+              <div class="w-12 h-12 border-[3px] border-primary border-t-transparent rounded-full animate-spin mb-4 shadow-sm"></div>
+              <p class="text-[13px] font-bold text-text-primary">Syncing with Ambee disaster database...</p>
+              <p class="text-[11px] text-text-muted mt-1 uppercase tracking-widest font-bold">Fetching latest events</p>
+            </div>
+          }
+
+          @if (globalError) {
+            <div class="flex flex-col items-center justify-center py-16 px-6 text-center">
+              <div class="w-16 h-16 bg-accent-red/10 rounded-full flex items-center justify-center mb-5 border border-accent-red/20 shadow-sm">
+                <svg class="w-8 h-8 text-accent-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <h4 class="text-[15px] font-bold text-text-primary mb-2">Sync Error Detected</h4>
+              <p class="text-[12px] text-text-muted mb-6 max-w-sm font-bold">{{ globalError }}</p>
+              <button (click)="fetchGlobalDisasterHistory()" 
+                      class="px-6 py-2.5 bg-primary text-white text-[11px] font-bold uppercase tracking-widest rounded-xl hover:bg-primary/95 transition-all shadow-md active:scale-95 shadow-primary/20">
+                Retry Connection
+              </button>
+            </div>
+          } @else {
+            <div class="rounded-2xl overflow-hidden border border-border shadow-md relative">
+              <div id="global-disaster-map" class="w-full h-[450px]"></div>
+              @if (filteredDisasters.length === 0 && !globalLoading && disasterHistory.length > 0) {
+                <div class="absolute inset-x-0 bottom-4 flex justify-center z-[1000] pointer-events-none">
+                  <div class="bg-surface/90 backdrop-blur-md px-6 py-3 rounded-full border border-border shadow-lg flex items-center gap-3 pointer-events-auto">
+                    <svg class="w-5 h-5 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span class="text-[12px] font-bold text-text-primary">No disasters match your current filters</span>
+                    <button (click)="clearAllFilters()" class="text-[11px] font-bold text-primary uppercase tracking-wider hover:underline ml-2">Clear Filters</button>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Result Table -->
+      @if (disasterHistory.length > 0) {
+      <div class="bg-surface rounded-3xl border border-border shadow-[0_4px_24px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col h-[400px]">
+        <div class="px-6 py-5 bg-bg-base flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-border">
+          <div>
+            <h4 class="text-[13px] font-bold text-text-primary uppercase tracking-widest">Filtered Events Data</h4>
+            <p class="text-[11px] text-text-muted mt-0.5 font-bold">List view of the map plots.</p>
+          </div>
+          <span class="text-[11px] font-bold text-white bg-primary px-3 py-1.5 rounded-full shadow-sm uppercase tracking-widest">
+            Showing {{ filteredDisasters.length }} / {{ disasterHistory.length }}
+          </span>
+        </div>
+
+        <div class="flex-1 overflow-auto custom-scrollbar p-0 bg-surface">
+          <table class="min-w-full text-left">
+            <thead class="bg-bg-base/80 backdrop-blur-sm sticky top-0 z-10 box-border border-b border-border">
+              <tr>
+                <th scope="col" class="px-6 py-4 font-bold text-[10px] text-text-muted uppercase tracking-widest whitespace-nowrap">Event Type & ID</th>
+                <th scope="col" class="px-6 py-4 font-bold text-[10px] text-text-muted uppercase tracking-widest whitespace-nowrap">Location Details</th>
+                <th scope="col" class="px-6 py-4 font-bold text-[10px] text-text-muted uppercase tracking-widest whitespace-nowrap">Date Reported</th>
+                <th scope="col" class="px-6 py-4 font-bold text-[10px] text-text-muted uppercase tracking-widest whitespace-nowrap">Est. End Date</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-border">
+              @if (filteredDisasters.length === 0) {
+                <tr>
+                  <td colspan="4" class="px-6 py-12 text-center">
+                    <div class="w-12 h-12 bg-bg-base rounded-full flex items-center justify-center mx-auto mb-3 border border-border">
+                      <svg class="w-5 h-5 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    </div>
+                    <p class="text-[13px] font-bold text-text-muted">No results found for current filters.</p>
+                  </td>
+                </tr>
+              }
+              @for (d of filteredDisasters; track d.event_id) {
+              <tr class="hover:bg-bg-base/70 transition-colors group">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center border border-orange-500/20 shrink-0">
+                      <svg class="w-4 h-4 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    </div>
+                    <div>
+                      <div class="text-[12px] font-bold text-text-primary uppercase tracking-wider group-hover:text-primary transition-colors">{{ d.event_type || 'Disaster' }}</div>
+                      <div class="text-[10px] text-text-muted font-mono mt-0.5" title="{{ d.event_id }}">{{ d.event_id.substring(0,12) }}...</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-[12px] font-bold text-text-primary">{{ d.continent || 'Unknown Continent' }}</div>
+                  <div class="text-[10px] text-text-muted font-mono mt-0.5 flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    {{ d.lat.toFixed(4) }}, {{ d.lng.toFixed(4) }}
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-[12px] font-bold text-text-primary">{{ d.date | date:'mediumDate' }}</div>
+                  <div class="text-[10px] text-text-muted mt-0.5">{{ d.date | date:'shortTime' }}</div>
+                </td>
+                <td class="px-6 py-4">
+                  @if (d.estimated_end_date) {
+                    <div class="text-[12px] font-bold text-text-primary">{{ d.estimated_end_date | date:'mediumDate' }}</div>
+                  } @else {
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-bg-base text-text-muted border border-border uppercase tracking-widest">N/A</span>
+                  }
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+      }
+
+    </div>
+  </div>
+</div>
