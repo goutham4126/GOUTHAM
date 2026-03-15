@@ -157,6 +157,54 @@ namespace Infrastructure.Migrations
                     b.ToTable("Invoices");
                 });
 
+            modelBuilder.Entity("Domain.Entities.KycDetails", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AadhaarAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AadhaarDob")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AadhaarGender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AadhaarName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AadhaarPhotoBase64")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AadhaarReferenceId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PanDob")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PanName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PanNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("VerifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("KycDetails", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.Notification", b =>
                 {
                     b.Property<int>("Id")
@@ -367,6 +415,9 @@ namespace Infrastructure.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<Guid?>("KycDetailsId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("PanDocumentHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -414,6 +465,8 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AgentId");
+
+                    b.HasIndex("KycDetailsId");
 
                     b.HasIndex("PlanId");
 
@@ -531,6 +584,17 @@ namespace Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Domain.Entities.KycDetails", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Domain.Entities.Notification", b =>
                 {
                     b.HasOne("Domain.Entities.User", "User")
@@ -586,6 +650,11 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("AgentId")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.HasOne("Domain.Entities.KycDetails", "KycDetails")
+                        .WithMany("PolicyRequests")
+                        .HasForeignKey("KycDetailsId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Domain.Entities.Plan", "Plan")
                         .WithMany()
                         .HasForeignKey("PlanId")
@@ -600,6 +669,8 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("Agent");
 
+                    b.Navigation("KycDetails");
+
                     b.Navigation("Plan");
 
                     b.Navigation("User");
@@ -608,6 +679,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Claim", b =>
                 {
                     b.Navigation("ClaimPayment");
+                });
+
+            modelBuilder.Entity("Domain.Entities.KycDetails", b =>
+                {
+                    b.Navigation("PolicyRequests");
                 });
 
             modelBuilder.Entity("Domain.Entities.Plan", b =>

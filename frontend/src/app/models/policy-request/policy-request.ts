@@ -21,4 +21,20 @@ export interface PolicyRequest {
   createdAt: string;
   reviewedAt?: string;
   remarks?: string;
+  kycDetails?: KycDetailsDto;
+}
+
+export interface KycDetailsDto {
+  id: string;
+  userId: string;
+  panNumber: string;
+  panName?: string;
+  panDob?: string;
+  aadhaarReferenceId: string;
+  aadhaarName?: string;
+  aadhaarGender?: string;
+  aadhaarDob?: string;
+  aadhaarAddress?: string;
+  aadhaarPhotoBase64?: string;
+  verifiedAt: string;
 }

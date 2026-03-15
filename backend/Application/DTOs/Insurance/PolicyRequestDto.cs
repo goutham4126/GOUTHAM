@@ -24,5 +24,6 @@ public record PolicyRequestDto(
     string? RejectionReason,
     DateTime CreatedAt,
     DateTime? ReviewedAt,
-    string? Remarks
+    string? Remarks,
+    KycDetailsDto? KycDetails
 );

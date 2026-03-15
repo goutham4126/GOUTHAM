@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using System.Text.Json;
 using Application.Interfaces;
 using Application.DTOs.Insurance;
 using Domain.Entities;
@@ -33,7 +34,7 @@ namespace Application.Services
             _logger = logger;
         }
 
-        public async Task<PolicyRequestDto> CreatePolicyRequestAsync(Guid userId, Guid planId, int durationMonths, PaymentFrequency paymentFrequency, byte[] panFileBytes, string panFileName, byte[] addressFileBytes, string addressFileName)
+        public async Task<PolicyRequestDto> CreatePolicyRequestAsync(Guid userId, Guid planId, int durationMonths, PaymentFrequency paymentFrequency, byte[] panFileBytes, string panFileName, byte[] addressFileBytes, string addressFileName, string kycDetailsJson)
         {
             var plan = await _planRepo.GetByIdAsync(planId)
                 ?? throw new Exception("Plan not found");
@@ -50,6 +51,25 @@ namespace Application.Services
             var uniqueAddressFileName = $"{Guid.NewGuid()}_{addressFileName}";
             var aUrl = await _blobService.UploadFileAsync(addressFileBytes, uniqueAddressFileName, "address_documents");
             var aHash = ComputeSha256Hash(addressFileBytes);
+
+            var kycDto = JsonSerializer.Deserialize<KycDetailsDto>(kycDetailsJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            if (kycDto == null) throw new Exception("Invalid KYC details provided.");
+
+            var kycDetails = new KycDetails
+            {
+                UserId = userId,
+                PanNumber = kycDto.PanNumber,
+                PanName = kycDto.PanName,
+                PanDob = kycDto.PanDob,
+                AadhaarReferenceId = kycDto.AadhaarReferenceId,
+                AadhaarName = kycDto.AadhaarName,
+                AadhaarGender = kycDto.AadhaarGender,
+                AadhaarDob = kycDto.AadhaarDob,
+                AadhaarAddress = kycDto.AadhaarAddress,
+                AadhaarPhotoBase64 = kycDto.AadhaarPhotoBase64,
+                VerifiedAt = DateTime.UtcNow
+            };
+            _context.KycDetails.Add(kycDetails);
 
             var riskScore = CalculateRiskScore(plan, durationMonths, paymentFrequency);
 
@@ -95,6 +115,7 @@ namespace Application.Services
                 PanDocumentHash = pHash,
                 AddressProofUrl = aUrl,
                 AddressProofHash = aHash,
+                KycDetails = kycDetails,
                 Status = PolicyRequestStatus.Pending,
                 CreatedAt = DateTime.UtcNow
             };
@@ -247,7 +268,21 @@ namespace Application.Services
                 r.RejectionReason,
                 r.CreatedAt,
                 r.ReviewedAt,
-                r.Remarks
+                r.Remarks,
+                r.KycDetails != null ? new KycDetailsDto(
+                    r.KycDetails.Id,
+                    r.KycDetails.UserId,
+                    r.KycDetails.PanNumber,
+                    r.KycDetails.PanName,
+                    r.KycDetails.PanDob,
+                    r.KycDetails.AadhaarReferenceId,
+                    r.KycDetails.AadhaarName,
+                    r.KycDetails.AadhaarGender,
+                    r.KycDetails.AadhaarDob,
+                    r.KycDetails.AadhaarAddress,
+                    r.KycDetails.AadhaarPhotoBase64,
+                    r.KycDetails.VerifiedAt
+                ) : null
             );
         }
     }

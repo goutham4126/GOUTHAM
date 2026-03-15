@@ -470,6 +470,11 @@
         "Name": "AddressDocument",
         "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
+      },
+      {
+        "Name": "KycDetailsJson",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

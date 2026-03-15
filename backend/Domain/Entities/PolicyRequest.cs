@@ -57,6 +57,8 @@ namespace Domain.Entities
         [Required]
         public string AddressProofHash { get; set; } = null!;
 
+        public Guid? KycDetailsId { get; set; }
+
         public PolicyRequestStatus Status { get; set; } = PolicyRequestStatus.Pending;
 
         public string? RejectionReason { get; set; }
@@ -72,5 +74,6 @@ namespace Domain.Entities
         public User User { get; set; } = null!;
         public Plan Plan { get; set; } = null!;
         public User? Agent { get; set; }
+        public KycDetails? KycDetails { get; set; }
     }
 }

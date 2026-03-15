@@ -49,7 +49,8 @@ namespace API.Controllers
                 panSpan.ToArray(),
                 payload.PanDocument.FileName,
                 addressSpan.ToArray(),
-                payload.AddressDocument.FileName
+                payload.AddressDocument.FileName,
+                payload.KycDetailsJson
             );
 
             return Ok(result);
@@ -99,6 +100,7 @@ namespace API.Controllers
         public PaymentFrequency PaymentFrequency { get; set; }
         public IFormFile PanDocument { get; set; } = null!;
         public IFormFile AddressDocument { get; set; } = null!;
+        public string KycDetailsJson { get; set; } = null!;
     }
 
     public class RejectRequestPayload

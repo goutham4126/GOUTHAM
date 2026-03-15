@@ -719,6 +719,9 @@
                   "AddressDocument": {
                     "type": "string",
                     "format": "binary"
+                  },
+                  "KycDetailsJson": {
+                    "type": "string"
                   }
                 }
               },
@@ -736,6 +739,9 @@
                   "style": "form"
                 },
                 "AddressDocument": {
+                  "style": "form"
+                },
+                "KycDetailsJson": {
                   "style": "form"
                 }
               }

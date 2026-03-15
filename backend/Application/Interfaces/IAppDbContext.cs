@@ -14,6 +14,7 @@ namespace Application.Interfaces
         DbSet<Invoice> Invoices { get; }
         DbSet<Notification> Notifications { get; }
         DbSet<PolicyRequest> PolicyRequests { get; }
+        DbSet<KycDetails> KycDetails { get; }
 
         Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade Database { get; }
 

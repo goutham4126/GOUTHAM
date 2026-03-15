@@ -22,6 +22,7 @@ namespace Infrastructure.Data
         public DbSet<Invoice> Invoices => Set<Invoice>();
         public DbSet<Notification> Notifications => Set<Notification>();
         public DbSet<PolicyRequest> PolicyRequests => Set<PolicyRequest>();
+        public DbSet<KycDetails> KycDetails => Set<KycDetails>();
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -35,6 +36,7 @@ namespace Infrastructure.Data
             ConfigureClaim(builder);
             ConfigureClaimPayment(builder);
             ConfigurePolicyRequest(builder);
+            ConfigureKycDetails(builder);
         }
 
         private void ConfigureUser(ModelBuilder builder)
@@ -227,6 +229,24 @@ namespace Infrastructure.Data
                       .WithMany()
                       .HasForeignKey(pr => pr.AgentId)
                       .OnDelete(DeleteBehavior.SetNull);
+
+                entity.HasOne(pr => pr.KycDetails)
+                      .WithMany(k => k.PolicyRequests)
+                      .HasForeignKey(pr => pr.KycDetailsId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+        }
+
+        private void ConfigureKycDetails(ModelBuilder builder)
+        {
+            builder.Entity<KycDetails>(entity =>
+            {
+                entity.ToTable("KycDetails");
+
+                entity.HasOne(k => k.User)
+                      .WithMany()
+                      .HasForeignKey(k => k.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

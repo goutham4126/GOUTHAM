@@ -11,13 +11,14 @@ export class PolicyRequestService {
 
     constructor(private http: HttpClient) { }
 
-    public createRequest(planId: string, durationInMonths: number, paymentFrequency: string, panDocument: File, addressDocument: File): Observable<PolicyRequest> {
+    public createRequest(planId: string, durationInMonths: number, paymentFrequency: string, panDocument: File, addressDocument: File, kycDetailsJson: string): Observable<PolicyRequest> {
         const formData = new FormData();
         formData.append('planId', planId);
         formData.append('durationInMonths', durationInMonths.toString());
         formData.append('paymentFrequency', paymentFrequency);
         formData.append('panDocument', panDocument);
         formData.append('addressDocument', addressDocument);
+        formData.append('kycDetailsJson', kycDetailsJson);
 
         return this.http.post<PolicyRequest>(this.apiUrl, formData);
     }
