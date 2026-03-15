@@ -1,6 +1,8 @@
 import { Component, OnInit, inject, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 import { ClaimService } from '../../../services/claim/claim';
 import { ClaimDto } from '../../../models/claim/claim';
@@ -52,6 +54,7 @@ export class ClaimsDesk implements OnInit {
   public videoCallService = inject(VideoCallService);
   private geoVerificationService = inject(GeoVerificationService);
   private router = inject(Router);
+  private http = inject(HttpClient);
 
   assignedClaims: ClaimDto[] = [];
   loading = true;
@@ -429,27 +432,71 @@ export class ClaimsDesk implements OnInit {
     if (this.selectedClaimId && this.approvalAmount >= 0) {
       this.isApproving = true;
 
-      this.claimService.approveClaim(this.selectedClaimId, {
-        approvedAmount: this.approvalAmount,
-        notes: 'Approved via Evaluation Desk',
-        remarks: this.approvalRemarks
-      }).subscribe({
-        next: () => {
-          this.approvedClaimAmount = this.approvalAmount;
-          this.approvedClaimId = this.selectedClaimId;
-          this.isApproving = false;
-          this.successDialogVisible = true;
-          this.cancelApprove();
-          this.cdr.detectChanges();
+      this.http.post<{orderId: string}>('https://localhost:7128/api/payments/create-order', { amount: this.approvalAmount }).subscribe({
+        next: (orderData) => {
+          const options = {
+            key: environment.razorpay_key_id,
+            amount: this.approvalAmount * 100,
+            currency: 'INR',
+            name: 'Insure', // Company name
+            description: `Claim Disbursement for Claim #${this.selectedClaimId?.substring(0,8)}`,
+            order_id: orderData.orderId,
+            handler: (response: any) => {
+              this.processClaimApproval();
+            },
+            prefill: {
+              email: 'insure@gmail.com', // Sender is company
+            },
+            theme: {
+              color: '#6366f1'
+            },
+            modal: {
+              ondismiss: () => {
+                this.toastService.error('Payment cancelled');
+                this.isApproving = false;
+                this.cdr.detectChanges();
+              }
+            }
+          };
+
+          const paymentObject = new (window as any).Razorpay(options);
+          paymentObject.on('payment.failed', (response: any) => {
+            this.toastService.error(`Payment failed! ${response.error.description || 'Please try again.'}`);
+          });
+          paymentObject.open();
         },
         error: (err) => {
           console.error(err);
-          this.toastService.error('Failed to approve claim');
+          this.toastService.error('Failed to initialize payout');
           this.isApproving = false;
           this.cdr.detectChanges();
         }
       });
     }
+  }
+
+  processClaimApproval() {
+    if (!this.selectedClaimId) return;
+    this.claimService.approveClaim(this.selectedClaimId, {
+      approvedAmount: this.approvalAmount,
+      notes: 'Approved via Evaluation Desk',
+      remarks: this.approvalRemarks
+    }).subscribe({
+      next: () => {
+        this.approvedClaimAmount = this.approvalAmount;
+        this.approvedClaimId = this.selectedClaimId;
+        this.isApproving = false;
+        this.successDialogVisible = true;
+        this.cancelApprove();
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastService.error('Failed to approve claim');
+        this.isApproving = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   closeSuccessDialog() {

@@ -6,6 +6,8 @@ import { PolicyService } from '../../../services/policy/policy';
 import { ToastService } from '../../../services/toast/toast';
 import { PolicyRequest } from '../../../models/policy-request/policy-request';
 import { AuthService } from '../../../services/auth/auth';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 @Component({
     selector: 'app-customer-policy-requests',
@@ -19,6 +21,7 @@ export class CustomerPolicyRequests implements OnInit {
     public authService = inject(AuthService);
     public toastService = inject(ToastService);
     private cdr = inject(ChangeDetectorRef);
+    private http = inject(HttpClient);
 
     requests: PolicyRequest[] = [];
     loading = true;
@@ -52,6 +55,55 @@ export class CustomerPolicyRequests implements OnInit {
 
     buyPolicy(req: PolicyRequest) {
         this.purchasingId = req.id;
+        const amount = req.finalPremiumAmount;
+
+        this.http.post<{orderId: string}>('https://localhost:7128/api/payments/create-order', { amount }).subscribe({
+            next: (orderData) => {
+                const options = {
+                    key: environment.razorpay_key_id,
+                    amount: amount * 100,
+                    currency: "INR",
+                    name: "Insure",
+                    description: `Healthcare Subscription for ₹${amount}`,
+                    order_id: orderData.orderId,
+                    handler: (response: any) => {
+                        this.processPurchase(req);
+                    },
+                    prefill: {
+                        name: this.authService.currentUser()?.role || '',
+                        email: '', // You can add actual user email here if available in AuthResultDto
+                        contact: "9160804126",
+                    },
+                    theme: {
+                        color: "#6366f1", // primary color
+                    },
+                    modal: {
+                        ondismiss: () => {
+                            this.toastService.error('Payment cancelled');
+                            this.purchasingId = null;
+                            this.cdr.markForCheck();
+                        }
+                    }
+                };
+
+                const paymentObject = new (window as any).Razorpay(options);
+                
+                paymentObject.on("payment.failed", (response: any) => {
+                    this.toastService.error(`Payment failed! ${response.error.description || 'Please try again.'}`);
+                });
+
+                paymentObject.open();
+            },
+            error: (err) => {
+                console.error('Error creating order', err);
+                this.toastService.error('Payment initialization failed. Please try again.');
+                this.purchasingId = null;
+                this.cdr.markForCheck();
+            }
+        });
+    }
+
+    processPurchase(req: PolicyRequest) {
         this.policyService.purchasePolicy(req.id).subscribe({
             next: () => {
                 this.purchasedPolicyName = req.planName;

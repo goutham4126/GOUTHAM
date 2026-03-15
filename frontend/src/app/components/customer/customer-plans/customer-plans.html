@@ -158,23 +158,43 @@
             }
 
             @if (panStatus === 'verified' && panDetails) {
-                <div class="p-5 bg-accent-green/5 border border-accent-green/20 rounded-xl mb-6 shadow-sm">
-                    <h5 class="text-[11px] font-bold text-accent-green uppercase tracking-widest mb-3 flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        PAN Verified Successfully
-                    </h5>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <p class="text-[10px] text-text-muted uppercase font-bold tracking-wider">PAN Number</p>
-                            <p class="text-[13px] text-text-primary font-bold">{{ panDetails.pan_number }}</p>
+                <!-- Official PAN Card Verified -->
+                <div class="mb-6 rounded-2xl overflow-hidden shadow-lg border border-border" style="background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #1565c0 100%);">
+                    <!-- Card Header -->
+                    <div class="px-5 pt-4 pb-2 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-yellow-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                            <div>
+                                <p class="text-[9px] font-bold text-blue-200 uppercase tracking-[0.2em]">Income Tax Department</p>
+                                <p class="text-[8px] font-bold text-blue-300/70 uppercase tracking-[0.15em]">Govt. of India</p>
+                            </div>
                         </div>
-                        <div>
-                            <p class="text-[10px] text-text-muted uppercase font-bold tracking-wider">Name</p>
-                            <p class="text-[13px] text-text-primary font-bold">{{ panDetails.name }}</p>
+                        <div class="flex items-center gap-1.5 bg-green-500/20 border border-green-400/30 rounded-full px-3 py-1">
+                            <svg class="w-3.5 h-3.5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                            <span class="text-[9px] font-bold text-green-400 uppercase tracking-wider">Verified</span>
                         </div>
-                        <div>
-                            <p class="text-[10px] text-text-muted uppercase font-bold tracking-wider">Date of Birth</p>
-                            <p class="text-[13px] text-text-primary font-bold">{{ panDetails.date_of_birth }}</p>
+                    </div>
+                    <!-- Card Content -->
+                    <div class="px-5 pb-5 pt-2">
+                        <p class="text-[10px] font-bold text-blue-300/60 uppercase tracking-[0.15em] mb-1">Permanent Account Number</p>
+                        <p class="text-xl font-black text-white tracking-[0.15em] mb-4 font-mono">{{ panDetails.pan_number }}</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <p class="text-[9px] font-bold text-blue-300/60 uppercase tracking-wider">Name</p>
+                                <p class="text-[13px] font-bold text-white">{{ panDetails.name }}</p>
+                            </div>
+                            <div>
+                                <p class="text-[9px] font-bold text-blue-300/60 uppercase tracking-wider">Date of Birth</p>
+                                <p class="text-[13px] font-bold text-white">{{ panDetails.date_of_birth }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card Footer -->
+                    <div class="bg-white/10 backdrop-blur-sm px-5 py-2.5 flex items-center justify-between">
+                        <p class="text-[9px] font-bold text-blue-200/70 uppercase tracking-wider">PAN Card</p>
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
+                            <p class="text-[9px] font-bold text-green-400 uppercase tracking-wider">Identity Verified</p>
                         </div>
                     </div>
                 </div>
@@ -297,40 +317,64 @@
             }
 
             @if (aadhaarStatus === 'verified' && aadhaarDetails) {
-                <div class="p-5 bg-accent-green/5 border border-accent-green/20 rounded-xl mb-6 shadow-sm flex flex-col sm:flex-row gap-5">
-                    
-                    @if (aadhaarPhotoSrc) {
-                        <div class="shrink-0">
-                            <img [src]="aadhaarPhotoSrc" alt="Aadhaar Photo" class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-[12px] border-2 border-accent-green/30 shadow-sm mx-auto sm:mx-0">
+                <!-- Official Aadhaar Card Verified -->
+                <div class="mb-6 rounded-2xl overflow-hidden shadow-lg border border-border bg-white">
+                    <!-- Tricolor Stripe -->
+                    <div class="flex h-1.5">
+                        <div class="flex-1" style="background: #FF9933;"></div>
+                        <div class="flex-1 bg-white"></div>
+                        <div class="flex-1" style="background: #138808;"></div>
+                    </div>
+                    <!-- Card Header -->
+                    <div class="px-5 pt-4 pb-2 flex items-center justify-between bg-gradient-to-r from-gray-50 to-white">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                            <div>
+                                <p class="text-[11px] font-black text-gray-800 uppercase tracking-[0.1em]">Aadhaar</p>
+                                <p class="text-[8px] font-bold text-gray-500 uppercase tracking-[0.1em]">Unique Identification Authority of India</p>
+                            </div>
                         </div>
-                    }
-
-                    <div class="flex-grow">
-                        <h5 class="text-[11px] font-bold text-accent-green uppercase tracking-widest mb-3 flex items-center justify-center sm:justify-start gap-2">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            Aadhaar Verified Successfully
-                        </h5>
-                        <div class="grid grid-cols-2 gap-y-3 gap-x-4">
-                            <div>
-                                <p class="text-[10px] text-text-muted uppercase font-bold tracking-wider">Aadhaar No</p>
-                                <p class="text-[13px] text-text-primary font-bold">{{ aadhaarDetails.aadhaar_number || 'xxxx-xxxx-xxxx' }}</p>
+                        <div class="flex items-center gap-1.5 bg-green-500/15 border border-green-500/30 rounded-full px-3 py-1">
+                            <svg class="w-3.5 h-3.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                            <span class="text-[9px] font-bold text-green-600 uppercase tracking-wider">Verified</span>
+                        </div>
+                    </div>
+                    <!-- Card Content -->
+                    <div class="px-5 pb-5 pt-3 flex flex-col sm:flex-row gap-5">
+                        @if (aadhaarPhotoSrc) {
+                            <div class="shrink-0">
+                                <img [src]="aadhaarPhotoSrc" alt="Aadhaar Photo" class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-xl border-2 border-gray-200 shadow-sm mx-auto sm:mx-0">
                             </div>
-                            <div>
-                                <p class="text-[10px] text-text-muted uppercase font-bold tracking-wider">Name</p>
-                                <p class="text-[13px] text-text-primary font-bold">{{ aadhaarDetails.name }}</p>
+                        }
+                        <div class="flex-grow">
+                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.1em] mb-0.5">Aadhaar Number</p>
+                            <p class="text-lg font-black text-gray-800 tracking-[0.15em] mb-3 font-mono">{{ aadhaarDetails.aadhaar_number || 'xxxx-xxxx-xxxx' }}</p>
+                            <div class="grid grid-cols-2 gap-y-2.5 gap-x-4">
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Name</p>
+                                    <p class="text-[13px] font-bold text-gray-800">{{ aadhaarDetails.name }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Gender</p>
+                                    <p class="text-[13px] font-bold text-gray-800">{{ aadhaarDetails.gender }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Date of Birth</p>
+                                    <p class="text-[13px] font-bold text-gray-800">{{ aadhaarDetails.date_of_birth }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Address</p>
+                                    <p class="text-[11px] font-bold text-gray-800 leading-tight mt-0.5">{{ aadhaarDetails.full_address }}</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-[10px] text-text-muted uppercase font-bold tracking-wider">Gender</p>
-                                <p class="text-[13px] text-text-primary font-bold">{{ aadhaarDetails.gender }}</p>
-                            </div>
-                            <div>
-                                <p class="text-[10px] text-text-muted uppercase font-bold tracking-wider">Date of Birth</p>
-                                <p class="text-[13px] text-text-primary font-bold">{{ aadhaarDetails.date_of_birth }}</p>
-                            </div>
-                            <div class="col-span-2">
-                                <p class="text-[10px] text-text-muted uppercase font-bold tracking-wider">Address</p>
-                                <p class="text-[12px] text-text-primary font-bold leading-tight mt-0.5">{{ aadhaarDetails.full_address }}</p>
-                            </div>
+                        </div>
+                    </div>
+                    <!-- Card Footer -->
+                    <div class="bg-gray-50 px-5 py-2.5 flex items-center justify-between border-t border-gray-100">
+                        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Aadhaar Card</p>
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                            <p class="text-[9px] font-bold text-green-600 uppercase tracking-wider">Address Verified</p>
                         </div>
                     </div>
                 </div>

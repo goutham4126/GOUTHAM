@@ -260,6 +260,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "API.Controllers.PaymentsController",
+    "Method": "CreateOrder",
+    "RelativePath": "api/payments/create-order",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "API.Controllers.CreateOrderRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "API.Controllers.PlansController",
     "Method": "GetAll",
     "RelativePath": "api/plans",

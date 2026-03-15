@@ -216,3 +216,5 @@ C:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\obj\Debug\net8.0\refint\API.Test
 C:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\obj\Debug\net8.0\API.Tests.pdb
 C:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\obj\Debug\net8.0\API.Tests.genruntimeconfig.cache
 C:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\obj\Debug\net8.0\ref\API.Tests.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\BouncyCastle.Crypto.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\Razorpay.dll

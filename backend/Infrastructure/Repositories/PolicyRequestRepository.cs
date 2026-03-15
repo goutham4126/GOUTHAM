@@ -20,6 +20,7 @@ namespace Infrastructure.Repositories
                 .Include(pr => pr.User)
                 .Include(pr => pr.Plan)
                 .Include(pr => pr.Agent)
+                .Include(pr => pr.KycDetails)
                 .FirstOrDefaultAsync(pr => pr.Id == id);
         }
 
@@ -29,6 +30,7 @@ namespace Infrastructure.Repositories
                 .Include(pr => pr.User)
                 .Include(pr => pr.Plan)
                 .Include(pr => pr.Agent)
+                .Include(pr => pr.KycDetails)
                 .Where(pr => pr.UserId == userId)
                 .OrderByDescending(pr => pr.CreatedAt)
                 .ToListAsync();
@@ -40,6 +42,7 @@ namespace Infrastructure.Repositories
                 .Include(pr => pr.User)
                 .Include(pr => pr.Plan)
                 .Include(pr => pr.Agent)
+                .Include(pr => pr.KycDetails)
                 .Where(pr => pr.AgentId == agentId)
                 .OrderByDescending(pr => pr.CreatedAt)
                 .ToListAsync();
