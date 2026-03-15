@@ -237,15 +237,25 @@ export class ClaimsDesk implements OnInit {
     marker.bindPopup(`
       <div class="map-popup-card">
         <div class="map-popup-header red">
-          <span>Incident Location</span>
+          <div class="map-popup-header-icon"></div>
+          <span class="map-popup-title">Incident Location</span>
         </div>
         <div class="map-popup-body">
-          <div class="map-popup-row map-popup-location"><span class="map-popup-place">${locationName}</span></div>
-          <div class="map-popup-row"><span class="map-popup-label">Lat</span><span class="map-popup-value">${lat.toFixed(5)}</span></div>
-          <div class="map-popup-row"><span class="map-popup-label">Lng</span><span class="map-popup-value">${lng.toFixed(5)}</span></div>
+          <div class="map-popup-location">
+            <span class="map-popup-place-label">Reverse Geocoded Address</span>
+            <span class="map-popup-place">${locationName}</span>
+          </div>
+          <div class="map-popup-row">
+            <span class="map-popup-label">Latitude</span>
+            <span class="map-popup-value">${lat.toFixed(5)}</span>
+          </div>
+          <div class="map-popup-row">
+            <span class="map-popup-label">Longitude</span>
+            <span class="map-popup-value">${lng.toFixed(5)}</span>
+          </div>
         </div>
       </div>
-    `, { className: 'custom-popup', closeButton: false, minWidth: 220 }).openPopup();
+    `, { className: 'custom-popup', closeButton: false, minWidth: 240 }).openPopup();
 
     this.cdr.detectChanges();
   }
@@ -289,7 +299,24 @@ export class ClaimsDesk implements OnInit {
       weight: 2,
       opacity: 1,
       fillOpacity: 0.8
-    }).addTo(map).bindPopup('<b>Current Incident</b>');
+    }).addTo(map).bindPopup(`
+      <div class="map-popup-card">
+        <div class="map-popup-header red">
+          <div class="map-popup-header-icon"></div>
+          <span class="map-popup-title">Claim Incident</span>
+        </div>
+        <div class="map-popup-body">
+           <div class="map-popup-row">
+            <span class="map-popup-label">ID</span>
+            <span class="map-popup-value">#${claim.id.substring(0,8)}</span>
+          </div>
+          <div class="map-popup-row">
+            <span class="map-popup-label">Reason</span>
+            <span class="map-popup-value">${claim.reason}</span>
+          </div>
+        </div>
+      </div>
+    `, { className: 'custom-popup', closeButton: false, minWidth: 200 });
 
     this.historyMaps.set(claim.id, map);
     this.updateHistoryMap(claim.id);
@@ -326,6 +353,33 @@ export class ClaimsDesk implements OnInit {
     }
   }
 
+  private getDisasterHistoryPopupHtml(disaster: AmbeeDisasterData): string {
+    const eventTime = new Date(disaster.date).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
+    return `
+      <div class="map-popup-card">
+        <div class="map-popup-header orange">
+          <div class="map-popup-header-icon"></div>
+          <span class="map-popup-title">${disaster.event_type || 'Disaster'}</span>
+        </div>
+        <div class="map-popup-body">
+          <div class="map-popup-row">
+            <span class="map-popup-label">Occurred</span>
+            <span class="map-popup-value">${eventTime}</span>
+          </div>
+          <div class="map-popup-row">
+            <span class="map-popup-label">Coordinates</span>
+            <span class="map-popup-value">${disaster.lat.toFixed(4)}, ${disaster.lng.toFixed(4)}</span>
+          </div>
+          ${disaster.continent ? `
+          <div class="map-popup-row">
+            <span class="map-popup-label">Region</span>
+            <span class="map-popup-value">${disaster.continent}</span>
+          </div>` : ''}
+        </div>
+      </div>
+    `;
+  }
+
   private createDisasterMarker(map: L.Map, disaster: AmbeeDisasterData, layer?: L.LayerGroup) {
     const marker = L.circleMarker([disaster.lat, disaster.lng], {
       radius: 8,
@@ -334,6 +388,12 @@ export class ClaimsDesk implements OnInit {
       weight: 1.5,
       opacity: 0.95,
       fillOpacity: 0.9
+    });
+
+    marker.bindPopup(this.getDisasterHistoryPopupHtml(disaster), {
+      className: 'custom-popup',
+      closeButton: false,
+      minWidth: 220
     });
 
     marker.addTo(layer ?? map);

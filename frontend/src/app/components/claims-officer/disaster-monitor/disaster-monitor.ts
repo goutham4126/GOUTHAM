@@ -45,6 +45,42 @@ export class DisasterMonitor implements OnInit {
     time: true
   };
 
+  public getEventTypeName(code: string): string {
+    const mapping: Record<string, string> = {
+      'TN': 'Tsunamis',
+      'EQ': 'Earth Quake',
+      'TC': 'Tropical Cyclones',
+      'WF': 'Wildfires',
+      'FL': 'Floods',
+      'ET': 'Extreme Temperature',
+      'DR': 'Droughts',
+      'SW': 'Severe storms',
+      'SI': 'Sea Ice',
+      'VO': 'Volcano',
+      'LS': 'Landslides',
+      'Misc': 'Miscellaneous'
+    };
+    return mapping[code] ? `${code} - ${mapping[code]}` : code;
+  }
+
+  public getEventTypeColor(code: string): string {
+    const mapping: Record<string, string> = {
+      'TN': '#00BCD4', // Cyan
+      'EQ': '#FF9800', // Orange
+      'TC': '#009688', // Teal
+      'WF': '#F44336', // Red
+      'FL': '#2196F3', // Blue
+      'ET': '#FFC107', // Amber
+      'DR': '#FFA000', // Amber-Dark
+      'SW': '#673AB7', // Deep Purple
+      'SI': '#80DEEA', // Light Teal
+      'VO': '#D32F2F', // Dark Red
+      'LS': '#795548', // Brown
+      'Misc': '#9E9E9E', // Grey
+    };
+    return mapping[code] || '#FF9500'; // Default Orange
+  }
+
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit() {
@@ -218,17 +254,36 @@ export class DisasterMonitor implements OnInit {
   }
 
   private getDisasterPopupHtml(disaster: AmbeeDisasterData): string {
+    const eventTime = new Date(disaster.date).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
+    const eventType = disaster.event_type ? this.getEventTypeName(disaster.event_type) : 'Disaster';
+    
     return `
       <div class="disaster-popup-card">
         <div class="disaster-popup-header">
-          <span class="disaster-popup-title">${disaster.event_type || 'Disaster'}</span>
-          <span class="disaster-popup-date">${new Date(disaster.date).toLocaleString()}</span>
+          <span class="disaster-popup-title">${eventType}</span>
+          <span class="disaster-popup-date">${eventTime}</span>
         </div>
         <div class="disaster-popup-body">
-          <div><strong>ID:</strong> ${disaster.event_id}</div>
-          <div><strong>Coords:</strong> ${disaster.lat.toFixed(3)}, ${disaster.lng.toFixed(3)}</div>
-          ${disaster.estimated_end_date ? `<div><strong>Ends:</strong> ${new Date(disaster.estimated_end_date).toLocaleString()}</div>` : ''}
-          ${disaster.continent ? `<div><strong>Region:</strong> ${disaster.continent}</div>` : ''}
+          <div class="flex flex-col gap-1.5">
+            <div class="flex justify-between items-center">
+              <strong>Event ID</strong>
+              <span>#${disaster.event_id?.substring(0, 12)}</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <strong>Coordinates</strong>
+              <span>${disaster.lat.toFixed(4)}, ${disaster.lng.toFixed(4)}</span>
+            </div>
+            ${disaster.continent ? `
+            <div class="flex justify-between items-center">
+              <strong>Region</strong>
+              <span>${disaster.continent}</span>
+            </div>` : ''}
+            ${disaster.estimated_end_date ? `
+            <div class="flex justify-between items-center">
+              <strong>Est. End</strong>
+              <span>${new Date(disaster.estimated_end_date).toLocaleDateString()}</span>
+            </div>` : ''}
+          </div>
         </div>
       </div>
     `;
@@ -237,16 +292,17 @@ export class DisasterMonitor implements OnInit {
   private getDisasterTooltipHtml(disaster: AmbeeDisasterData): string {
     return `
       <div class="disaster-tooltip-card">
-        <strong>${disaster.event_type || 'Disaster'}</strong><br/>
+        <strong>${disaster.event_type ? this.getEventTypeName(disaster.event_type) : 'Disaster'}</strong><br/>
         ${new Date(disaster.date).toLocaleDateString()} • ${disaster.lat.toFixed(2)}, ${disaster.lng.toFixed(2)}
       </div>
     `;
   }
 
   private createDisasterMarker(map: L.Map, disaster: AmbeeDisasterData, layer?: L.LayerGroup) {
+    const color = disaster.event_type ? this.getEventTypeColor(disaster.event_type) : '#FF9500';
     const marker = L.circleMarker([disaster.lat, disaster.lng], {
       radius: 8,
-      fillColor: '#FF9500',
+      fillColor: color,
       color: '#fff',
       weight: 1.5,
       opacity: 0.95,
@@ -297,8 +353,8 @@ export class DisasterMonitor implements OnInit {
       }).addTo(map);
 
       this.globalDisasterLayer = L.layerGroup().addTo(map);
-      this.updateMapWithFilters();
       this.globalHistoryMap = map;
+      this.updateMapWithFilters();
     }, 100);
   }
 }
