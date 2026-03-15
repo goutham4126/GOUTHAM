@@ -189,6 +189,14 @@ namespace Application.Services
                     _context.Invoices.Add(invoice);
                     await _context.SaveChangesAsync();
 
+                    // Load navigation properties for DTO mapping
+                    var fullPolicyResult = await _context.Policies
+                        .Include(p => p.User)
+                        .Include(p => p.Agent)
+                        .Include(p => p.Plan)
+                        .Include(p => p.Payments)
+                        .FirstAsync(p => p.Id == policy.Id);
+
                     // 2) Initial Payment Invoice
                     if (firstPaymentToInvoice != null)
                     {
@@ -206,6 +214,13 @@ namespace Application.Services
                         _context.Invoices.Add(paymentInvoice);
                         await _context.SaveChangesAsync();
                     }
+
+                    // Trigger n8n Webhook with invoice URL
+                    _ = _webhookNotificationService.SendPolicyPurchaseEmailAsync(
+                        customer.Email,
+                        $"{customer.FirstName} {customer.LastName}",
+                        plan.Name,
+                        fileUrl);
                 }
 
                 await transaction.CommitAsync();
@@ -219,16 +234,7 @@ namespace Application.Services
                     $"Successfully purchased policy based on the {plan.Name} plan."
                 );
 
-                // Trigger n8n Webhook
-                if (customer != null)
-                {
-                    _ = _webhookNotificationService.SendPolicyPurchaseEmailAsync(
-                        customer.Email,
-                        $"{customer.FirstName} {customer.LastName}",
-                        plan.Name);
-                }
-
-                // Load navigation properties for DTO mapping
+                // Reload for DTO mapping if needed (already done above for fullPolicyResult)
                 var fullPolicy = await _context.Policies
                     .Include(p => p.User)
                     .Include(p => p.Agent)

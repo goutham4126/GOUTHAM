@@ -367,7 +367,7 @@ namespace Application.Services
                 {
                     void AddRow(string title, string subtitle, string value, string valueSuffix = "", bool isHighlighted = false, bool isTotal = false)
                     {
-                        card.Item().Background(isHighlighted ? GoldPrimary + "11" : isTotal ? NavyDeep : White)
+                        card.Item().Background(isTotal ? NavyDeep : White)
                             .BorderBottom(isTotal ? 0 : 0.5f).BorderColor(DividerLine)
                             .PaddingVertical(8).PaddingHorizontal(12).Row(row =>
                         {

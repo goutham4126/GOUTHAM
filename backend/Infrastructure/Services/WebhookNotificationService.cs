@@ -19,7 +19,7 @@ namespace Infrastructure.Services
             _logger = logger;
         }
 
-        public async Task SendPolicyPurchaseEmailAsync(string email, string name, string policyName)
+        public async Task SendPolicyPurchaseEmailAsync(string email, string name, string policyName, string invoiceUrl)
         {
             try
             {
@@ -27,7 +27,8 @@ namespace Infrastructure.Services
                 {
                     email = email,
                     name = name,
-                    policyName = policyName
+                    policyName = policyName,
+                    invoiceUrl = invoiceUrl
                 };
 
                 var content = new StringContent(
