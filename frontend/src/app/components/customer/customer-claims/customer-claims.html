@@ -107,28 +107,32 @@
                   Supporting Document
                 </label>
                 <label for="file-upload"
-                  class="flex-1 w-full border border-border hover:border-primary/50 bg-surface hover:bg-bg-base cursor-pointer transition-all rounded-xl flex items-center justify-between p-4 group shadow-sm">
+                  class="flex-1 w-full border border-border hover:border-primary/50 bg-surface hover:bg-bg-base cursor-pointer transition-all rounded-xl flex items-center justify-between p-3 group shadow-sm">
 
-                  <div class="flex items-center gap-3">
+                  <div class="flex items-center gap-3 overflow-hidden">
                     <div
-                      class="w-16 h-18 rounded-lg bg-bg-base border border-border group-hover:border-primary/30 flex items-center justify-center text-text-muted group-hover:text-primary transition-colors">
-                      <svg class="w-5 h-5" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02">
-                        </path>
-                      </svg>
+                      class="w-12 h-12 rounded-lg bg-bg-base border border-border group-hover:border-primary/30 flex items-center justify-center text-text-muted group-hover:text-primary transition-colors overflow-hidden shrink-0">
+                      @if (imagePreview) {
+                        <img [src]="imagePreview" class="w-full h-full object-cover">
+                      } @else {
+                        <svg class="w-5 h-5" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                          <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02">
+                          </path>
+                        </svg>
+                      }
                     </div>
-                    <div class="flex flex-col">
+                    <div class="flex flex-col truncate">
                       @if (!selectedFile) {
                       <span
-                        class="text-[14px] font-bold text-text-primary group-hover:text-primary transition-colors leading-none">Upload
+                        class="text-[13px] font-bold text-text-primary group-hover:text-primary transition-colors leading-none">Upload
                         Proof</span>
-                      <span class="text-[12px] text-text-muted mt-4 leading-none">PDF, PNG, JPG</span>
+                      <span class="text-[11px] text-text-muted mt-1 leading-none">PDF, PNG, JPG</span>
                       }
                       @if (selectedFile) {
-                      <span class="text-[14px] font-bold text-text-primary truncate max-w-[200px] leading-none">{{
+                      <span class="text-[13px] font-bold text-text-primary truncate leading-none mb-1">{{
                         selectedFile.name }}</span>
-                      <span class="text-[12px] text-accent-green font-medium mt-1 leading-none">{{ (selectedFile.size /
+                      <span class="text-[11px] text-accent-green font-bold leading-none">{{ (selectedFile.size /
                         1024).toFixed(1) }} KB</span>
                       }
                     </div>

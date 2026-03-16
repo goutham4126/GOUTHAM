@@ -205,3 +205,4 @@ C:\Users\DELL\Desktop\GOUTHAM\backend\API\obj\Debug\net8.0\API.genruntimeconfig.
 C:\Users\DELL\Desktop\GOUTHAM\backend\API\obj\Debug\net8.0\ref\API.dll
 C:\Users\DELL\Desktop\GOUTHAM\backend\API\bin\Debug\net8.0\BouncyCastle.Crypto.dll
 C:\Users\DELL\Desktop\GOUTHAM\backend\API\bin\Debug\net8.0\Razorpay.dll
+C:\Users\DELL\Desktop\GOUTHAM\backend\API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

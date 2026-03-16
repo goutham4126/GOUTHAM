@@ -71,6 +71,7 @@ export class CustomerClaims implements OnInit, AfterViewInit, OnDestroy {
   loadingPolicies = true;
   isProcessingUpload = false;
   selectedFile: File | null = null;
+  imagePreview: string | null = null;
 
   // Map state
   private map: L.Map | null = null;
@@ -331,8 +332,23 @@ export class CustomerClaims implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onFileSelect(event: any) {
-    if (event.target.files && event.target.files.length > 0) {
-      this.selectedFile = event.target.files[0];
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      
+      // Create image preview if it's an image
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.imagePreview = e.target.result;
+          this.cdr.detectChanges();
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.imagePreview = null;
+      }
+      
+      this.cdr.detectChanges();
     }
   }
 
