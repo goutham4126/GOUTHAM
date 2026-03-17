@@ -56,6 +56,8 @@ namespace API
             builder.Services.AddScoped<IInvoiceGeneratorService, InvoiceGeneratorService>();
             builder.Services.AddScoped<INotificationService, NotificationService>();
             builder.Services.AddHttpClient<IGeoVerificationService, GeoVerificationService>();
+            builder.Services.Configure<Application.Configuration.RinggAISettings>(builder.Configuration.GetSection("RinggAI"));
+            builder.Services.AddHttpClient<IInsuranceCallService, InsuranceCallService>();
             builder.Services.AddSignalR();
 
 

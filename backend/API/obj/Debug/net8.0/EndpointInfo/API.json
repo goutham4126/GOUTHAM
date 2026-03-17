@@ -356,6 +356,18 @@
         }
       }
     },
+    "/api/insurance/initiate-call": {
+      "post": {
+        "tags": [
+          "InsuranceCall"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/invoices/my": {
       "get": {
         "tags": [

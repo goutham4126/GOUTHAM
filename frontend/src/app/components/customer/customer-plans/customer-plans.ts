@@ -7,6 +7,7 @@ import { PolicyRequestService } from '../../../services/policy-request/policy-re
 import { PlanDto } from '../../../models/policy/plan';
 import { PolicyRequest } from '../../../models/policy-request/policy-request';
 import { ToastService } from '../../../services/toast/toast';
+import { InsuranceCallService } from '../../../services/insurance-call/insurance-call.service';
 
 @Component({
     selector: 'app-customer-plans',
@@ -21,9 +22,16 @@ export class CustomerPlans implements OnInit, OnDestroy {
     public router = inject(Router);
     private cdr = inject(ChangeDetectorRef);
     private fb = inject(FormBuilder);
+    private insuranceCallService = inject(InsuranceCallService);
 
     plans: PlanDto[] = [];
     loading = true;
+
+    // AI Call State
+    isCallingAgent = false;
+    callSuccess = false;
+    callCallId = '';
+    callErrorMsg = '';
 
     // Request Modal State
     selectedPlan: PlanDto | null = null;
@@ -138,6 +146,28 @@ export class CustomerPlans implements OnInit, OnDestroy {
 
     get paymentFrequency(): string {
         return this.requestForm.get('paymentFrequency')?.value || 'Monthly';
+    }
+
+    callAiAgent() {
+        this.isCallingAgent = true;
+        this.callSuccess = false;
+        this.callErrorMsg = '';
+        this.callCallId = '';
+        this.cdr.detectChanges();
+
+        this.insuranceCallService.initiateCall().subscribe({
+            next: (res) => {
+                this.isCallingAgent = false;
+                this.callSuccess = true;
+                this.callCallId = res.callId || res.status;
+                this.cdr.detectChanges();
+            },
+            error: (err) => {
+                this.isCallingAgent = false;
+                this.callErrorMsg = err.error?.detail || err.error?.title || err.message || 'Failed to initiate call with AI agent.';
+                this.cdr.detectChanges();
+            }
+        });
     }
 
     promptRequest(plan: PlanDto) {

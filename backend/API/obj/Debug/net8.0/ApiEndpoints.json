@@ -204,6 +204,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "API.Controllers.InsuranceCallController",
+    "Method": "InitiateCall",
+    "RelativePath": "api/insurance/initiate-call",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "API.Controllers.InvoicesController",
     "Method": "MyInvoices",
     "RelativePath": "api/invoices/my",
