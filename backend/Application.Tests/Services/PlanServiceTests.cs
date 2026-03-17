@@ -22,8 +22,8 @@ namespace Application.Tests.Services
         {
             var plans = new List<Plan>
             {
-                new Plan { Name = "Gold", Description = "D1", PremiumAmount = 100, CoverageAmount = 50000, DurationInMonths = 12, PaymentFrequency = "Monthly", PlanType = "Health" },
-                new Plan { Name = "Silver", Description = "D2", PremiumAmount = 50, CoverageAmount = 25000, DurationInMonths = 6, PaymentFrequency = "Quarterly", PlanType = "Life" }
+                new Plan { Name = "Gold", Description = "D1", Benefits = "B1", PremiumAmount = 100, CoverageAmount = 50000, DurationInMonths = 12, PaymentFrequency = "Monthly", PlanType = "Health" },
+                new Plan { Name = "Silver", Description = "D2", Benefits = "B2", PremiumAmount = 50, CoverageAmount = 25000, DurationInMonths = 6, PaymentFrequency = "Quarterly", PlanType = "Life" }
             };
             _repoMock.Setup(r => r.GetAllAsync(It.IsAny<bool>())).ReturnsAsync(plans);
 
@@ -61,7 +61,7 @@ namespace Application.Tests.Services
         [Fact]
         public async Task CreateAsync_Success_ReturnsPlanDto()
         {
-            var dto = new CreatePlanDto("Gold", "Premium", 100, 50000, 12, "Monthly", "Health");
+            var dto = new CreatePlanDto("Gold", "Premium", "BenefitList", 100, 50000, 12, "Monthly", "Health");
 
             var result = await _service.CreateAsync(dto);
 
@@ -74,10 +74,10 @@ namespace Application.Tests.Services
         public async Task UpdateAsync_Found_UpdatesPlan()
         {
             var id = Guid.NewGuid();
-            var existing = new Plan { Id = id, Name = "Old", Description = "D", PremiumAmount = 50, CoverageAmount = 25000, DurationInMonths = 6, PaymentFrequency = "Monthly", PlanType = "Health" };
+            var existing = new Plan { Id = id, Name = "Old", Description = "D", Benefits = "B", PremiumAmount = 50, CoverageAmount = 25000, DurationInMonths = 6, PaymentFrequency = "Monthly", PlanType = "Health" };
             _repoMock.Setup(r => r.GetByIdAsync(id)).ReturnsAsync(existing);
 
-            var dto = new CreatePlanDto("New", "Updated", 200, 100000, 24, "Yearly", "Life");
+            var dto = new CreatePlanDto("New", "Updated", "NewBenefits", 200, 100000, 24, "Yearly", "Life");
 
             await _service.UpdateAsync(id, dto);
 
@@ -92,14 +92,14 @@ namespace Application.Tests.Services
             _repoMock.Setup(r => r.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Plan?)null);
 
             await Assert.ThrowsAsync<Exception>(
-                () => _service.UpdateAsync(Guid.NewGuid(), new CreatePlanDto("X", "X", 1, 1, 1, "M", "H")));
+                () => _service.UpdateAsync(Guid.NewGuid(), new CreatePlanDto("X", "X", "X", 1, 1, 1, "M", "H")));
         }
 
         [Fact]
         public async Task DeleteAsync_Found_DeletesPlan()
         {
             var id = Guid.NewGuid();
-            var plan = new Plan { Id = id, Name = "Gold", Description = "D", PremiumAmount = 100, CoverageAmount = 50000, DurationInMonths = 12, PaymentFrequency = "Monthly", PlanType = "Health" };
+            var plan = new Plan { Id = id, Name = "Gold", Description = "D", Benefits = "B", PremiumAmount = 100, CoverageAmount = 50000, DurationInMonths = 12, PaymentFrequency = "Monthly", PlanType = "Health" };
             _repoMock.Setup(r => r.GetByIdAsync(id)).ReturnsAsync(plan);
 
             await _service.DeleteAsync(id);

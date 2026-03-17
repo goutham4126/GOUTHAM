@@ -8,12 +8,67 @@ import { PlanDto } from '../../../models/policy/plan';
 import { PolicyRequest } from '../../../models/policy-request/policy-request';
 import { ToastService } from '../../../services/toast/toast';
 import { InsuranceCallService } from '../../../services/insurance-call/insurance-call.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-customer-plans',
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule, FormsModule],
-    templateUrl: './customer-plans.html'
+    templateUrl: './customer-plans.html',
+    styles: [`
+        /* Apply checkmarks exclusively to standard text and list items */
+        ::ng-deep .benefits-list p:not(:empty),
+        ::ng-deep .benefits-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            list-style: none;
+        }
+
+        ::ng-deep .benefits-list p:not(:empty)::before,
+        ::ng-deep .benefits-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        /* Prevent empty Quill paragraphs from rendering a checkmark */
+        ::ng-deep .benefits-list p:empty {
+            display: none;
+        }
+
+        /* Reset lists so they don't have default indents */
+        ::ng-deep .benefits-list ul,
+        ::ng-deep .benefits-list ol {
+            padding-left: 0;
+            margin: 0;
+        }
+        
+        ::ng-deep .benefits-list {
+            line-height: 1.6;
+            color: var(--color-text-muted);
+        }
+
+        ::ng-deep .benefits-list br {
+            display: none;
+        }
+
+        /* Ensure heading tags stay untouched and just scale naturally */
+        ::ng-deep .benefits-list h1,
+        ::ng-deep .benefits-list h2,
+        ::ng-deep .benefits-list h3,
+        ::ng-deep .benefits-list h4,
+        ::ng-deep .benefits-list h5,
+        ::ng-deep .benefits-list h6 {
+            color: var(--color-text-primary);
+            font-weight: bold;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            padding-left: 0;
+        }
+    `]
 })
 export class CustomerPlans implements OnInit, OnDestroy {
     private planService = inject(PlanService);
@@ -23,6 +78,7 @@ export class CustomerPlans implements OnInit, OnDestroy {
     private cdr = inject(ChangeDetectorRef);
     private fb = inject(FormBuilder);
     private insuranceCallService = inject(InsuranceCallService);
+    private sanitizer = inject(DomSanitizer);
 
     plans: PlanDto[] = [];
     loading = true;
@@ -108,6 +164,25 @@ export class CustomerPlans implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.clearOtpTimer();
+    }
+
+    sanitizeHtml(html: string): SafeHtml {
+        if (!html) return '';
+        
+        let processedHtml = html;
+        
+        // If it looks like plain text without any HTML tags (from the old markdown editor)
+        if (!/<[a-z][\s\S]*>/i.test(processedHtml)) {
+            // Replace newlines followed by dashes with list items
+            const items = processedHtml.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+            processedHtml = '<ul>' + items.map(item => {
+                // remove leading dash if present
+                const text = item.replace(/^-\s*/, '');
+                return `<li>${text}</li>`;
+            }).join('') + '</ul>';
+        }
+
+        return this.sanitizer.bypassSecurityTrustHtml(processedHtml);
     }
 
     durationValidator(control: AbstractControl): ValidationErrors | null {

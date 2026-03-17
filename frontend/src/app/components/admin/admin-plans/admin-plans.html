@@ -202,6 +202,20 @@
           </div>
         </div>
 
+        <!-- WYSIWYG Editor for Benefits -->
+        <div class="flex flex-col gap-3 border-t border-border pt-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-sm font-bold text-text-primary mb-1">Package Benefits</h4>
+              <p class="text-[13px] text-text-muted">Describe the plan features using the editor. Use bullet points for easy reading.</p>
+            </div>
+          </div>
+
+          <div class="mt-2 relative">
+            <quill-editor formControlName="benefits" [modules]="editorModules" [styles]="{height: '250px'}" placeholder="Enter plan benefits here..." class="block w-full bg-surface border border-border rounded-xl"></quill-editor>
+          </div>
+        </div>
+
         <!-- Submit -->
         <div class="pt-6 mt-2 border-t border-border flex justify-end">
           <button type="submit" [disabled]="!planForm.valid"

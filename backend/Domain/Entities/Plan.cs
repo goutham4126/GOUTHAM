@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using Domain.Enums;
 
 namespace Domain.Entities
@@ -13,6 +13,9 @@ namespace Domain.Entities
 
         [Required]
         public string Description { get; set; } = null!;
+
+        [Required]
+        public string Benefits { get; set; } = string.Empty;
 
         [Required]
         public decimal PremiumAmount { get; set; }

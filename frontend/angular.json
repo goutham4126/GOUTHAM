@@ -22,10 +22,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/@kolkov/angular-editor/assets",
+                "output": "/assets/ae-icons"
               }
             ],
             "styles": [
               "node_modules/leaflet/dist/leaflet.css",
+              "node_modules/quill/dist/quill.snow.css",
               "src/styles.css"
             ]
           },

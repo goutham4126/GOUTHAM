@@ -80,7 +80,12 @@
             {{ plan.planType }}
           </span>
         </div>
-        <p class="text-text-muted text-xs font-semibold mb-6 min-h-[40px] leading-relaxed">{{ plan.description }}</p>
+        <p class="text-text-muted text-xs font-semibold mb-3 min-h-[40px] leading-relaxed">{{ plan.description }}</p>
+        
+        <!-- Rendered Benefits List -->
+        <div class="benefits-list mb-6 flex-grow text-[13px] text-text-primary" [innerHTML]="sanitizeHtml(plan.benefits)">
+        </div>
+
         <div class="space-y-4 mb-6">
           <div class="flex justify-between items-center text-[13px] border-b border-border pb-2">
             <span class="text-text-muted font-bold tracking-wide uppercase">Max Coverage</span>
@@ -449,6 +454,13 @@
             <div class="mb-6">
                 <h4 class="text-lg font-bold text-text-primary">Policy Details</h4>
                 <p class="text-[13px] text-text-muted mt-1 font-semibold">Configure your policy duration and frequency.</p>
+            </div>
+
+            <!-- Display Markdown Benefits in Modal -->
+            <div class="bg-surface border border-border rounded-2xl p-5 mb-6 shadow-sm">
+                <h4 class="text-[13px] font-bold text-text-primary border-b border-border/60 pb-2 mb-3">Plan Benefits</h4>
+                <div class="benefits-list text-[13px] text-text-primary" [innerHTML]="sanitizeHtml(selectedPlan.benefits)">
+                </div>
             </div>
 
             <form [formGroup]="requestForm" class="flex flex-col sm:flex-row gap-5 mb-8">

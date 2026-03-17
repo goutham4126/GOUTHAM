@@ -31,6 +31,7 @@ namespace Application.Services
             {
                 Name = dto.Name,
                 Description = dto.Description,
+                Benefits = dto.Benefits,
                 PremiumAmount = dto.PremiumAmount,
                 CoverageAmount = dto.CoverageAmount,
                 DurationInMonths = dto.DurationInMonths,
@@ -49,6 +50,7 @@ namespace Application.Services
 
             existing.Name = dto.Name;
             existing.Description = dto.Description;
+            existing.Benefits = dto.Benefits;
             existing.PremiumAmount = dto.PremiumAmount;
             existing.CoverageAmount = dto.CoverageAmount;
             existing.DurationInMonths = dto.DurationInMonths;
@@ -81,6 +83,7 @@ namespace Application.Services
                 plan.Id,
                 plan.Name,
                 plan.Description,
+                plan.Benefits,
                 plan.PremiumAmount,
                 plan.CoverageAmount,
                 plan.DurationInMonths,

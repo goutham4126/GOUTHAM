@@ -367,6 +367,7 @@ namespace Application.Services
                     policy.Plan.Id,
                     policy.Plan.Name,
                     policy.Plan.Description,
+                    policy.Plan.Benefits,
                     policy.Plan.PremiumAmount,
                     policy.Plan.CoverageAmount,
                     policy.Plan.DurationInMonths,

@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { QuillModule } from 'ngx-quill';
 import { PlanService } from '../../../services/plan/plan';
 import { PlanDto } from '../../../models/policy/plan';
 import { ToastService } from '../../../services/toast/toast';
@@ -8,7 +9,7 @@ import { ToastService } from '../../../services/toast/toast';
 @Component({
   selector: 'app-admin-plans',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, QuillModule],
   templateUrl: './admin-plans.html',
   styleUrl: './admin-plans.css'
 })
@@ -25,6 +26,7 @@ export class AdminPlans implements OnInit {
   planForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
     description: ['', Validators.required],
+    benefits: ['', Validators.required],
     premiumAmount: [0, [Validators.required, Validators.min(1)]],
     coverageAmount: [0, [Validators.required, Validators.min(1)]],
     durationInMonths: [12, [Validators.required, Validators.min(1)]],
@@ -35,6 +37,19 @@ export class AdminPlans implements OnInit {
   // Custom Dropdown States
   isPaymentDropdownOpen = false;
   isPlanTypeDropdownOpen = false;
+
+  editorModules = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }], // lists
+      [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      [{ 'align': [] }],
+      ['clean'],                                         // remove formatting button
+      ['link']                         // link and image, video
+    ]
+  };
 
   get currentPaymentFreq() { return this.planForm.get('paymentFrequency')?.value; }
   get currentPlanType() { return this.planForm.get('planType')?.value; }
@@ -73,6 +88,7 @@ export class AdminPlans implements OnInit {
     this.planForm.patchValue({
       name: plan.name,
       description: plan.description,
+      benefits: plan.benefits,
       premiumAmount: plan.premiumAmount,
       coverageAmount: plan.coverageAmount,
       durationInMonths: plan.durationInMonths,
@@ -92,6 +108,7 @@ export class AdminPlans implements OnInit {
     this.planForm.reset({
       name: '',
       description: '',
+      benefits: '',
       premiumAmount: 0,
       coverageAmount: 0,
       durationInMonths: 12,

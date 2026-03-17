@@ -24,7 +24,7 @@ export class PlanService {
     }
 
     public updatePlan(id: string, dto: CreatePlanDto): Observable<any> {
-        return this.http.put(`${this.apiUrl}/${id}`, dto);
+        return this.http.put(`${this.apiUrl}/${id}`, dto, { responseType: 'text' });
     }
 
     public deletePlan(id: string): Observable<any> {

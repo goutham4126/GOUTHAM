@@ -22,8 +22,8 @@ namespace API.Tests.Controllers
         {
             var plans = new List<PlanDto>
             {
-                new PlanDto(Guid.NewGuid(), "Gold", "D", 100, 50000, 12, "Monthly", "Health", true),
-                new PlanDto(Guid.NewGuid(), "Silver", "D", 50, 25000, 6, "Quarterly", "Life", true)
+                new PlanDto(Guid.NewGuid(), "Gold", "D", "B1", 100, 50000, 12, "Monthly", "Health", true),
+                new PlanDto(Guid.NewGuid(), "Silver", "D", "B2", 50, 25000, 6, "Quarterly", "Life", true)
             };
             _planServiceMock.Setup(s => s.GetAllAsync(It.IsAny<bool>())).ReturnsAsync(plans);
 
@@ -38,7 +38,7 @@ namespace API.Tests.Controllers
         public async Task Get_Found_ReturnsOk()
         {
             var id = Guid.NewGuid();
-            var plan = new PlanDto(id, "Gold", "D", 100, 50000, 12, "Monthly", "Health", true);
+            var plan = new PlanDto(id, "Gold", "D", "B", 100, 50000, 12, "Monthly", "Health", true);
             _planServiceMock.Setup(s => s.GetByIdAsync(id)).ReturnsAsync(plan);
 
             var result = await _controller.Get(id);
@@ -61,8 +61,8 @@ namespace API.Tests.Controllers
         [Fact]
         public async Task Create_ReturnsOkWithCreatedPlan()
         {
-            var dto = new CreatePlanDto("Gold", "Premium", 100, 50000, 12, "Monthly", "Health");
-            var created = new PlanDto(Guid.NewGuid(), "Gold", "Premium", 100, 50000, 12, "Monthly", "Health", true);
+            var dto = new CreatePlanDto("Gold", "Premium", "B", 100, 50000, 12, "Monthly", "Health");
+            var created = new PlanDto(Guid.NewGuid(), "Gold", "Premium", "B", 100, 50000, 12, "Monthly", "Health", true);
             _planServiceMock.Setup(s => s.CreateAsync(dto)).ReturnsAsync(created);
 
             var result = await _controller.Create(dto);
@@ -76,7 +76,7 @@ namespace API.Tests.Controllers
         public async Task Update_ReturnsOkMessage()
         {
             var id = Guid.NewGuid();
-            var dto = new CreatePlanDto("Updated", "D", 200, 100000, 24, "Yearly", "Life");
+            var dto = new CreatePlanDto("Updated", "D", "B", 200, 100000, 24, "Yearly", "Life");
 
             var result = await _controller.Update(id, dto);
 

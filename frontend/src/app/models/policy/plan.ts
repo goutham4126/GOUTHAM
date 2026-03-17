@@ -2,6 +2,7 @@ export interface PlanDto {
     id: string; // Guid
     name: string;
     description: string;
+    benefits: string;
     premiumAmount: number;
     coverageAmount: number;
     durationInMonths: number;
@@ -13,6 +14,7 @@ export interface PlanDto {
 export interface CreatePlanDto {
     name: string;
     description: string;
+    benefits: string;
     premiumAmount: number;
     coverageAmount: number;
     durationInMonths: number;
