@@ -175,6 +175,46 @@ export class AdminDashboard implements OnInit {
         interaction: { mode: 'nearest', axis: 'x', intersect: false }
     };
 
+    // --- Claims Status Doughnut Chart ---
+    public claimsChartPlugins = [];
+    public claimsChartData: ChartConfiguration<'doughnut'>['data'] = {
+        labels: [],
+        datasets: [{ data: [], label: 'Claims', backgroundColor: [], borderWidth: 0, hoverOffset: 4 }]
+    };
+    public claimsChartOptions: ChartConfiguration<'doughnut'>['options'] = {
+        responsive: true, maintainAspectRatio: false, cutout: '75%',
+        plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1A1D23', titleFont: { size: 13, weight: 'bold' }, bodyFont: { size: 13, weight: 'bold' }, padding: 12, cornerRadius: 12, displayColors: true, boxPadding: 4 } }
+    };
+    public claimsChartLegendData: {label: string, value: number, color: string}[] = [];
+
+    // --- Policies Status Doughnut Chart ---
+    public policiesChartPlugins = [];
+    public policiesChartData: ChartConfiguration<'doughnut'>['data'] = {
+        labels: [],
+        datasets: [{ data: [], label: 'Policies', backgroundColor: [], borderWidth: 0, hoverOffset: 4 }]
+    };
+    public policiesChartOptions: ChartConfiguration<'doughnut'>['options'] = {
+        responsive: true, maintainAspectRatio: false, cutout: '75%',
+        plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1A1D23', titleFont: { size: 13, weight: 'bold' }, bodyFont: { size: 13, weight: 'bold' }, padding: 12, cornerRadius: 12, displayColors: true, boxPadding: 4 } }
+    };
+    public policiesChartLegendData: {label: string, value: number, color: string}[] = [];
+
+    // --- Plans Bar Chart ---
+    public planChartPlugins = [];
+    public planChartLegend = false;
+    public planChartData: ChartConfiguration<'bar'>['data'] = {
+        labels: [],
+        datasets: [{ data: [], label: 'Policies', backgroundColor: '#3B82F6', borderRadius: 6, maxBarThickness: 40 }]
+    };
+    public planChartOptions: ChartConfiguration<'bar'>['options'] = {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1A1D23', titleFont: { size: 13, weight: 'bold' }, bodyFont: { size: 13, weight: 'bold' }, padding: 12, cornerRadius: 12, displayColors: true, boxPadding: 4 } },
+        scales: {
+            x: { grid: { display: false }, ticks: { font: { size: 12, weight: 'bold' }, color: '#8A94A6', maxRotation: 45, minRotation: 45 }, border: { display: false } },
+            y: { beginAtZero: true, grid: { color: '#EAECF0' }, ticks: { stepSize: 1, font: { size: 12, weight: 'bold' }, color: '#8A94A6', padding: 12 }, border: { display: false } }
+        }
+    };
+
     ngOnInit() {
         this.loadDashboardData();
     }
@@ -208,6 +248,7 @@ export class AdminDashboard implements OnInit {
 
                 // Update Line Chart Data (Last 6 Months)
                 this.updateLineChartData(data.policies, data.claims);
+                this.updateAdditionalChartsData(data.plans, data.policies, data.claims);
 
                 this.loading = false;
                 this.cdr.detectChanges();
@@ -323,5 +364,70 @@ export class AdminDashboard implements OnInit {
                 }
             });
         });
+    }
+
+    updateAdditionalChartsData(plans: any[], policies: any[], claims: any[]) {
+        // Policies Status
+        const policyStatusCount: Record<string, number> = {
+            'Active': 0,
+            'Inactive': 0
+        };
+        policies.forEach(p => {
+            policyStatusCount[p.status] = (policyStatusCount[p.status] || 0) + 1;
+        });
+        const pColors = ['#00C48C', '#6B7280', '#F59E0B', '#EF4444', '#3B82F6'];
+        const pLabels = Object.keys(policyStatusCount);
+        const pData = Object.values(policyStatusCount);
+        const pBgColors = pLabels.map((_, i) => pColors[i % pColors.length]);
+        
+        this.policiesChartData = {
+            labels: pLabels,
+            datasets: [{ data: pData, label: 'Policies', backgroundColor: pBgColors, borderWidth: 0, hoverOffset: 4 }]
+        };
+        this.policiesChartLegendData = pLabels.map((label, i) => ({ label, value: pData[i], color: pBgColors[i] }));
+
+        // Claims Status
+        const claimStatusCount: Record<string, number> = {
+            'Pending': 0,
+            'Approved': 0,
+            'Rejected': 0
+        };
+        claims.forEach(c => {
+            claimStatusCount[c.status] = (claimStatusCount[c.status] || 0) + 1;
+        });
+        const cColors = ['#F59E0B', '#00C48C', '#EF4444', '#8B5CF6', '#3B82F6'];
+        const cLabels = Object.keys(claimStatusCount);
+        const cData = Object.values(claimStatusCount);
+        const cBgColors = cLabels.map((_, i) => cColors[i % cColors.length]);
+
+        this.claimsChartData = {
+            labels: cLabels,
+            datasets: [{ data: cData, label: 'Claims', backgroundColor: cBgColors, borderWidth: 0, hoverOffset: 4 }]
+        };
+        this.claimsChartLegendData = cLabels.map((label, i) => ({ label, value: cData[i], color: cBgColors[i] }));
+
+        // Plan Distribution
+        const planCounts: Record<string, number> = {};
+        plans.forEach(plan => { 
+            if (plan.name) planCounts[plan.name] = 0; 
+        });
+        policies.forEach(p => {
+            const name = p.plan?.name || p.planName;
+            if (name) {
+                planCounts[name] = (planCounts[name] || 0) + 1;
+            }
+        });
+        
+        const sortedPlans = Object.entries(planCounts).sort((a, b) => b[1] - a[1]).slice(0, 6);
+        this.planChartData = {
+            labels: sortedPlans.map(sp => sp[0].length > 15 ? sp[0].substring(0, 15) + '...' : sp[0]),
+            datasets: [{ 
+                data: sortedPlans.map(sp => sp[1]), 
+                label: 'Policies', 
+                backgroundColor: '#3B82F6', 
+                borderRadius: 6,
+                maxBarThickness: 40 
+            }]
+        };
     }
 }

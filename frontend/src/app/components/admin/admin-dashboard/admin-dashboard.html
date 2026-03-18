@@ -293,6 +293,69 @@
                 </canvas>
             </div>
         </div>
+
+        <!-- Secondary Charts Row -->
+        <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Policies Status Chart -->
+            <div class="bg-surface rounded-[24px] shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-border overflow-hidden h-full flex flex-col">
+                <div class="px-6 py-4 border-b border-border bg-surface shrink-0">
+                    <h3 class="text-xs font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">Policies by Status</h3>
+                </div>
+                <div class="p-6 flex-1 flex flex-col items-center justify-center relative min-h-[380px]">
+                    <div class="w-full h-48 relative z-10 flex justify-center">
+                        <div class="w-48 h-48 max-w-full">
+                            <canvas baseChart [data]="policiesChartData" [options]="policiesChartOptions" [plugins]="policiesChartPlugins" type="doughnut"></canvas>
+                        </div>
+                    </div>
+                    <div class="mt-8 flex flex-col gap-3 items-start w-fit">
+                        @for (item of policiesChartLegendData; track item.label) {
+                        <div class="flex items-center gap-2 w-full">
+                            <span class="w-4 h-4 rounded-full shrink-0" [style.backgroundColor]="item.color"></span>
+                            <span class="text-[13px] font-bold text-[#8A94A6] flex-1">{{ item.label }}</span>
+                            <span class="text-[13px] font-bold text-text-primary ml-4">{{ item.value }}</span>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Claims Status Chart -->
+            <div class="bg-surface rounded-[24px] shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-border overflow-hidden h-full flex flex-col">
+                <div class="px-6 py-4 border-b border-border bg-surface shrink-0">
+                    <h3 class="text-xs font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">Claims by Status</h3>
+                </div>
+                <div class="p-6 flex-1 flex flex-col items-center justify-center relative min-h-[380px]">
+                    <div class="w-full h-48 relative z-10 flex justify-center">
+                        <div class="w-48 h-48 max-w-full">
+                            <canvas baseChart [data]="claimsChartData" [options]="claimsChartOptions" [plugins]="claimsChartPlugins" type="doughnut"></canvas>
+                        </div>
+                    </div>
+                    <div class="mt-8 flex flex-col gap-3 items-start w-fit">
+                        @for (item of claimsChartLegendData; track item.label) {
+                        <div class="flex items-center gap-2 w-full">
+                            <span class="w-4 h-4 rounded-full shrink-0" [style.backgroundColor]="item.color"></span>
+                            <span class="text-[13px] font-bold text-[#8A94A6] flex-1">{{ item.label }}</span>
+                            <span class="text-[13px] font-bold text-text-primary ml-4">{{ item.value }}</span>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plans Distribution Bar Chart -->
+            <div class="bg-surface rounded-[24px] shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-border overflow-hidden h-full flex flex-col">
+                <div class="px-6 py-4 border-b border-border bg-surface shrink-0">
+                    <h3 class="text-xs font-bold text-text-muted uppercase tracking-widest flex items-center gap-2">Top Plans by Policies</h3>
+                </div>
+                <div class="p-6 flex-1 flex flex-col relative min-h-[380px]">
+                    <div class="w-full h-full relative z-10 min-h-[300px]">
+                        <canvas baseChart [data]="planChartData" [options]="planChartOptions" [plugins]="planChartPlugins" [legend]="planChartLegend" type="bar"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
         }
     </div>
 </div>

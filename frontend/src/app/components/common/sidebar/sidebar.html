@@ -7,10 +7,9 @@
 
 <!-- Sidebar Container -->
 <aside [class.-translate-x-full]="!layoutService.isSidebarOpen()" [class.translate-x-0]="layoutService.isSidebarOpen()"
-  class="fixed inset-y-0 left-0 z-40 w-64 bg-surface border-r border-border flex flex-col pt-5 pb-4 overflow-y-auto transition-transform duration-300 ease-in-out md:translate-x-0 md:relative md:inset-auto md:h-full flex-shrink-0 transition-colors custom-scrollbar">
+  class="fixed inset-y-0 left-0 z-40 w-64 bg-surface border-r border-border flex flex-col pb-4 overflow-y-auto transition-transform duration-300 ease-in-out md:translate-x-0 md:relative md:inset-auto md:h-full flex-shrink-0 transition-colors custom-scrollbar">
 
   <div class="px-6 mb-6 flex justify-between items-center">
-    <h3 class="text-[10px] font-bold text-text-muted uppercase tracking-widest">Navigation</h3>
     <button (click)="layoutService.closeSidebar()"
       class="md:hidden text-text-muted hover:text-text-primary focus:outline-none focus:text-text-primary">
       <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -88,34 +87,52 @@
     <!-- Admin Links -->
     @if (authService.getRole() === 'Admin') {
     <a (click)="onLinkClick()" routerLink="/admin/dashboard"
-      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
       class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+      </svg>
       Dashboard
     </a>
     <a (click)="onLinkClick()" routerLink="/admin/plans"
-      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
       class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 mt-2">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+      </svg>
       Manage Plans
     </a>
     <a (click)="onLinkClick()" routerLink="/admin/policies"
-      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
       class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 mt-2">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
       System Policies
     </a>
     <a (click)="onLinkClick()" routerLink="/admin/claims"
-      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
       class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 mt-2">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+      </svg>
       System Claims
     </a>
     <a (click)="onLinkClick()" routerLink="/admin/register-agent"
-      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
       class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 mt-2">
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+      </svg>
       Agent Registration
     </a>
     <a (click)="onLinkClick()" routerLink="/admin/register-claims-officer"
-      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20"
+      routerLinkActive="bg-primary text-white font-bold shadow-md shadow-primary/20 [&_svg]:opacity-100 [&_svg]:text-white"
       class="text-muted hover:bg-bg-base hover:text-primary group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 mt-2">
-      Claims Officer Registration
+      <svg class="opacity-70 group-hover:opacity-100 group-hover:text-primary mr-3 flex-shrink-0 h-5 w-5 transition-all" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
+      </svg>
+      Officer Registration
     </a>
     <!-- Profile -->
     <div class="my-3 border-t border-border mx-2"></div>
