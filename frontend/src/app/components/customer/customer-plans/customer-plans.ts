@@ -269,6 +269,7 @@ export class CustomerPlans implements OnInit, OnDestroy {
         this.aadhaarOtp = '';
         this.otpArray = ['', '', '', '', '', ''];
         this.aadhaarErrorMsg = '';
+        this.showKycSuccessOverlay = false;
         this.clearOtpTimer();
         localStorage.removeItem('aadhaarRefId');
     }
@@ -317,11 +318,11 @@ export class CustomerPlans implements OnInit, OnDestroy {
                 this.panDetails = data.ocr;
             } else {
                 this.panStatus = 'error';
-                this.panErrorMsg = 'PAN Verification failed. Please ensure the document is clear.';
+                this.panErrorMsg = 'Verification not successful, try again with valid pan or aadhar card';
             }
         } catch (err) {
             this.panStatus = 'error';
-            this.panErrorMsg = 'Network error during PAN verification.';
+            this.panErrorMsg = 'Verification not successful, try again with valid pan or aadhar card';
         }
         this.cdr.detectChanges();
     }
@@ -396,11 +397,11 @@ export class CustomerPlans implements OnInit, OnDestroy {
                 localStorage.removeItem('aadhaarRefId');
             } else {
                 this.aadhaarStatus = 'error';
-                this.aadhaarErrorMsg = 'OTP Verification failed or invalid.';
+                this.aadhaarErrorMsg = 'Verification not successful, try again with valid pan or aadhar card';
             }
         } catch (err) {
             this.aadhaarStatus = 'error';
-            this.aadhaarErrorMsg = 'Network error verifying OTP.';
+            this.aadhaarErrorMsg = 'Verification not successful, try again with valid pan or aadhar card';
         }
         this.cdr.detectChanges();
     }
@@ -484,6 +485,22 @@ export class CustomerPlans implements OnInit, OnDestroy {
         if (this.otpInterval) {
             clearInterval(this.otpInterval);
             this.otpInterval = null;
+        }
+    }
+
+    showKycSuccessOverlay = false;
+
+    handleNextStepFromAadhaar() {
+        if (this.panStatus === 'verified' && this.aadhaarStatus === 'verified') {
+            this.showKycSuccessOverlay = true;
+            this.cdr.detectChanges();
+            setTimeout(() => {
+                this.showKycSuccessOverlay = false;
+                this.goToStep(3);
+                this.cdr.detectChanges();
+            }, 2000);
+        } else {
+            this.goToStep(3);
         }
     }
 

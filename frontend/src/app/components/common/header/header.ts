@@ -7,10 +7,12 @@ import { ThemeService } from '../../../services/theme/theme';
 import { NotificationService } from '../../../services/notification/notification.service';
 import { CommonModule } from '@angular/common';
 
+import { TranslatorComponent } from '../translator/translator';
+
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, TranslatorComponent],
   templateUrl: './header.html'
 })
 export class Header {

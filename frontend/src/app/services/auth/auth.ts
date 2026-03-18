@@ -18,16 +18,13 @@ export class AuthService {
   }
 
   private loadTokenFromStorage() {
-    if (typeof sessionStorage !== 'undefined') {
-      const userJson = sessionStorage.getItem('authUser');
+    if (typeof localStorage !== 'undefined') {
+      const userJson = localStorage.getItem('authUser');
       if (userJson) {
         try {
           const parsedUser = JSON.parse(userJson);
           if (parsedUser && parsedUser.token) {
             const decodedToken: any = jwtDecode(parsedUser.token);
-            // Override any spoofed role with the real token payload
-            // .NET default ClaimTypes.Role is usually a long schema URL
-            // We check the standard shortname 'role' and the long schema URL
             const actualRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || decodedToken.role;
 
             parsedUser.role = actualRole;
@@ -50,8 +47,7 @@ export class AuthService {
   public login(dto: LoginDto): Observable<AuthResultDto> {
     return this.http.post<AuthResultDto>(`${this.apiUrl}/login`, dto).pipe(
       tap(result => {
-        if (typeof sessionStorage !== 'undefined') {
-          // Decode immediately on login to ensure token validation works
+        if (typeof localStorage !== 'undefined') {
           try {
             const decodedToken: any = jwtDecode(result.token);
             const actualRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || decodedToken.role;
@@ -59,7 +55,7 @@ export class AuthService {
           } catch (e) {
             console.error('Invalid token received on login');
           }
-          sessionStorage.setItem('authUser', JSON.stringify(result));
+          localStorage.setItem('authUser', JSON.stringify(result));
         }
         this.currentUser.set(result);
       })
@@ -67,8 +63,8 @@ export class AuthService {
   }
 
   public logout() {
-    if (typeof sessionStorage !== 'undefined') {
-      sessionStorage.removeItem('authUser');
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('authUser');
     }
     this.currentUser.set(null);
   }

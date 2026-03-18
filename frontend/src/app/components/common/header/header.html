@@ -13,15 +13,17 @@
         }
 
         <div class="flex-shrink-0 flex items-center cursor-pointer gap-2 ml-1"
-          [routerLink]="authService.getRole() === 'Customer' ? '/customer/profile' : authService.getRole() === 'Admin' ? '/admin/profile' : authService.getRole() === 'Agent' ? '/agent/profile' : authService.getRole() === 'ClaimOfficer' ? '/claim-officer/profile' : '/'">
+          [routerLink]="authService.getRole() === 'Customer' ? '/customer/dashboard' : authService.getRole() === 'Admin' ? '/admin/dashboard' : authService.getRole() === 'Agent' ? '/agent/dashboard' : authService.getRole() === 'ClaimOfficer' ? '/claim-officer/dashboard' : '/'">
           <div class="w-8 h-8 p-1.5 rounded-lg flex items-center justify-center shadow-sm overflow-hidden bg-primary">
             <img src="/logo.png" alt="Insure Logo" class="w-full h-full object-cover">
           </div>
-          <span class="hidden sm:block text-xl font-bold text-primary tracking-tight">Insure</span>
+          <span class="hidden sm:block text-xl font-bold text-primary tracking-tight" translate="no">Insure</span>
         </div>
       </div>
 
-      <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-2 sm:space-x-4">
+        <app-translator></app-translator>
+
         @if (!authService.isAuthenticated()) {
         <a routerLink="/login"
           class="bg-primary text-white hover:bg-primary-light px-4 py-2 rounded-lg text-sm font-bold shadow-sm transition-colors">Login</a>

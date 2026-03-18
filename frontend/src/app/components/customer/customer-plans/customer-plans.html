@@ -144,6 +144,21 @@
           </div>
       </div>
 
+      <!-- KYC Success Overlay -->
+      @if (showKycSuccessOverlay) {
+          <!-- Dim the background to focus on the banner -->
+          <div class="absolute inset-0 z-40 bg-surface/60 backdrop-blur-md animate-in fade-in duration-300 rounded-[24px]"></div>
+          
+          <!-- Green Banner Centered -->
+          <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 z-50 py-8 bg-green-700 flex flex-col items-center justify-center shadow-2xl border-y border-green-600 animate-in fade-in zoom-in-95 duration-300">
+             <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-3 shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                <svg class="w-8 h-8 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+             </div>
+             <h3 class="text-2xl font-bold text-white tracking-tight">KYC Verified</h3>
+             <p class="text-green-50 text-[13px] font-medium mt-1">Verification complete. Proceeding to policy details...</p>
+          </div>
+      }
+
       <!-- Step 1: PAN Verification -->
       @if (wizardStep === 1) {
         <div class="animate-in fade-in slide-in-from-right-4 duration-300">
@@ -438,7 +453,7 @@
                         }
                       </button>
                   } @else {
-                      <button (click)="goToStep(3)"
+                      <button (click)="handleNextStepFromAadhaar()"
                         class="flex items-center justify-center px-6 py-3 bg-primary text-white font-bold text-[13px] rounded-xl hover:bg-primary/95 transition shadow-sm">
                         Next Step &rarr;
                       </button>

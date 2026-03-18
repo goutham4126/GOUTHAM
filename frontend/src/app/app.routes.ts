@@ -6,7 +6,8 @@ import { roleGuard } from './guards/role/role-guard';
 export const routes: Routes = [
     {
         path: '',
-        loadComponent: () => import('./components/common/home/home').then(m => m.Home)
+        loadComponent: () => import('./components/common/home/home').then(m => m.Home),
+        canActivate: [guestGuard]
     },
     {
         path: 'login',
