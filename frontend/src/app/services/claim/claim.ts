@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ApproveClaimRequest, ClaimDto, CreateClaimRequest, RejectClaimRequest } from '../../models/claim/claim';
+import { ApproveClaimRequest, ClaimDto, CreateClaimRequest, RejectClaimRequest, AddClaimTrackingRequest } from '../../models/claim/claim';
 
 @Injectable({
     providedIn: 'root'
@@ -41,5 +41,9 @@ export class ClaimService {
 
     public completeVerification(claimId: string, remarks?: string): Observable<any> {
         return this.http.post(`${this.apiUrl}/${claimId}/complete-verification`, { remarks }, { responseType: 'text' });
+    }
+
+    public addTrackingStage(claimId: string, dto: AddClaimTrackingRequest): Observable<any> {
+        return this.http.post(`${this.apiUrl}/${claimId}/tracking`, dto);
     }
 }

@@ -18,6 +18,7 @@ namespace Infrastructure.Data
         public DbSet<PolicyPayment> PolicyPayments => Set<PolicyPayment>();
         public DbSet<Claim> Claims => Set<Claim>();
         public DbSet<ClaimPayment> ClaimPayments => Set<ClaimPayment>();
+        public DbSet<ClaimTrackingStage> ClaimTrackingStages => Set<ClaimTrackingStage>();
 
         public DbSet<Invoice> Invoices => Set<Invoice>();
         public DbSet<Notification> Notifications => Set<Notification>();
@@ -35,6 +36,7 @@ namespace Infrastructure.Data
             ConfigurePolicyPayment(builder);
             ConfigureClaim(builder);
             ConfigureClaimPayment(builder);
+            ConfigureClaimTrackingStage(builder);
             ConfigurePolicyRequest(builder);
             ConfigureKycDetails(builder);
         }
@@ -188,6 +190,14 @@ namespace Infrastructure.Data
 
                 entity.Property(c => c.AmountPaid)
                       .HasPrecision(18, 2);
+            });
+        }
+
+        private void ConfigureClaimTrackingStage(ModelBuilder builder)
+        {
+            builder.Entity<ClaimTrackingStage>(entity =>
+            {
+                entity.ToTable("ClaimTrackingStages");
             });
         }
 

@@ -38,13 +38,13 @@ namespace API.Tests.Controllers
         [Fact]
         public async Task Create_ReturnsOkWithClaim()
         {
-            var request = new CreateClaimRequest(Guid.NewGuid(), "Accident", 1000, "http://doc.url", "hash123", null, null);
+            var request = new CreateClaimRequest(Guid.NewGuid(), "Accident", 1000, "http://doc.url", "hash123", null, null, null);
             var claimDto = new ClaimDto(Guid.NewGuid(), "Accident", 1000, null, "Pending",
-                DateTime.UtcNow, null, "John Doe", null, "http://doc.url", "hash123", request.PolicyId, null, null, "Pending", null, null, null);
+                DateTime.UtcNow, null, "John Doe", null, "http://doc.url", "hash123", request.PolicyId, null, null, "Pending", null, null, null, null);
 
             _claimServiceMock.Setup(s => s.CreateClaimAsync(
                 _userId, request.PolicyId, request.Reason, request.Amount,
-                request.DocumentUrl, request.DocumentHash, request.IncidentLatitude, request.IncidentLongitude))
+                request.DocumentUrl, request.DocumentHash, request.IncidentLatitude, request.IncidentLongitude, request.IncidentDate))
                 .ReturnsAsync(claimDto);
 
             var result = await _controller.Create(request);
@@ -59,7 +59,7 @@ namespace API.Tests.Controllers
         {
             var claims = new List<ClaimDto>
             {
-                new ClaimDto(Guid.NewGuid(), "R1", 100, null, "Pending", DateTime.UtcNow, null, "A B", null, null, null, Guid.NewGuid(), null, null, "Pending", null, null, null)
+                new ClaimDto(Guid.NewGuid(), "R1", 100, null, "Pending", DateTime.UtcNow, null, "A B", null, null, null, Guid.NewGuid(), null, null, "Pending", null, null, null, null)
             };
             _claimServiceMock.Setup(s => s.GetUserClaimsAsync(_userId)).ReturnsAsync(claims);
 
@@ -75,8 +75,8 @@ namespace API.Tests.Controllers
         {
             var claims = new List<ClaimDto>
             {
-                new ClaimDto(Guid.NewGuid(), "R1", 100, null, "Pending", DateTime.UtcNow, null, "A B", null, null, null, Guid.NewGuid(), null, null, "Pending", null, null, null),
-                new ClaimDto(Guid.NewGuid(), "R2", 200, 150, "Approved", DateTime.UtcNow, DateTime.UtcNow, "C D", "Officer", null, null, Guid.NewGuid(), null, null, "Pending", null, null, null)
+                new ClaimDto(Guid.NewGuid(), "R1", 100, null, "Pending", DateTime.UtcNow, null, "A B", null, null, null, Guid.NewGuid(), null, null, "Pending", null, null, null, null),
+                new ClaimDto(Guid.NewGuid(), "R2", 200, 150, "Approved", DateTime.UtcNow, DateTime.UtcNow, "C D", "Officer", null, null, Guid.NewGuid(), null, null, "Pending", null, null, null, null)
             };
             _claimServiceMock.Setup(s => s.GetAllClaimsAsync()).ReturnsAsync(claims);
 
@@ -117,7 +117,7 @@ namespace API.Tests.Controllers
         {
             var claims = new List<ClaimDto>
             {
-                new ClaimDto(Guid.NewGuid(), "R1", 500, null, "Pending", DateTime.UtcNow, null, "A B", "Officer", null, null, Guid.NewGuid(), null, null, "Pending", null, null, null)
+                new ClaimDto(Guid.NewGuid(), "R1", 500, null, "Pending", DateTime.UtcNow, null, "A B", "Officer", null, null, Guid.NewGuid(), null, null, "Pending", null, null, null, null)
             };
             _claimServiceMock.Setup(s => s.GetAssignedClaimsAsync(_userId)).ReturnsAsync(claims);
 

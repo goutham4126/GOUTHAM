@@ -83,6 +83,7 @@ export class CustomerClaims implements OnInit, AfterViewInit, OnDestroy {
   currentLocationName: string | null = null;
   isLocating = false;
   locationError: string | null = null;
+  maxDate: string = '';
 
   private fb = inject(FormBuilder);
   claimForm: FormGroup = this.fb.group({
@@ -90,8 +91,22 @@ export class CustomerClaims implements OnInit, AfterViewInit, OnDestroy {
     reason: ['', Validators.required],
     amount: [0, [Validators.required, Validators.min(1)]],
     incidentLatitude: [null as number | null],
-    incidentLongitude: [null as number | null]
+    incidentLongitude: [null as number | null],
+    incidentDate: [null as string | null, [Validators.required, this.futureDateValidator()]]
   });
+
+  private futureDateValidator() {
+    return (control: any) => {
+      if (!control.value) return null;
+      // String comparison is safe for YYYY-MM-DD format
+      return control.value > this.maxDate ? { futureDate: true } : null;
+    };
+  }
+
+  isInvalid(controlName: string): boolean {
+    const control = this.claimForm.get(controlName);
+    return !!(control && control.invalid && (control.dirty || control.touched));
+  }
 
   isPolicyDropdownOpen = false;
 
@@ -112,6 +127,7 @@ export class CustomerClaims implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.maxDate = new Date().toISOString().split('T')[0];
     this.loadPolicies();
     this.loadClaims();
   }
@@ -426,7 +442,7 @@ export class CustomerClaims implements OnInit, AfterViewInit, OnDestroy {
       this.claimService.submitClaim(payload).subscribe({
         next: () => {
           this.loadClaims();
-          this.claimForm.reset({ policyId: '', reason: '', amount: 0, incidentLatitude: null, incidentLongitude: null });
+          this.claimForm.reset({ policyId: '', reason: '', amount: 0, incidentLatitude: null, incidentLongitude: null, incidentDate: null });
           this.selectedFile = null;
           this.clearMapSelection();
           this.isProcessingUpload = false;

@@ -18,5 +18,17 @@ public record ClaimDto(
     string VideoVerificationStatus,
     string? VideoVerificationRemarks,
     double? IncidentLatitude,
-    double? IncidentLongitude
+    double? IncidentLongitude,
+    DateTime? IncidentDate,
+    string? CustomerEmail = null,
+    string? CustomerPhone = null,
+    string? CustomerAddress = null,
+    string? PanNumber = null,
+    string? PanName = null,
+    string? AadhaarReferenceId = null,
+    string? AadhaarName = null,
+    string? AadhaarAddress = null,
+    DateTime? CustomerDateOfBirth = null,
+    string? CustomerProfileImageUrl = null,
+    List<ClaimTrackingStageDto>? TrackingStages = null
 );

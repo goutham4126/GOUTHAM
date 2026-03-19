@@ -610,6 +610,63 @@ export class ClaimsDesk implements OnInit {
     });
   }
 
+  // Tracking Modal State
+  selectedTrackingClaimId: string | null = null;
+  trackingStageName: string = '';
+  trackingRemarks: string = '';
+  isSubmittingTracking = false;
+  addTrackingStageList = [
+    'Document Verification Started',
+    'Geo Verification Completed',
+    'Video Verification Completed',
+    'Claim Amount Approved',
+    'Payout Processing',
+    'Payment processed to account'
+  ];
+
+  promptAddTracking(claimId: string) {
+    this.selectedTrackingClaimId = claimId;
+    this.trackingRemarks = '';
+    // Auto-select first unused stage
+    const firstUnused = this.addTrackingStageList.find(s => !this.isStageUsed(s));
+    this.trackingStageName = firstUnused || this.addTrackingStageList[0];
+  }
+
+  isStageUsed(stageName: string): boolean {
+    if (!this.selectedTrackingClaimId) return false;
+    const claim = this.assignedClaims.find(c => c.id === this.selectedTrackingClaimId);
+    if (!claim?.trackingStages) return false;
+    return claim.trackingStages.some(t => t.stageName === stageName);
+  }
+
+  cancelAddTracking() {
+    this.selectedTrackingClaimId = null;
+    this.trackingRemarks = '';
+  }
+
+  confirmAddTracking() {
+    if (!this.selectedTrackingClaimId || !this.trackingStageName) return;
+    this.isSubmittingTracking = true;
+    this.claimService.addTrackingStage(this.selectedTrackingClaimId, {
+      stageName: this.trackingStageName,
+      remarks: this.trackingRemarks
+    }).subscribe({
+      next: () => {
+        this.toastService.success('Tracking update added successfully');
+        this.isSubmittingTracking = false;
+        this.cancelAddTracking();
+        this.loadClaims();
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastService.error('Failed to add tracking update');
+        this.isSubmittingTracking = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
   initiateVideoCall(claim: ClaimDto) {
     this.videoCallService.initiateCall(claim.id);
     this.router.navigate(['/video-call', claim.id]);

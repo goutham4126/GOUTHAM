@@ -15,6 +15,7 @@ namespace API.Tests.Controllers
     {
         private readonly Mock<IUserRepository> _userRepoMock;
         private readonly Mock<IAuthService> _authServiceMock;
+        private readonly Mock<IVercelBlobService> _blobServiceMock;
         private readonly UsersController _controller;
         private readonly Guid _userId;
 
@@ -22,7 +23,8 @@ namespace API.Tests.Controllers
         {
             _userRepoMock = new Mock<IUserRepository>();
             _authServiceMock = new Mock<IAuthService>();
-            _controller = new UsersController(_userRepoMock.Object, _authServiceMock.Object);
+            _blobServiceMock = new Mock<IVercelBlobService>();
+            _controller = new UsersController(_userRepoMock.Object, _authServiceMock.Object, _blobServiceMock.Object);
             _userId = Guid.NewGuid();
 
             var claims = new List<SecurityClaim>

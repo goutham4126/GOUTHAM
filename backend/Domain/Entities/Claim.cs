@@ -54,9 +54,11 @@ namespace Domain.Entities
 
         public double? IncidentLatitude { get; set; }
         public double? IncidentLongitude { get; set; }
+        public DateTime? IncidentDate { get; set; }
 
         public Policy Policy { get; set; } = null!;
         public User User { get; set; } = null!;
         public ClaimPayment? ClaimPayment { get; set; }
+        public ICollection<ClaimTrackingStage> TrackingStages { get; set; } = new List<ClaimTrackingStage>();
     }
 }

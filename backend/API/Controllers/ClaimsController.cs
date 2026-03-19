@@ -42,7 +42,8 @@ public class ClaimsController : ControllerBase
             request.DocumentUrl,
             request.DocumentHash,
             request.IncidentLatitude,
-            request.IncidentLongitude
+            request.IncidentLongitude,
+            request.IncidentDate
         );
 
         return Ok(claim);
@@ -110,5 +111,14 @@ public class ClaimsController : ControllerBase
         var officerId = GetUserId();
         await _claimService.CompleteVideoVerificationAsync(claimId, officerId, request.Remarks);
         return Ok("Video verification marked as completed");
+    }
+
+    [Authorize(Roles = "ClaimOfficer")]
+    [HttpPost("{claimId:guid}/tracking")]
+    public async Task<IActionResult> AddTrackingStage([FromRoute] Guid claimId, [FromBody] AddClaimTrackingRequest request)
+    {
+        var officerId = GetUserId();
+        var trackingStage = await _claimService.AddTrackingStageAsync(claimId, officerId, request);
+        return Ok(trackingStage);
     }
 }

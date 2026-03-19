@@ -11,6 +11,7 @@ namespace Application.Interfaces
         DbSet<PolicyPayment> PolicyPayments { get; }
         DbSet<Claim> Claims { get; }
         DbSet<ClaimPayment> ClaimPayments { get; }
+        DbSet<ClaimTrackingStage> ClaimTrackingStages { get; }
         DbSet<Invoice> Invoices { get; }
         DbSet<Notification> Notifications { get; }
         DbSet<PolicyRequest> PolicyRequests { get; }

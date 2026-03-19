@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +21,7 @@ namespace Infrastructure.Repositories
                 .Include(c => c.ClaimPayment)
                 .Include(c => c.User)
                 .Include(c => c.ClaimOfficer)
+                .Include(c => c.TrackingStages)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
@@ -30,6 +31,7 @@ namespace Infrastructure.Repositories
                 .Include(c => c.Policy)
                 .Include(c => c.User)
                 .Include(c => c.ClaimOfficer)
+                .Include(c => c.TrackingStages)
                 .Where(c => c.UserId == userId)
                 .ToListAsync();
         }
@@ -40,6 +42,7 @@ namespace Infrastructure.Repositories
                 .Include(c => c.Policy)
                 .Include(c => c.User)
                 .Include(c => c.ClaimOfficer)
+                .Include(c => c.TrackingStages)
                 .ToListAsync();
         }
 

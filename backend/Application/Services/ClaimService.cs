@@ -43,7 +43,8 @@ namespace Application.Services
         string documentUrl,
         string documentHash,
         double? incidentLatitude,
-        double? incidentLongitude)
+        double? incidentLongitude,
+        DateTime? incidentDate)
         {
             await using var transaction = await _context.Database.BeginTransactionAsync();
             try
@@ -94,7 +95,8 @@ namespace Application.Services
                     DocumentHash = documentHash,
                     Status = ClaimStatus.Pending,
                     IncidentLatitude = incidentLatitude,
-                    IncidentLongitude = incidentLongitude
+                    IncidentLongitude = incidentLongitude,
+                    IncidentDate = incidentDate
                 };
 
                 await _claimRepo.AddAsync(claim);
@@ -120,13 +122,25 @@ namespace Application.Services
         public async Task<List<ClaimDto>> GetUserClaimsAsync(Guid userId)
         {
             var claims = await _claimRepo.GetByUserIdAsync(userId);
-            return claims.OrderByDescending(c => c.SubmittedAt).Select(MapClaimToDto).ToList();
+            var kyc = await _context.KycDetails
+                .Where(k => k.UserId == userId)
+                .OrderByDescending(k => k.VerifiedAt)
+                .FirstOrDefaultAsync();
+            return claims.OrderByDescending(c => c.SubmittedAt).Select(c => MapClaimToDto(c, kyc)).ToList();
         }
 
         public async Task<List<ClaimDto>> GetAllClaimsAsync()
         {
             var claims = await _claimRepo.GetAllAsync();
-            return claims.OrderByDescending(c => c.SubmittedAt).Select(MapClaimToDto).ToList();
+            var userIds = claims.Select(c => c.UserId).Distinct().ToList();
+            var kycDocs = await _context.KycDetails
+                .Where(k => userIds.Contains(k.UserId))
+                .GroupBy(k => k.UserId)
+                .Select(g => g.OrderByDescending(x => x.VerifiedAt).First())
+                .ToDictionaryAsync(k => k.UserId);
+            return claims.OrderByDescending(c => c.SubmittedAt)
+                .Select(c => MapClaimToDto(c, kycDocs.GetValueOrDefault(c.UserId)))
+                .ToList();
         }
 
         public async Task ApproveClaimAsync(Guid claimId, decimal approvedAmount, Guid officerId, string? remarks)
@@ -230,9 +244,19 @@ namespace Application.Services
                 .Where(c => c.ClaimOfficerId == officerId)
                 .Include(c => c.User)
                 .Include(c => c.ClaimOfficer)
+                .Include(c => c.TrackingStages)
                 .ToListAsync();
 
-            return claims.OrderByDescending(c => c.SubmittedAt).Select(MapClaimToDto).ToList();
+            var userIds = claims.Select(c => c.UserId).Distinct().ToList();
+            var kycDocs = await _context.KycDetails
+                .Where(k => userIds.Contains(k.UserId))
+                .GroupBy(k => k.UserId)
+                .Select(g => g.OrderByDescending(x => x.VerifiedAt).First())
+                .ToDictionaryAsync(k => k.UserId);
+
+            return claims.OrderByDescending(c => c.SubmittedAt)
+                .Select(c => MapClaimToDto(c, kycDocs.GetValueOrDefault(c.UserId)))
+                .ToList();
         }
 
         public async Task ScheduleVideoCallAsync(Guid claimId, Guid officerId, DateTime scheduledDate)
@@ -280,7 +304,36 @@ namespace Application.Services
             _logger.LogInformation("Video verification completed for Claim {ClaimId} by Officer {OfficerId}", claimId, officerId);
         }
 
-        private static ClaimDto MapClaimToDto(Claim claim)
+        public async Task<ClaimTrackingStageDto> AddTrackingStageAsync(Guid claimId, Guid officerId, AddClaimTrackingRequest request)
+        {
+            var claim = await _claimRepo.GetByIdAsync(claimId)
+                ?? throw new KeyNotFoundException("Claim not found");
+
+            if (claim.ClaimOfficerId != officerId)
+                throw new UnauthorizedAccessException("Not assigned to this claim");
+
+            var trackingStage = new ClaimTrackingStage
+            {
+                ClaimId = claimId,
+                StageName = request.StageName,
+                Remarks = request.Remarks,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _context.ClaimTrackingStages.Add(trackingStage);
+            await _context.SaveChangesAsync();
+
+            return new ClaimTrackingStageDto
+            {
+                Id = trackingStage.Id,
+                ClaimId = trackingStage.ClaimId,
+                StageName = trackingStage.StageName,
+                Remarks = trackingStage.Remarks,
+                CreatedAt = trackingStage.CreatedAt
+            };
+        }
+
+        private static ClaimDto MapClaimToDto(Claim claim, KycDetails? kyc = null)
         {
             return new ClaimDto(
                 claim.Id,
@@ -302,7 +355,28 @@ namespace Application.Services
                 claim.VideoVerificationStatus.ToString(),
                 claim.VideoVerificationRemarks,
                 claim.IncidentLatitude,
-                claim.IncidentLongitude
+                claim.IncidentLongitude,
+                claim.IncidentDate,
+                claim.User.Email,
+                claim.User.Phone,
+                claim.User.Address,
+                kyc?.PanNumber,
+                kyc?.PanName,
+                kyc?.AadhaarReferenceId,
+                kyc?.AadhaarName,
+                kyc?.AadhaarAddress,
+                claim.User.DateOfBirth,
+                claim.User.ProfileImageUrl,
+                claim.TrackingStages != null 
+                    ? claim.TrackingStages.Select(t => new ClaimTrackingStageDto
+                    {
+                        Id = t.Id,
+                        ClaimId = t.ClaimId,
+                        StageName = t.StageName,
+                        Remarks = t.Remarks,
+                        CreatedAt = t.CreatedAt
+                    }).OrderByDescending(t => t.CreatedAt).ToList()
+                    : new List<ClaimTrackingStageDto>()
             );
         }
     }

@@ -17,6 +17,31 @@ export interface ClaimDto {
     videoVerificationRemarks?: string;
     incidentLatitude?: number;
     incidentLongitude?: number;
+    incidentDate?: string;
+    customerEmail?: string;
+    customerPhone?: string;
+    customerAddress?: string;
+    panNumber?: string;
+    panName?: string;
+    aadhaarReferenceId?: string;
+    aadhaarName?: string;
+    aadhaarAddress?: string;
+    customerDateOfBirth?: string;
+    customerProfileImageUrl?: string;
+    trackingStages?: ClaimTrackingStageDto[];
+}
+
+export interface ClaimTrackingStageDto {
+    id: string; // Guid
+    claimId: string; // Guid
+    stageName: string;
+    remarks?: string;
+    createdAt: string; // DateTime
+}
+
+export interface AddClaimTrackingRequest {
+    stageName: string;
+    remarks?: string;
 }
 
 export interface CreateClaimRequest {
@@ -26,6 +51,7 @@ export interface CreateClaimRequest {
     documentUrl?: string; // Mock upload
     incidentLatitude?: number;
     incidentLongitude?: number;
+    incidentDate?: string;
 }
 
 export interface ApproveClaimRequest {

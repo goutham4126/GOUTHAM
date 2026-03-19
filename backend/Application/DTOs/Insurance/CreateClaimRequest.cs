@@ -7,5 +7,6 @@ public record CreateClaimRequest(
     string DocumentUrl,
     string DocumentHash,
     double? IncidentLatitude,
-    double? IncidentLongitude
+    double? IncidentLongitude,
+    DateTime? IncidentDate
 );
