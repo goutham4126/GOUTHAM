@@ -80,10 +80,11 @@
             {{ plan.planType }}
           </span>
         </div>
-        <p class="text-text-muted text-xs font-semibold mb-3 min-h-[40px] leading-relaxed">{{ plan.description }}</p>
+        <p class="text-text-muted text-sm font-semibold min-h-[40px] leading-relaxed">{{ plan.description }}</p>
         
         <!-- Rendered Benefits List -->
-        <div class="benefits-list mb-6 flex-grow text-[13px] text-text-primary" [innerHTML]="sanitizeHtml(plan.benefits)">
+        <p class="text-text-muted text-sm underline font-semibold min-h-[40px] leading-relaxed">Covered benifits :</p>
+        <div class="benefits-list mb-4 flex-grow text-[13px] text-text-primary" [innerHTML]="sanitizeHtml(plan.benefits)">
         </div>
 
         <div class="space-y-4 mb-6">

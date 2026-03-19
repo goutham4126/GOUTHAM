@@ -16,6 +16,7 @@ export interface UpdateProfileDto {
     address?: string | null;
     governmentId?: string | null;
     dateOfBirth?: string | null;
+    profileImageBase64?: string;
 }
 
 export interface LoginDto {

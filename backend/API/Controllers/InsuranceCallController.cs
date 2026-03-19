@@ -79,7 +79,8 @@ public class InsuranceCallController : ControllerBase
                     Name = p.Name,
                     Premium = p.PremiumAmount,
                     Coverage = $"₹{p.CoverageAmount:N0}",
-                    Description = p.Description
+                    Description = p.Description,
+                    // Benefits = p.Benefits ?? string.Empty
                 }).ToList()
             };
 

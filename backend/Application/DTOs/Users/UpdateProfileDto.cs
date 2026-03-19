@@ -6,5 +6,6 @@ public record UpdateProfileDto(
     string? Phone,
     string? Address,
     string? GovernmentId,
-    DateTime? DateOfBirth
+    DateTime? DateOfBirth,
+    string? ProfileImageBase64 = null
 );

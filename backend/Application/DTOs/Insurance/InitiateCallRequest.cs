@@ -36,6 +36,9 @@ public class CallPlanDto
 
     [JsonPropertyName("description")]
     public string Description { get; set; } = string.Empty;
+
+    [JsonPropertyName("benefits")]
+    public string Benefits { get; set; } = string.Empty;
 }
 
 public class InsuranceCallResponse

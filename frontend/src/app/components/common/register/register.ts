@@ -18,6 +18,7 @@ export class Register implements OnDestroy {
 
   @ViewChild('video') videoElementRef?: ElementRef<HTMLVideoElement>;
   @ViewChild('canvas') canvasElementRef?: ElementRef<HTMLCanvasElement>;
+  @ViewChild('fileInput') fileInputRef?: ElementRef<HTMLInputElement>;
 
   stream: MediaStream | null = null;
   capturedImage: string | null = null;
@@ -113,6 +114,23 @@ export class Register implements OnDestroy {
       this.stopCamera();
     } else {
       await this.startCamera();
+    }
+  }
+
+  triggerFileUpload() {
+    this.fileInputRef?.nativeElement.click();
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.capturedImage = reader.result as string;
+        this.cdr.detectChanges();
+      };
+      reader.readAsDataURL(file);
     }
   }
 

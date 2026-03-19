@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+using Application.DTOs;
 using Application.DTOs.Users;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -13,11 +13,13 @@ public class UsersController : ControllerBase
 {
     private readonly IUserRepository _repository;
     private readonly IAuthService _authService;
+    private readonly IVercelBlobService _blobService;
 
-    public UsersController(IUserRepository repository, IAuthService authService)
+    public UsersController(IUserRepository repository, IAuthService authService, IVercelBlobService blobService)
     {
         _repository = repository;
         _authService = authService;
+        _blobService = blobService;
     }
 
     private Guid GetUserId()
@@ -70,6 +72,18 @@ public class UsersController : ControllerBase
         user.GovernmentId = request.GovernmentId;
         user.DateOfBirth = request.DateOfBirth;
         user.UpdatedAt = DateTime.UtcNow;
+
+        if (!string.IsNullOrWhiteSpace(request.ProfileImageBase64))
+        {
+            var base64Data = request.ProfileImageBase64;
+            if (base64Data.Contains(","))
+            {
+                base64Data = base64Data.Substring(base64Data.IndexOf(",") + 1);
+            }
+            var bytes = Convert.FromBase64String(base64Data);
+            var fileName = $"profile_{Guid.NewGuid()}.jpg";
+            user.ProfileImageUrl = await _blobService.UploadFileAsync(bytes, fileName, "profiles", "image/jpeg");
+        }
 
         await _repository.UpdateAsync(user);
 
