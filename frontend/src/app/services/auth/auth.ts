@@ -18,8 +18,8 @@ export class AuthService {
   }
 
   private loadTokenFromStorage() {
-    if (typeof localStorage !== 'undefined') {
-      const userJson = localStorage.getItem('authUser');
+    if (typeof sessionStorage !== 'undefined') {
+      const userJson = sessionStorage.getItem('authUser');
       if (userJson) {
         try {
           const parsedUser = JSON.parse(userJson);
@@ -47,7 +47,7 @@ export class AuthService {
   public login(dto: LoginDto): Observable<AuthResultDto> {
     return this.http.post<AuthResultDto>(`${this.apiUrl}/login`, dto).pipe(
       tap(result => {
-        if (typeof localStorage !== 'undefined') {
+        if (typeof sessionStorage !== 'undefined') {
           try {
             const decodedToken: any = jwtDecode(result.token);
             const actualRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || decodedToken.role;
@@ -55,7 +55,7 @@ export class AuthService {
           } catch (e) {
             console.error('Invalid token received on login');
           }
-          localStorage.setItem('authUser', JSON.stringify(result));
+          sessionStorage.setItem('authUser', JSON.stringify(result));
         }
         this.currentUser.set(result);
       })
@@ -63,8 +63,8 @@ export class AuthService {
   }
 
   public logout() {
-    if (typeof localStorage !== 'undefined') {
-      localStorage.removeItem('authUser');
+    if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.removeItem('authUser');
     }
     this.currentUser.set(null);
   }
