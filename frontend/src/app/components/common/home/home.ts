@@ -33,10 +33,53 @@ export class Home {
   ];
 
   platformBenefits = [
-    { title: 'Fast Claim Processing', desc: 'Get your claims reviewed and processed rapidly without delays.', icon: 'zap' },
-    { title: 'Secure Policy Management', desc: 'State-of-the-art encryption ensures your policies are safe.', icon: 'lock' },
-    { title: 'Role-based Workflow', desc: 'Distinct views customized for customers, agents, officers & admins.', icon: 'git-merge' },
-    { title: 'Easy Tracking', desc: 'Monitor the status of your policies and claims in real-time.', icon: 'activity' },
-    { title: 'Reliable Coverage', desc: 'Guaranteed financial protection when disaster strikes.', icon: 'umbrella' }
+    { 
+      title: 'KYC Verification', 
+      desc: 'Secure Aadhaar and PAN-based document verification for instant onboarding.', 
+      icon: 'shield-check',
+      color: 'blue'
+    },
+    { 
+      title: 'Diverse Insurance Plans', 
+      desc: 'Comprehensive coverage for Earthquakes, Floods, and personal casualties.', 
+      icon: 'umbrella',
+      color: 'amber'
+    },
+    { 
+      title: 'Seamless Policy Management', 
+      desc: 'Buy and manage policies with ease via your dedicated customer dashboard.', 
+      icon: 'layout',
+      color: 'red'
+    },
+    { 
+      title: 'Instant Claim Settlements', 
+      desc: 'Transparent and rapid processing for disaster-related claims and restoration.', 
+      icon: 'zap',
+      color: 'green'
+    },
+    { 
+      title: '24/7 Disaster Monitoring', 
+      desc: 'Real-time emergency tracking and monitoring systems for your safety.', 
+      icon: 'activity',
+      color: 'purple'
+    },
+    { 
+      title: 'Expert Agent Assistance', 
+      desc: 'Professional support from certified agents and claims officers whenever needed.', 
+      icon: 'users',
+      color: 'teal'
+    },
+    { 
+      title: 'Real-time Notifications', 
+      desc: 'Stay informed with instant alerts on policy updates and claim progress.', 
+      icon: 'bell',
+      color: 'pink'
+    },
+    { 
+      title: 'Automated Billing & Invoices', 
+      desc: 'Hassle-free automated payments and transparent financial record keeping.', 
+      icon: 'file-text',
+      color: 'indigo'
+    }
   ];
 }
