@@ -42,9 +42,9 @@ describe('CustomerPlans', () => {
     it('should set selectedPlan on promptRequest', () => { component.promptRequest(mockPlan); expect(component.selectedPlan).toEqual(mockPlan); });
     it('should clear selectedPlan on cancelRequest', () => { component.selectedPlan = mockPlan; component.cancelRequest(); expect(component.selectedPlan).toBeNull(); });
     it('should return 0 riskScore when no plan', () => { component.selectedPlan = null; expect(component.riskScore).toBe(0); });
-    it('should compute correct installment for Monthly', () => { component.selectedPlan = mockPlan; component.requestForm.controls['paymentFrequency'].setValue('Monthly'); expect(component.computedInstallmentAmount).toBe(500); });
-    it('should compute correct installment for Quarterly', () => { component.selectedPlan = mockPlan; component.requestForm.controls['paymentFrequency'].setValue('Quarterly'); expect(component.computedInstallmentAmount).toBe(1500); });
-    it('should compute correct installment for Yearly', () => { component.selectedPlan = mockPlan; component.requestForm.controls['paymentFrequency'].setValue('Yearly'); expect(component.computedInstallmentAmount).toBe(6000); });
+    it('should compute correct installment for Monthly', () => { component.selectedPlan = mockPlan; component.requestForm.controls['paymentFrequency'].setValue('Monthly'); expect(component.computedInstallmentAmount).toBe(635); });
+    it('should compute correct installment for Quarterly', () => { component.selectedPlan = mockPlan; component.requestForm.controls['paymentFrequency'].setValue('Quarterly'); expect(component.computedInstallmentAmount).toBe(1860); });
+    it('should compute correct installment for Yearly', () => { component.selectedPlan = mockPlan; component.requestForm.controls['paymentFrequency'].setValue('Yearly'); expect(component.computedInstallmentAmount).toBe(7260); });
     it('should return correct frequencyLabel', () => {
         component.requestForm.controls['paymentFrequency'].setValue('Monthly'); expect(component.frequencyLabel).toBe('month');
         component.requestForm.controls['paymentFrequency'].setValue('Quarterly'); expect(component.frequencyLabel).toBe('quarter');
@@ -56,6 +56,8 @@ describe('CustomerPlans', () => {
         component.requestForm.controls['durationInMonths'].setValue(12);
         component.panDocument = new File([], 'pan.pdf');
         component.addressDocument = new File([], 'address.pdf');
+        component.panDetails = { pan_number: 'ABCDE1234F', name: 'John Doe', date_of_birth: '1990-01-01' };
+        component.aadhaarDetails = { reference_id: '12345678', name: 'John Doe', gender: 'Male', date_of_birth: '1990-01-01', full_address: '123 Main St', photo: 'base64' };
         component.confirmRequest();
         expect(component.successDialogVisible).toBe(true);
     });
@@ -66,6 +68,8 @@ describe('CustomerPlans', () => {
         component.requestForm.controls['durationInMonths'].setValue(12);
         component.panDocument = new File([], 'pan.pdf');
         component.addressDocument = new File([], 'address.pdf');
+        component.panDetails = { pan_number: 'ABCDE1234F', name: 'John Doe', date_of_birth: '1990-01-01' };
+        component.aadhaarDetails = { reference_id: '12345678', name: 'John Doe', gender: 'Male', date_of_birth: '1990-01-01', full_address: '123 Main St', photo: 'base64' };
         component.confirmRequest();
         expect(mockToastService.error).toHaveBeenCalled();
     });

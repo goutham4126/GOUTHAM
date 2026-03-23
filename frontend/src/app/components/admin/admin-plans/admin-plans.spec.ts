@@ -44,7 +44,7 @@ describe('AdminPlans', () => {
     });
     it('should create plan and show success', () => {
         mockPlanService.createPlan.and.returnValue(of({}));
-        component.planForm.setValue({ name: 'Plan A', description: 'Desc', premiumAmount: 100, coverageAmount: 5000, durationInMonths: 12, paymentFrequency: 'Monthly', planType: 'Casualty' });
+        component.planForm.setValue({ name: 'Plan A', description: 'Desc', premiumAmount: 100, coverageAmount: 5000, durationInMonths: 12, paymentFrequency: 'Monthly', planType: 'Casualty', benefits: 'Benefit 1, Benefit 2' });
         component.createPlan();
         expect(mockPlanService.createPlan).toHaveBeenCalled();
         expect(mockToastService.success).toHaveBeenCalled();
@@ -52,7 +52,7 @@ describe('AdminPlans', () => {
     it('should show error on create failure', () => {
         spyOn(console, 'error');
         mockPlanService.createPlan.and.returnValue(throwError(() => new Error('Test error')));
-        component.planForm.setValue({ name: 'Plan A', description: 'Desc', premiumAmount: 100, coverageAmount: 5000, durationInMonths: 12, paymentFrequency: 'Monthly', planType: 'Casualty' });
+        component.planForm.setValue({ name: 'Plan A', description: 'Desc', premiumAmount: 100, coverageAmount: 5000, durationInMonths: 12, paymentFrequency: 'Monthly', planType: 'Casualty', benefits: 'Benefit 1, Benefit 2' });
         component.createPlan();
         expect(mockToastService.error).toHaveBeenCalled();
     });

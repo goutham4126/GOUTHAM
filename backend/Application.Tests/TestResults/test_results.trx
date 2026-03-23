@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="d0618592-b0ae-436d-b6d3-3f2220281a6e" name="DELL@GOUTHAM-DESKTOP 2026-03-23 14:48:09" runUser="GOUTHAM-DESKTOP\DELL" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-03-23T14:48:09.8852121+05:30" queuing="2026-03-23T14:48:09.8852128+05:30" start="2026-03-23T14:48:07.2320425+05:30" finish="2026-03-23T14:48:12.4386816+05:30" />
+  <TestSettings name="default" id="2ce7fc63-28f5-4ae7-ab65-c1335cbf6629">
+    <Deployment runDeploymentRoot="DELL_GOUTHAM-DESKTOP_2026-03-23_14_48_09" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="2fc161d0-3ad7-4e2c-b1cc-cfad38993492" testId="d2e90e82-e955-6b87-e9f9-164326e49c00" testName="Application.Tests.Services.PasswordServiceTests.HashPassword_DifferentCallsProduceDifferentHashes" computerName="GOUTHAM-DESKTOP" duration="00:00:01.3532031" startTime="2026-03-23T14:48:10.7329715+05:30" endTime="2026-03-23T14:48:10.7329719+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2fc161d0-3ad7-4e2c-b1cc-cfad38993492" />
+    <UnitTestResult executionId="8b14dc6c-bcec-43a9-a52f-73dcdfd79430" testId="14986b59-2b69-0ff9-478f-9d679c8caf34" testName="Application.Tests.Services.ClaimServiceTests.GetUserClaimsAsync_ReturnsSortedClaims" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0088096" startTime="2026-03-23T14:48:10.0033465+05:30" endTime="2026-03-23T14:48:10.0033468+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8b14dc6c-bcec-43a9-a52f-73dcdfd79430">
+      <Output>
+        <ErrorInfo>
+          <Message>System.ArgumentNullException : Value cannot be null. (Parameter 'source')</Message>
+          <StackTrace>   at System.ArgumentNullException.Throw(String paramName)&#xD;
+   at System.ArgumentNullException.ThrowIfNull(Object argument, String paramName)&#xD;
+   at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)&#xD;
+   at Application.Services.ClaimService.GetUserClaimsAsync(Guid userId) in c:\Users\DELL\Desktop\GOUTHAM\backend\Application\Services\ClaimService.cs:line 125&#xD;
+   at Application.Tests.Services.ClaimServiceTests.GetUserClaimsAsync_ReturnsSortedClaims() in c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\Services\ClaimServiceTests.cs:line 55&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7e3bc615-2784-45e4-9db5-4aeb33f960b9" testId="1b728719-10be-dd5a-a738-bc585d895b18" testName="Application.Tests.Services.PlanServiceTests.DeleteAsync_NotFound_ThrowsException" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0609055" startTime="2026-03-23T14:48:09.8221365+05:30" endTime="2026-03-23T14:48:09.8221366+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7e3bc615-2784-45e4-9db5-4aeb33f960b9" />
+    <UnitTestResult executionId="0aaab73c-f2c7-4646-b2b7-b7a9bf876b30" testId="617868b6-d725-c91b-9613-fccd53fef5b7" testName="Application.Tests.Services.AuthServiceTests.RegisterAsync_Success_ReturnsAuthResult" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0059876" startTime="2026-03-23T14:48:09.9221191+05:30" endTime="2026-03-23T14:48:09.9221195+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0aaab73c-f2c7-4646-b2b7-b7a9bf876b30" />
+    <UnitTestResult executionId="e8dedb5e-8f12-445b-96d4-7fda26bd9bed" testId="4a11eaf9-0a44-2746-9257-45791564cff1" testName="Application.Tests.Services.PlanServiceTests.GetByIdAsync_Found_ReturnsPlan" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0063581" startTime="2026-03-23T14:48:09.8227086+05:30" endTime="2026-03-23T14:48:09.8227087+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e8dedb5e-8f12-445b-96d4-7fda26bd9bed" />
+    <UnitTestResult executionId="16d00996-9910-484b-9a34-c04a2cc21320" testId="cf15875e-ade8-2e71-f552-250828562d2c" testName="Application.Tests.Services.PolicyServiceTests.MarkPaymentAsPaidAsync_PaymentNotFound_ThrowsException" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0090087" startTime="2026-03-23T14:48:09.6921818+05:30" endTime="2026-03-23T14:48:09.6921823+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="16d00996-9910-484b-9a34-c04a2cc21320" />
+    <UnitTestResult executionId="d39a9894-a49f-4729-bc1c-c9a7ceb6d7cb" testId="ca44c51d-c62e-6d28-ad91-6a2eb6bd0f03" testName="Application.Tests.Services.AuthServiceTests.LoginAsync_UserNotFound_ThrowsUnauthorized" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0017355" startTime="2026-03-23T14:48:09.9160000+05:30" endTime="2026-03-23T14:48:09.9160003+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d39a9894-a49f-4729-bc1c-c9a7ceb6d7cb" />
+    <UnitTestResult executionId="b8630bf2-3e5c-403f-92b7-ddabffb41618" testId="2844f57f-7fff-8828-1b28-c838e3e2c7fa" testName="Application.Tests.Services.ClaimServiceTests.GetAllClaimsAsync_ReturnsAllClaims" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0158933" startTime="2026-03-23T14:48:09.9352131+05:30" endTime="2026-03-23T14:48:09.9352134+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b8630bf2-3e5c-403f-92b7-ddabffb41618">
+      <Output>
+        <ErrorInfo>
+          <Message>System.ArgumentNullException : Value cannot be null. (Parameter 'source')</Message>
+          <StackTrace>   at System.ArgumentNullException.Throw(String paramName)&#xD;
+   at System.ArgumentNullException.ThrowIfNull(Object argument, String paramName)&#xD;
+   at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)&#xD;
+   at Application.Services.ClaimService.GetAllClaimsAsync() in c:\Users\DELL\Desktop\GOUTHAM\backend\Application\Services\ClaimService.cs:line 136&#xD;
+   at Application.Tests.Services.ClaimServiceTests.GetAllClaimsAsync_ReturnsAllClaims() in c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\Services\ClaimServiceTests.cs:line 75&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ba408719-6901-4d35-9a56-30e3e543e961" testId="faa831da-c10d-cb0b-5102-d2312adad796" testName="Application.Tests.Services.PasswordServiceTests.HashPassword_ReturnsNonEmptyHash" computerName="GOUTHAM-DESKTOP" duration="00:00:00.3139150" startTime="2026-03-23T14:48:11.0471297+05:30" endTime="2026-03-23T14:48:11.0471302+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ba408719-6901-4d35-9a56-30e3e543e961" />
+    <UnitTestResult executionId="633e476d-a58b-4322-8c49-684007dcd35c" testId="c8f60f22-0070-04f0-037f-eccc35ca0298" testName="Application.Tests.Services.PasswordServiceTests.VerifyPassword_WrongPassword_ReturnsFalse" computerName="GOUTHAM-DESKTOP" duration="00:00:00.5576607" startTime="2026-03-23T14:48:11.6054740+05:30" endTime="2026-03-23T14:48:11.6054747+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="633e476d-a58b-4322-8c49-684007dcd35c" />
+    <UnitTestResult executionId="b1fe833e-1eaa-4f17-967e-da6da5e31e88" testId="95a1df3a-e42d-3b8a-333e-284f89c6cd0f" testName="Application.Tests.Services.PasswordServiceTests.VerifyPassword_CorrectPassword_ReturnsTrue" computerName="GOUTHAM-DESKTOP" duration="00:00:00.5920433" startTime="2026-03-23T14:48:12.1979349+05:30" endTime="2026-03-23T14:48:12.1979355+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b1fe833e-1eaa-4f17-967e-da6da5e31e88" />
+    <UnitTestResult executionId="1d1b1f5c-c1b0-413c-9f48-dee96788b05f" testId="38256074-8eea-e578-7b68-06e81b46e5f1" testName="Application.Tests.Services.ClaimServiceTests.ApproveClaimAsync_NotFound_ThrowsException" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0023485" startTime="2026-03-23T14:48:09.9830556+05:30" endTime="2026-03-23T14:48:09.9830560+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1d1b1f5c-c1b0-413c-9f48-dee96788b05f" />
+    <UnitTestResult executionId="9380c3dc-cb42-4577-b578-97557b2f1ca0" testId="2587d314-ca59-ab0a-8824-1c6fa78e14cd" testName="Application.Tests.Services.AuthServiceTests.RegisterAsync_TrimsAndLowercasesEmail" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0348234" startTime="2026-03-23T14:48:09.9141449+05:30" endTime="2026-03-23T14:48:09.9141453+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9380c3dc-cb42-4577-b578-97557b2f1ca0" />
+    <UnitTestResult executionId="a39581ea-fdfb-411b-a370-2e8fe7a6463f" testId="394f84d7-3eeb-33cd-0df4-da1b77c09115" testName="Application.Tests.Services.PolicyServiceTests.GetPolicyAsync_NotFound_ReturnsNull" computerName="GOUTHAM-DESKTOP" duration="00:00:00.3252508" startTime="2026-03-23T14:48:09.6828864+05:30" endTime="2026-03-23T14:48:09.6828874+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a39581ea-fdfb-411b-a370-2e8fe7a6463f" />
+    <UnitTestResult executionId="a2604a94-d6ca-41eb-9cbc-d34311b7fe24" testId="ba3e1822-8c23-ed67-7748-d28ccca421e9" testName="Application.Tests.Services.AuthServiceTests.RegisterAsync_DuplicateEmail_ThrowsInvalidOperation" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0109519" startTime="2026-03-23T14:48:09.8732402+05:30" endTime="2026-03-23T14:48:09.8732406+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a2604a94-d6ca-41eb-9cbc-d34311b7fe24" />
+    <UnitTestResult executionId="8e849973-5785-41bd-97a8-792ead0be8d1" testId="5215a721-152d-13a7-bbb3-42867a134702" testName="Application.Tests.Services.AuthServiceTests.LoginAsync_DeletedUser_ThrowsUnauthorized" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0370059" startTime="2026-03-23T14:48:09.8618329+05:30" endTime="2026-03-23T14:48:09.8618333+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8e849973-5785-41bd-97a8-792ead0be8d1" />
+    <UnitTestResult executionId="06aee469-1922-4b95-83c4-801178ae7d44" testId="a0507ed0-f48a-125a-6404-d1cea90d5ec9" testName="Application.Tests.Services.ClaimServiceTests.RejectClaimAsync_NotAssigned_ThrowsUnauthorized" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0028897" startTime="2026-03-23T14:48:09.8732735+05:30" endTime="2026-03-23T14:48:09.8732736+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="06aee469-1922-4b95-83c4-801178ae7d44" />
+    <UnitTestResult executionId="77bba485-abec-4376-957b-c90e2fdb6137" testId="5b45d0bf-ecaf-d86f-8ee5-1aa4520c45d1" testName="Application.Tests.Services.PolicyServiceTests.GetPolicyAsync_CustomerOwnsPolicy_ReturnsDto" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0045758" startTime="2026-03-23T14:48:09.8978425+05:30" endTime="2026-03-23T14:48:09.8978430+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="77bba485-abec-4376-957b-c90e2fdb6137" />
+    <UnitTestResult executionId="a9b13568-8e1b-49f1-a31c-aa01256f9ce5" testId="b94840e9-8935-4f03-978d-b1fc4d878e87" testName="Application.Tests.Services.PolicyServiceTests.MarkPaymentAsPaidAsync_NotYourPolicy_ThrowsUnauthorized" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0112239" startTime="2026-03-23T14:48:09.7038847+05:30" endTime="2026-03-23T14:48:09.7038851+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a9b13568-8e1b-49f1-a31c-aa01256f9ce5" />
+    <UnitTestResult executionId="2e6e4d02-48ac-4a83-99ce-b3ae73982de2" testId="e126e022-f706-f41c-91bf-c49d745564e6" testName="Application.Tests.Services.PlanServiceTests.UpdateAsync_Found_UpdatesPlan" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0289242" startTime="2026-03-23T14:48:09.8224976+05:30" endTime="2026-03-23T14:48:09.8224977+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2e6e4d02-48ac-4a83-99ce-b3ae73982de2" />
+    <UnitTestResult executionId="d5a95a2e-4f74-4e89-b05b-7a688f3ecbee" testId="db9d43d0-538c-9ebd-7d02-07da53416528" testName="Application.Tests.Services.ClaimServiceTests.ApproveClaimAsync_Success_UpdatesClaimAndCreatesPayment" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0547613" startTime="2026-03-23T14:48:09.9805404+05:30" endTime="2026-03-23T14:48:09.9805408+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d5a95a2e-4f74-4e89-b05b-7a688f3ecbee" />
+    <UnitTestResult executionId="fd133a5a-4ab9-46d5-84c2-ae76fe92b717" testId="f807d426-3078-3c95-4c1a-e6825107b1c3" testName="Application.Tests.Services.PlanServiceTests.DeleteAsync_Found_DeletesPlan" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0040695" startTime="2026-03-23T14:48:09.8226348+05:30" endTime="2026-03-23T14:48:09.8226348+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fd133a5a-4ab9-46d5-84c2-ae76fe92b717" />
+    <UnitTestResult executionId="c19537a4-a59d-4992-b4e1-1964c1670d44" testId="952c867b-3651-9731-02b8-d67214bed0a3" testName="Application.Tests.Services.PlanServiceTests.CreateAsync_Success_ReturnsPlanDto" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0370282" startTime="2026-03-23T14:48:09.8225712+05:30" endTime="2026-03-23T14:48:09.8225713+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c19537a4-a59d-4992-b4e1-1964c1670d44" />
+    <UnitTestResult executionId="6a761ab4-d711-4331-886c-9349d55c7555" testId="d76bc027-2b9b-63d1-6154-9b07b512c53f" testName="Application.Tests.Services.PolicyServiceTests.MarkPaymentAsPaidAsync_Success_UpdatesPaymentAndPolicy" computerName="GOUTHAM-DESKTOP" duration="00:00:00.1751326" startTime="2026-03-23T14:48:09.8918527+05:30" endTime="2026-03-23T14:48:09.8918533+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6a761ab4-d711-4331-886c-9349d55c7555" />
+    <UnitTestResult executionId="12fc5396-da69-4486-b4d2-4d651b080ffa" testId="1a85b2bb-1f92-d9ed-300e-ec4b63722c76" testName="Application.Tests.Services.PlanServiceTests.GetAllAsync_ReturnsAllPlans" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0100368" startTime="2026-03-23T14:48:09.8228099+05:30" endTime="2026-03-23T14:48:09.8228099+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="12fc5396-da69-4486-b4d2-4d651b080ffa" />
+    <UnitTestResult executionId="d76c88f9-58b4-4d31-95af-8f6d5a9a8e48" testId="3198fae7-79f2-ed74-e86f-80144687031d" testName="Application.Tests.Services.PolicyServiceTests.GetPolicyAsync_AdminCanAccessAnyPolicy" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0084440" startTime="2026-03-23T14:48:09.7124623+05:30" endTime="2026-03-23T14:48:09.7124628+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d76c88f9-58b4-4d31-95af-8f6d5a9a8e48" />
+    <UnitTestResult executionId="b80ba82e-6de4-4f89-bbce-911b3085b1a0" testId="9d6f29f5-b3f6-f2f0-0c53-0ee71778569b" testName="Application.Tests.Services.PlanServiceTests.UpdateAsync_NotFound_ThrowsException" computerName="GOUTHAM-DESKTOP" duration="00:00:00.2800964" startTime="2026-03-23T14:48:09.6690531+05:30" endTime="2026-03-23T14:48:09.6690914+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b80ba82e-6de4-4f89-bbce-911b3085b1a0" />
+    <UnitTestResult executionId="560aa92d-409e-4a89-96f5-3992d416b881" testId="f68276d8-f9e1-1a64-44ec-9d2fa76ac00a" testName="Application.Tests.Services.PolicyServiceTests.GetPolicyAsync_CustomerNotOwner_ThrowsUnauthorized" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0040882" startTime="2026-03-23T14:48:09.8922580+05:30" endTime="2026-03-23T14:48:09.8922584+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="560aa92d-409e-4a89-96f5-3992d416b881" />
+    <UnitTestResult executionId="04e08ca2-55cb-47b8-be88-f7ed73bf05e4" testId="81dcb1a5-a68a-69f8-e066-d62dd058cea9" testName="Application.Tests.Services.AuthServiceTests.LoginAsync_Success_ReturnsAuthResult" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0038764" startTime="2026-03-23T14:48:09.9355660+05:30" endTime="2026-03-23T14:48:09.9355661+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="04e08ca2-55cb-47b8-be88-f7ed73bf05e4" />
+    <UnitTestResult executionId="d9708f97-447d-466a-8e39-e428b5d3f592" testId="2415db62-13e9-39b1-a481-29536778873c" testName="Application.Tests.Services.AuthServiceTests.LoginAsync_WrongPassword_ThrowsUnauthorized" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0054786" startTime="2026-03-23T14:48:09.8815535+05:30" endTime="2026-03-23T14:48:09.8815541+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d9708f97-447d-466a-8e39-e428b5d3f592" />
+    <UnitTestResult executionId="e42e4b3b-013a-47d3-8549-038407be48f7" testId="1f16740e-d032-813b-1fcf-187fd3665e9a" testName="Application.Tests.Services.ClaimServiceTests.ApproveClaimAsync_NotAssigned_ThrowsUnauthorized" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0065402" startTime="2026-03-23T14:48:10.0079724+05:30" endTime="2026-03-23T14:48:10.0079728+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e42e4b3b-013a-47d3-8549-038407be48f7" />
+    <UnitTestResult executionId="0c3338b0-95af-425b-96b7-ab17d677a45f" testId="d9934e08-46cb-34b2-4cd6-b6e741af3d59" testName="Application.Tests.Services.PolicyServiceTests.GetUserPoliciesAsync_ReturnsPolicies" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0398916" startTime="2026-03-23T14:48:09.9367961+05:30" endTime="2026-03-23T14:48:09.9367965+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0c3338b0-95af-425b-96b7-ab17d677a45f" />
+    <UnitTestResult executionId="a4b138a0-4cc4-4164-9411-14d4682f78ea" testId="7e40a2e4-5a71-d835-356c-7f1546c5524e" testName="Application.Tests.Services.PlanServiceTests.GetByIdAsync_NotFound_ReturnsNull" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0026468" startTime="2026-03-23T14:48:09.6765411+05:30" endTime="2026-03-23T14:48:09.6765415+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a4b138a0-4cc4-4164-9411-14d4682f78ea" />
+    <UnitTestResult executionId="01e3f15f-a105-44fc-9ead-c9a101520d4d" testId="f6b10a77-5e08-6dd9-7783-cfc46852e55d" testName="Application.Tests.Services.ClaimServiceTests.RejectClaimAsync_Success_SetsRejectedStatus" computerName="GOUTHAM-DESKTOP" duration="00:00:00.5132381" startTime="2026-03-23T14:48:09.8702828+05:30" endTime="2026-03-23T14:48:09.8702831+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="01e3f15f-a105-44fc-9ead-c9a101520d4d" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Application.Tests.Services.PolicyServiceTests.MarkPaymentAsPaidAsync_NotYourPolicy_ThrowsUnauthorized" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="b94840e9-8935-4f03-978d-b1fc4d878e87">
+      <Execution id="a9b13568-8e1b-49f1-a31c-aa01256f9ce5" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PolicyServiceTests" name="MarkPaymentAsPaidAsync_NotYourPolicy_ThrowsUnauthorized" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PolicyServiceTests.MarkPaymentAsPaidAsync_Success_UpdatesPaymentAndPolicy" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="d76bc027-2b9b-63d1-6154-9b07b512c53f">
+      <Execution id="6a761ab4-d711-4331-886c-9349d55c7555" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PolicyServiceTests" name="MarkPaymentAsPaidAsync_Success_UpdatesPaymentAndPolicy" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.AuthServiceTests.LoginAsync_UserNotFound_ThrowsUnauthorized" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="ca44c51d-c62e-6d28-ad91-6a2eb6bd0f03">
+      <Execution id="d39a9894-a49f-4729-bc1c-c9a7ceb6d7cb" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.AuthServiceTests" name="LoginAsync_UserNotFound_ThrowsUnauthorized" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.ClaimServiceTests.ApproveClaimAsync_NotAssigned_ThrowsUnauthorized" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="1f16740e-d032-813b-1fcf-187fd3665e9a">
+      <Execution id="e42e4b3b-013a-47d3-8549-038407be48f7" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.ClaimServiceTests" name="ApproveClaimAsync_NotAssigned_ThrowsUnauthorized" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PolicyServiceTests.GetPolicyAsync_CustomerOwnsPolicy_ReturnsDto" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="5b45d0bf-ecaf-d86f-8ee5-1aa4520c45d1">
+      <Execution id="77bba485-abec-4376-957b-c90e2fdb6137" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PolicyServiceTests" name="GetPolicyAsync_CustomerOwnsPolicy_ReturnsDto" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PolicyServiceTests.MarkPaymentAsPaidAsync_PaymentNotFound_ThrowsException" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="cf15875e-ade8-2e71-f552-250828562d2c">
+      <Execution id="16d00996-9910-484b-9a34-c04a2cc21320" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PolicyServiceTests" name="MarkPaymentAsPaidAsync_PaymentNotFound_ThrowsException" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PolicyServiceTests.GetUserPoliciesAsync_ReturnsPolicies" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="d9934e08-46cb-34b2-4cd6-b6e741af3d59">
+      <Execution id="0c3338b0-95af-425b-96b7-ab17d677a45f" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PolicyServiceTests" name="GetUserPoliciesAsync_ReturnsPolicies" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PlanServiceTests.UpdateAsync_Found_UpdatesPlan" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="e126e022-f706-f41c-91bf-c49d745564e6">
+      <Execution id="2e6e4d02-48ac-4a83-99ce-b3ae73982de2" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PlanServiceTests" name="UpdateAsync_Found_UpdatesPlan" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.ClaimServiceTests.ApproveClaimAsync_NotFound_ThrowsException" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="38256074-8eea-e578-7b68-06e81b46e5f1">
+      <Execution id="1d1b1f5c-c1b0-413c-9f48-dee96788b05f" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.ClaimServiceTests" name="ApproveClaimAsync_NotFound_ThrowsException" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PlanServiceTests.GetByIdAsync_Found_ReturnsPlan" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="4a11eaf9-0a44-2746-9257-45791564cff1">
+      <Execution id="e8dedb5e-8f12-445b-96d4-7fda26bd9bed" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PlanServiceTests" name="GetByIdAsync_Found_ReturnsPlan" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PolicyServiceTests.GetPolicyAsync_AdminCanAccessAnyPolicy" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="3198fae7-79f2-ed74-e86f-80144687031d">
+      <Execution id="d76c88f9-58b4-4d31-95af-8f6d5a9a8e48" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PolicyServiceTests" name="GetPolicyAsync_AdminCanAccessAnyPolicy" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PlanServiceTests.GetAllAsync_ReturnsAllPlans" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="1a85b2bb-1f92-d9ed-300e-ec4b63722c76">
+      <Execution id="12fc5396-da69-4486-b4d2-4d651b080ffa" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PlanServiceTests" name="GetAllAsync_ReturnsAllPlans" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PlanServiceTests.CreateAsync_Success_ReturnsPlanDto" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="952c867b-3651-9731-02b8-d67214bed0a3">
+      <Execution id="c19537a4-a59d-4992-b4e1-1964c1670d44" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PlanServiceTests" name="CreateAsync_Success_ReturnsPlanDto" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PasswordServiceTests.VerifyPassword_WrongPassword_ReturnsFalse" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="c8f60f22-0070-04f0-037f-eccc35ca0298">
+      <Execution id="633e476d-a58b-4322-8c49-684007dcd35c" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PasswordServiceTests" name="VerifyPassword_WrongPassword_ReturnsFalse" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.AuthServiceTests.RegisterAsync_Success_ReturnsAuthResult" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="617868b6-d725-c91b-9613-fccd53fef5b7">
+      <Execution id="0aaab73c-f2c7-4646-b2b7-b7a9bf876b30" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.AuthServiceTests" name="RegisterAsync_Success_ReturnsAuthResult" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PasswordServiceTests.HashPassword_ReturnsNonEmptyHash" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="faa831da-c10d-cb0b-5102-d2312adad796">
+      <Execution id="ba408719-6901-4d35-9a56-30e3e543e961" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PasswordServiceTests" name="HashPassword_ReturnsNonEmptyHash" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.ClaimServiceTests.GetUserClaimsAsync_ReturnsSortedClaims" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="14986b59-2b69-0ff9-478f-9d679c8caf34">
+      <Execution id="8b14dc6c-bcec-43a9-a52f-73dcdfd79430" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.ClaimServiceTests" name="GetUserClaimsAsync_ReturnsSortedClaims" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.ClaimServiceTests.GetAllClaimsAsync_ReturnsAllClaims" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="2844f57f-7fff-8828-1b28-c838e3e2c7fa">
+      <Execution id="b8630bf2-3e5c-403f-92b7-ddabffb41618" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.ClaimServiceTests" name="GetAllClaimsAsync_ReturnsAllClaims" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.ClaimServiceTests.RejectClaimAsync_NotAssigned_ThrowsUnauthorized" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="a0507ed0-f48a-125a-6404-d1cea90d5ec9">
+      <Execution id="06aee469-1922-4b95-83c4-801178ae7d44" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.ClaimServiceTests" name="RejectClaimAsync_NotAssigned_ThrowsUnauthorized" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.ClaimServiceTests.RejectClaimAsync_Success_SetsRejectedStatus" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="f6b10a77-5e08-6dd9-7783-cfc46852e55d">
+      <Execution id="01e3f15f-a105-44fc-9ead-c9a101520d4d" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.ClaimServiceTests" name="RejectClaimAsync_Success_SetsRejectedStatus" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.AuthServiceTests.LoginAsync_WrongPassword_ThrowsUnauthorized" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="2415db62-13e9-39b1-a481-29536778873c">
+      <Execution id="d9708f97-447d-466a-8e39-e428b5d3f592" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.AuthServiceTests" name="LoginAsync_WrongPassword_ThrowsUnauthorized" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PasswordServiceTests.HashPassword_DifferentCallsProduceDifferentHashes" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="d2e90e82-e955-6b87-e9f9-164326e49c00">
+      <Execution id="2fc161d0-3ad7-4e2c-b1cc-cfad38993492" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PasswordServiceTests" name="HashPassword_DifferentCallsProduceDifferentHashes" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PlanServiceTests.GetByIdAsync_NotFound_ReturnsNull" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="7e40a2e4-5a71-d835-356c-7f1546c5524e">
+      <Execution id="a4b138a0-4cc4-4164-9411-14d4682f78ea" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PlanServiceTests" name="GetByIdAsync_NotFound_ReturnsNull" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PasswordServiceTests.VerifyPassword_CorrectPassword_ReturnsTrue" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="95a1df3a-e42d-3b8a-333e-284f89c6cd0f">
+      <Execution id="b1fe833e-1eaa-4f17-967e-da6da5e31e88" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PasswordServiceTests" name="VerifyPassword_CorrectPassword_ReturnsTrue" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PolicyServiceTests.GetPolicyAsync_CustomerNotOwner_ThrowsUnauthorized" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="f68276d8-f9e1-1a64-44ec-9d2fa76ac00a">
+      <Execution id="560aa92d-409e-4a89-96f5-3992d416b881" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PolicyServiceTests" name="GetPolicyAsync_CustomerNotOwner_ThrowsUnauthorized" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.AuthServiceTests.RegisterAsync_DuplicateEmail_ThrowsInvalidOperation" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="ba3e1822-8c23-ed67-7748-d28ccca421e9">
+      <Execution id="a2604a94-d6ca-41eb-9cbc-d34311b7fe24" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.AuthServiceTests" name="RegisterAsync_DuplicateEmail_ThrowsInvalidOperation" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PolicyServiceTests.GetPolicyAsync_NotFound_ReturnsNull" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="394f84d7-3eeb-33cd-0df4-da1b77c09115">
+      <Execution id="a39581ea-fdfb-411b-a370-2e8fe7a6463f" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PolicyServiceTests" name="GetPolicyAsync_NotFound_ReturnsNull" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.AuthServiceTests.LoginAsync_Success_ReturnsAuthResult" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="81dcb1a5-a68a-69f8-e066-d62dd058cea9">
+      <Execution id="04e08ca2-55cb-47b8-be88-f7ed73bf05e4" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.AuthServiceTests" name="LoginAsync_Success_ReturnsAuthResult" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.AuthServiceTests.LoginAsync_DeletedUser_ThrowsUnauthorized" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="5215a721-152d-13a7-bbb3-42867a134702">
+      <Execution id="8e849973-5785-41bd-97a8-792ead0be8d1" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.AuthServiceTests" name="LoginAsync_DeletedUser_ThrowsUnauthorized" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.AuthServiceTests.RegisterAsync_TrimsAndLowercasesEmail" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="2587d314-ca59-ab0a-8824-1c6fa78e14cd">
+      <Execution id="9380c3dc-cb42-4577-b578-97557b2f1ca0" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.AuthServiceTests" name="RegisterAsync_TrimsAndLowercasesEmail" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PlanServiceTests.DeleteAsync_Found_DeletesPlan" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="f807d426-3078-3c95-4c1a-e6825107b1c3">
+      <Execution id="fd133a5a-4ab9-46d5-84c2-ae76fe92b717" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PlanServiceTests" name="DeleteAsync_Found_DeletesPlan" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PlanServiceTests.UpdateAsync_NotFound_ThrowsException" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="9d6f29f5-b3f6-f2f0-0c53-0ee71778569b">
+      <Execution id="b80ba82e-6de4-4f89-bbce-911b3085b1a0" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PlanServiceTests" name="UpdateAsync_NotFound_ThrowsException" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.PlanServiceTests.DeleteAsync_NotFound_ThrowsException" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="1b728719-10be-dd5a-a738-bc585d895b18">
+      <Execution id="7e3bc615-2784-45e4-9db5-4aeb33f960b9" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.PlanServiceTests" name="DeleteAsync_NotFound_ThrowsException" />
+    </UnitTest>
+    <UnitTest name="Application.Tests.Services.ClaimServiceTests.ApproveClaimAsync_Success_UpdatesClaimAndCreatesPayment" storage="c:\users\dell\desktop\goutham\backend\application.tests\bin\debug\net8.0\application.tests.dll" id="db9d43d0-538c-9ebd-7d02-07da53416528">
+      <Execution id="d5a95a2e-4f74-4e89-b05b-7a688f3ecbee" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\bin\Debug\net8.0\Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Application.Tests.Services.ClaimServiceTests" name="ApproveClaimAsync_Success_UpdatesClaimAndCreatesPayment" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="d2e90e82-e955-6b87-e9f9-164326e49c00" executionId="2fc161d0-3ad7-4e2c-b1cc-cfad38993492" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="14986b59-2b69-0ff9-478f-9d679c8caf34" executionId="8b14dc6c-bcec-43a9-a52f-73dcdfd79430" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1b728719-10be-dd5a-a738-bc585d895b18" executionId="7e3bc615-2784-45e4-9db5-4aeb33f960b9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="617868b6-d725-c91b-9613-fccd53fef5b7" executionId="0aaab73c-f2c7-4646-b2b7-b7a9bf876b30" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4a11eaf9-0a44-2746-9257-45791564cff1" executionId="e8dedb5e-8f12-445b-96d4-7fda26bd9bed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cf15875e-ade8-2e71-f552-250828562d2c" executionId="16d00996-9910-484b-9a34-c04a2cc21320" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ca44c51d-c62e-6d28-ad91-6a2eb6bd0f03" executionId="d39a9894-a49f-4729-bc1c-c9a7ceb6d7cb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2844f57f-7fff-8828-1b28-c838e3e2c7fa" executionId="b8630bf2-3e5c-403f-92b7-ddabffb41618" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="faa831da-c10d-cb0b-5102-d2312adad796" executionId="ba408719-6901-4d35-9a56-30e3e543e961" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c8f60f22-0070-04f0-037f-eccc35ca0298" executionId="633e476d-a58b-4322-8c49-684007dcd35c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="95a1df3a-e42d-3b8a-333e-284f89c6cd0f" executionId="b1fe833e-1eaa-4f17-967e-da6da5e31e88" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="38256074-8eea-e578-7b68-06e81b46e5f1" executionId="1d1b1f5c-c1b0-413c-9f48-dee96788b05f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2587d314-ca59-ab0a-8824-1c6fa78e14cd" executionId="9380c3dc-cb42-4577-b578-97557b2f1ca0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="394f84d7-3eeb-33cd-0df4-da1b77c09115" executionId="a39581ea-fdfb-411b-a370-2e8fe7a6463f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ba3e1822-8c23-ed67-7748-d28ccca421e9" executionId="a2604a94-d6ca-41eb-9cbc-d34311b7fe24" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5215a721-152d-13a7-bbb3-42867a134702" executionId="8e849973-5785-41bd-97a8-792ead0be8d1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a0507ed0-f48a-125a-6404-d1cea90d5ec9" executionId="06aee469-1922-4b95-83c4-801178ae7d44" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5b45d0bf-ecaf-d86f-8ee5-1aa4520c45d1" executionId="77bba485-abec-4376-957b-c90e2fdb6137" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b94840e9-8935-4f03-978d-b1fc4d878e87" executionId="a9b13568-8e1b-49f1-a31c-aa01256f9ce5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e126e022-f706-f41c-91bf-c49d745564e6" executionId="2e6e4d02-48ac-4a83-99ce-b3ae73982de2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="db9d43d0-538c-9ebd-7d02-07da53416528" executionId="d5a95a2e-4f74-4e89-b05b-7a688f3ecbee" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f807d426-3078-3c95-4c1a-e6825107b1c3" executionId="fd133a5a-4ab9-46d5-84c2-ae76fe92b717" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="952c867b-3651-9731-02b8-d67214bed0a3" executionId="c19537a4-a59d-4992-b4e1-1964c1670d44" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d76bc027-2b9b-63d1-6154-9b07b512c53f" executionId="6a761ab4-d711-4331-886c-9349d55c7555" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1a85b2bb-1f92-d9ed-300e-ec4b63722c76" executionId="12fc5396-da69-4486-b4d2-4d651b080ffa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3198fae7-79f2-ed74-e86f-80144687031d" executionId="d76c88f9-58b4-4d31-95af-8f6d5a9a8e48" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9d6f29f5-b3f6-f2f0-0c53-0ee71778569b" executionId="b80ba82e-6de4-4f89-bbce-911b3085b1a0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f68276d8-f9e1-1a64-44ec-9d2fa76ac00a" executionId="560aa92d-409e-4a89-96f5-3992d416b881" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="81dcb1a5-a68a-69f8-e066-d62dd058cea9" executionId="04e08ca2-55cb-47b8-be88-f7ed73bf05e4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2415db62-13e9-39b1-a481-29536778873c" executionId="d9708f97-447d-466a-8e39-e428b5d3f592" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1f16740e-d032-813b-1fcf-187fd3665e9a" executionId="e42e4b3b-013a-47d3-8549-038407be48f7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d9934e08-46cb-34b2-4cd6-b6e741af3d59" executionId="0c3338b0-95af-425b-96b7-ab17d677a45f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7e40a2e4-5a71-d835-356c-7f1546c5524e" executionId="a4b138a0-4cc4-4164-9411-14d4682f78ea" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f6b10a77-5e08-6dd9-7783-cfc46852e55d" executionId="01e3f15f-a105-44fc-9ead-c9a101520d4d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="34" executed="34" passed="32" failed="2" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.5.3.1+6b60a9e56a (64-bit .NET 8.0.23)&#xD;
+[xUnit.net 00:00:00.41]   Discovering: Application.Tests&#xD;
+[xUnit.net 00:00:00.57]   Discovered:  Application.Tests&#xD;
+[xUnit.net 00:00:00.58]   Starting:    Application.Tests&#xD;
+[xUnit.net 00:00:01.30]       System.ArgumentNullException : Value cannot be null. (Parameter 'source')&#xD;
+[xUnit.net 00:00:01.30]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.30]            at System.ArgumentNullException.Throw(String paramName)&#xD;
+[xUnit.net 00:00:01.30]            at System.ArgumentNullException.ThrowIfNull(Object argument, String paramName)&#xD;
+[xUnit.net 00:00:01.30]            at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)&#xD;
+[xUnit.net 00:00:01.30]         c:\Users\DELL\Desktop\GOUTHAM\backend\Application\Services\ClaimService.cs(136,0): at Application.Services.ClaimService.GetAllClaimsAsync()&#xD;
+[xUnit.net 00:00:01.30]         c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\Services\ClaimServiceTests.cs(75,0): at Application.Tests.Services.ClaimServiceTests.GetAllClaimsAsync_ReturnsAllClaims()&#xD;
+[xUnit.net 00:00:01.30]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:01.37]       System.ArgumentNullException : Value cannot be null. (Parameter 'source')&#xD;
+[xUnit.net 00:00:01.37]       Stack Trace:&#xD;
+[xUnit.net 00:00:01.37]            at System.ArgumentNullException.Throw(String paramName)&#xD;
+[xUnit.net 00:00:01.37]            at System.ArgumentNullException.ThrowIfNull(Object argument, String paramName)&#xD;
+[xUnit.net 00:00:01.37]            at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)&#xD;
+[xUnit.net 00:00:01.37]         c:\Users\DELL\Desktop\GOUTHAM\backend\Application\Services\ClaimService.cs(125,0): at Application.Services.ClaimService.GetUserClaimsAsync(Guid userId)&#xD;
+[xUnit.net 00:00:01.37]         c:\Users\DELL\Desktop\GOUTHAM\backend\Application.Tests\Services\ClaimServiceTests.cs(55,0): at Application.Tests.Services.ClaimServiceTests.GetUserClaimsAsync_ReturnsSortedClaims()&#xD;
+[xUnit.net 00:00:01.37]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:03.58]   Finished:    Application.Tests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="GOUTHAM-DESKTOP" outcome="Error" timestamp="2026-03-23T14:48:09.9312042+05:30">
+        <Text>[xUnit.net 00:00:01.29]     Application.Tests.Services.ClaimServiceTests.GetAllClaimsAsync_ReturnsAllClaims [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="GOUTHAM-DESKTOP" outcome="Error" timestamp="2026-03-23T14:48:10.0019912+05:30">
+        <Text>[xUnit.net 00:00:01.37]     Application.Tests.Services.ClaimServiceTests.GetUserClaimsAsync_ReturnsSortedClaims [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="93cf03e6-4769-480a-9007-2c1bd2dfb1c5" name="DELL@GOUTHAM-DESKTOP 2026-03-23 14:48:23" runUser="GOUTHAM-DESKTOP\DELL" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-03-23T14:48:23.9575825+05:30" queuing="2026-03-23T14:48:23.9576359+05:30" start="2026-03-23T14:48:21.9692580+05:30" finish="2026-03-23T14:48:24.0514628+05:30" />
+  <TestSettings name="default" id="bb738c33-b706-4942-b72a-50a8a9d1ff47">
+    <Deployment runDeploymentRoot="DELL_GOUTHAM-DESKTOP_2026-03-23_14_48_23" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="f640e67b-f2e8-4117-a22e-0ba995bcbf96" testId="fbd34f05-6c25-3ad2-bd30-3129f945d6b5" testName="API.Tests.Controllers.UsersControllerTests.UpdateRole_NotFound_ReturnsNotFound" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0033758" startTime="2026-03-23T14:48:23.8851216+05:30" endTime="2026-03-23T14:48:23.8851217+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f640e67b-f2e8-4117-a22e-0ba995bcbf96" />
+    <UnitTestResult executionId="d03e001e-4be6-4b4e-913a-a338b4471644" testId="8091380f-035e-db7d-917f-2ad3531c9525" testName="API.Tests.Controllers.UsersControllerTests.DeleteUser_Found_ReturnsOkMessage" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0043791" startTime="2026-03-23T14:48:23.8854957+05:30" endTime="2026-03-23T14:48:23.8854958+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d03e001e-4be6-4b4e-913a-a338b4471644" />
+    <UnitTestResult executionId="bf263cbe-9947-4151-aa4d-cdfc9765fc1a" testId="30d3b841-d2d5-59a1-cba4-c37200a592fe" testName="API.Tests.Controllers.PlansControllerTests.Delete_ReturnsOkMessage" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0035907" startTime="2026-03-23T14:48:23.8786008+05:30" endTime="2026-03-23T14:48:23.8786008+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bf263cbe-9947-4151-aa4d-cdfc9765fc1a" />
+    <UnitTestResult executionId="06576ba6-1a99-488b-a76c-ff966bc48531" testId="228c1532-2187-2de3-b4b2-4092f93526d7" testName="API.Tests.Controllers.PlansControllerTests.Update_ReturnsOkMessage" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0047163" startTime="2026-03-23T14:48:23.8838804+05:30" endTime="2026-03-23T14:48:23.8838805+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="06576ba6-1a99-488b-a76c-ff966bc48531" />
+    <UnitTestResult executionId="8b96ff75-40c4-44cc-b9ed-b75f646f450c" testId="468629a1-27d7-15f1-8c41-7c4678df9323" testName="API.Tests.Controllers.ClaimsControllerTests.MyAssignedClaims_ReturnsOkWithClaims" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0302276" startTime="2026-03-23T14:48:23.8784141+05:30" endTime="2026-03-23T14:48:23.8784141+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8b96ff75-40c4-44cc-b9ed-b75f646f450c" />
+    <UnitTestResult executionId="39398337-3df8-4642-83bd-f57ec33d23f5" testId="bfb89ccc-1e7c-a2c4-b105-289340fc9684" testName="API.Tests.Controllers.UsersControllerTests.GetAllUsers_ReturnsOkWithUsers" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0172117" startTime="2026-03-23T14:48:23.8837713+05:30" endTime="2026-03-23T14:48:23.8837715+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="39398337-3df8-4642-83bd-f57ec33d23f5" />
+    <UnitTestResult executionId="d3cf13ff-bc96-44f0-bcca-29585cc8e89e" testId="19ed026c-a6f2-5385-d117-dbb676de7603" testName="API.Tests.Controllers.UsersControllerTests.UpdateProfile_Found_ReturnsOkWithUpdatedUser" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0158470" startTime="2026-03-23T14:48:23.8850424+05:30" endTime="2026-03-23T14:48:23.8850425+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d3cf13ff-bc96-44f0-bcca-29585cc8e89e" />
+    <UnitTestResult executionId="97775ade-1cf9-482a-8492-84d12df661a7" testId="ab95695c-d38c-56ca-0ab3-a3f4dc992711" testName="API.Tests.Controllers.PoliciesControllerTests.GetAllPolicies_ReturnsOk" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0039537" startTime="2026-03-23T14:48:23.8842373+05:30" endTime="2026-03-23T14:48:23.8842374+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="97775ade-1cf9-482a-8492-84d12df661a7" />
+    <UnitTestResult executionId="8d414f01-2d9a-4aeb-aaa9-d690cc2cd263" testId="0896622c-35f0-7b25-3e96-0c8cf0a61c8d" testName="API.Tests.Controllers.PoliciesControllerTests.GetPolicy_Found_ReturnsOk" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0071752" startTime="2026-03-23T14:48:23.8851807+05:30" endTime="2026-03-23T14:48:23.8851808+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8d414f01-2d9a-4aeb-aaa9-d690cc2cd263" />
+    <UnitTestResult executionId="195a22a7-3360-4f80-a50d-b996135e53ff" testId="02087578-a598-e2fa-80d0-ad771b19d01f" testName="API.Tests.Controllers.PoliciesControllerTests.MyPolicies_ReturnsOkWithPolicies" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0205843" startTime="2026-03-23T14:48:23.8784728+05:30" endTime="2026-03-23T14:48:23.8784729+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="195a22a7-3360-4f80-a50d-b996135e53ff" />
+    <UnitTestResult executionId="b7ffc0a7-e3f8-4152-b0d4-a21ac92d74a2" testId="1091dc96-3bc6-c184-680d-4441f574cf22" testName="API.Tests.Controllers.ClaimsControllerTests.MyClaims_ReturnsOkWithClaims" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0037442" startTime="2026-03-23T14:48:23.8841939+05:30" endTime="2026-03-23T14:48:23.8841939+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b7ffc0a7-e3f8-4152-b0d4-a21ac92d74a2" />
+    <UnitTestResult executionId="0fe4b341-e873-4a53-8ab5-6daee4123fc4" testId="a5d5dee8-891e-44c7-a442-bade73b9c4c7" testName="API.Tests.Controllers.ClaimsControllerTests.Approve_ReturnsOkMessage" computerName="GOUTHAM-DESKTOP" duration="00:00:00.1926682" startTime="2026-03-23T14:48:23.7836257+05:30" endTime="2026-03-23T14:48:23.7836637+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0fe4b341-e873-4a53-8ab5-6daee4123fc4" />
+    <UnitTestResult executionId="b2c1b6d9-fa32-4c75-85ae-40da630a5dad" testId="aa9839e7-247d-6012-ef59-53312c063838" testName="API.Tests.Controllers.UsersControllerTests.DeleteUser_NotFound_ReturnsNotFound" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0054580" startTime="2026-03-23T14:48:23.8852353+05:30" endTime="2026-03-23T14:48:23.8852354+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b2c1b6d9-fa32-4c75-85ae-40da630a5dad" />
+    <UnitTestResult executionId="4274a8e9-fbe1-421b-957f-2b0ddbcf03c0" testId="64b9eee4-7e51-bf74-6a42-753c630271b3" testName="API.Tests.Controllers.UsersControllerTests.UpdateProfile_NotFound_ReturnsNotFound" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0031357" startTime="2026-03-23T14:48:23.8854413+05:30" endTime="2026-03-23T14:48:23.8854414+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4274a8e9-fbe1-421b-957f-2b0ddbcf03c0" />
+    <UnitTestResult executionId="c3b02c89-545b-49e7-9914-56e52c51e5f4" testId="dd62712d-ac94-2d46-8640-14d453f840c5" testName="API.Tests.Controllers.UsersControllerTests.GetCurrentUser_Found_ReturnsOkWithUserDto" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0037326" startTime="2026-03-23T14:48:23.8853030+05:30" endTime="2026-03-23T14:48:23.8853031+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c3b02c89-545b-49e7-9914-56e52c51e5f4" />
+    <UnitTestResult executionId="35fb4b95-5760-4329-b342-70f5c0ecd6cf" testId="e7260828-81cf-d8b2-dd68-0ef5cdb9b05b" testName="API.Tests.Controllers.PlansControllerTests.Get_NotFound_ReturnsNotFound" computerName="GOUTHAM-DESKTOP" duration="00:00:00.1949772" startTime="2026-03-23T14:48:23.7888477+05:30" endTime="2026-03-23T14:48:23.7888479+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="35fb4b95-5760-4329-b342-70f5c0ecd6cf" />
+    <UnitTestResult executionId="7e74dcb5-9796-4dc7-a463-55ff22fb890b" testId="4849c860-3b0e-55f4-99f6-3a58351be6fd" testName="API.Tests.Controllers.ClaimsControllerTests.GetAll_ReturnsOkWithAllClaims" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0028558" startTime="2026-03-23T14:48:23.8840524+05:30" endTime="2026-03-23T14:48:23.8840525+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7e74dcb5-9796-4dc7-a463-55ff22fb890b" />
+    <UnitTestResult executionId="85b4ab46-4c61-4bb8-b9a9-920efe400fda" testId="40bb349c-9386-26f6-2eb3-8c6f0e808b8a" testName="API.Tests.Controllers.PlansControllerTests.GetAll_ReturnsOkWithPlans" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0246474" startTime="2026-03-23T14:48:23.8778546+05:30" endTime="2026-03-23T14:48:23.8778553+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="85b4ab46-4c61-4bb8-b9a9-920efe400fda" />
+    <UnitTestResult executionId="da3ec22c-e608-492d-935f-87af821efa4c" testId="705aa530-c810-0739-0fe7-8b28751fd862" testName="API.Tests.Controllers.AuthControllerTests.Register_ReturnsCreatedResult" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0084256" startTime="2026-03-23T14:48:23.8064269+05:30" endTime="2026-03-23T14:48:23.8064270+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="da3ec22c-e608-492d-935f-87af821efa4c" />
+    <UnitTestResult executionId="4b7f0995-f4a3-4eee-b579-4652236301bc" testId="b6b34f93-f228-9b6e-13b1-50b305f8690b" testName="API.Tests.Controllers.AuthControllerTests.Login_ReturnsOkResult" computerName="GOUTHAM-DESKTOP" duration="00:00:00.1878546" startTime="2026-03-23T14:48:23.8059047+05:30" endTime="2026-03-23T14:48:23.8059048+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4b7f0995-f4a3-4eee-b579-4652236301bc" />
+    <UnitTestResult executionId="057a4547-a31d-4ff7-b885-2d23cac3f988" testId="e7de4d3f-107b-6f10-5d96-c58ca2a5244a" testName="API.Tests.Controllers.PoliciesControllerTests.MyAssignedPolicies_ReturnsOk" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0057147" startTime="2026-03-23T14:48:23.8062034+05:30" endTime="2026-03-23T14:48:23.8062036+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="057a4547-a31d-4ff7-b885-2d23cac3f988" />
+    <UnitTestResult executionId="57f32587-d09a-4edd-b37c-19a7f3da389a" testId="ce30c600-4ccb-b19c-b0b9-ec6ccad1573b" testName="API.Tests.Controllers.PoliciesControllerTests.Pay_ReturnsOkMessage" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0054535" startTime="2026-03-23T14:48:23.8064938+05:30" endTime="2026-03-23T14:48:23.8064939+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="57f32587-d09a-4edd-b37c-19a7f3da389a" />
+    <UnitTestResult executionId="b064817a-f700-400c-82d9-df3a438e4147" testId="ca9eb32e-5f96-cf08-1b7b-c2b7d29540c7" testName="API.Tests.Controllers.PlansControllerTests.Create_ReturnsOkWithCreatedPlan" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0040480" startTime="2026-03-23T14:48:23.8783189+05:30" endTime="2026-03-23T14:48:23.8783199+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b064817a-f700-400c-82d9-df3a438e4147" />
+    <UnitTestResult executionId="f2324649-772a-4ad3-a2de-3cb522a2f47d" testId="d64eb892-d691-99f8-d7b4-065eb205d06d" testName="API.Tests.Controllers.ClaimsControllerTests.Reject_ReturnsOkMessage" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0049472" startTime="2026-03-23T14:48:23.8839931+05:30" endTime="2026-03-23T14:48:23.8839932+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f2324649-772a-4ad3-a2de-3cb522a2f47d" />
+    <UnitTestResult executionId="c9adb260-bea5-45a6-b732-ab19835f3c26" testId="fe3c448f-ad50-8bf4-9dd7-02dc1cc01687" testName="API.Tests.Controllers.PlansControllerTests.Get_Found_ReturnsOk" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0067372" startTime="2026-03-23T14:48:23.8785427+05:30" endTime="2026-03-23T14:48:23.8785428+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c9adb260-bea5-45a6-b732-ab19835f3c26" />
+    <UnitTestResult executionId="05d98675-8b8b-45a1-b3b8-0d4f0c8ca418" testId="1fe42521-90a9-fa04-6880-fce27bdf9faf" testName="API.Tests.Controllers.UsersControllerTests.GetCurrentUser_NotFound_ThrowsKeyNotFound" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0061716" startTime="2026-03-23T14:48:23.8855476+05:30" endTime="2026-03-23T14:48:23.8855477+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="05d98675-8b8b-45a1-b3b8-0d4f0c8ca418" />
+    <UnitTestResult executionId="d8dfc682-e3ac-4f83-96dc-a0dcfd465217" testId="d44ecd58-1302-140c-d412-552a06a1fe8c" testName="API.Tests.Controllers.ClaimsControllerTests.Create_ReturnsOkWithClaim" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0150338" startTime="2026-03-23T14:48:23.8839318+05:30" endTime="2026-03-23T14:48:23.8839318+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d8dfc682-e3ac-4f83-96dc-a0dcfd465217" />
+    <UnitTestResult executionId="b21ce5ca-acc4-412e-abfa-cecaf566fe37" testId="a24d6d47-d42d-8123-ff31-082236d874ec" testName="API.Tests.Controllers.UsersControllerTests.UpdateRole_Found_ReturnsOkMessage" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0077614" startTime="2026-03-23T14:48:23.8853851+05:30" endTime="2026-03-23T14:48:23.8853852+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b21ce5ca-acc4-412e-abfa-cecaf566fe37" />
+    <UnitTestResult executionId="c26b7132-2d74-4186-becb-cd4e24f49e2a" testId="38e9ba80-84d6-affa-4036-41b7fba694b7" testName="API.Tests.Controllers.PoliciesControllerTests.Purchase_ReturnsOkWithPolicy" computerName="GOUTHAM-DESKTOP" duration="00:00:00.1967983" startTime="2026-03-23T14:48:23.7897953+05:30" endTime="2026-03-23T14:48:23.7897955+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c26b7132-2d74-4186-becb-cd4e24f49e2a" />
+    <UnitTestResult executionId="5e42b47a-cf38-4059-8e49-5e2f66651b68" testId="bf6e8f7d-6674-a493-f26c-9bd041bd62f0" testName="API.Tests.Controllers.PoliciesControllerTests.GetPolicy_NotFound_ReturnsNotFound" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0231045" startTime="2026-03-23T14:48:23.8841348+05:30" endTime="2026-03-23T14:48:23.8841349+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5e42b47a-cf38-4059-8e49-5e2f66651b68" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="API.Tests.Controllers.ClaimsControllerTests.Create_ReturnsOkWithClaim" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="d44ecd58-1302-140c-d412-552a06a1fe8c">
+      <Execution id="d8dfc682-e3ac-4f83-96dc-a0dcfd465217" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.ClaimsControllerTests" name="Create_ReturnsOkWithClaim" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.ClaimsControllerTests.GetAll_ReturnsOkWithAllClaims" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="4849c860-3b0e-55f4-99f6-3a58351be6fd">
+      <Execution id="7e74dcb5-9796-4dc7-a463-55ff22fb890b" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.ClaimsControllerTests" name="GetAll_ReturnsOkWithAllClaims" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.PoliciesControllerTests.GetAllPolicies_ReturnsOk" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="ab95695c-d38c-56ca-0ab3-a3f4dc992711">
+      <Execution id="97775ade-1cf9-482a-8492-84d12df661a7" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.PoliciesControllerTests" name="GetAllPolicies_ReturnsOk" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.ClaimsControllerTests.Approve_ReturnsOkMessage" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="a5d5dee8-891e-44c7-a442-bade73b9c4c7">
+      <Execution id="0fe4b341-e873-4a53-8ab5-6daee4123fc4" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.ClaimsControllerTests" name="Approve_ReturnsOkMessage" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.ClaimsControllerTests.MyClaims_ReturnsOkWithClaims" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="1091dc96-3bc6-c184-680d-4441f574cf22">
+      <Execution id="b7ffc0a7-e3f8-4152-b0d4-a21ac92d74a2" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.ClaimsControllerTests" name="MyClaims_ReturnsOkWithClaims" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.PoliciesControllerTests.Purchase_ReturnsOkWithPolicy" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="38e9ba80-84d6-affa-4036-41b7fba694b7">
+      <Execution id="c26b7132-2d74-4186-becb-cd4e24f49e2a" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.PoliciesControllerTests" name="Purchase_ReturnsOkWithPolicy" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.PlansControllerTests.Delete_ReturnsOkMessage" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="30d3b841-d2d5-59a1-cba4-c37200a592fe">
+      <Execution id="bf263cbe-9947-4151-aa4d-cdfc9765fc1a" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.PlansControllerTests" name="Delete_ReturnsOkMessage" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.UsersControllerTests.UpdateRole_Found_ReturnsOkMessage" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="a24d6d47-d42d-8123-ff31-082236d874ec">
+      <Execution id="b21ce5ca-acc4-412e-abfa-cecaf566fe37" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.UsersControllerTests" name="UpdateRole_Found_ReturnsOkMessage" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.PlansControllerTests.Update_ReturnsOkMessage" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="228c1532-2187-2de3-b4b2-4092f93526d7">
+      <Execution id="06576ba6-1a99-488b-a76c-ff966bc48531" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.PlansControllerTests" name="Update_ReturnsOkMessage" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.PlansControllerTests.Create_ReturnsOkWithCreatedPlan" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="ca9eb32e-5f96-cf08-1b7b-c2b7d29540c7">
+      <Execution id="b064817a-f700-400c-82d9-df3a438e4147" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.PlansControllerTests" name="Create_ReturnsOkWithCreatedPlan" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.PoliciesControllerTests.GetPolicy_NotFound_ReturnsNotFound" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="bf6e8f7d-6674-a493-f26c-9bd041bd62f0">
+      <Execution id="5e42b47a-cf38-4059-8e49-5e2f66651b68" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.PoliciesControllerTests" name="GetPolicy_NotFound_ReturnsNotFound" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.ClaimsControllerTests.MyAssignedClaims_ReturnsOkWithClaims" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="468629a1-27d7-15f1-8c41-7c4678df9323">
+      <Execution id="8b96ff75-40c4-44cc-b9ed-b75f646f450c" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.ClaimsControllerTests" name="MyAssignedClaims_ReturnsOkWithClaims" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.UsersControllerTests.GetCurrentUser_NotFound_ThrowsKeyNotFound" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="1fe42521-90a9-fa04-6880-fce27bdf9faf">
+      <Execution id="05d98675-8b8b-45a1-b3b8-0d4f0c8ca418" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.UsersControllerTests" name="GetCurrentUser_NotFound_ThrowsKeyNotFound" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.UsersControllerTests.DeleteUser_NotFound_ReturnsNotFound" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="aa9839e7-247d-6012-ef59-53312c063838">
+      <Execution id="b2c1b6d9-fa32-4c75-85ae-40da630a5dad" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.UsersControllerTests" name="DeleteUser_NotFound_ReturnsNotFound" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.AuthControllerTests.Register_ReturnsCreatedResult" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="705aa530-c810-0739-0fe7-8b28751fd862">
+      <Execution id="da3ec22c-e608-492d-935f-87af821efa4c" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.AuthControllerTests" name="Register_ReturnsCreatedResult" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.UsersControllerTests.UpdateProfile_Found_ReturnsOkWithUpdatedUser" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="19ed026c-a6f2-5385-d117-dbb676de7603">
+      <Execution id="d3cf13ff-bc96-44f0-bcca-29585cc8e89e" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.UsersControllerTests" name="UpdateProfile_Found_ReturnsOkWithUpdatedUser" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.ClaimsControllerTests.Reject_ReturnsOkMessage" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="d64eb892-d691-99f8-d7b4-065eb205d06d">
+      <Execution id="f2324649-772a-4ad3-a2de-3cb522a2f47d" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.ClaimsControllerTests" name="Reject_ReturnsOkMessage" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.PoliciesControllerTests.GetPolicy_Found_ReturnsOk" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="0896622c-35f0-7b25-3e96-0c8cf0a61c8d">
+      <Execution id="8d414f01-2d9a-4aeb-aaa9-d690cc2cd263" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.PoliciesControllerTests" name="GetPolicy_Found_ReturnsOk" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.AuthControllerTests.Login_ReturnsOkResult" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="b6b34f93-f228-9b6e-13b1-50b305f8690b">
+      <Execution id="4b7f0995-f4a3-4eee-b579-4652236301bc" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.AuthControllerTests" name="Login_ReturnsOkResult" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.PoliciesControllerTests.MyAssignedPolicies_ReturnsOk" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="e7de4d3f-107b-6f10-5d96-c58ca2a5244a">
+      <Execution id="057a4547-a31d-4ff7-b885-2d23cac3f988" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.PoliciesControllerTests" name="MyAssignedPolicies_ReturnsOk" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.UsersControllerTests.GetAllUsers_ReturnsOkWithUsers" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="bfb89ccc-1e7c-a2c4-b105-289340fc9684">
+      <Execution id="39398337-3df8-4642-83bd-f57ec33d23f5" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.UsersControllerTests" name="GetAllUsers_ReturnsOkWithUsers" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.UsersControllerTests.DeleteUser_Found_ReturnsOkMessage" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="8091380f-035e-db7d-917f-2ad3531c9525">
+      <Execution id="d03e001e-4be6-4b4e-913a-a338b4471644" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.UsersControllerTests" name="DeleteUser_Found_ReturnsOkMessage" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.UsersControllerTests.GetCurrentUser_Found_ReturnsOkWithUserDto" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="dd62712d-ac94-2d46-8640-14d453f840c5">
+      <Execution id="c3b02c89-545b-49e7-9914-56e52c51e5f4" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.UsersControllerTests" name="GetCurrentUser_Found_ReturnsOkWithUserDto" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.UsersControllerTests.UpdateProfile_NotFound_ReturnsNotFound" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="64b9eee4-7e51-bf74-6a42-753c630271b3">
+      <Execution id="4274a8e9-fbe1-421b-957f-2b0ddbcf03c0" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.UsersControllerTests" name="UpdateProfile_NotFound_ReturnsNotFound" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.UsersControllerTests.UpdateRole_NotFound_ReturnsNotFound" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="fbd34f05-6c25-3ad2-bd30-3129f945d6b5">
+      <Execution id="f640e67b-f2e8-4117-a22e-0ba995bcbf96" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.UsersControllerTests" name="UpdateRole_NotFound_ReturnsNotFound" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.PoliciesControllerTests.MyPolicies_ReturnsOkWithPolicies" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="02087578-a598-e2fa-80d0-ad771b19d01f">
+      <Execution id="195a22a7-3360-4f80-a50d-b996135e53ff" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.PoliciesControllerTests" name="MyPolicies_ReturnsOkWithPolicies" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.PoliciesControllerTests.Pay_ReturnsOkMessage" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="ce30c600-4ccb-b19c-b0b9-ec6ccad1573b">
+      <Execution id="57f32587-d09a-4edd-b37c-19a7f3da389a" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.PoliciesControllerTests" name="Pay_ReturnsOkMessage" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.PlansControllerTests.Get_Found_ReturnsOk" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="fe3c448f-ad50-8bf4-9dd7-02dc1cc01687">
+      <Execution id="c9adb260-bea5-45a6-b732-ab19835f3c26" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.PlansControllerTests" name="Get_Found_ReturnsOk" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.PlansControllerTests.Get_NotFound_ReturnsNotFound" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="e7260828-81cf-d8b2-dd68-0ef5cdb9b05b">
+      <Execution id="35fb4b95-5760-4329-b342-70f5c0ecd6cf" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.PlansControllerTests" name="Get_NotFound_ReturnsNotFound" />
+    </UnitTest>
+    <UnitTest name="API.Tests.Controllers.PlansControllerTests.GetAll_ReturnsOkWithPlans" storage="c:\users\dell\desktop\goutham\backend\api.tests\bin\debug\net8.0\api.tests.dll" id="40bb349c-9386-26f6-2eb3-8c6f0e808b8a">
+      <Execution id="85b4ab46-4c61-4bb8-b9a9-920efe400fda" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\API.Tests\bin\Debug\net8.0\API.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="API.Tests.Controllers.PlansControllerTests" name="GetAll_ReturnsOkWithPlans" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="fbd34f05-6c25-3ad2-bd30-3129f945d6b5" executionId="f640e67b-f2e8-4117-a22e-0ba995bcbf96" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8091380f-035e-db7d-917f-2ad3531c9525" executionId="d03e001e-4be6-4b4e-913a-a338b4471644" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="30d3b841-d2d5-59a1-cba4-c37200a592fe" executionId="bf263cbe-9947-4151-aa4d-cdfc9765fc1a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="228c1532-2187-2de3-b4b2-4092f93526d7" executionId="06576ba6-1a99-488b-a76c-ff966bc48531" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="468629a1-27d7-15f1-8c41-7c4678df9323" executionId="8b96ff75-40c4-44cc-b9ed-b75f646f450c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bfb89ccc-1e7c-a2c4-b105-289340fc9684" executionId="39398337-3df8-4642-83bd-f57ec33d23f5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="19ed026c-a6f2-5385-d117-dbb676de7603" executionId="d3cf13ff-bc96-44f0-bcca-29585cc8e89e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ab95695c-d38c-56ca-0ab3-a3f4dc992711" executionId="97775ade-1cf9-482a-8492-84d12df661a7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0896622c-35f0-7b25-3e96-0c8cf0a61c8d" executionId="8d414f01-2d9a-4aeb-aaa9-d690cc2cd263" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="02087578-a598-e2fa-80d0-ad771b19d01f" executionId="195a22a7-3360-4f80-a50d-b996135e53ff" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1091dc96-3bc6-c184-680d-4441f574cf22" executionId="b7ffc0a7-e3f8-4152-b0d4-a21ac92d74a2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a5d5dee8-891e-44c7-a442-bade73b9c4c7" executionId="0fe4b341-e873-4a53-8ab5-6daee4123fc4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="aa9839e7-247d-6012-ef59-53312c063838" executionId="b2c1b6d9-fa32-4c75-85ae-40da630a5dad" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="64b9eee4-7e51-bf74-6a42-753c630271b3" executionId="4274a8e9-fbe1-421b-957f-2b0ddbcf03c0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dd62712d-ac94-2d46-8640-14d453f840c5" executionId="c3b02c89-545b-49e7-9914-56e52c51e5f4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e7260828-81cf-d8b2-dd68-0ef5cdb9b05b" executionId="35fb4b95-5760-4329-b342-70f5c0ecd6cf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4849c860-3b0e-55f4-99f6-3a58351be6fd" executionId="7e74dcb5-9796-4dc7-a463-55ff22fb890b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="40bb349c-9386-26f6-2eb3-8c6f0e808b8a" executionId="85b4ab46-4c61-4bb8-b9a9-920efe400fda" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="705aa530-c810-0739-0fe7-8b28751fd862" executionId="da3ec22c-e608-492d-935f-87af821efa4c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b6b34f93-f228-9b6e-13b1-50b305f8690b" executionId="4b7f0995-f4a3-4eee-b579-4652236301bc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e7de4d3f-107b-6f10-5d96-c58ca2a5244a" executionId="057a4547-a31d-4ff7-b885-2d23cac3f988" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ce30c600-4ccb-b19c-b0b9-ec6ccad1573b" executionId="57f32587-d09a-4edd-b37c-19a7f3da389a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ca9eb32e-5f96-cf08-1b7b-c2b7d29540c7" executionId="b064817a-f700-400c-82d9-df3a438e4147" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d64eb892-d691-99f8-d7b4-065eb205d06d" executionId="f2324649-772a-4ad3-a2de-3cb522a2f47d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fe3c448f-ad50-8bf4-9dd7-02dc1cc01687" executionId="c9adb260-bea5-45a6-b732-ab19835f3c26" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1fe42521-90a9-fa04-6880-fce27bdf9faf" executionId="05d98675-8b8b-45a1-b3b8-0d4f0c8ca418" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d44ecd58-1302-140c-d412-552a06a1fe8c" executionId="d8dfc682-e3ac-4f83-96dc-a0dcfd465217" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a24d6d47-d42d-8123-ff31-082236d874ec" executionId="b21ce5ca-acc4-412e-abfa-cecaf566fe37" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="38e9ba80-84d6-affa-4036-41b7fba694b7" executionId="c26b7132-2d74-4186-becb-cd4e24f49e2a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bf6e8f7d-6674-a493-f26c-9bd041bd62f0" executionId="5e42b47a-cf38-4059-8e49-5e2f66651b68" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="30" executed="30" passed="30" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.5.3.1+6b60a9e56a (64-bit .NET 8.0.23)&#xD;
+[xUnit.net 00:00:00.32]   Discovering: API.Tests&#xD;
+[xUnit.net 00:00:00.55]   Discovered:  API.Tests&#xD;
+[xUnit.net 00:00:00.56]   Starting:    API.Tests&#xD;
+[xUnit.net 00:00:01.06]   Finished:    API.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

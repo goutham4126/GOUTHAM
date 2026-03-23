@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="dc5c2ffd-b833-4aca-8635-3caeb94a9601" name="DELL@GOUTHAM-DESKTOP 2026-03-23 14:48:08" runUser="GOUTHAM-DESKTOP\DELL" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-03-23T14:48:08.4008509+05:30" queuing="2026-03-23T14:48:08.4008513+05:30" start="2026-03-23T14:48:06.4028672+05:30" finish="2026-03-23T14:48:08.5367723+05:30" />
+  <TestSettings name="default" id="e3085af9-9a0b-4eb6-b4f5-2f21c28b032e">
+    <Deployment runDeploymentRoot="DELL_GOUTHAM-DESKTOP_2026-03-23_14_48_08" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="63d146e1-9628-4330-b5bc-5e5e43aadef6" testId="67a252b9-86b9-9a45-134d-21aec2dc43e4" testName="Domain.Tests.Enums.ClaimStatusTests.ClaimStatus_HasExpectedValues" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0134378" startTime="2026-03-23T14:48:08.2373832+05:30" endTime="2026-03-23T14:48:08.2373834+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="63d146e1-9628-4330-b5bc-5e5e43aadef6" />
+    <UnitTestResult executionId="c3cc89d9-0726-4cc5-b7fd-dfb3fabbd700" testId="d5588d23-71e2-24a5-b91e-1d9244e39f6b" testName="Domain.Tests.Entities.ClaimPaymentTests.ClaimPayment_DefaultValues_AreCorrect" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0004783" startTime="2026-03-23T14:48:08.2417490+05:30" endTime="2026-03-23T14:48:08.2417491+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c3cc89d9-0726-4cc5-b7fd-dfb3fabbd700" />
+    <UnitTestResult executionId="48f9958c-cb07-443a-aea6-ba15b5d742e7" testId="5295b975-5d3e-e5a2-af28-e01161ba8d2f" testName="Domain.Tests.Enums.PolicyStatusTests.PolicyStatus_HasExpectedValues" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0004338" startTime="2026-03-23T14:48:08.3396989+05:30" endTime="2026-03-23T14:48:08.3396990+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="48f9958c-cb07-443a-aea6-ba15b5d742e7" />
+    <UnitTestResult executionId="7eb982f2-8813-4051-9ceb-a261df17b45f" testId="7e4a5a03-e780-3ad4-85db-95d5682df616" testName="Domain.Tests.Enums.UserRoleTests.UserRole_HasExpectedValues" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0113831" startTime="2026-03-23T14:48:08.2330179+05:30" endTime="2026-03-23T14:48:08.2330561+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7eb982f2-8813-4051-9ceb-a261df17b45f" />
+    <UnitTestResult executionId="db9bd2ed-41ba-4d44-bdc4-56f66d277e56" testId="bddd0955-75d9-432c-581d-72fdc93bf72e" testName="Domain.Tests.Entities.PolicyPaymentTests.PolicyPayment_DefaultValues_AreCorrect" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0023297" startTime="2026-03-23T14:48:08.2392502+05:30" endTime="2026-03-23T14:48:08.2392503+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="db9bd2ed-41ba-4d44-bdc4-56f66d277e56" />
+    <UnitTestResult executionId="46eb3f7d-ba01-49d1-848e-1facc96d5702" testId="f81e6074-c262-2514-222c-a6d510cf7219" testName="Domain.Tests.Entities.ClaimTests.Claim_DefaultValues_AreCorrect" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0005802" startTime="2026-03-23T14:48:08.3362537+05:30" endTime="2026-03-23T14:48:08.3362538+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="46eb3f7d-ba01-49d1-848e-1facc96d5702" />
+    <UnitTestResult executionId="41426098-2b7f-4799-b408-e0a881406517" testId="25f316ce-adc9-ef13-b493-e0c0cc45d85f" testName="Domain.Tests.Entities.PlanTests.Plan_DefaultValues_AreCorrect" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0035197" startTime="2026-03-23T14:48:08.3343205+05:30" endTime="2026-03-23T14:48:08.3343209+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="41426098-2b7f-4799-b408-e0a881406517" />
+    <UnitTestResult executionId="dfe91619-e0e2-4d3f-a1f2-673188a64b4a" testId="c0d709cc-5a22-5471-4d6d-f3400e56ca19" testName="Domain.Tests.Entities.PlanTests.Plan_SetProperties_RetainsValues" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0011374" startTime="2026-03-23T14:48:08.3360368+05:30" endTime="2026-03-23T14:48:08.3360370+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dfe91619-e0e2-4d3f-a1f2-673188a64b4a" />
+    <UnitTestResult executionId="5a6fa456-cf8d-4231-aff5-5102b2c99646" testId="b60ea2b3-6a17-cdbd-8cac-d32991f804a6" testName="Domain.Tests.Entities.PolicyTests.Policy_DefaultValues_AreCorrect" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0006195" startTime="2026-03-23T14:48:08.3400555+05:30" endTime="2026-03-23T14:48:08.3400555+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5a6fa456-cf8d-4231-aff5-5102b2c99646" />
+    <UnitTestResult executionId="44a38dfc-7270-464f-aa95-8af94e51ccb1" testId="fac5a19c-8408-cbc4-3fb4-65589396e776" testName="Domain.Tests.Enums.PaymentFrequencyTests.PaymentFrequency_HasExpectedValues" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0003628" startTime="2026-03-23T14:48:08.2416908+05:30" endTime="2026-03-23T14:48:08.2416909+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="44a38dfc-7270-464f-aa95-8af94e51ccb1" />
+    <UnitTestResult executionId="5996e78e-4333-4761-af99-71117b3472fb" testId="ec13b558-7e32-0ee1-cad4-30cd56b77dd5" testName="Domain.Tests.Entities.InvoiceTests.Invoice_DefaultValues_AreCorrect" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0002277" startTime="2026-03-23T14:48:08.3398359+05:30" endTime="2026-03-23T14:48:08.3398360+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5996e78e-4333-4761-af99-71117b3472fb" />
+    <UnitTestResult executionId="4b7e0116-f5df-4608-93b6-d6b6e07a8adb" testId="30f271eb-41f1-ac2e-a945-df760e7419ec" testName="Domain.Tests.Entities.UserTests.User_DefaultValues_AreCorrect" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0237336" startTime="2026-03-23T14:48:08.3398854+05:30" endTime="2026-03-23T14:48:08.3398854+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4b7e0116-f5df-4608-93b6-d6b6e07a8adb" />
+    <UnitTestResult executionId="cfcbcb67-732e-4119-994a-b87d0414475a" testId="b178b4c3-a2ee-9046-cae6-0283d086222b" testName="Domain.Tests.Enums.PaymentStatusTests.PaymentStatus_HasExpectedValues" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0142195" startTime="2026-03-23T14:48:08.2369586+05:30" endTime="2026-03-23T14:48:08.2369589+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cfcbcb67-732e-4119-994a-b87d0414475a" />
+    <UnitTestResult executionId="7da8a68b-94ae-4bbc-bd7c-0f91489447df" testId="a6721fdd-e774-38aa-76d6-6cb6a1d0d670" testName="Domain.Tests.Entities.PolicyPaymentTests.PolicyPayment_SetProperties_RetainsValues" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0206510" startTime="2026-03-23T14:48:08.2391584+05:30" endTime="2026-03-23T14:48:08.2391586+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7da8a68b-94ae-4bbc-bd7c-0f91489447df" />
+    <UnitTestResult executionId="d5e23419-9b9b-4688-a800-5435829a5a0d" testId="ae51b7e6-dfb9-0649-4798-dded82fc5569" testName="Domain.Tests.Entities.UserTests.User_SetProperties_RetainsValues" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0021251" startTime="2026-03-23T14:48:08.3399492+05:30" endTime="2026-03-23T14:48:08.3399492+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d5e23419-9b9b-4688-a800-5435829a5a0d" />
+    <UnitTestResult executionId="29823fc4-e099-40a3-9fa3-dbffee4e157d" testId="66c31724-a39d-f7ee-dd6f-fc17a840e54e" testName="Domain.Tests.Entities.InvoiceTests.Invoice_SetProperties_RetainsValues" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0045752" startTime="2026-03-23T14:48:08.3397521+05:30" endTime="2026-03-23T14:48:08.3397521+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="29823fc4-e099-40a3-9fa3-dbffee4e157d" />
+    <UnitTestResult executionId="dfe6f6fa-525f-4226-af36-336b60e0cdf2" testId="5f7da09d-28a3-2c6d-ab8c-6429bd5408bf" testName="Domain.Tests.Entities.NotificationTests.Notification_DefaultValues_AreCorrect" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0003036" startTime="2026-03-23T14:48:08.3395569+05:30" endTime="2026-03-23T14:48:08.3395570+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dfe6f6fa-525f-4226-af36-336b60e0cdf2" />
+    <UnitTestResult executionId="b58c85db-d28b-4e83-8289-137c3ed63e66" testId="c183bc6f-0926-8bc8-01ae-a7e89e1cd625" testName="Domain.Tests.Entities.NotificationTests.Notification_SetProperties_RetainsValues" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0008180" startTime="2026-03-23T14:48:08.3363630+05:30" endTime="2026-03-23T14:48:08.3363631+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b58c85db-d28b-4e83-8289-137c3ed63e66" />
+    <UnitTestResult executionId="06818b3a-0dce-47cd-8c4d-75f8f6956659" testId="3f57165e-7bf7-969f-213a-83a26a7260ae" testName="Domain.Tests.Entities.PolicyTests.Policy_SetProperties_RetainsValues" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0339688" startTime="2026-03-23T14:48:08.3399927+05:30" endTime="2026-03-23T14:48:08.3399928+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="06818b3a-0dce-47cd-8c4d-75f8f6956659" />
+    <UnitTestResult executionId="4a716ea7-2dd1-49e1-8d8e-1ba348aeb6b7" testId="e814802f-3d19-eb37-6357-6a9cf4a162b8" testName="Domain.Tests.Enums.InvoiceTypeTests.InvoiceType_HasExpectedValues" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0003530" startTime="2026-03-23T14:48:08.3392848+05:30" endTime="2026-03-23T14:48:08.3392851+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4a716ea7-2dd1-49e1-8d8e-1ba348aeb6b7" />
+    <UnitTestResult executionId="f15f3e65-9346-4664-b349-cd9c2a2c2cc6" testId="5f2398c6-3ff0-bc74-caf6-6661d7e2a9d7" testName="Domain.Tests.Entities.ClaimPaymentTests.ClaimPayment_SetProperties_RetainsValues" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0020642" startTime="2026-03-23T14:48:08.3313369+05:30" endTime="2026-03-23T14:48:08.3313371+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f15f3e65-9346-4664-b349-cd9c2a2c2cc6" />
+    <UnitTestResult executionId="73390b1f-b242-4be9-aac4-35c984e7c055" testId="5482aa9a-5a96-6138-3e7f-78ba48a90f3b" testName="Domain.Tests.Entities.ClaimTests.Claim_SetProperties_RetainsValues" computerName="GOUTHAM-DESKTOP" duration="00:00:00.0091651" startTime="2026-03-23T14:48:08.3361059+05:30" endTime="2026-03-23T14:48:08.3361060+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="73390b1f-b242-4be9-aac4-35c984e7c055" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Domain.Tests.Entities.InvoiceTests.Invoice_DefaultValues_AreCorrect" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="ec13b558-7e32-0ee1-cad4-30cd56b77dd5">
+      <Execution id="5996e78e-4333-4761-af99-71117b3472fb" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Entities.InvoiceTests" name="Invoice_DefaultValues_AreCorrect" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Entities.UserTests.User_SetProperties_RetainsValues" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="ae51b7e6-dfb9-0649-4798-dded82fc5569">
+      <Execution id="d5e23419-9b9b-4688-a800-5435829a5a0d" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Entities.UserTests" name="User_SetProperties_RetainsValues" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Entities.PlanTests.Plan_DefaultValues_AreCorrect" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="25f316ce-adc9-ef13-b493-e0c0cc45d85f">
+      <Execution id="41426098-2b7f-4799-b408-e0a881406517" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Entities.PlanTests" name="Plan_DefaultValues_AreCorrect" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Entities.PolicyTests.Policy_SetProperties_RetainsValues" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="3f57165e-7bf7-969f-213a-83a26a7260ae">
+      <Execution id="06818b3a-0dce-47cd-8c4d-75f8f6956659" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Entities.PolicyTests" name="Policy_SetProperties_RetainsValues" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Enums.PaymentFrequencyTests.PaymentFrequency_HasExpectedValues" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="fac5a19c-8408-cbc4-3fb4-65589396e776">
+      <Execution id="44a38dfc-7270-464f-aa95-8af94e51ccb1" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Enums.PaymentFrequencyTests" name="PaymentFrequency_HasExpectedValues" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Enums.PaymentStatusTests.PaymentStatus_HasExpectedValues" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="b178b4c3-a2ee-9046-cae6-0283d086222b">
+      <Execution id="cfcbcb67-732e-4119-994a-b87d0414475a" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Enums.PaymentStatusTests" name="PaymentStatus_HasExpectedValues" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Enums.InvoiceTypeTests.InvoiceType_HasExpectedValues" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="e814802f-3d19-eb37-6357-6a9cf4a162b8">
+      <Execution id="4a716ea7-2dd1-49e1-8d8e-1ba348aeb6b7" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Enums.InvoiceTypeTests" name="InvoiceType_HasExpectedValues" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Entities.ClaimTests.Claim_DefaultValues_AreCorrect" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="f81e6074-c262-2514-222c-a6d510cf7219">
+      <Execution id="46eb3f7d-ba01-49d1-848e-1facc96d5702" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Entities.ClaimTests" name="Claim_DefaultValues_AreCorrect" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Entities.PlanTests.Plan_SetProperties_RetainsValues" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="c0d709cc-5a22-5471-4d6d-f3400e56ca19">
+      <Execution id="dfe91619-e0e2-4d3f-a1f2-673188a64b4a" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Entities.PlanTests" name="Plan_SetProperties_RetainsValues" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Entities.PolicyPaymentTests.PolicyPayment_SetProperties_RetainsValues" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="a6721fdd-e774-38aa-76d6-6cb6a1d0d670">
+      <Execution id="7da8a68b-94ae-4bbc-bd7c-0f91489447df" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Entities.PolicyPaymentTests" name="PolicyPayment_SetProperties_RetainsValues" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Entities.ClaimPaymentTests.ClaimPayment_SetProperties_RetainsValues" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="5f2398c6-3ff0-bc74-caf6-6661d7e2a9d7">
+      <Execution id="f15f3e65-9346-4664-b349-cd9c2a2c2cc6" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Entities.ClaimPaymentTests" name="ClaimPayment_SetProperties_RetainsValues" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Entities.ClaimPaymentTests.ClaimPayment_DefaultValues_AreCorrect" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="d5588d23-71e2-24a5-b91e-1d9244e39f6b">
+      <Execution id="c3cc89d9-0726-4cc5-b7fd-dfb3fabbd700" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Entities.ClaimPaymentTests" name="ClaimPayment_DefaultValues_AreCorrect" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Entities.PolicyTests.Policy_DefaultValues_AreCorrect" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="b60ea2b3-6a17-cdbd-8cac-d32991f804a6">
+      <Execution id="5a6fa456-cf8d-4231-aff5-5102b2c99646" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Entities.PolicyTests" name="Policy_DefaultValues_AreCorrect" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Entities.InvoiceTests.Invoice_SetProperties_RetainsValues" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="66c31724-a39d-f7ee-dd6f-fc17a840e54e">
+      <Execution id="29823fc4-e099-40a3-9fa3-dbffee4e157d" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Entities.InvoiceTests" name="Invoice_SetProperties_RetainsValues" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Entities.NotificationTests.Notification_DefaultValues_AreCorrect" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="5f7da09d-28a3-2c6d-ab8c-6429bd5408bf">
+      <Execution id="dfe6f6fa-525f-4226-af36-336b60e0cdf2" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Entities.NotificationTests" name="Notification_DefaultValues_AreCorrect" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Entities.ClaimTests.Claim_SetProperties_RetainsValues" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="5482aa9a-5a96-6138-3e7f-78ba48a90f3b">
+      <Execution id="73390b1f-b242-4be9-aac4-35c984e7c055" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Entities.ClaimTests" name="Claim_SetProperties_RetainsValues" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Entities.NotificationTests.Notification_SetProperties_RetainsValues" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="c183bc6f-0926-8bc8-01ae-a7e89e1cd625">
+      <Execution id="b58c85db-d28b-4e83-8289-137c3ed63e66" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Entities.NotificationTests" name="Notification_SetProperties_RetainsValues" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Entities.PolicyPaymentTests.PolicyPayment_DefaultValues_AreCorrect" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="bddd0955-75d9-432c-581d-72fdc93bf72e">
+      <Execution id="db9bd2ed-41ba-4d44-bdc4-56f66d277e56" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Entities.PolicyPaymentTests" name="PolicyPayment_DefaultValues_AreCorrect" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Enums.ClaimStatusTests.ClaimStatus_HasExpectedValues" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="67a252b9-86b9-9a45-134d-21aec2dc43e4">
+      <Execution id="63d146e1-9628-4330-b5bc-5e5e43aadef6" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Enums.ClaimStatusTests" name="ClaimStatus_HasExpectedValues" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Enums.UserRoleTests.UserRole_HasExpectedValues" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="7e4a5a03-e780-3ad4-85db-95d5682df616">
+      <Execution id="7eb982f2-8813-4051-9ceb-a261df17b45f" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Enums.UserRoleTests" name="UserRole_HasExpectedValues" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Enums.PolicyStatusTests.PolicyStatus_HasExpectedValues" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="5295b975-5d3e-e5a2-af28-e01161ba8d2f">
+      <Execution id="48f9958c-cb07-443a-aea6-ba15b5d742e7" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Enums.PolicyStatusTests" name="PolicyStatus_HasExpectedValues" />
+    </UnitTest>
+    <UnitTest name="Domain.Tests.Entities.UserTests.User_DefaultValues_AreCorrect" storage="c:\users\dell\desktop\goutham\backend\domain.tests\bin\debug\net8.0\domain.tests.dll" id="30f271eb-41f1-ac2e-a945-df760e7419ec">
+      <Execution id="4b7e0116-f5df-4608-93b6-d6b6e07a8adb" />
+      <TestMethod codeBase="c:\Users\DELL\Desktop\GOUTHAM\backend\Domain.Tests\bin\Debug\net8.0\Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Domain.Tests.Entities.UserTests" name="User_DefaultValues_AreCorrect" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="67a252b9-86b9-9a45-134d-21aec2dc43e4" executionId="63d146e1-9628-4330-b5bc-5e5e43aadef6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d5588d23-71e2-24a5-b91e-1d9244e39f6b" executionId="c3cc89d9-0726-4cc5-b7fd-dfb3fabbd700" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5295b975-5d3e-e5a2-af28-e01161ba8d2f" executionId="48f9958c-cb07-443a-aea6-ba15b5d742e7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7e4a5a03-e780-3ad4-85db-95d5682df616" executionId="7eb982f2-8813-4051-9ceb-a261df17b45f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bddd0955-75d9-432c-581d-72fdc93bf72e" executionId="db9bd2ed-41ba-4d44-bdc4-56f66d277e56" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f81e6074-c262-2514-222c-a6d510cf7219" executionId="46eb3f7d-ba01-49d1-848e-1facc96d5702" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="25f316ce-adc9-ef13-b493-e0c0cc45d85f" executionId="41426098-2b7f-4799-b408-e0a881406517" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c0d709cc-5a22-5471-4d6d-f3400e56ca19" executionId="dfe91619-e0e2-4d3f-a1f2-673188a64b4a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b60ea2b3-6a17-cdbd-8cac-d32991f804a6" executionId="5a6fa456-cf8d-4231-aff5-5102b2c99646" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fac5a19c-8408-cbc4-3fb4-65589396e776" executionId="44a38dfc-7270-464f-aa95-8af94e51ccb1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ec13b558-7e32-0ee1-cad4-30cd56b77dd5" executionId="5996e78e-4333-4761-af99-71117b3472fb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="30f271eb-41f1-ac2e-a945-df760e7419ec" executionId="4b7e0116-f5df-4608-93b6-d6b6e07a8adb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b178b4c3-a2ee-9046-cae6-0283d086222b" executionId="cfcbcb67-732e-4119-994a-b87d0414475a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a6721fdd-e774-38aa-76d6-6cb6a1d0d670" executionId="7da8a68b-94ae-4bbc-bd7c-0f91489447df" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ae51b7e6-dfb9-0649-4798-dded82fc5569" executionId="d5e23419-9b9b-4688-a800-5435829a5a0d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="66c31724-a39d-f7ee-dd6f-fc17a840e54e" executionId="29823fc4-e099-40a3-9fa3-dbffee4e157d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5f7da09d-28a3-2c6d-ab8c-6429bd5408bf" executionId="dfe6f6fa-525f-4226-af36-336b60e0cdf2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c183bc6f-0926-8bc8-01ae-a7e89e1cd625" executionId="b58c85db-d28b-4e83-8289-137c3ed63e66" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3f57165e-7bf7-969f-213a-83a26a7260ae" executionId="06818b3a-0dce-47cd-8c4d-75f8f6956659" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e814802f-3d19-eb37-6357-6a9cf4a162b8" executionId="4a716ea7-2dd1-49e1-8d8e-1ba348aeb6b7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5f2398c6-3ff0-bc74-caf6-6661d7e2a9d7" executionId="f15f3e65-9346-4664-b349-cd9c2a2c2cc6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5482aa9a-5a96-6138-3e7f-78ba48a90f3b" executionId="73390b1f-b242-4be9-aac4-35c984e7c055" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="22" executed="22" passed="22" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.5.3.1+6b60a9e56a (64-bit .NET 8.0.23)&#xD;
+[xUnit.net 00:00:00.24]   Discovering: Domain.Tests&#xD;
+[xUnit.net 00:00:00.34]   Discovered:  Domain.Tests&#xD;
+[xUnit.net 00:00:00.35]   Starting:    Domain.Tests&#xD;
+[xUnit.net 00:00:00.65]   Finished:    Domain.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

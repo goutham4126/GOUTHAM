@@ -3,8 +3,11 @@ using Application.Services;
 using Domain.Entities;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System.Linq.Expressions;
+using System.Collections.Generic;
 
 namespace Application.Tests.Services
 {
@@ -52,6 +55,15 @@ namespace Application.Tests.Services
 
             _claimRepoMock.Setup(r => r.GetByUserIdAsync(userId)).ReturnsAsync(claims);
 
+            var kycDetails = new List<KycDetails>().AsQueryable();
+            var mockSet = new Mock<DbSet<KycDetails>>();
+            mockSet.As<IAsyncEnumerable<KycDetails>>().Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>())).Returns(new TestAsyncEnumerator<KycDetails>(kycDetails.GetEnumerator()));
+            mockSet.As<IQueryable<KycDetails>>().Setup(m => m.Provider).Returns(new TestAsyncQueryProvider<KycDetails>(kycDetails.Provider));
+            mockSet.As<IQueryable<KycDetails>>().Setup(m => m.Expression).Returns(kycDetails.Expression);
+            mockSet.As<IQueryable<KycDetails>>().Setup(m => m.ElementType).Returns(kycDetails.ElementType);
+            mockSet.As<IQueryable<KycDetails>>().Setup(m => m.GetEnumerator()).Returns(kycDetails.GetEnumerator());
+            _contextMock.Setup(c => c.KycDetails).Returns(mockSet.Object);
+
             var result = await _service.GetUserClaimsAsync(userId);
 
             Assert.Equal(2, result.Count);
@@ -71,6 +83,15 @@ namespace Application.Tests.Services
             };
 
             _claimRepoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(claims);
+
+            var kycDetails = new List<KycDetails>().AsQueryable();
+            var mockSet = new Mock<DbSet<KycDetails>>();
+            mockSet.As<IAsyncEnumerable<KycDetails>>().Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>())).Returns(new TestAsyncEnumerator<KycDetails>(kycDetails.GetEnumerator()));
+            mockSet.As<IQueryable<KycDetails>>().Setup(m => m.Provider).Returns(new TestAsyncQueryProvider<KycDetails>(kycDetails.Provider));
+            mockSet.As<IQueryable<KycDetails>>().Setup(m => m.Expression).Returns(kycDetails.Expression);
+            mockSet.As<IQueryable<KycDetails>>().Setup(m => m.ElementType).Returns(kycDetails.ElementType);
+            mockSet.As<IQueryable<KycDetails>>().Setup(m => m.GetEnumerator()).Returns(kycDetails.GetEnumerator());
+            _contextMock.Setup(c => c.KycDetails).Returns(mockSet.Object);
 
             var result = await _service.GetAllClaimsAsync();
 
@@ -200,6 +221,40 @@ namespace Application.Tests.Services
 
             await Assert.ThrowsAsync<UnauthorizedAccessException>(
                 () => _service.RejectClaimAsync(claimId, Guid.NewGuid(), "Reject test"));
+        }
+    }
+
+    // --- Async Mocking Boilerplate ---
+    internal class TestAsyncEnumerable<T> : EnumerableQuery<T>, IAsyncEnumerable<T>, IQueryable<T>
+    {
+        public TestAsyncEnumerable(IEnumerable<T> enumerable) : base(enumerable) { }
+        public TestAsyncEnumerable(Expression expression) : base(expression) { }
+        public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default) => new TestAsyncEnumerator<T>(this.AsEnumerable().GetEnumerator());
+        IQueryProvider IQueryable.Provider => new TestAsyncQueryProvider<T>(this);
+    }
+
+    internal class TestAsyncEnumerator<T> : IAsyncEnumerator<T>
+    {
+        private readonly IEnumerator<T> _enumerator;
+        public TestAsyncEnumerator(IEnumerator<T> enumerator) => _enumerator = enumerator;
+        public T Current => _enumerator.Current;
+        public ValueTask DisposeAsync() { _enumerator.Dispose(); return ValueTask.CompletedTask; }
+        public ValueTask<bool> MoveNextAsync() => new ValueTask<bool>(_enumerator.MoveNext());
+    }
+
+    internal class TestAsyncQueryProvider<TEntity> : IAsyncQueryProvider
+    {
+        private readonly IQueryProvider _inner;
+        public TestAsyncQueryProvider(IQueryProvider inner) => _inner = inner;
+        public IQueryable CreateQuery(Expression expression) => new TestAsyncEnumerable<TEntity>(expression);
+        public IQueryable<TElement> CreateQuery<TElement>(Expression expression) => new TestAsyncEnumerable<TElement>(expression);
+        public object? Execute(Expression expression) => _inner.Execute(expression);
+        public TResult Execute<TResult>(Expression expression) => _inner.Execute<TResult>(expression);
+        public TResult ExecuteAsync<TResult>(Expression expression, CancellationToken cancellationToken = default)
+        {
+            var expectedResultType = typeof(TResult).GetGenericArguments()[0];
+            var executionResult = typeof(IQueryProvider).GetMethods().First(m => m.Name == "Execute" && m.IsGenericMethod).MakeGenericMethod(expectedResultType).Invoke(_inner, new object[] { expression });
+            return (TResult)typeof(Task).GetMethod("FromResult")!.MakeGenericMethod(expectedResultType).Invoke(null, new object[] { executionResult })!;
         }
     }
 }

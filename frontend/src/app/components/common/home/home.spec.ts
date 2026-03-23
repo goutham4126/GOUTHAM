@@ -23,5 +23,5 @@ describe('Home', () => {
   it('should have 6 workflow steps', () => { expect(component.workflowSteps.length).toBe(6); });
   it('should have 4 system roles', () => { expect(component.systemRoles.length).toBe(4); });
   it('should have 3 insurance plans', () => { expect(component.insurancePlans.length).toBe(3); });
-  it('should have 5 platform benefits', () => { expect(component.platformBenefits.length).toBe(5); });
+  it('should have 8 platform benefits', () => { expect(component.platformBenefits.length).toBe(8); });
 });
