@@ -10,6 +10,7 @@ import { ToastService } from '../../../services/toast/toast';
 import { VideoCallService } from '../../../services/video-call/video-call.service';
 import { GeoVerificationService, VerificationResult, AmbeeDisasterData } from '../../../services/geo-verification/geo-verification.service';
 import { Router } from '@angular/router';
+import { AiClaimSummaryComponent } from '../ai-claim-summary/ai-claim-summary';
 import * as L from 'leaflet';
 
 // Fix default marker icon paths
@@ -36,7 +37,7 @@ const incidentIcon = L.divIcon({
 @Component({
   selector: 'app-claims-desk',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AiClaimSummaryComponent],
   providers: [DatePipe],
   templateUrl: './claims-desk.html',
   styleUrl: './claims-desk.css',

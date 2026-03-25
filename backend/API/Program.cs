@@ -54,6 +54,7 @@ namespace API
             builder.Services.AddHttpClient<IWebhookNotificationService, WebhookNotificationService>();
             builder.Services.AddHttpClient<IAiDocumentService, AiDocumentService>();
             builder.Services.AddScoped<IInvoiceGeneratorService, InvoiceGeneratorService>();
+            builder.Services.AddScoped<IVertexAiService, VertexAiService>();
             builder.Services.AddScoped<INotificationService, NotificationService>();
             builder.Services.AddHttpClient<IGeoVerificationService, GeoVerificationService>();
             builder.Services.Configure<Application.Configuration.RinggAISettings>(builder.Configuration.GetSection("RinggAI"));
