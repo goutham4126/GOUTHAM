@@ -7,6 +7,7 @@ import { Sidebar } from './components/common/sidebar/sidebar';
 import { ToastComponent } from './components/common/toast/toast';
 import { IncomingCall } from './components/common/incoming-call/incoming-call';
 import { AuthService } from './services/auth/auth';
+import { ChatbotComponent } from './components/common/chatbot/chatbot';
 import { NotificationService } from './services/notification/notification.service';
 import { VideoCallService } from './services/video-call/video-call.service';
 import { effect } from '@angular/core';
@@ -14,7 +15,7 @@ import { effect } from '@angular/core';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Header, Footer, Sidebar, ToastComponent, IncomingCall],
+  imports: [RouterOutlet, Header, Footer, Sidebar, ToastComponent, IncomingCall, ChatbotComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

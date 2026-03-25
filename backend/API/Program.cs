@@ -55,6 +55,7 @@ namespace API
             builder.Services.AddHttpClient<IAiDocumentService, AiDocumentService>();
             builder.Services.AddScoped<IInvoiceGeneratorService, InvoiceGeneratorService>();
             builder.Services.AddScoped<IVertexAiService, VertexAiService>();
+            builder.Services.AddScoped<IChatbotService, VertexAiChatbotService>();
             builder.Services.AddScoped<INotificationService, NotificationService>();
             builder.Services.AddHttpClient<IGeoVerificationService, GeoVerificationService>();
             builder.Services.Configure<Application.Configuration.RinggAISettings>(builder.Configuration.GetSection("RinggAI"));
@@ -130,10 +131,10 @@ namespace API
                 options.AddPolicy("AllowAngular",
                     policy =>
                     {
-                        policy.WithOrigins("http://localhost:4200")
+                        policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
                               .AllowAnyHeader()
                               .AllowAnyMethod()
-                              .AllowCredentials(); // Required for SignalR WebSockets
+                              .AllowCredentials();
                     });
             });
 
