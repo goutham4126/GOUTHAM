@@ -51,6 +51,8 @@ public class UsersController : ControllerBase
             user.Address,
             user.Phone,
             user.DateOfBirth,
+            user.BankAccountNumber,
+            user.IFSCCode,
             user.CreatedAt,
             user.ProfileImageUrl
         ));
@@ -71,6 +73,8 @@ public class UsersController : ControllerBase
         user.Address = request.Address;
         user.GovernmentId = request.GovernmentId;
         user.DateOfBirth = request.DateOfBirth;
+        user.BankAccountNumber = request.BankAccountNumber;
+        user.IFSCCode = request.IFSCCode;
         user.UpdatedAt = DateTime.UtcNow;
 
         if (!string.IsNullOrWhiteSpace(request.ProfileImageBase64))
@@ -97,6 +101,8 @@ public class UsersController : ControllerBase
             user.Address,
             user.Phone,
             user.DateOfBirth,
+            user.BankAccountNumber,
+            user.IFSCCode,
             user.CreatedAt,
             user.ProfileImageUrl
         ));
@@ -118,6 +124,8 @@ public class UsersController : ControllerBase
             u.Address,
             u.Phone,
             u.DateOfBirth,
+            u.BankAccountNumber,
+            u.IFSCCode,
             u.CreatedAt,
             u.ProfileImageUrl
         )));

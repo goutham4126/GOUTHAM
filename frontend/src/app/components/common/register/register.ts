@@ -62,6 +62,8 @@ export class Register implements OnDestroy {
     ],
     password: ['', [Validators.required, Validators.minLength(8)]],
     governmentId: [''],
+    bankAccountNumber: [''],
+    ifscCode: [''],
 
     phone: [
       '',
@@ -90,6 +92,8 @@ export class Register implements OnDestroy {
     const payload = {
       ...raw,
       governmentId: raw.governmentId || undefined,
+      bankAccountNumber: raw.bankAccountNumber || undefined,
+      ifscCode: raw.ifscCode || undefined,
       phone: raw.phone ? `+91${raw.phone}` : undefined,
       dateOfBirth: raw.dateOfBirth || undefined,
       address: raw.address || undefined,

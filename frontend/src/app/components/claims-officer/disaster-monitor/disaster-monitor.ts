@@ -94,7 +94,7 @@ export class DisasterMonitor implements OnInit {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-    fetch('https://goutham4126.app.n8n.cloud/webhook/disasters', { signal: controller.signal })
+    fetch('https://gouthamdazler.app.n8n.cloud/webhook/disasters', { signal: controller.signal })
       .then(r => {
         clearTimeout(timeoutId);
         if (!r.ok) throw new Error(`HTTP Error: ${r.status}`);
@@ -209,7 +209,7 @@ export class DisasterMonitor implements OnInit {
       if (this.timeFilter !== 'all') {
         const eventDate = new Date(d.date).getTime();
         const diffDays = (now - eventDate) / msInDay;
-        
+
         if (this.timeFilter === '24h' && diffDays > 1) return false;
         if (this.timeFilter === '7d' && diffDays > 7) return false;
         if (this.timeFilter === '30d' && diffDays > 30) return false;
@@ -233,7 +233,7 @@ export class DisasterMonitor implements OnInit {
     if (!this.globalHistoryMap || !this.globalDisasterLayer) return;
 
     this.clearGlobalDisasterMarkers();
-    
+
     if (this.filteredDisasters.length === 0) return;
 
     const bounds = L.latLngBounds([]);
@@ -256,7 +256,7 @@ export class DisasterMonitor implements OnInit {
   private getDisasterPopupHtml(disaster: AmbeeDisasterData): string {
     const eventTime = new Date(disaster.date).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
     const eventType = disaster.event_type ? this.getEventTypeName(disaster.event_type) : 'Disaster';
-    
+
     return `
       <div class="disaster-popup-card">
         <div class="disaster-popup-header">

@@ -92,7 +92,7 @@ export class ClaimsHistory implements OnInit {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-    fetch('https://goutham4126.app.n8n.cloud/webhook/disasters', { signal: controller.signal })
+    fetch('https://gouthamdazler.app.n8n.cloud/webhook/disasters', { signal: controller.signal })
       .then(r => {
         clearTimeout(timeoutId);
         if (!r.ok) throw new Error(`HTTP Error: ${r.status}`);

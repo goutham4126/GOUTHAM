@@ -259,10 +259,22 @@
             class="w-full px-4 py-3 bg-bg-base/40 border border-border rounded-xl text-[14px] text-text-primary focus:bg-surface focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm">
         </div>
         <!-- Government ID -->
-        <div class="mb-8">
-          <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Government ID</label>
-          <input type="text" formControlName="governmentId" placeholder="Aadhar / PAN / Passport"
-            class="w-full px-4 py-3 bg-bg-base/40 border border-border rounded-xl text-[14px] text-text-primary focus:bg-surface focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
+          <div>
+            <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Government ID</label>
+            <input type="text" formControlName="governmentId" placeholder="Aadhar / PAN / Passport"
+              class="w-full px-4 py-3 bg-bg-base/40 border border-border rounded-xl text-[14px] text-text-primary focus:bg-surface focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm">
+          </div>
+          <div>
+            <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Bank Account No.</label>
+            <input type="text" formControlName="bankAccountNumber" placeholder="Account Number"
+              class="w-full px-4 py-3 bg-bg-base/40 border border-border rounded-xl text-[14px] text-text-primary focus:bg-surface focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm">
+          </div>
+          <div>
+            <label class="block text-[13px] font-semibold text-text-muted mb-1.5">IFSC Code</label>
+            <input type="text" formControlName="ifscCode" placeholder="IFSC Code"
+              class="w-full px-4 py-3 bg-bg-base/40 border border-border rounded-xl text-[14px] text-text-primary focus:bg-surface focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm">
+          </div>
         </div>
         <!-- Actions -->
         <div class="flex gap-3 justify-end pt-2">
@@ -310,10 +322,22 @@
             <span class="text-[14px] text-text-primary font-semibold text-right">{{ formatDate(user.dateOfBirth)
               }}</span>
           </div>
-          <div class="flex justify-between items-baseline gap-4 py-3">
+          <div class="flex justify-between items-baseline gap-4 py-3 border-b border-border/50">
             <span class="text-[12px] text-text-muted font-medium whitespace-nowrap flex-shrink-0">Government ID</span>
             <span class="text-[14px] text-text-primary font-semibold text-right font-mono break-all">{{
               user.governmentId || '—'
+              }}</span>
+          </div>
+          <div class="flex justify-between items-baseline gap-4 py-3 border-b border-border/50">
+            <span class="text-[12px] text-text-muted font-medium whitespace-nowrap flex-shrink-0">Bank Account</span>
+            <span class="text-[14px] text-text-primary font-semibold text-right font-mono break-all">{{
+              user.bankAccountNumber || '—'
+              }}</span>
+          </div>
+          <div class="flex justify-between items-baseline gap-4 py-3">
+            <span class="text-[12px] text-text-muted font-medium whitespace-nowrap flex-shrink-0">IFSC Code</span>
+            <span class="text-[14px] text-text-primary font-semibold text-right font-mono break-all">{{
+              user.ifscCode || '—'
               }}</span>
           </div>
         </div>

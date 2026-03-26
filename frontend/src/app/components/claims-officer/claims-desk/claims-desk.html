@@ -113,6 +113,20 @@
                       {{ c.customerPhone || 'N/A' }}
                     </span>
                   </div>
+                  <div>
+                    <span class="text-[10px] font-bold text-text-muted uppercase tracking-widest block mb-1.5">Bank Account No.</span>
+                    <span class="text-[13px] font-semibold text-text-primary px-2.5 py-1.5 bg-text-muted/10 border border-text-muted/20 rounded-lg inline-flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-text-muted"></div>
+                      {{ c.bankAccountNumber || 'N/A' }}
+                    </span>
+                  </div>
+                  <div>
+                    <span class="text-[10px] font-bold text-text-muted uppercase tracking-widest block mb-1.5">IFSC Code</span>
+                    <span class="text-[13px] font-semibold text-text-primary px-2.5 py-1.5 bg-text-muted/10 border border-text-muted/20 rounded-lg inline-flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-text-muted"></div>
+                      {{ c.ifscCode || 'N/A' }}
+                    </span>
+                  </div>
                   <div class="col-span-2 md:col-span-4">
                     <span class="text-[10px] font-bold text-text-muted uppercase tracking-widest block mb-1.5">Verified Aadhaar Address</span>
                     <div class="flex items-start gap-2 text-[13px] font-medium text-text-primary bg-bg-base/40 p-3.5 rounded-xl border border-border/60">

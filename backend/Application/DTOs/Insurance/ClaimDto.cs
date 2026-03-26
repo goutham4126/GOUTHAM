@@ -30,5 +30,7 @@ public record ClaimDto(
     string? AadhaarAddress = null,
     DateTime? CustomerDateOfBirth = null,
     string? CustomerProfileImageUrl = null,
+    string? BankAccountNumber = null,
+    string? IFSCCode = null,
     List<ClaimTrackingStageDto>? TrackingStages = null
 );

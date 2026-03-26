@@ -367,6 +367,8 @@ namespace Application.Services
                 kyc?.AadhaarAddress,
                 claim.User.DateOfBirth,
                 claim.User.ProfileImageUrl,
+                claim.User.BankAccountNumber,
+                claim.User.IFSCCode,
                 claim.TrackingStages != null 
                     ? claim.TrackingStages.Select(t => new ClaimTrackingStageDto
                     {

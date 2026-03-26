@@ -6,6 +6,8 @@ export interface RegisterDto {
     governmentId?: string;
     address?: string;
     dateOfBirth?: string; // ISO date string
+    bankAccountNumber?: string;
+    ifscCode?: string;
     profileImageBase64?: string;
 }
 
@@ -16,6 +18,8 @@ export interface UpdateProfileDto {
     address?: string | null;
     governmentId?: string | null;
     dateOfBirth?: string | null;
+    bankAccountNumber?: string | null;
+    ifscCode?: string | null;
     profileImageBase64?: string;
 }
 
@@ -43,6 +47,8 @@ export interface UserDto {
     address?: string | null;
     phone?: string | null;
     dateOfBirth?: string | null;
+    bankAccountNumber?: string | null;
+    ifscCode?: string | null;
     createdAt?: string | null;
     profileImageUrl?: string | null;
 }

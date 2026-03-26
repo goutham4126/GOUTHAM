@@ -11,7 +11,7 @@ namespace Infrastructure.Services
     {
         private readonly HttpClient _httpClient;
         private readonly ILogger<WebhookNotificationService> _logger;
-        private const string WebhookUrl = "https://goutham4126.app.n8n.cloud/webhook/send-policy-email";
+        private const string WebhookUrl = "https://gouthamdazler.app.n8n.cloud/webhook/send-policy-email";
 
         public WebhookNotificationService(HttpClient httpClient, ILogger<WebhookNotificationService> logger)
         {

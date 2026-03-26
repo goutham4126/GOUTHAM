@@ -114,7 +114,7 @@ export class ClaimsDesk implements OnInit {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-    fetch('https://goutham4126.app.n8n.cloud/webhook/disasters', { signal: controller.signal })
+    fetch('https://gouthamdazler.app.n8n.cloud/webhook/disasters', { signal: controller.signal })
       .then(r => {
         clearTimeout(timeoutId);
         if (!r.ok) throw new Error(`HTTP Error: ${r.status}`);
@@ -312,7 +312,7 @@ export class ClaimsDesk implements OnInit {
         <div class="map-popup-body">
            <div class="map-popup-row">
             <span class="map-popup-label">ID</span>
-            <span class="map-popup-value">#${claim.id.substring(0,8)}</span>
+            <span class="map-popup-value">#${claim.id.substring(0, 8)}</span>
           </div>
           <div class="map-popup-row">
             <span class="map-popup-label">Reason</span>
@@ -433,14 +433,14 @@ export class ClaimsDesk implements OnInit {
     if (this.selectedClaimId && this.approvalAmount >= 0) {
       this.isApproving = true;
 
-      this.http.post<{orderId: string}>('https://localhost:7128/api/payments/create-order', { amount: this.approvalAmount }).subscribe({
+      this.http.post<{ orderId: string }>('https://localhost:7128/api/payments/create-order', { amount: this.approvalAmount }).subscribe({
         next: (orderData) => {
           const options = {
             key: environment.razorpay_key_id,
             amount: this.approvalAmount * 100,
             currency: 'INR',
             name: 'Insure', // Company name
-            description: `Claim Disbursement for Claim #${this.selectedClaimId?.substring(0,8)}`,
+            description: `Claim Disbursement for Claim #${this.selectedClaimId?.substring(0, 8)}`,
             order_id: orderData.orderId,
             handler: (response: any) => {
               this.processClaimApproval();

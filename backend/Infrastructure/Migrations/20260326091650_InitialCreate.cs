@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialSquash : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,6 +18,7 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Benefits = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PremiumAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     CoverageAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     DurationInMonths = table.Column<int>(type: "int", nullable: false),
@@ -45,6 +46,8 @@ namespace Infrastructure.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    BankAccountNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    IFSCCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     ProfileImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -248,7 +251,8 @@ namespace Infrastructure.Migrations
                     VideoVerificationStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     VideoVerificationRemarks = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     IncidentLatitude = table.Column<double>(type: "float", nullable: true),
-                    IncidentLongitude = table.Column<double>(type: "float", nullable: true)
+                    IncidentLongitude = table.Column<double>(type: "float", nullable: true),
+                    IncidentDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -316,6 +320,27 @@ namespace Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ClaimTrackingStages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClaimId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StageName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Remarks = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClaimTrackingStages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClaimTrackingStages_Claims_ClaimId",
+                        column: x => x.ClaimId,
+                        principalTable: "Claims",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ClaimPayments_ClaimId",
                 table: "ClaimPayments",
@@ -336,6 +361,11 @@ namespace Infrastructure.Migrations
                 name: "IX_Claims_UserId",
                 table: "Claims",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClaimTrackingStages_ClaimId",
+                table: "ClaimTrackingStages",
+                column: "ClaimId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_UserId",
@@ -404,6 +434,9 @@ namespace Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ClaimPayments");
+
+            migrationBuilder.DropTable(
+                name: "ClaimTrackingStages");
 
             migrationBuilder.DropTable(
                 name: "Invoices");

@@ -12,6 +12,8 @@ public record UserDto(
     string? Address,
     string? Phone,
     DateTime? DateOfBirth,
+    string? BankAccountNumber,
+    string? IFSCCode,
     DateTime CreatedAt,
     string? ProfileImageUrl
 );

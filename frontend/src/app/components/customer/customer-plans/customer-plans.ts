@@ -168,9 +168,9 @@ export class CustomerPlans implements OnInit, OnDestroy {
 
     sanitizeHtml(html: string): SafeHtml {
         if (!html) return '';
-        
+
         let processedHtml = html;
-        
+
         // If it looks like plain text without any HTML tags (from the old markdown editor)
         if (!/<[a-z][\s\S]*>/i.test(processedHtml)) {
             // Replace newlines followed by dashes with list items
@@ -304,29 +304,48 @@ export class CustomerPlans implements OnInit, OnDestroy {
         try {
             const formData = new FormData();
             formData.append('panCard', this.panDocument);
-            
-            const response = await fetch('https://goutham4126.app.n8n.cloud/webhook/kyc/pan/verify', {
+
+            const response = await fetch('https://gouthamdazler.app.n8n.cloud/webhook/kyc/pan/verify', {
                 method: 'POST',
                 body: formData
             });
-            
+
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
-            
-            if (data.success && data.kyc_status === 'VERIFIED') {
+            console.log('PAN Verify Response:', data);
+
+            let isPanVerified = false;
+            let panDetailsObj = null;
+            const items = Array.isArray(data) ? data : [data];
+
+            for (const item of items) {
+                if (Number(item?.code) === 200 && (item?.data?.status === 'VALID' || item?.data?.kyc_status === 'VERIFIED')) {
+                    isPanVerified = true;
+                    // Could be in item.data.ocr or just item.data
+                    panDetailsObj = item.data.ocr || item.data;
+                    break;
+                } else if (item?.success && item?.kyc_status === 'VERIFIED') {
+                    isPanVerified = true;
+                    panDetailsObj = item.ocr || item;
+                    break;
+                }
+            }
+
+            if (isPanVerified && panDetailsObj) {
                 this.panStatus = 'verified';
-                this.panDetails = data.ocr;
+                this.panDetails = panDetailsObj;
             } else {
                 this.panStatus = 'error';
                 this.panErrorMsg = 'Verification not successful, try again with valid pan or aadhar card';
             }
         } catch (err) {
+            console.error('PAN Verification Error:', err);
             this.panStatus = 'error';
             this.panErrorMsg = 'Verification not successful, try again with valid pan or aadhar card';
         }
         this.cdr.detectChanges();
     }
-    
+
     // --- Aadhaar Logic ---
     async generateAadhaarOtp() {
         if (!this.addressDocument) return;
@@ -338,34 +357,58 @@ export class CustomerPlans implements OnInit, OnDestroy {
             const formData = new FormData();
             formData.append('aadhaarCard', this.addressDocument);
             // using the webhook
-            const response = await fetch('https://goutham4126.app.n8n.cloud/webhook/kyc/aadhaar/otp/generate', {
+            const response = await fetch('https://gouthamdazler.app.n8n.cloud/webhook/kyc/aadhaar/otp/generate', {
                 method: 'POST',
                 body: formData
             });
-            
+
             if (!response.ok) throw new Error('Network response was not ok');
-            const data = await response.json();
-            
-            if (data.success) {
+            const responseData = await response.json();
+            console.log('Aadhaar OTP Generate Response:', responseData);
+
+            let isSuccess = false;
+            let refId = null;
+            let message = 'OTP generation failed.';
+
+            const items = Array.isArray(responseData) ? responseData : [responseData];
+
+            for (const item of items) {
+                if (Number(item?.code) === 200 && item?.data?.reference_id) {
+                    isSuccess = true;
+                    refId = item.data.reference_id.toString();
+                    break;
+                } else if (item?.success && item?.reference_id) {
+                    isSuccess = true;
+                    refId = item.reference_id.toString();
+                    break;
+                } else if (item?.data?.message) {
+                    message = item.data.message;
+                } else if (item?.message) {
+                    message = item.message;
+                }
+            }
+
+            if (isSuccess && refId) {
                 this.aadhaarStatus = 'otp_sent';
-                localStorage.setItem('aadhaarRefId', data.reference_id.toString());
+                localStorage.setItem('aadhaarRefId', refId);
                 this.aadhaarOtp = '';
                 this.otpArray = ['', '', '', '', '', ''];
                 this.startOtpTimer();
             } else {
                 this.aadhaarStatus = 'error';
-                this.aadhaarErrorMsg = data.message || 'OTP generation failed.';
+                this.aadhaarErrorMsg = message;
             }
         } catch (err) {
+            console.error('Aadhaar OTP Generate Error:', err);
             this.aadhaarStatus = 'error';
             this.aadhaarErrorMsg = 'Network error generating OTP.';
         }
         this.cdr.detectChanges();
     }
-    
+
     async verifyAadhaarOtp() {
         if (!this.aadhaarOtp) return;
-        
+
         const refId = localStorage.getItem('aadhaarRefId');
         if (!refId) {
             this.aadhaarErrorMsg = 'Session expired. Please generate OTP again.';
@@ -381,18 +424,51 @@ export class CustomerPlans implements OnInit, OnDestroy {
             const formData = new FormData();
             formData.append('reference_id', refId);
             formData.append('otp', this.aadhaarOtp);
-            
-            const response = await fetch('https://goutham4126.app.n8n.cloud/webhook/kyc/aadhaar/otp/verify', {
+
+            const response = await fetch('https://gouthamdazler.app.n8n.cloud/webhook/kyc/aadhaar/otp/verify', {
                 method: 'POST',
                 body: formData
             });
-            
+
             if (!response.ok) throw new Error('Network response was not ok');
-            const data = await response.json();
-            
-            if (data.success && data.kyc_status === 'VERIFIED') {
+            const responseData = await response.json();
+            console.log('Aadhaar OTP Verify Response:', responseData);
+
+            let isVerified = false;
+            let aadhaarDetailsObj = null;
+
+            const items = Array.isArray(responseData) ? responseData : [responseData];
+
+            for (const item of items) {
+                // Latest format shown in console: { success: true, aadhaar_data: { ... } }
+                if (item?.success && item?.aadhaar_data) {
+                    isVerified = true;
+                    aadhaarDetailsObj = item.aadhaar_data;
+                    break;
+                }
+                // Array wrapped sandbox format
+                else if (Number(item?.code) === 200 && item?.data && item?.data?.status === 'VALID') {
+                    isVerified = true;
+                    aadhaarDetailsObj = item.data;
+                    break;
+                } 
+                // Previous mapped format
+                else if (item?.success && item?.kyc_status === 'VERIFIED') {
+                    isVerified = true;
+                    aadhaarDetailsObj = item.aadhaar_details;
+                    break;
+                } 
+                // Tightly nested mapped format
+                else if (item?.data?.success && item?.data?.kyc_status === 'VERIFIED') {
+                    isVerified = true;
+                    aadhaarDetailsObj = item.data.aadhaar_details;
+                    break;
+                }
+            }
+
+            if (isVerified && aadhaarDetailsObj) {
                 this.aadhaarStatus = 'verified';
-                this.aadhaarDetails = data.aadhaar_details;
+                this.aadhaarDetails = aadhaarDetailsObj;
                 this.clearOtpTimer();
                 localStorage.removeItem('aadhaarRefId');
             } else {
@@ -400,12 +476,13 @@ export class CustomerPlans implements OnInit, OnDestroy {
                 this.aadhaarErrorMsg = 'Verification not successful, try again with valid pan or aadhar card';
             }
         } catch (err) {
+            console.error('Aadhaar OTP Verify Error:', err);
             this.aadhaarStatus = 'error';
             this.aadhaarErrorMsg = 'Verification not successful, try again with valid pan or aadhar card';
         }
         this.cdr.detectChanges();
     }
-    
+
     // OTP Input Controls
     onOtpInput(event: any, index: number) {
         const value = event.target.value;
@@ -415,7 +492,7 @@ export class CustomerPlans implements OnInit, OnDestroy {
         }
         this.otpArray[index] = value;
         this.updateAadhaarOtp();
-        
+
         if (value && index < 5) {
             const nextInput = document.getElementById(`otp-input-${index + 1}`);
             if (nextInput) {
@@ -480,7 +557,7 @@ export class CustomerPlans implements OnInit, OnDestroy {
             }
         }, 1000);
     }
-    
+
     clearOtpTimer() {
         if (this.otpInterval) {
             clearInterval(this.otpInterval);

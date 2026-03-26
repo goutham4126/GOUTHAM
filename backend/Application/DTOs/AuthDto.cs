@@ -1,4 +1,4 @@
-﻿
+
 namespace Application.DTOs;
     public record RegisterDto(
         string FirstName,
@@ -9,6 +9,8 @@ namespace Application.DTOs;
         string? Address,
         string? Phone,
         DateTime? DateOfBirth,
+        string? BankAccountNumber = null,
+        string? IFSCCode = null,
         string? ProfileImageBase64 = null
     );
 
@@ -34,5 +36,7 @@ namespace Application.DTOs;
         string? GovernmentId,
         string? Address,
         string? Phone,
-        DateTime? DateOfBirth
+        DateTime? DateOfBirth,
+        string? BankAccountNumber = null,
+        string? IFSCCode = null
     );

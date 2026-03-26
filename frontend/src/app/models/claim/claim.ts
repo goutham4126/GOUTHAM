@@ -28,6 +28,8 @@ export interface ClaimDto {
     aadhaarAddress?: string;
     customerDateOfBirth?: string;
     customerProfileImageUrl?: string;
+    bankAccountNumber?: string;
+    ifscCode?: string;
     trackingStages?: ClaimTrackingStageDto[];
 }
 

@@ -54,6 +54,8 @@ namespace Application.Services
                 Address = request.Address,
                 Phone = request.Phone,
                 DateOfBirth = request.DateOfBirth,
+                BankAccountNumber = request.BankAccountNumber,
+                IFSCCode = request.IFSCCode,
                 Role = UserRole.Customer,
                 ProfileImageUrl = profileImageUrl
             };
@@ -94,6 +96,8 @@ namespace Application.Services
                 Address = request.Address,
                 Phone = request.Phone,
                 DateOfBirth = request.DateOfBirth,
+                BankAccountNumber = request.BankAccountNumber,
+                IFSCCode = request.IFSCCode,
                 Role = role
             };
 

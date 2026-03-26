@@ -1,4 +1,4 @@
-﻿using Domain.Enums;
+using Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
@@ -28,6 +28,11 @@ namespace Domain.Entities
         public string? Phone { get; set; }
         public DateTime? DateOfBirth { get; set; }
 
+        [StringLength(50)]
+        public string? BankAccountNumber { get; set; }
+
+        [StringLength(20)]
+        public string? IFSCCode { get; set; }
         public bool IsDeleted { get; set; } = false;
 
         public string? ProfileImageUrl { get; set; }

@@ -41,6 +41,8 @@ export class Profile implements OnInit, OnDestroy {
         phone: [''],
         address: [''],
         governmentId: [''],
+        bankAccountNumber: [''],
+        ifscCode: [''],
         dateOfBirth: ['']
     });
 
@@ -67,6 +69,8 @@ export class Profile implements OnInit, OnDestroy {
             phone: this.user.phone ?? '',
             address: this.user.address ?? '',
             governmentId: this.user.governmentId ?? '',
+            bankAccountNumber: this.user.bankAccountNumber ?? '',
+            ifscCode: this.user.ifscCode ?? '',
             dateOfBirth: this.user.dateOfBirth
                 ? new Date(this.user.dateOfBirth).toISOString().substring(0, 10)
                 : ''
@@ -101,6 +105,8 @@ export class Profile implements OnInit, OnDestroy {
             phone: raw.phone || null,
             address: raw.address || null,
             governmentId: raw.governmentId || null,
+            bankAccountNumber: raw.bankAccountNumber || null,
+            ifscCode: raw.ifscCode || null,
             dateOfBirth: raw.dateOfBirth || null,
             profileImageBase64: this.capturedImage || undefined
         };

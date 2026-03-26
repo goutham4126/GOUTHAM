@@ -7,5 +7,7 @@ public record UpdateProfileDto(
     string? Address,
     string? GovernmentId,
     DateTime? DateOfBirth,
+    string? BankAccountNumber = null,
+    string? IFSCCode = null,
     string? ProfileImageBase64 = null
 );

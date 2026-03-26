@@ -13,7 +13,7 @@ public class GeoVerificationService : IGeoVerificationService
     private readonly IAppDbContext _context;
     private readonly ILogger<GeoVerificationService> _logger;
 
-    private const string WebhookUrl = "https://goutham4126.app.n8n.cloud/webhook/disasters";
+    private const string WebhookUrl = "https://gouthamdazler.app.n8n.cloud/webhook/disasters";
 
     public GeoVerificationService(
         HttpClient httpClient,
