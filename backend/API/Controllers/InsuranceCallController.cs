@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 
 namespace API.Controllers;
 
@@ -80,7 +81,7 @@ public class InsuranceCallController : ControllerBase
                     Premium = p.PremiumAmount,
                     Coverage = $"₹{p.CoverageAmount:N0}",
                     Description = p.Description,
-                    // Benefits = p.Benefits ?? string.Empty
+                    Benefits = FormatBenefits(p.Benefits)
                 }).ToList()
             };
 
@@ -97,5 +98,27 @@ public class InsuranceCallController : ControllerBase
                 Detail = ex.Message
             });
         }
+    }
+    private string FormatBenefits(string htmlBenefits)
+    {
+        if (string.IsNullOrWhiteSpace(htmlBenefits)) return string.Empty;
+        
+        // Replace common list/block closing tags with a comma
+        var text = Regex.Replace(htmlBenefits, @"</(li|p|div|h[1-6])>|<br\s*/?>", ",", RegexOptions.IgnoreCase);
+        
+        // Remove all other HTML tags
+        text = Regex.Replace(text, @"<.*?>", string.Empty);
+        
+        // Decode common HTML entities like &nbsp;
+        text = System.Net.WebUtility.HtmlDecode(text);
+        
+        // Collapse multiple spaces
+        text = Regex.Replace(text, @"\s+", " ").Trim();
+        
+        // Clean up comma formatting (remove stray spaces around commas, ensure single space after)
+        text = Regex.Replace(text, @"\s*,\s*", ", ");
+        
+        // Clean leading and trailing commas
+        return text.Trim(',', ' ');
     }
 }
