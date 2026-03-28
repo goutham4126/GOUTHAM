@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PolicyService } from '../../../services/policy/policy';
 import { PolicyDto } from '../../../models/policy/policy';
@@ -12,7 +12,8 @@ import { AuthService } from '../../../services/auth/auth';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './customer-policies.html',
-  styleUrl: './customer-policies.css'
+  styleUrl: './customer-policies.css',
+  encapsulation: ViewEncapsulation.None
 })
 export class CustomerPolicies implements OnInit {
   private policyService = inject(PolicyService);
@@ -23,6 +24,8 @@ export class CustomerPolicies implements OnInit {
   policies: PolicyDto[] = [];
   loadingPolicies = true;
   selectedPolicySummary: PolicyDto | null = null;
+  selectedPolicyRiskScore: number = 0;
+  originalBasePremium: number = 0;
   today: Date = new Date();
 
   get totalPolicies(): number {
@@ -58,6 +61,18 @@ export class CustomerPolicies implements OnInit {
 
   viewSummary(policy: PolicyDto) {
     this.selectedPolicySummary = policy;
+    if (policy.planBasePremiumAmount && policy.plan.premiumAmount) {
+      this.originalBasePremium = policy.plan.premiumAmount;
+      const multiplier = policy.planBasePremiumAmount / policy.plan.premiumAmount;
+      this.selectedPolicyRiskScore = Math.max(0, Math.round((multiplier - 1) * 100));
+    } else {
+      this.selectedPolicyRiskScore = 0;
+      this.originalBasePremium = policy.plan?.premiumAmount || 0;
+    }
+
+    setTimeout(() => {
+      document.getElementById('policy-summary-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
   }
 
   closeSummary() {

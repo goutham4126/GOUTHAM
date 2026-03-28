@@ -153,33 +153,9 @@ export class CustomerClaims implements OnInit, AfterViewInit, OnDestroy {
 
         if (user.isIfscVerified && user.isBankAccountVerified) {
             this.bankStatus = 'verified';
-            this.cdr.detectChanges();
-            return;
-        }
-
-        try {
-            const ifscResponse = await fetch(`https://gouthamdazler.app.n8n.cloud/webhook/bank/verify?ifsc=${user.ifscCode}`);
-            const ifscData = await ifscResponse.json();
-            
-            if (!ifscData.success || !ifscData.ifsc_details) {
-                this.bankStatus = 'error';
-                this.bankError = 'Invalid IFSC code in your profile. Please update it.';
-                this.cdr.detectChanges();
-                return;
-            }
-
-            const bankResponse = await fetch(`https://gouthamdazler.app.n8n.cloud/webhook/bank/account/verify?ifsc=${user.ifscCode}&account_number=${user.bankAccountNumber}`);
-            const bankData = await bankResponse.json();
-
-            if (bankData.success && bankData.account_details && bankData.account_details.account_exists) {
-                this.bankStatus = 'verified';
-            } else {
-                this.bankStatus = 'error';
-                this.bankError = 'Bank account verification failed. Please update your profile with valid bank details.';
-            }
-        } catch (err) {
+        } else {
             this.bankStatus = 'error';
-            this.bankError = 'Unable to verify bank details at this moment. Please try again later.';
+            this.bankError = 'Bank details are not verified. Please update and verify them in your profile.';
         }
         this.cdr.detectChanges();
       },

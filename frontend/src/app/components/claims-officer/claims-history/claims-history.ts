@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ClaimService } from '../../../services/claim/claim';
 import { ClaimDto } from '../../../models/claim/claim';
 import { VideoCallService } from '../../../services/video-call/video-call.service';
-import { GeoVerificationService, VerificationResult, AmbeeDisasterData } from '../../../services/geo-verification/geo-verification.service';
+import { GeoVerificationService, VerificationResult } from '../../../services/geo-verification/geo-verification.service';
 import { Router } from '@angular/router';
 import * as L from 'leaflet';
 
@@ -40,10 +40,8 @@ const incidentIcon = L.divIcon({
   encapsulation: ViewEncapsulation.None
 })
 export class ClaimsHistory implements OnInit {
-  public disasterHistory: AmbeeDisasterData[] = [];
   public verificationResults: Map<string, VerificationResult> = new Map();
   public isVerifying: Map<string, boolean> = new Map();
-  private historyDisasterLayers: Map<string, L.LayerGroup> = new Map();
 
   private claimService = inject(ClaimService);
   private cdr = inject(ChangeDetectorRef);
@@ -59,12 +57,10 @@ export class ClaimsHistory implements OnInit {
 
   // Incident map instances for expanded claims
   private incidentMaps: Map<string, L.Map> = new Map();
-  private historyMaps: Map<string, L.Map> = new Map();
   locationNames: Map<string, string> = new Map();
 
   ngOnInit() {
     this.loadClaims();
-    this.fetchGlobalDisasterHistoryLight();
   }
 
   get historyClaims(): ClaimDto[] {
@@ -88,42 +84,13 @@ export class ClaimsHistory implements OnInit {
     });
   }
 
-  fetchGlobalDisasterHistoryLight() {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
-
-    fetch('https://gouthamdazler.app.n8n.cloud/webhook/disasters', { signal: controller.signal })
-      .then(r => {
-        clearTimeout(timeoutId);
-        if (!r.ok) throw new Error(`HTTP Error: ${r.status}`);
-        return r.json();
-      })
-      .then(res => {
-        const data = Array.isArray(res) ? res[0] : res;
-        const disasterList = data.disasters || data.data;
-
-        if (disasterList && Array.isArray(disasterList)) {
-          this.disasterHistory = disasterList;
-          if (this.expandedClaimId) {
-            this.updateHistoryMap(this.expandedClaimId);
-          }
-        }
-      })
-      .catch(err => {
-        clearTimeout(timeoutId);
-        console.error('Error fetching global disasters:', err);
-      });
-  }
-
   toggleExpand(claimId: string) {
     if (this.expandedClaimId === claimId) {
       this.destroyIncidentMap(claimId);
-      this.destroyHistoryMap(claimId);
       this.expandedClaimId = null;
     } else {
       if (this.expandedClaimId) {
         this.destroyIncidentMap(this.expandedClaimId);
-        this.destroyHistoryMap(this.expandedClaimId);
       }
       this.expandedClaimId = claimId;
       const claim = this.assignedClaims.find(c => c.id === claimId);
@@ -131,7 +98,6 @@ export class ClaimsHistory implements OnInit {
         setTimeout(() => {
           this.initIncidentMap(claim);
           this.fetchVerificationDetails(claim);
-          this.initHistoryMap(claim);
         }, 150);
       }
     }
@@ -153,10 +119,6 @@ export class ClaimsHistory implements OnInit {
         this.cdr.detectChanges();
       }
     });
-
-    if (this.disasterHistory.length > 0) {
-      this.updateHistoryMap(claim.id);
-    }
   }
 
   private async reverseGeocode(lat: number, lng: number): Promise<string> {
@@ -214,6 +176,10 @@ export class ClaimsHistory implements OnInit {
 
     this.incidentMaps.set(claim.id, map);
 
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 100);
+
     const locationName = await this.reverseGeocode(lat, lng);
     this.locationNames.set(claim.id, locationName);
 
@@ -241,89 +207,11 @@ export class ClaimsHistory implements OnInit {
     }
   }
 
-  private initHistoryMap(claim: ClaimDto) {
-    const mapId = `officer-history-archive-map-${claim.id}`;
-    const el = document.getElementById(mapId);
-    if (!el || !claim.incidentLatitude || !claim.incidentLongitude) return;
-
-    this.destroyHistoryMap(claim.id);
-
-    const lat = claim.incidentLatitude;
-    const lng = claim.incidentLongitude;
-
-    const map = L.map(mapId, {
-      scrollWheelZoom: true,
-      dragging: true,
-      zoomControl: true,
-    }).setView([lat, lng], 10);
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors &amp; <a href="https://carto.com/attributions">CARTO</a>',
-      maxZoom: 19,
-    }).addTo(map);
-
-    const historyLayer = L.layerGroup().addTo(map);
-    this.historyDisasterLayers.set(claim.id, historyLayer);
-
-    L.circleMarker([lat, lng], {
-      radius: 8,
-      fillColor: '#FF3B30',
-      color: '#fff',
-      weight: 2,
-      opacity: 1,
-      fillOpacity: 0.8
-    }).addTo(map).bindPopup('<b>Current Incident</b>');
-
-    this.historyMaps.set(claim.id, map);
-    this.updateHistoryMap(claim.id);
-  }
-
-  private updateHistoryMap(claimId: string) {
-    const map = this.historyMaps.get(claimId);
-    const historyLayer = this.historyDisasterLayers.get(claimId);
-    if (!map || !historyLayer || !this.disasterHistory || this.disasterHistory.length === 0) return;
-
-    historyLayer.clearLayers();
-
-    const bounds = L.latLngBounds([]);
-    const claim = this.assignedClaims.find(c => c.id === claimId);
-    if (claim && claim.incidentLatitude && claim.incidentLongitude) {
-      bounds.extend([claim.incidentLatitude, claim.incidentLongitude]);
+  async openDocument(url: string | undefined) {
+    if (!url) {
+      console.warn('No document URL provided');
+      return;
     }
-
-    this.disasterHistory.forEach((d: AmbeeDisasterData) => {
-      bounds.extend([d.lat, d.lng]);
-      this.createDisasterMarker(map, d, historyLayer);
-    });
-
-    if (bounds.isValid()) {
-      map.fitBounds(bounds, { padding: [30, 30] });
-    }
-  }
-
-  private destroyHistoryMap(claimId: string) {
-    const map = this.historyMaps.get(claimId);
-    if (map) {
-      map.remove();
-      this.historyMaps.delete(claimId);
-    }
-  }
-
-  private createDisasterMarker(map: L.Map, disaster: AmbeeDisasterData, layer?: L.LayerGroup) {
-    const marker = L.circleMarker([disaster.lat, disaster.lng], {
-      radius: 8,
-      fillColor: '#FF9500',
-      color: '#fff',
-      weight: 1.5,
-      opacity: 0.95,
-      fillOpacity: 0.9
-    });
-
-    marker.addTo(layer ?? map);
-    return marker;
-  }
-
-  async openDocument(url: string) {
     try {
       const response = await fetch(url);
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);

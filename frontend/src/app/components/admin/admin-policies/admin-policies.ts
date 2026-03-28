@@ -17,6 +17,9 @@ export class AdminPolicies implements OnInit {
   policies: PolicyDto[] = [];
   loadingPolicies = true;
 
+  // Row Expansion State
+  expandedPolicyId: string | null = null;
+
   ngOnInit() {
     this.loadPolicies();
   }
@@ -34,5 +37,13 @@ export class AdminPolicies implements OnInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  toggleExpand(policyId: string) {
+    if (this.expandedPolicyId === policyId) {
+      this.expandedPolicyId = null;
+    } else {
+      this.expandedPolicyId = policyId;
+    }
   }
 }

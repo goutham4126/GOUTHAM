@@ -18,6 +18,9 @@ export class AgentPolicies implements OnInit {
   assignedPolicies: PolicyDto[] = [];
   loading = true;
 
+  // Row Expansion State
+  expandedPolicyId: string | null = null;
+
   ngOnInit() {
     this.loadPolicies();
   }
@@ -43,5 +46,13 @@ export class AgentPolicies implements OnInit {
 
   get totalValue() {
     return this.assignedPolicies.reduce((sum, p) => sum + p.totalPremium, 0);
+  }
+
+  toggleExpand(policyId: string) {
+    if (this.expandedPolicyId === policyId) {
+      this.expandedPolicyId = null;
+    } else {
+      this.expandedPolicyId = policyId;
+    }
   }
 }
