@@ -46,6 +46,15 @@ export class Profile implements OnInit, OnDestroy {
         dateOfBirth: ['']
     });
 
+    // Verification states
+    ifscStatus: 'idle' | 'verifying' | 'verified' | 'error' = 'idle';
+    ifscDetails: any = null;
+    ifscError: string = '';
+
+    bankStatus: 'idle' | 'verifying' | 'verified' | 'error' = 'idle';
+    bankDetails: any = null;
+    bankError: string = '';
+
     ngOnInit() {
         this.userService.getMe().subscribe({
             next: (data) => {
@@ -81,6 +90,11 @@ export class Profile implements OnInit, OnDestroy {
         this.capturedImage = null;
         this.cameraOpen = false;
         this.cameraError = '';
+        
+        // Trigger initial verification if details exist
+        if (this.user.ifscCode) {
+            this.verifyIfsc();
+        }
         this.cdr.detectChanges();
     }
 
@@ -107,6 +121,8 @@ export class Profile implements OnInit, OnDestroy {
             governmentId: raw.governmentId || null,
             bankAccountNumber: raw.bankAccountNumber || null,
             ifscCode: raw.ifscCode || null,
+            isIfscVerified: this.ifscStatus === 'verified',
+            isBankAccountVerified: this.bankStatus === 'verified',
             dateOfBirth: raw.dateOfBirth || null,
             profileImageBase64: this.capturedImage || undefined
         };
@@ -127,6 +143,76 @@ export class Profile implements OnInit, OnDestroy {
                 this.cdr.detectChanges();
             }
         });
+    }
+
+    async verifyIfsc() {
+        const ifsc = this.editForm.get('ifscCode')?.value;
+        if (!ifsc || ifsc.length < 11) {
+            this.ifscStatus = 'idle';
+            this.ifscDetails = null;
+            this.ifscError = '';
+            this.bankStatus = 'idle';
+            this.bankDetails = null;
+            return;
+        }
+
+        this.ifscStatus = 'verifying';
+        this.ifscError = '';
+        this.cdr.detectChanges();
+
+        try {
+            const response = await fetch(`https://gouthamdazler.app.n8n.cloud/webhook/bank/verify?ifsc=${ifsc}`);
+            const data = await response.json();
+            
+            if (data.success && data.ifsc_details) {
+                this.ifscStatus = 'verified';
+                this.ifscDetails = data.ifsc_details;
+                // If bank account is also filled, trigger its verification automatically
+                if (this.editForm.get('bankAccountNumber')?.value) {
+                    this.verifyBankAccount();
+                }
+            } else {
+                this.ifscStatus = 'error';
+                this.ifscError = data.message || 'Invalid IFSC Code';
+            }
+        } catch (error) {
+            this.ifscStatus = 'error';
+            this.ifscError = 'Failed to verify IFSC Code';
+        }
+        this.cdr.detectChanges();
+    }
+
+    async verifyBankAccount() {
+        const bankAccount = this.editForm.get('bankAccountNumber')?.value;
+        const ifsc = this.editForm.get('ifscCode')?.value;
+
+        if (!bankAccount || !ifsc || this.ifscStatus !== 'verified') {
+            this.bankStatus = 'idle';
+            this.bankDetails = null;
+            this.bankError = '';
+            return;
+        }
+
+        this.bankStatus = 'verifying';
+        this.bankError = '';
+        this.cdr.detectChanges();
+
+        try {
+            const response = await fetch(`https://gouthamdazler.app.n8n.cloud/webhook/bank/account/verify?ifsc=${ifsc}&account_number=${bankAccount}`);
+            const data = await response.json();
+
+            if (data.success && data.account_details && data.account_details.account_exists) {
+                this.bankStatus = 'verified';
+                this.bankDetails = data.account_details;
+            } else {
+                this.bankStatus = 'error';
+                this.bankError = data.message || 'Bank account verification failed';
+            }
+        } catch (error) {
+            this.bankStatus = 'error';
+            this.bankError = 'Failed to verify bank account';
+        }
+        this.cdr.detectChanges();
     }
 
     getInitials(): string {

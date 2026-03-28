@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260326091650_InitialCreate")]
+    [Migration("20260328174843_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -549,7 +549,13 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<bool>("IsBankAccountVerified")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsIfscVerified")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")

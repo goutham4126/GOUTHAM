@@ -9,5 +9,7 @@ public record UpdateProfileDto(
     DateTime? DateOfBirth,
     string? BankAccountNumber = null,
     string? IFSCCode = null,
+    bool IsIfscVerified = false,
+    bool IsBankAccountVerified = false,
     string? ProfileImageBase64 = null
 );

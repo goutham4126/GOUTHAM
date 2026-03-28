@@ -14,6 +14,8 @@ public record UserDto(
     DateTime? DateOfBirth,
     string? BankAccountNumber,
     string? IFSCCode,
+    bool IsIfscVerified,
+    bool IsBankAccountVerified,
     DateTime CreatedAt,
     string? ProfileImageUrl
 );

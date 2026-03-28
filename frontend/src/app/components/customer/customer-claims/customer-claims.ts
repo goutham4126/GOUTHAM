@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, ChangeDetectorRef, AfterViewInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import * as L from 'leaflet';
 
 import { ClaimService } from '../../../services/claim/claim';
@@ -11,6 +11,7 @@ import { ToastService } from '../../../services/toast/toast';
 import { PolicyDto } from '../../../models/policy/policy';
 import { ENV_CONFIG } from '../../../utils/storage.constants';
 import { VideoCallService } from '../../../services/video-call/video-call.service';
+import { UserService } from '../../../services/user/user';
 
 // Fix default marker icon paths (known webpack/angular issue)
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -51,7 +52,7 @@ const incidentIcon = L.divIcon({
 @Component({
   selector: 'app-customer-claims',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './customer-claims.html',
   styleUrl: './customer-claims.css',
   encapsulation: ViewEncapsulation.None
@@ -84,6 +85,10 @@ export class CustomerClaims implements OnInit, AfterViewInit, OnDestroy {
   isLocating = false;
   locationError: string | null = null;
   maxDate: string = '';
+
+  private userService = inject(UserService);
+  bankStatus: 'idle' | 'verifying' | 'verified' | 'error' = 'idle';
+  bankError: string = '';
 
   private fb = inject(FormBuilder);
   claimForm: FormGroup = this.fb.group({
@@ -130,6 +135,60 @@ export class CustomerClaims implements OnInit, AfterViewInit, OnDestroy {
     this.maxDate = new Date().toISOString().split('T')[0];
     this.loadPolicies();
     this.loadClaims();
+    this.verifyUserBankDetails();
+  }
+
+  async verifyUserBankDetails() {
+    this.bankStatus = 'verifying';
+    this.cdr.detectChanges();
+
+    this.userService.getMe().subscribe({
+      next: async (user) => {
+        if (!user.bankAccountNumber || !user.ifscCode) {
+            this.bankStatus = 'error';
+            this.bankError = 'Bank details are missing from your profile. Please update them to raise a claim.';
+            this.cdr.detectChanges();
+            return;
+        }
+
+        if (user.isIfscVerified && user.isBankAccountVerified) {
+            this.bankStatus = 'verified';
+            this.cdr.detectChanges();
+            return;
+        }
+
+        try {
+            const ifscResponse = await fetch(`https://gouthamdazler.app.n8n.cloud/webhook/bank/verify?ifsc=${user.ifscCode}`);
+            const ifscData = await ifscResponse.json();
+            
+            if (!ifscData.success || !ifscData.ifsc_details) {
+                this.bankStatus = 'error';
+                this.bankError = 'Invalid IFSC code in your profile. Please update it.';
+                this.cdr.detectChanges();
+                return;
+            }
+
+            const bankResponse = await fetch(`https://gouthamdazler.app.n8n.cloud/webhook/bank/account/verify?ifsc=${user.ifscCode}&account_number=${user.bankAccountNumber}`);
+            const bankData = await bankResponse.json();
+
+            if (bankData.success && bankData.account_details && bankData.account_details.account_exists) {
+                this.bankStatus = 'verified';
+            } else {
+                this.bankStatus = 'error';
+                this.bankError = 'Bank account verification failed. Please update your profile with valid bank details.';
+            }
+        } catch (err) {
+            this.bankStatus = 'error';
+            this.bankError = 'Unable to verify bank details at this moment. Please try again later.';
+        }
+        this.cdr.detectChanges();
+      },
+      error: () => {
+         this.bankStatus = 'error';
+         this.bankError = 'Failed to fetch user profile details.';
+         this.cdr.detectChanges();
+      }
+    });
   }
 
   ngAfterViewInit() {

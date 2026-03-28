@@ -48,6 +48,8 @@ namespace Infrastructure.Migrations
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     BankAccountNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     IFSCCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    IsIfscVerified = table.Column<bool>(type: "bit", nullable: false),
+                    IsBankAccountVerified = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     ProfileImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),

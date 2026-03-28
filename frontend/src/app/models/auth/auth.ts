@@ -8,6 +8,8 @@ export interface RegisterDto {
     dateOfBirth?: string; // ISO date string
     bankAccountNumber?: string;
     ifscCode?: string;
+    isIfscVerified?: boolean;
+    isBankAccountVerified?: boolean;
     profileImageBase64?: string;
 }
 
@@ -20,6 +22,8 @@ export interface UpdateProfileDto {
     dateOfBirth?: string | null;
     bankAccountNumber?: string | null;
     ifscCode?: string | null;
+    isIfscVerified?: boolean;
+    isBankAccountVerified?: boolean;
     profileImageBase64?: string;
 }
 
@@ -49,6 +53,8 @@ export interface UserDto {
     dateOfBirth?: string | null;
     bankAccountNumber?: string | null;
     ifscCode?: string | null;
+    isIfscVerified?: boolean;
+    isBankAccountVerified?: boolean;
     createdAt?: string | null;
     profileImageUrl?: string | null;
 }

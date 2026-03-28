@@ -33,6 +33,8 @@ namespace Domain.Entities
 
         [StringLength(20)]
         public string? IFSCCode { get; set; }
+        public bool IsIfscVerified { get; set; } = false;
+        public bool IsBankAccountVerified { get; set; } = false;
         public bool IsDeleted { get; set; } = false;
 
         public string? ProfileImageUrl { get; set; }

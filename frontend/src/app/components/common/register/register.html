@@ -237,13 +237,83 @@
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="block text-[13px] font-semibold text-text-muted mb-1.5">Bank Account No.</label>
-          <input type="text" formControlName="bankAccountNumber" placeholder="Account Number"
-            class="w-full px-4 py-2.5 border border-border bg-bg-base/40 rounded-xl text-[14px] text-text-primary focus:outline-none focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm">
+          <div class="relative">
+            <input type="text" formControlName="bankAccountNumber" placeholder="Account Number" (blur)="verifyBankAccount()"
+              class="w-full px-4 py-2.5 border border-border bg-bg-base/40 rounded-xl text-[14px] text-text-primary focus:outline-none focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm pr-10">
+            @if (bankStatus === 'verifying') {
+              <div class="absolute right-3 top-3">
+                <svg class="w-5 h-5 text-primary animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                </svg>
+              </div>
+            }
+            @if (bankStatus === 'verified') {
+              <div class="absolute right-3 top-3">
+                <svg class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            }
+            @if (bankStatus === 'error') {
+              <div class="absolute right-3 top-3" title="Verification Failed">
+                <svg class="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            }
+          </div>
+          @if (bankStatus === 'verified' && bankDetails?.name_at_bank) {
+            <p class="text-[11px] text-green-600 font-semibold mt-1.5 flex items-center gap-1 leading-tight">
+              <svg class="w-3 h-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <span class="truncate" [title]="bankDetails.name_at_bank">{{ bankDetails.name_at_bank }}</span>
+            </p>
+          }
+          @if (bankStatus === 'error') {
+            <p class="text-[11px] text-red-500 font-medium mt-1.5 leading-tight">{{ bankError }}</p>
+          }
         </div>
         <div>
           <label class="block text-[13px] font-semibold text-text-muted mb-1.5">IFSC Code</label>
-          <input type="text" formControlName="ifscCode" placeholder="IFSC Code"
-            class="w-full px-4 py-2.5 border border-border bg-bg-base/40 rounded-xl text-[14px] text-text-primary focus:outline-none focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm">
+          <div class="relative">
+            <input type="text" formControlName="ifscCode" placeholder="IFSC Code" (blur)="verifyIfsc()"
+              class="w-full px-4 py-2.5 border border-border bg-bg-base/40 rounded-xl text-[14px] text-text-primary focus:outline-none focus:bg-surface focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm pr-10">
+            @if (ifscStatus === 'verifying') {
+              <div class="absolute right-3 top-3">
+                <svg class="w-5 h-5 text-primary animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                </svg>
+              </div>
+            }
+            @if (ifscStatus === 'verified') {
+              <div class="absolute right-3 top-3">
+                <svg class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            }
+            @if (ifscStatus === 'error') {
+              <div class="absolute right-3 top-3" title="Verification Failed">
+                <svg class="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            }
+          </div>
+          @if (ifscStatus === 'verified' && ifscDetails) {
+            <p class="text-[11px] text-green-600 font-semibold mt-1.5 flex items-center gap-1 leading-tight">
+              <svg class="w-3 h-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+              <span class="truncate" [title]="ifscDetails.bank + ' - ' + ifscDetails.branch">{{ ifscDetails.bank }} - {{ ifscDetails.branch }}</span>
+            </p>
+          }
+          @if (ifscStatus === 'error') {
+            <p class="text-[11px] text-red-500 font-medium mt-1.5 leading-tight">{{ ifscError }}</p>
+          }
         </div>
       </div>
 

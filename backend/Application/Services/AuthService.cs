@@ -56,6 +56,8 @@ namespace Application.Services
                 DateOfBirth = request.DateOfBirth,
                 BankAccountNumber = request.BankAccountNumber,
                 IFSCCode = request.IFSCCode,
+                IsIfscVerified = request.IsIfscVerified,
+                IsBankAccountVerified = request.IsBankAccountVerified,
                 Role = UserRole.Customer,
                 ProfileImageUrl = profileImageUrl
             };

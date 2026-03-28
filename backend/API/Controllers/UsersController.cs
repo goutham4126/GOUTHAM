@@ -53,6 +53,8 @@ public class UsersController : ControllerBase
             user.DateOfBirth,
             user.BankAccountNumber,
             user.IFSCCode,
+            user.IsIfscVerified,
+            user.IsBankAccountVerified,
             user.CreatedAt,
             user.ProfileImageUrl
         ));
@@ -75,6 +77,8 @@ public class UsersController : ControllerBase
         user.DateOfBirth = request.DateOfBirth;
         user.BankAccountNumber = request.BankAccountNumber;
         user.IFSCCode = request.IFSCCode;
+        user.IsIfscVerified = request.IsIfscVerified;
+        user.IsBankAccountVerified = request.IsBankAccountVerified;
         user.UpdatedAt = DateTime.UtcNow;
 
         if (!string.IsNullOrWhiteSpace(request.ProfileImageBase64))
@@ -103,6 +107,8 @@ public class UsersController : ControllerBase
             user.DateOfBirth,
             user.BankAccountNumber,
             user.IFSCCode,
+            user.IsIfscVerified,
+            user.IsBankAccountVerified,
             user.CreatedAt,
             user.ProfileImageUrl
         ));
@@ -126,6 +132,8 @@ public class UsersController : ControllerBase
             u.DateOfBirth,
             u.BankAccountNumber,
             u.IFSCCode,
+            u.IsIfscVerified,
+            u.IsBankAccountVerified,
             u.CreatedAt,
             u.ProfileImageUrl
         )));

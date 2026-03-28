@@ -272,9 +272,55 @@
           </div>
         </div>
 
+        <!-- Bank Validation UI -->
+        @if (bankStatus !== 'idle') {
+        <div class="mt-8 p-4 rounded-xl border flex items-start gap-4"
+          [ngClass]="{
+            'bg-primary/5 border-primary/20 text-primary': bankStatus === 'verifying',
+            'bg-accent-red/5 border-accent-red/20 text-accent-red': bankStatus === 'error',
+            'bg-green-500/10 border-green-500/30 text-green-600': bankStatus === 'verified'
+          }">
+          <div class="shrink-0 mt-0.5">
+            @if (bankStatus === 'verifying') {
+            <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            } @else if (bankStatus === 'verified') {
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            } @else {
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            }
+          </div>
+          <div>
+            <h5 class="text-[13px] font-bold mb-1">
+              {{ bankStatus === 'verified' ? 'Bank Account Details Verified' : 'Bank Verification Required' }}
+            </h5>
+            <p class="text-[12px] opacity-90" [class.mb-2]="bankStatus === 'error'">
+              @if (bankStatus === 'verifying') {
+                We are verifying your bank details...
+              } @else if (bankStatus === 'verified') {
+                Your active bank profile is approved for claim disbursements.
+              } @else {
+                {{ bankError }}
+              }
+            </p>
+            @if (bankStatus === 'error') {
+            <button type="button" routerLink="/customer/profile" class="text-[11px] font-bold uppercase tracking-wider underline hover:opacity-75 transition-opacity">
+              Update Profile
+            </button>
+            }
+          </div>
+        </div>
+        }
+
         <!-- Submit Button -->
-        <div class="mt-10 pt-6 border-t border-border flex justify-end">
-          <button type="submit" [disabled]="!claimForm.valid || isProcessingUpload"
+        <div class="mt-8 pt-6 border-t border-border flex justify-end">
+          <button type="submit" [disabled]="!claimForm.valid || isProcessingUpload || bankStatus !== 'verified'"
             class="px-8 py-3 bg-primary text-white text-[14px] font-semibold rounded-xl hover:bg-primary-light transition-all disabled:opacity-50 shadow-[0_4px_14px_rgba(124,58,237,0.3)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.4)] flex items-center gap-2">
             @if (isProcessingUpload) {
             <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
