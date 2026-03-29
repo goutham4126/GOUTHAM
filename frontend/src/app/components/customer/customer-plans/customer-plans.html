@@ -1,5 +1,6 @@
 <div class="max-w-7xl mx-auto">
-  <div class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-surface border border-border p-8 rounded-[24px] shadow-sm">
+  <div
+    class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-surface border border-border p-8 rounded-[24px] shadow-sm">
     <div>
       <h2 class="text-xl font-bold text-violet-600 tracking-tight">Available Insurance Plans</h2>
       <p class="text-text-muted mt-2 text-sm font-semibold">Browse and request the best coverage for your needs.</p>
@@ -8,14 +9,20 @@
       <button (click)="callAiAgent()" [disabled]="isCallingAgent || callSuccess"
         class="text-sm text-white bg-primary hover:bg-primary/90 border border-primary px-5 py-2.5 rounded-xl font-bold transition-all shadow-sm flex items-center justify-center gap-2 disabled:opacity-50">
         @if (isCallingAgent) {
-          <svg class="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          Initiating Call...
+        <svg class="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+          </path>
+        </svg>
+        Initiating Call...
         } @else {
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-          Call AI Agent
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+          </path>
+        </svg>
+        Call AI Agent
         }
       </button>
 
@@ -27,23 +34,30 @@
   </div>
 
   @if (callSuccess) {
-    <div class="mb-6 p-4 rounded-xl bg-accent-green/10 border border-accent-green/30 text-accent-green flex items-start gap-3">
-      <svg class="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-      <div>
-        <h4 class="font-bold">Call started successfully!</h4>
-        <p class="text-sm font-semibold opacity-80 mt-1">Call {{ callCallId }} initiated successfully.</p>
-      </div>
+  <div
+    class="mb-6 p-4 rounded-xl bg-accent-green/10 border border-accent-green/30 text-accent-green flex items-start gap-3">
+    <svg class="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+    </svg>
+    <div>
+      <h4 class="font-bold">Call started successfully!</h4>
+      <p class="text-sm font-semibold opacity-80 mt-1">Call {{ callCallId }} initiated successfully.</p>
     </div>
+  </div>
   }
 
   @if (callErrorMsg) {
-    <div class="mb-6 p-4 rounded-xl bg-accent-red/10 border border-accent-red/30 text-accent-red flex items-start gap-3">
-      <svg class="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-      <div>
-        <h4 class="font-bold">Error starting call</h4>
-        <p class="text-sm font-semibold opacity-80 mt-1">{{ callErrorMsg }}</p>
-      </div>
+  <div class="mb-6 p-4 rounded-xl bg-accent-red/10 border border-accent-red/30 text-accent-red flex items-start gap-3">
+    <svg class="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+    </svg>
+    <div>
+      <h4 class="font-bold">Error starting call</h4>
+      <p class="text-sm font-semibold opacity-80 mt-1">{{ callErrorMsg }}</p>
     </div>
+  </div>
   }
 
   @if (loading) {
@@ -81,10 +95,44 @@
           </span>
         </div>
         <p class="text-text-muted text-sm font-semibold min-h-[40px] leading-relaxed">{{ plan.description }}</p>
-        
+
+        <!-- Active Policies List -->
+        @let associatedPolicies = getPoliciesForPlan(plan.id);
+        @if (associatedPolicies.length > 0) {
+        <div class="mt-4 space-y-2 mb-6">
+          <p class="text-[10px] font-bold text-accent-green uppercase tracking-widest px-1">Active Policies
+            ({{associatedPolicies.length}})</p>
+          @for (assocPolicy of associatedPolicies; track assocPolicy.id) {
+          <div (click)="viewPolicyDetails(assocPolicy)"
+            class="p-2.5 bg-accent-green/5 border border-accent-green/20 rounded-xl cursor-pointer hover:bg-accent-green/10 transition-all flex items-center justify-between group/policy shadow-sm">
+            <div class="flex items-center gap-2.5">
+              <div
+                class="w-7 h-7 rounded-lg bg-accent-green/10 flex items-center justify-center text-accent-green group-hover/policy:bg-accent-green group-hover/policy:text-white transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <p class="text-[11px] font-bold text-text-primary">#{{ assocPolicy.id.substring(0,8) }}</p>
+                <p class="text-[9px] font-bold text-text-muted">Bought: {{ assocPolicy.startDate | date:'mediumDate' }}
+                </p>
+              </div>
+            </div>
+            <svg class="w-3.5 h-3.5 text-accent-green opacity-0 group-hover/policy:opacity-100 transition-opacity"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+          }
+        </div>
+        }
+
+
         <!-- Rendered Benefits List -->
         <p class="text-text-muted text-sm underline font-semibold min-h-[40px] leading-relaxed">Covered benifits :</p>
-        <div class="benefits-list mb-4 flex-grow text-[13px] text-text-primary" [innerHTML]="sanitizeHtml(plan.benefits)">
+        <div class="benefits-list mb-4 flex-grow text-[13px] text-text-primary"
+          [innerHTML]="sanitizeHtml(plan.benefits)">
         </div>
 
         <div class="space-y-4 mb-6">
@@ -99,7 +147,8 @@
         </div>
         <div class="mt-auto">
           <div class="flex items-end gap-1 mb-5">
-            <span class="text-2xl font-bold text-text-primary">₹{{ getPlanInstallmentAmount(plan) | number:'1.0-2' }}</span>
+            <span class="text-2xl font-bold text-text-primary">₹{{ getPlanInstallmentAmount(plan) | number:'1.0-2'
+              }}</span>
             <span class="text-text-muted font-bold mb-1 text-sm uppercase tracking-wide">/{{ plan.paymentFrequency
               }}</span>
           </div>
@@ -120,526 +169,763 @@
 
   <!-- Purchase Configuration Modal -->
   @if (selectedPlan) {
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-[#1A1D23]/60 backdrop-blur-md p-4 overflow-y-auto pt-[100px] sm:pt-4">
-    <div class="bg-surface rounded-[24px] shadow-2xl p-6 sm:p-8 max-w-2xl w-full mx-auto border border-border flex flex-col my-auto max-h-[95vh] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border hover:[&::-webkit-scrollbar-thumb]:bg-text-muted/50">
-      
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-[#1A1D23]/60 backdrop-blur-md p-4 overflow-y-auto pt-[100px] sm:pt-4">
+    <div
+      class="bg-surface rounded-[24px] shadow-2xl p-6 sm:p-8 max-w-2xl w-full mx-auto border border-border flex flex-col my-auto max-h-[95vh] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border hover:[&::-webkit-scrollbar-thumb]:bg-text-muted/50">
+
       <!-- Stepper Header -->
       <div class="flex justify-between items-center mb-6 pb-6 border-b border-border">
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 p-2.5 rounded-full flex items-center justify-center overflow-hidden bg-primary shadow-sm border border-primary/20">
-              <img src="/logo.png" alt="Insure Logo" class="w-full h-full object-cover">
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-text-primary">Verify & Request</h3>
-              <p class="text-[13px] font-bold text-text-muted mt-0.5">{{ selectedPlan.name }}</p>
-            </div>
+        <div class="flex items-center gap-4">
+          <div
+            class="w-12 h-12 p-2.5 rounded-full flex items-center justify-center overflow-hidden bg-primary shadow-sm border border-primary/20">
+            <img src="/logo.png" alt="Insure Logo" class="w-full h-full object-cover">
           </div>
-          
-          <div class="text-right">
-              <span class="text-xs font-bold text-text-muted uppercase tracking-widest">Step {{ wizardStep }} of 3</span>
-              <div class="flex items-center gap-1.5 mt-2">
-                  <div class="h-1.5 w-8 rounded-full transition-colors" [ngClass]="wizardStep >= 1 ? 'bg-primary' : 'bg-border'"></div>
-                  <div class="h-1.5 w-8 rounded-full transition-colors" [ngClass]="wizardStep >= 2 ? 'bg-primary' : 'bg-border'"></div>
-                  <div class="h-1.5 w-8 rounded-full transition-colors" [ngClass]="wizardStep >= 3 ? 'bg-primary' : 'bg-border'"></div>
-              </div>
+          <div>
+            <h3 class="text-xl font-bold text-text-primary">Verify & Request</h3>
+            <p class="text-[13px] font-bold text-text-muted mt-0.5">{{ selectedPlan.name }}</p>
           </div>
+        </div>
+
+        <div class="text-right">
+          <span class="text-xs font-bold text-text-muted uppercase tracking-widest">Step {{ wizardStep }} of 3</span>
+          <div class="flex items-center gap-1.5 mt-2">
+            <div class="h-1.5 w-8 rounded-full transition-colors"
+              [ngClass]="wizardStep >= 1 ? 'bg-primary' : 'bg-border'"></div>
+            <div class="h-1.5 w-8 rounded-full transition-colors"
+              [ngClass]="wizardStep >= 2 ? 'bg-primary' : 'bg-border'"></div>
+            <div class="h-1.5 w-8 rounded-full transition-colors"
+              [ngClass]="wizardStep >= 3 ? 'bg-primary' : 'bg-border'"></div>
+          </div>
+        </div>
       </div>
 
       <!-- KYC Success Overlay -->
       @if (showKycSuccessOverlay) {
-          <!-- Dim the background to focus on the banner -->
-          <div class="absolute inset-0 z-40 bg-surface/60 backdrop-blur-md animate-in fade-in duration-300 rounded-[24px]"></div>
-          
-          <!-- Green Banner Centered -->
-          <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 z-50 py-8 bg-green-700 flex flex-col items-center justify-center shadow-2xl border-y border-green-600 animate-in fade-in zoom-in-95 duration-300">
-             <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-3 shadow-[0_0_20px_rgba(255,255,255,0.3)]">
-                <svg class="w-8 h-8 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-             </div>
-             <h3 class="text-2xl font-bold text-white tracking-tight">KYC Verified</h3>
-             <p class="text-green-50 text-[13px] font-medium mt-1">Verification complete. Proceeding to policy details...</p>
-          </div>
+      <!-- Dim the background to focus on the banner -->
+      <div class="absolute inset-0 z-40 bg-surface/60 backdrop-blur-md animate-in fade-in duration-300 rounded-[24px]">
+      </div>
+
+      <!-- Green Banner Centered -->
+      <div
+        class="absolute inset-x-0 top-1/2 -translate-y-1/2 z-50 py-8 bg-green-700 flex flex-col items-center justify-center shadow-2xl border-y border-green-600 animate-in fade-in zoom-in-95 duration-300">
+        <div
+          class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-3 shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+          <svg class="w-8 h-8 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-white tracking-tight">KYC Verified</h3>
+        <p class="text-green-50 text-[13px] font-medium mt-1">Verification complete. Proceeding to policy details...</p>
+      </div>
       }
 
       <!-- Step 1: PAN Verification -->
       @if (wizardStep === 1) {
-        <div class="animate-in fade-in slide-in-from-right-4 duration-300">
-            <div class="mb-6">
-                <h4 class="text-lg font-bold text-text-primary">Identity Verification</h4>
-                <p class="text-[13px] text-text-muted mt-1 font-semibold">Upload your PAN card document to verify your identity.</p>
-            </div>
-
-            <!-- PAN Upload Area -->
-            <label class="group relative flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-[16px] cursor-pointer transition-all duration-200 mb-4"
-              [ngClass]="panStatus === 'verified' ? 'border-accent-green/50 bg-accent-green/5 pointer-events-none' : (panDocument ? 'border-primary/50 bg-primary/5' : 'border-border bg-bg-base hover:border-primary/50 hover:bg-primary/5')">
-              
-              <input type="file" accept=".jpeg,.jpg,.png,.webp" (change)="onFileChange($event, 'pan')"
-                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" [disabled]="panStatus === 'verified'">
-
-              @if (!panDocument) {
-              <div class="flex flex-col items-center gap-2 pointer-events-none">
-                <div class="w-12 h-12 rounded-full bg-surface border border-border group-hover:bg-surface group-hover:border-primary/30 flex items-center justify-center transition-colors shadow-sm">
-                  <svg class="w-6 h-6 text-text-muted group-hover:text-primary transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                  </svg>
-                </div>
-                <p class="text-[12px] font-bold text-text-muted group-hover:text-primary transition-colors uppercase tracking-wider">Click to upload PAN</p>
-                <p class="text-[11px] text-text-muted/70 font-semibold">JPEG, PNG, WEBP up to 10MB</p>
-              </div>
-              } @else {
-              <div class="flex flex-col items-center gap-2 pointer-events-none px-4 text-center">
-                <div class="w-12 h-12 rounded-full bg-surface border border-primary/30 flex items-center justify-center shadow-sm" [ngClass]="{'border-accent-green/30': panStatus === 'verified'}">
-                  @if (panStatus === 'verified') {
-                      <svg class="w-6 h-6 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                  } @else {
-                      <svg class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                  }
-                </div>
-                <p class="text-sm font-bold text-text-primary truncate max-w-[200px]">{{ panDocument.name }}</p>
-                <p class="text-[11px] font-bold text-primary uppercase tracking-wider" [ngClass]="{'text-accent-green': panStatus === 'verified'}">
-                    {{ (panDocument.size / 1024).toFixed(1) }} KB
-                    @if (panStatus !== 'verified') { <span class="cursor-pointer underline">· Change</span> }
-                </p>
-              </div>
-              }
-            </label>
-
-            @if (panErrorMsg) {
-                <div class="p-4 bg-accent-red/5 border border-accent-red/20 rounded-xl mb-4 text-[13px] font-bold text-accent-red flex items-start gap-2">
-                    <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                    <span>{{ panErrorMsg }}</span>
-                </div>
-            }
-
-            @if (panStatus === 'verified' && panDetails) {
-                <!-- Official PAN Card Verified -->
-                <div class="mb-6 rounded-2xl overflow-hidden shadow-lg border border-border" style="background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #1565c0 100%);">
-                    <!-- Card Header -->
-                    <div class="px-5 pt-4 pb-2 flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-yellow-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-                            <div>
-                                <p class="text-[9px] font-bold text-blue-200 uppercase tracking-[0.2em]">Income Tax Department</p>
-                                <p class="text-[8px] font-bold text-blue-300/70 uppercase tracking-[0.15em]">Govt. of India</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-1.5 bg-green-500/20 border border-green-400/30 rounded-full px-3 py-1">
-                            <svg class="w-3.5 h-3.5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                            <span class="text-[9px] font-bold text-green-400 uppercase tracking-wider">Verified</span>
-                        </div>
-                    </div>
-                    <!-- Card Content -->
-                    <div class="px-5 pb-5 pt-2">
-                        <p class="text-[10px] font-bold text-blue-300/60 uppercase tracking-[0.15em] mb-1">Permanent Account Number</p>
-                        <p class="text-xl font-black text-white tracking-[0.15em] mb-4 font-mono">{{ panDetails.pan_number }}</p>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <p class="text-[9px] font-bold text-blue-300/60 uppercase tracking-wider">Name</p>
-                                <p class="text-[13px] font-bold text-white">{{ panDetails.name }}</p>
-                            </div>
-                            <div>
-                                <p class="text-[9px] font-bold text-blue-300/60 uppercase tracking-wider">Date of Birth</p>
-                                <p class="text-[13px] font-bold text-white">{{ panDetails.date_of_birth }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card Footer -->
-                    <div class="bg-white/10 backdrop-blur-sm px-5 py-2.5 flex items-center justify-between">
-                        <p class="text-[9px] font-bold text-blue-200/70 uppercase tracking-wider">PAN Card</p>
-                        <div class="flex items-center gap-1.5">
-                            <div class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
-                            <p class="text-[9px] font-bold text-green-400 uppercase tracking-wider">Identity Verified</p>
-                        </div>
-                    </div>
-                </div>
-            }
-
-            <!-- Actions -->
-            <div class="flex justify-end gap-3 mt-8">
-              <button (click)="cancelRequest()" class="px-5 py-3 bg-bg-base border border-border text-text-primary font-bold text-[13px] rounded-xl hover:bg-border/50 transition-all shadow-sm">Cancel</button>
-              
-              @if (panStatus !== 'verified') {
-                  <button (click)="verifyPan()" [disabled]="!panDocument || panStatus === 'verifying'"
-                    class="flex items-center justify-center px-6 py-3 bg-primary text-white font-bold text-[13px] rounded-xl hover:bg-primary/95 transition shadow-sm disabled:opacity-50">
-                    @if (panStatus === 'verifying') {
-                      <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Verifying...
-                    } @else {
-                      Verify PAN
-                    }
-                  </button>
-              } @else {
-                  <button (click)="goToStep(2)"
-                    class="flex items-center justify-center px-6 py-3 bg-primary text-white font-bold text-[13px] rounded-xl hover:bg-primary/95 transition shadow-sm">
-                    Next Step &rarr;
-                  </button>
-              }
-            </div>
+      <div class="animate-in fade-in slide-in-from-right-4 duration-300">
+        <div class="mb-6">
+          <h4 class="text-lg font-bold text-text-primary">Identity Verification</h4>
+          <p class="text-[13px] text-text-muted mt-1 font-semibold">Upload your PAN card document to verify your
+            identity.</p>
         </div>
+
+        <!-- PAN Upload Area -->
+        <label
+          class="group relative flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-[16px] cursor-pointer transition-all duration-200 mb-4"
+          [ngClass]="panStatus === 'verified' ? 'border-accent-green/50 bg-accent-green/5 pointer-events-none' : (panDocument ? 'border-primary/50 bg-primary/5' : 'border-border bg-bg-base hover:border-primary/50 hover:bg-primary/5')">
+
+          <input type="file" accept=".jpeg,.jpg,.png,.webp" (change)="onFileChange($event, 'pan')"
+            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" [disabled]="panStatus === 'verified'">
+
+          @if (!panDocument) {
+          <div class="flex flex-col items-center gap-2 pointer-events-none">
+            <div
+              class="w-12 h-12 rounded-full bg-surface border border-border group-hover:bg-surface group-hover:border-primary/30 flex items-center justify-center transition-colors shadow-sm">
+              <svg class="w-6 h-6 text-text-muted group-hover:text-primary transition-colors" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+              </svg>
+            </div>
+            <p
+              class="text-[12px] font-bold text-text-muted group-hover:text-primary transition-colors uppercase tracking-wider">
+              Click to upload PAN</p>
+            <p class="text-[11px] text-text-muted/70 font-semibold">JPEG, PNG, WEBP up to 10MB</p>
+          </div>
+          } @else {
+          <div class="flex flex-col items-center gap-2 pointer-events-none px-4 text-center">
+            <div
+              class="w-12 h-12 rounded-full bg-surface border border-primary/30 flex items-center justify-center shadow-sm"
+              [ngClass]="{'border-accent-green/30': panStatus === 'verified'}">
+              @if (panStatus === 'verified') {
+              <svg class="w-6 h-6 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              } @else {
+              <svg class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              }
+            </div>
+            <p class="text-sm font-bold text-text-primary truncate max-w-[200px]">{{ panDocument.name }}</p>
+            <p class="text-[11px] font-bold text-primary uppercase tracking-wider"
+              [ngClass]="{'text-accent-green': panStatus === 'verified'}">
+              {{ (panDocument.size / 1024).toFixed(1) }} KB
+              @if (panStatus !== 'verified') { <span class="cursor-pointer underline">· Change</span> }
+            </p>
+          </div>
+          }
+        </label>
+
+        @if (panErrorMsg) {
+        <div
+          class="p-4 bg-accent-red/5 border border-accent-red/20 rounded-xl mb-4 text-[13px] font-bold text-accent-red flex items-start gap-2">
+          <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+          <span>{{ panErrorMsg }}</span>
+        </div>
+        }
+
+        @if (panStatus === 'verified' && panDetails) {
+        <!-- Official PAN Card Verified -->
+        <div class="mb-6 rounded-2xl overflow-hidden shadow-lg border border-border"
+          style="background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #1565c0 100%);">
+          <!-- Card Header -->
+          <div class="px-5 pt-4 pb-2 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-yellow-400" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+              </svg>
+              <div>
+                <p class="text-[9px] font-bold text-blue-200 uppercase tracking-[0.2em]">Income Tax Department</p>
+                <p class="text-[8px] font-bold text-blue-300/70 uppercase tracking-[0.15em]">Govt. of India</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5 bg-green-500/20 border border-green-400/30 rounded-full px-3 py-1">
+              <svg class="w-3.5 h-3.5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-[9px] font-bold text-green-400 uppercase tracking-wider">Verified</span>
+            </div>
+          </div>
+          <!-- Card Content -->
+          <div class="px-5 pb-5 pt-2">
+            <p class="text-[10px] font-bold text-blue-300/60 uppercase tracking-[0.15em] mb-1">Permanent Account Number
+            </p>
+            <p class="text-xl font-black text-white tracking-[0.15em] mb-4 font-mono">{{ panDetails.pan_number }}</p>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <p class="text-[9px] font-bold text-blue-300/60 uppercase tracking-wider">Name</p>
+                <p class="text-[13px] font-bold text-white">{{ panDetails.name }}</p>
+              </div>
+              <div>
+                <p class="text-[9px] font-bold text-blue-300/60 uppercase tracking-wider">Date of Birth</p>
+                <p class="text-[13px] font-bold text-white">{{ panDetails.date_of_birth }}</p>
+              </div>
+            </div>
+          </div>
+          <!-- Card Footer -->
+          <div class="bg-white/10 backdrop-blur-sm px-5 py-2.5 flex items-center justify-between">
+            <p class="text-[9px] font-bold text-blue-200/70 uppercase tracking-wider">PAN Card</p>
+            <div class="flex items-center gap-1.5">
+              <div class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
+              <p class="text-[9px] font-bold text-green-400 uppercase tracking-wider">Identity Verified</p>
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- Actions -->
+        <div class="flex justify-end gap-3 mt-8">
+          <button (click)="cancelRequest()"
+            class="px-5 py-3 bg-bg-base border border-border text-text-primary font-bold text-[13px] rounded-xl hover:bg-border/50 transition-all shadow-sm">Cancel</button>
+
+          @if (panStatus !== 'verified') {
+          <button (click)="verifyPan()" [disabled]="!panDocument || panStatus === 'verifying'"
+            class="flex items-center justify-center px-6 py-3 bg-primary text-white font-bold text-[13px] rounded-xl hover:bg-primary/95 transition shadow-sm disabled:opacity-50">
+            @if (panStatus === 'verifying') {
+            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg> Verifying...
+            } @else {
+            Verify PAN
+            }
+          </button>
+          } @else {
+          <button (click)="goToStep(2)"
+            class="flex items-center justify-center px-6 py-3 bg-primary text-white font-bold text-[13px] rounded-xl hover:bg-primary/95 transition shadow-sm">
+            Next Step &rarr;
+          </button>
+          }
+        </div>
+      </div>
       }
 
       <!-- Step 2: Aadhaar Verification -->
       @if (wizardStep === 2) {
-        <div class="animate-in fade-in slide-in-from-right-4 duration-300">
-            <div class="mb-6">
-                <h4 class="text-lg font-bold text-text-primary">Address Verification</h4>
-                <p class="text-[13px] text-text-muted mt-1 font-semibold">Upload your Aadhaar card and verify with OTP.</p>
-            </div>
-
-            <!-- Aadhaar Upload Area -->
-            <label class="group relative flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-[16px] cursor-pointer transition-all duration-200 mb-6"
-              [ngClass]="aadhaarStatus === 'verified' ? 'border-accent-green/50 bg-accent-green/5 pointer-events-none' : (addressDocument ? 'border-primary/50 bg-primary/5' : 'border-border bg-bg-base hover:border-primary/50 hover:bg-primary/5')">
-              
-              <input type="file" accept=".jpeg,.jpg,.png,.webp" (change)="onFileChange($event, 'address')"
-                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" [disabled]="aadhaarStatus === 'otp_sent' || aadhaarStatus === 'verifying' || aadhaarStatus === 'verified'">
-
-              @if (!addressDocument) {
-              <div class="flex flex-col items-center gap-2 pointer-events-none">
-                <div class="w-12 h-12 rounded-full bg-surface border border-border group-hover:bg-surface group-hover:border-primary/30 flex items-center justify-center transition-colors shadow-sm">
-                  <svg class="w-6 h-6 text-text-muted group-hover:text-primary transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </div>
-                <p class="text-[12px] font-bold text-text-muted group-hover:text-primary transition-colors uppercase tracking-wider">Click to upload Aadhaar</p>
-                <p class="text-[11px] text-text-muted/70 font-semibold">JPEG, PNG, WEBP up to 10MB</p>
-              </div>
-              } @else {
-              <div class="flex flex-col items-center gap-2 pointer-events-none px-4 text-center">
-                <div class="w-12 h-12 rounded-full bg-surface border border-primary/30 flex items-center justify-center shadow-sm" [ngClass]="{'border-accent-green/30': aadhaarStatus === 'verified'}">
-                  @if (aadhaarStatus === 'verified') {
-                      <svg class="w-6 h-6 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                  } @else {
-                      <svg class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                  }
-                </div>
-                <p class="text-sm font-bold text-text-primary truncate max-w-[200px]">{{ addressDocument.name }}</p>
-                <p class="text-[11px] font-bold text-primary uppercase tracking-wider" [ngClass]="{'text-accent-green': aadhaarStatus === 'verified'}">
-                    {{ (addressDocument.size / 1024).toFixed(1) }} KB
-                    @if (aadhaarStatus !== 'verified' && aadhaarStatus !== 'otp_sent' && aadhaarStatus !== 'verifying') { <span class="cursor-pointer underline">· Change</span> }
-                </p>
-              </div>
-              }
-            </label>
-
-            <!-- OTP Section -->
-            @if (aadhaarStatus === 'otp_sent' || aadhaarStatus === 'verifying' || aadhaarStatus === 'error') {
-                <div class="bg-bg-base border border-border rounded-[20px] p-6 mb-6 shadow-sm">
-                    <div class="flex justify-between items-center mb-4">
-                        <label class="block text-[12px] font-bold text-text-primary">Enter Verification Code</label>
-                        @if (otpTimer > 0) {
-                            <div class="text-[11px] font-bold text-text-muted bg-surface border border-border px-2 py-1 rounded-md flex items-center gap-1.5">
-                                <svg class="w-3.5 h-3.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                <span><span class="text-primary">{{ otpTimer }}</span>s remaining</span>
-                            </div>
-                        }
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row gap-5 items-center">
-                        <div class="flex gap-2.5">
-                            @for (digit of otpArray; track $index) {
-                                <input type="text" maxlength="1" 
-                                    [value]="otpArray[$index]"
-                                    (input)="onOtpInput($event, $index)"
-                                    (keydown)="onOtpKeydown($event, $index)"
-                                    (paste)="onOtpPaste($event)"
-                                    id="otp-input-{{$index}}"
-                                    class="w-10 h-12 sm:w-12 sm:h-14 border border-border rounded-xl text-lg sm:text-xl font-bold text-center focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-text-primary transition-all shadow-sm bg-surface shadow-inner"
-                                    [disabled]="aadhaarStatus === 'verifying'">
-                            }
-                        </div>
-                        
-                        <button (click)="verifyAadhaarOtp()" [disabled]="aadhaarOtp.length < 6 || aadhaarStatus === 'verifying'"
-                            class="w-full sm:w-auto px-6 h-12 sm:h-14 bg-primary text-white font-bold text-[13px] rounded-xl hover:bg-primary/95 transition-all shadow-[0_4px_14px_0_rgba(124,58,237,0.39)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.23)] hover:-translate-y-0.5 disabled:opacity-50 disabled:shadow-none disabled:transform-none flex items-center justify-center min-w-[120px]">
-                            @if (aadhaarStatus === 'verifying') {
-                                <svg class="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                            } @else {
-                                Verify Code
-                            }
-                        </button>
-                    </div>
-                </div>
-            }
-
-            @if (aadhaarErrorMsg) {
-                <div class="p-4 bg-accent-red/5 border border-accent-red/20 rounded-xl mb-4 text-[13px] font-bold text-accent-red flex items-start gap-2">
-                    <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                    <span>{{ aadhaarErrorMsg }}</span>
-                </div>
-            }
-
-            @if (aadhaarStatus === 'verified' && aadhaarDetails) {
-                <!-- Official Aadhaar Card Verified -->
-                <div class="mb-6 rounded-2xl overflow-hidden shadow-lg border border-border bg-white">
-                    <!-- Tricolor Stripe -->
-                    <div class="flex h-1.5">
-                        <div class="flex-1" style="background: #FF9933;"></div>
-                        <div class="flex-1 bg-white"></div>
-                        <div class="flex-1" style="background: #138808;"></div>
-                    </div>
-                    <!-- Card Header -->
-                    <div class="px-5 pt-4 pb-2 flex items-center justify-between bg-gradient-to-r from-gray-50 to-white">
-                        <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                            <div>
-                                <p class="text-[11px] font-black text-gray-800 uppercase tracking-[0.1em]">Aadhaar</p>
-                                <p class="text-[8px] font-bold text-gray-500 uppercase tracking-[0.1em]">Unique Identification Authority of India</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-1.5 bg-green-500/15 border border-green-500/30 rounded-full px-3 py-1">
-                            <svg class="w-3.5 h-3.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                            <span class="text-[9px] font-bold text-green-600 uppercase tracking-wider">Verified</span>
-                        </div>
-                    </div>
-                    <!-- Card Content -->
-                    <div class="px-5 pb-5 pt-3 flex flex-col sm:flex-row gap-5">
-                        @if (aadhaarPhotoSrc) {
-                            <div class="shrink-0">
-                                <img [src]="aadhaarPhotoSrc" alt="Aadhaar Photo" class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-xl border-2 border-gray-200 shadow-sm mx-auto sm:mx-0">
-                            </div>
-                        }
-                        <div class="flex-grow">
-                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.1em] mb-0.5">Aadhaar Number</p>
-                            <p class="text-lg font-black text-gray-800 tracking-[0.15em] mb-3 font-mono">{{ aadhaarDetails.aadhaar_number || 'xxxx-xxxx-xxxx' }}</p>
-                            <div class="grid grid-cols-2 gap-y-2.5 gap-x-4">
-                                <div>
-                                    <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Name</p>
-                                    <p class="text-[13px] font-bold text-gray-800">{{ aadhaarDetails.name }}</p>
-                                </div>
-                                <div>
-                                    <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Gender</p>
-                                    <p class="text-[13px] font-bold text-gray-800">{{ aadhaarDetails.gender }}</p>
-                                </div>
-                                <div>
-                                    <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Date of Birth</p>
-                                    <p class="text-[13px] font-bold text-gray-800">{{ aadhaarDetails.date_of_birth }}</p>
-                                </div>
-                                <div>
-                                    <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Address</p>
-                                    <p class="text-[11px] font-bold text-gray-800 leading-tight mt-0.5">{{ aadhaarDetails.full_address }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card Footer -->
-                    <div class="bg-gray-50 px-5 py-2.5 flex items-center justify-between border-t border-gray-100">
-                        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Aadhaar Card</p>
-                        <div class="flex items-center gap-1.5">
-                            <div class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-                            <p class="text-[9px] font-bold text-green-600 uppercase tracking-wider">Address Verified</p>
-                        </div>
-                    </div>
-                </div>
-            }
-
-            <!-- Actions -->
-            <div class="flex justify-between items-center mt-8">
-              <button (click)="goToStep(1)" class="text-[13px] font-bold text-text-muted hover:text-text-primary transition-colors">&larr; Back to PAN</button>
-              
-              <div class="flex gap-3">
-                  @if (aadhaarStatus !== 'verified') {
-                      <button (click)="generateAadhaarOtp()" [disabled]="!addressDocument || aadhaarStatus === 'generating' || aadhaarStatus === 'otp_sent'"
-                        class="flex items-center justify-center px-6 py-3 bg-primary text-white font-bold text-[13px] rounded-xl hover:bg-primary/95 transition shadow-sm disabled:opacity-50 min-w-[140px]">
-                        @if (aadhaarStatus === 'generating') {
-                          <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Generating...
-                        } @else if (aadhaarStatus === 'otp_sent') {
-                          Check OTP
-                        } @else {
-                          Send OTP
-                        }
-                      </button>
-                  } @else {
-                      <button (click)="handleNextStepFromAadhaar()"
-                        class="flex items-center justify-center px-6 py-3 bg-primary text-white font-bold text-[13px] rounded-xl hover:bg-primary/95 transition shadow-sm">
-                        Next Step &rarr;
-                      </button>
-                  }
-              </div>
-            </div>
+      <div class="animate-in fade-in slide-in-from-right-4 duration-300">
+        <div class="mb-6">
+          <h4 class="text-lg font-bold text-text-primary">Address Verification</h4>
+          <p class="text-[13px] text-text-muted mt-1 font-semibold">Upload your Aadhaar card and verify with OTP.</p>
         </div>
+
+        <!-- Aadhaar Upload Area -->
+        <label
+          class="group relative flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-[16px] cursor-pointer transition-all duration-200 mb-6"
+          [ngClass]="aadhaarStatus === 'verified' ? 'border-accent-green/50 bg-accent-green/5 pointer-events-none' : (addressDocument ? 'border-primary/50 bg-primary/5' : 'border-border bg-bg-base hover:border-primary/50 hover:bg-primary/5')">
+
+          <input type="file" accept=".jpeg,.jpg,.png,.webp" (change)="onFileChange($event, 'address')"
+            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+            [disabled]="aadhaarStatus === 'otp_sent' || aadhaarStatus === 'verifying' || aadhaarStatus === 'verified'">
+
+          @if (!addressDocument) {
+          <div class="flex flex-col items-center gap-2 pointer-events-none">
+            <div
+              class="w-12 h-12 rounded-full bg-surface border border-border group-hover:bg-surface group-hover:border-primary/30 flex items-center justify-center transition-colors shadow-sm">
+              <svg class="w-6 h-6 text-text-muted group-hover:text-primary transition-colors" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </div>
+            <p
+              class="text-[12px] font-bold text-text-muted group-hover:text-primary transition-colors uppercase tracking-wider">
+              Click to upload Aadhaar</p>
+            <p class="text-[11px] text-text-muted/70 font-semibold">JPEG, PNG, WEBP up to 10MB</p>
+          </div>
+          } @else {
+          <div class="flex flex-col items-center gap-2 pointer-events-none px-4 text-center">
+            <div
+              class="w-12 h-12 rounded-full bg-surface border border-primary/30 flex items-center justify-center shadow-sm"
+              [ngClass]="{'border-accent-green/30': aadhaarStatus === 'verified'}">
+              @if (aadhaarStatus === 'verified') {
+              <svg class="w-6 h-6 text-accent-green" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              } @else {
+              <svg class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+              }
+            </div>
+            <p class="text-sm font-bold text-text-primary truncate max-w-[200px]">{{ addressDocument.name }}</p>
+            <p class="text-[11px] font-bold text-primary uppercase tracking-wider"
+              [ngClass]="{'text-accent-green': aadhaarStatus === 'verified'}">
+              {{ (addressDocument.size / 1024).toFixed(1) }} KB
+              @if (aadhaarStatus !== 'verified' && aadhaarStatus !== 'otp_sent' && aadhaarStatus !== 'verifying') {
+              <span class="cursor-pointer underline">· Change</span> }
+            </p>
+          </div>
+          }
+        </label>
+
+        <!-- OTP Section -->
+        @if (aadhaarStatus === 'otp_sent' || aadhaarStatus === 'verifying' || aadhaarStatus === 'error') {
+        <div class="bg-bg-base border border-border rounded-[20px] p-6 mb-6 shadow-sm">
+          <div class="flex justify-between items-center mb-4">
+            <label class="block text-[12px] font-bold text-text-primary">Enter Verification Code</label>
+            @if (otpTimer > 0) {
+            <div
+              class="text-[11px] font-bold text-text-muted bg-surface border border-border px-2 py-1 rounded-md flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span><span class="text-primary">{{ otpTimer }}</span>s remaining</span>
+            </div>
+            }
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-5 items-center">
+            <div class="flex gap-2.5">
+              @for (digit of otpArray; track $index) {
+              <input type="text" maxlength="1" [value]="otpArray[$index]" (input)="onOtpInput($event, $index)"
+                (keydown)="onOtpKeydown($event, $index)" (paste)="onOtpPaste($event)" id="otp-input-{{$index}}"
+                class="w-10 h-12 sm:w-12 sm:h-14 border border-border rounded-xl text-lg sm:text-xl font-bold text-center focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-text-primary transition-all shadow-sm bg-surface shadow-inner"
+                [disabled]="aadhaarStatus === 'verifying'">
+              }
+            </div>
+
+            <button (click)="verifyAadhaarOtp()" [disabled]="aadhaarOtp.length < 6 || aadhaarStatus === 'verifying'"
+              class="w-full sm:w-auto px-6 h-12 sm:h-14 bg-primary text-white font-bold text-[13px] rounded-xl hover:bg-primary/95 transition-all shadow-[0_4px_14px_0_rgba(124,58,237,0.39)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.23)] hover:-translate-y-0.5 disabled:opacity-50 disabled:shadow-none disabled:transform-none flex items-center justify-center min-w-[120px]">
+              @if (aadhaarStatus === 'verifying') {
+              <svg class="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+              </svg>
+              } @else {
+              Verify Code
+              }
+            </button>
+          </div>
+        </div>
+        }
+
+        @if (aadhaarErrorMsg) {
+        <div
+          class="p-4 bg-accent-red/5 border border-accent-red/20 rounded-xl mb-4 text-[13px] font-bold text-accent-red flex items-start gap-2">
+          <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+          <span>{{ aadhaarErrorMsg }}</span>
+        </div>
+        }
+
+        @if (aadhaarStatus === 'verified' && aadhaarDetails) {
+        <!-- Official Aadhaar Card Verified -->
+        <div class="mb-6 rounded-2xl overflow-hidden shadow-lg border border-border bg-white">
+          <!-- Tricolor Stripe -->
+          <div class="flex h-1.5">
+            <div class="flex-1" style="background: #FF9933;"></div>
+            <div class="flex-1 bg-white"></div>
+            <div class="flex-1" style="background: #138808;"></div>
+          </div>
+          <!-- Card Header -->
+          <div class="px-5 pt-4 pb-2 flex items-center justify-between bg-gradient-to-r from-gray-50 to-white">
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+              </svg>
+              <div>
+                <p class="text-[11px] font-black text-gray-800 uppercase tracking-[0.1em]">Aadhaar</p>
+                <p class="text-[8px] font-bold text-gray-500 uppercase tracking-[0.1em]">Unique Identification Authority
+                  of India</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5 bg-green-500/15 border border-green-500/30 rounded-full px-3 py-1">
+              <svg class="w-3.5 h-3.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-[9px] font-bold text-green-600 uppercase tracking-wider">Verified</span>
+            </div>
+          </div>
+          <!-- Card Content -->
+          <div class="px-5 pb-5 pt-3 flex flex-col sm:flex-row gap-5">
+            @if (aadhaarPhotoSrc) {
+            <div class="shrink-0">
+              <img [src]="aadhaarPhotoSrc" alt="Aadhaar Photo"
+                class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-xl border-2 border-gray-200 shadow-sm mx-auto sm:mx-0">
+            </div>
+            }
+            <div class="flex-grow">
+              <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.1em] mb-0.5">Aadhaar Number</p>
+              <p class="text-lg font-black text-gray-800 tracking-[0.15em] mb-3 font-mono">{{
+                aadhaarDetails.aadhaar_number || 'xxxx-xxxx-xxxx' }}</p>
+              <div class="grid grid-cols-2 gap-y-2.5 gap-x-4">
+                <div>
+                  <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Name</p>
+                  <p class="text-[13px] font-bold text-gray-800">{{ aadhaarDetails.name }}</p>
+                </div>
+                <div>
+                  <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Gender</p>
+                  <p class="text-[13px] font-bold text-gray-800">{{ aadhaarDetails.gender }}</p>
+                </div>
+                <div>
+                  <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Date of Birth</p>
+                  <p class="text-[13px] font-bold text-gray-800">{{ aadhaarDetails.date_of_birth }}</p>
+                </div>
+                <div>
+                  <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Address</p>
+                  <p class="text-[11px] font-bold text-gray-800 leading-tight mt-0.5">{{ aadhaarDetails.full_address }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card Footer -->
+          <div class="bg-gray-50 px-5 py-2.5 flex items-center justify-between border-t border-gray-100">
+            <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Aadhaar Card</p>
+            <div class="flex items-center gap-1.5">
+              <div class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+              <p class="text-[9px] font-bold text-green-600 uppercase tracking-wider">Address Verified</p>
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- Actions -->
+        <div class="flex justify-between items-center mt-8">
+          <button (click)="goToStep(1)"
+            class="text-[13px] font-bold text-text-muted hover:text-text-primary transition-colors">&larr; Back to
+            PAN</button>
+
+          <div class="flex gap-3">
+            @if (aadhaarStatus !== 'verified') {
+            <button (click)="generateAadhaarOtp()"
+              [disabled]="!addressDocument || aadhaarStatus === 'generating' || aadhaarStatus === 'otp_sent'"
+              class="flex items-center justify-center px-6 py-3 bg-primary text-white font-bold text-[13px] rounded-xl hover:bg-primary/95 transition shadow-sm disabled:opacity-50 min-w-[140px]">
+              @if (aadhaarStatus === 'generating') {
+              <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+              </svg> Generating...
+              } @else if (aadhaarStatus === 'otp_sent') {
+              Check OTP
+              } @else {
+              Send OTP
+              }
+            </button>
+            } @else {
+            <button (click)="handleNextStepFromAadhaar()"
+              class="flex items-center justify-center px-6 py-3 bg-primary text-white font-bold text-[13px] rounded-xl hover:bg-primary/95 transition shadow-sm">
+              Next Step &rarr;
+            </button>
+            }
+          </div>
+        </div>
+      </div>
       }
 
       <!-- Step 3: Policy Configuration -->
       @if (wizardStep === 3) {
-        <div class="animate-in fade-in slide-in-from-right-4 duration-300">
-            <div class="mb-6">
-                <h4 class="text-lg font-bold text-text-primary">Policy Details</h4>
-                <p class="text-[13px] text-text-muted mt-1 font-semibold">Configure your policy duration and frequency.</p>
-            </div>
+      <div class="animate-in fade-in slide-in-from-right-4 duration-300">
+        <div class="mb-6">
+          <h4 class="text-lg font-bold text-text-primary">Policy Details</h4>
+          <p class="text-[13px] text-text-muted mt-1 font-semibold">Configure your policy duration and frequency.</p>
+        </div>
 
-            <!-- Display Markdown Benefits in Modal -->
-            <div class="bg-surface border border-border rounded-2xl p-5 mb-6 shadow-sm">
-                <h4 class="text-[13px] font-bold text-text-primary border-b border-border/60 pb-2 mb-3">Plan Benefits</h4>
-                <div class="benefits-list text-[13px] text-text-primary" [innerHTML]="sanitizeHtml(selectedPlan.benefits)">
-                </div>
-            </div>
+        <!-- Display Markdown Benefits in Modal -->
+        <div class="bg-surface border border-border rounded-2xl p-5 mb-6 shadow-sm">
+          <h4 class="text-[13px] font-bold text-text-primary border-b border-border/60 pb-2 mb-3">Plan Benefits</h4>
+          <div class="benefits-list text-[13px] text-text-primary" [innerHTML]="sanitizeHtml(selectedPlan.benefits)">
+          </div>
+        </div>
 
-            <form [formGroup]="requestForm" class="flex flex-col sm:flex-row gap-5 mb-8">
-                <div class="flex-1 relative">
-                <label class="block text-[11px] font-bold text-text-muted uppercase tracking-wider mb-2">Duration
-                    (Months)</label>
-                <input type="number" formControlName="durationInMonths" [min]="1" [max]="360" [class]="'w-full border rounded-xl px-4 py-3 text-[14px] focus:outline-none focus:ring-1 focus:bg-surface transition-all shadow-sm ' + 
+        <form [formGroup]="requestForm" class="flex flex-col sm:flex-row gap-5 mb-8">
+          <div class="flex-1 relative">
+            <label class="block text-[11px] font-bold text-text-muted uppercase tracking-wider mb-2">Duration
+              (Months)</label>
+            <input type="number" formControlName="durationInMonths" [min]="1" [max]="360" [class]="'w-full border rounded-xl px-4 py-3 text-[14px] focus:outline-none focus:ring-1 focus:bg-surface transition-all shadow-sm ' + 
                     (requestForm.get('durationInMonths')?.invalid && requestForm.get('durationInMonths')?.touched 
                         ? 'border-accent-red/50 focus:ring-accent-red focus:border-accent-red bg-accent-red/5 text-text-primary'
                         : 'border-border focus:border-primary text-text-primary bg-bg-base/40')">
 
-                @if (requestForm.get('durationInMonths')?.touched && requestForm.get('durationInMonths')?.invalid) {
-                <div class="w-full text-[11px] text-accent-red font-bold mt-2">
-                    @if (requestForm.get('durationInMonths')?.hasError('required')) {
-                    <span>Duration is required.</span>
-                    } @else if (requestForm.get('durationInMonths')?.hasError('notInteger')) {
-                    <span>Duration must be a whole number.</span>
-                    } @else if (requestForm.get('durationInMonths')?.hasError('minDuration')) {
-                    <span>Duration must be >= plan duration ({{
-                    requestForm.get('durationInMonths')?.errors?.['minDuration'].required }}).</span>
-                    } @else if (requestForm.get('durationInMonths')?.hasError('min')) {
-                    <span>Duration must be positive.</span>
-                    } @else if (requestForm.get('durationInMonths')?.hasError('invalidQuarterly')) {
-                    <span>Quarterly payments require duration to be a multiple of 3.</span>
-                    } @else if (requestForm.get('durationInMonths')?.hasError('invalidYearly')) {
-                    <span>Yearly payments require duration to be a multiple of 12.</span>
-                    }
-                </div>
-                }
-                </div>
-                <div class="flex-1">
-                <label class="block text-[11px] font-bold text-text-muted uppercase tracking-wider mb-2">Payment Frequency</label>
-                <div class="relative">
-                    <input type="hidden" formControlName="paymentFrequency">
-                    <button type="button" (click)="toggleFrequencyDropdown()"
-                    class="w-full border border-border rounded-xl px-4 py-3 text-[14px] focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-text-primary focus:bg-surface transition-all shadow-sm bg-bg-base/40 flex items-center justify-between">
-                    <span>{{ requestForm.get('paymentFrequency')?.value || 'Select Frequency' }}</span>
-                    <svg class="h-4 w-4 text-text-muted transition-transform duration-200"
-                        [class.rotate-180]="isFrequencyDropdownOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                    </button>
-                    @if (isFrequencyDropdownOpen) {
-                    <div
-                    class="absolute z-20 w-full mt-2 bg-surface border border-border rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] max-h-60 overflow-y-auto overflow-x-hidden py-2 animate-in fade-in slide-in-from-top-2 duration-200">
-                    <button type="button" (click)="selectFrequency('Monthly')"
-                        class="w-full px-5 py-3 text-left text-[13px] font-bold text-text-primary hover:bg-bg-base hover:text-primary transition-colors flex items-center justify-between group">
-                        <span>Monthly</span>
-                    </button>
-                    <button type="button" (click)="selectFrequency('Quarterly')"
-                        class="w-full px-5 py-3 text-left text-[13px] font-bold text-text-primary hover:bg-bg-base hover:text-primary transition-colors flex items-center justify-between group">
-                        <span>Quarterly</span>
-                    </button>
-                    <button type="button" (click)="selectFrequency('Yearly')"
-                        class="w-full px-5 py-3 text-left text-[13px] font-bold text-text-primary hover:bg-bg-base hover:text-primary transition-colors flex items-center justify-between group">
-                        <span>Yearly</span>
-                    </button>
-                    </div>
-                    }
-                </div>
-                </div>
-            </form>
-
-            <!-- Premium Calculation Breakdown -->
-            <div class="bg-surface border border-border rounded-2xl overflow-hidden mb-6 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
-                <div class="px-5 py-3.5 bg-bg-base border-b border-border flex items-center gap-2">
-                <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            @if (requestForm.get('durationInMonths')?.touched && requestForm.get('durationInMonths')?.invalid) {
+            <div class="w-full text-[11px] text-accent-red font-bold mt-2">
+              @if (requestForm.get('durationInMonths')?.hasError('required')) {
+              <span>Duration is required.</span>
+              } @else if (requestForm.get('durationInMonths')?.hasError('notInteger')) {
+              <span>Duration must be a whole number.</span>
+              } @else if (requestForm.get('durationInMonths')?.hasError('minDuration')) {
+              <span>Duration must be >= plan duration ({{
+                requestForm.get('durationInMonths')?.errors?.['minDuration'].required }}).</span>
+              } @else if (requestForm.get('durationInMonths')?.hasError('min')) {
+              <span>Duration must be positive.</span>
+              } @else if (requestForm.get('durationInMonths')?.hasError('invalidQuarterly')) {
+              <span>Quarterly payments require duration to be a multiple of 3.</span>
+              } @else if (requestForm.get('durationInMonths')?.hasError('invalidYearly')) {
+              <span>Yearly payments require duration to be a multiple of 12.</span>
+              }
+            </div>
+            }
+          </div>
+          <div class="flex-1">
+            <label class="block text-[11px] font-bold text-text-muted uppercase tracking-wider mb-2">Payment
+              Frequency</label>
+            <div class="relative">
+              <input type="hidden" formControlName="paymentFrequency">
+              <button type="button" (click)="toggleFrequencyDropdown()"
+                class="w-full border border-border rounded-xl px-4 py-3 text-[14px] focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-text-primary focus:bg-surface transition-all shadow-sm bg-bg-base/40 flex items-center justify-between">
+                <span>{{ requestForm.get('paymentFrequency')?.value || 'Select Frequency' }}</span>
+                <svg class="h-4 w-4 text-text-muted transition-transform duration-200"
+                  [class.rotate-180]="isFrequencyDropdownOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
-                <h4 class="text-xs font-bold text-text-muted uppercase tracking-widest">Premium Calculation Breakdown</h4>
-                </div>
-        
-                <div class="px-5 py-4 space-y-0">
-                <div class="flex justify-between items-center py-3 border-b border-border/60">
-                    <div>
-                    <p class="text-[13px] font-bold text-text-primary">Coverage Amount</p>
-                    <p class="text-[11px] text-text-muted mt-0.5">{{ selectedPlan.name }} · {{ durationInMonths }} months</p>
-                    </div>
-                    <span class="text-lg font-black text-accent-green">₹{{ computedCoverage | number:'1.0-0' }}</span>
-                </div>
-        
-                <div class="flex justify-between items-center py-3 border-b border-border/60">
-                    <div>
-                    <p class="text-[13px] font-bold text-text-primary">Base Premium (Total)</p>
-                    </div>
-                    <span class="text-[15px] font-bold text-text-primary">₹{{ selectedPlan.premiumAmount | number:'1.0-0' }}<span
-                        class="text-text-muted font-semibold text-xs"> /{{ planDefaultDuration }}mo</span></span>
-                </div>
-        
-                <div class="flex justify-between items-center py-3 border-b border-border/60 bg-bg-base/40 -mx-5 px-5">
-                    <div>
-                    <p class="text-[13px] font-bold text-text-primary">Scaled Total Base</p>
-                    <p class="text-[11px] text-text-muted mt-0.5">For {{ durationInMonths }} months</p>
-                    </div>
-                    <span class="text-[15px] font-bold text-text-primary">₹{{ scaledBaseTotalPremium | number:'1.0-0' }}</span>
-                </div>
-
-                <div class="flex justify-between items-center py-3 border-b border-border/60">
-                    <div>
-                    <p class="text-[13px] font-bold text-text-primary">Base Installment</p>
-                    <p class="text-[11px] text-text-muted mt-0.5">÷ {{ numberOfInstallments }} terms</p>
-                    </div>
-                    <span class="text-[15px] font-bold text-text-primary">₹{{ baseInstallment | number:'1.0-0' }}<span
-                        class="text-text-muted font-semibold text-xs"> /{{ frequencyLabel }}</span></span>
-                </div>
-        
-                <div class="flex justify-between items-center py-3 border-b border-border/60">
-                    <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full" [ngClass]="riskLevel.indicatorClass"></span>
-                    <div>
-                        <p class="text-[13px] font-bold" [ngClass]="riskLevel.colorClass">Risk Adjustment ({{ riskLevel.label }})</p>
-                        <p class="text-[11px] text-text-muted mt-0.5">+{{ riskScore }}% of base</p>
-                    </div>
-                    </div>
-                    <span class="text-[15px] font-bold" [ngClass]="riskLevel.colorClass">+₹{{ riskAdjustmentAmount |
-                    number:'1.0-0' }}</span>
-                </div>
-        
-                <div
-                    class="flex justify-between items-center py-3.5 border-b-2 border-primary/20 bg-primary/5 -mx-5 px-5">
-                    <div>
-                    <p class="text-[14px] font-bold text-primary">Adjusted Installment</p>
-                    </div>
-                    <span class="text-xl font-black text-primary">₹{{ computedInstallmentAmount | number:'1.0-0' }}<span
-                        class="text-primary/70 font-semibold text-xs"> /{{ frequencyLabel }}</span></span>
-                </div>
-        
-                <div class="flex justify-between items-center py-4 -mx-5 px-5 bg-bg-base rounded-b-xl">
-                    <div>
-                    <p class="text-[15px] font-black text-text-primary">Total Premium</p>
-                    </div>
-                    <span class="text-2xl font-black text-text-primary">₹{{ totalPremium | number:'1.0-0' }}</span>
-                </div>
-                </div>
-            </div>
-
-            <!-- Actions -->
-            <div class="flex justify-between items-center mt-8">
-              <button (click)="goToStep(2)" class="text-[13px] font-bold text-text-muted hover:text-text-primary transition-colors">&larr; Back to Aadhaar</button>
-              
-              <div class="flex gap-3">
-                  <button (click)="confirmRequest()"
-                    [disabled]="durationInMonths < 1 || !panDocument || !addressDocument || isRequesting || panStatus !== 'verified' || aadhaarStatus !== 'verified'"
-                    class="flex-1 flex items-center justify-center px-6 py-3 bg-primary text-white font-bold text-[13px] rounded-xl hover:bg-primary/95 transition shadow-sm disabled:opacity-50 border border-primary/20">
-                    @if (isRequesting) {
-                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                        </path>
-                    </svg>
-                    Requesting...
-                    } @else {
-                    Confirm & Submit
-                    }
-                  </button>
+              </button>
+              @if (isFrequencyDropdownOpen) {
+              <div
+                class="absolute z-20 w-full mt-2 bg-surface border border-border rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] max-h-60 overflow-y-auto overflow-x-hidden py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                <button type="button" (click)="selectFrequency('Monthly')"
+                  class="w-full px-5 py-3 text-left text-[13px] font-bold text-text-primary hover:bg-bg-base hover:text-primary transition-colors flex items-center justify-between group">
+                  <span>Monthly</span>
+                </button>
+                <button type="button" (click)="selectFrequency('Quarterly')"
+                  class="w-full px-5 py-3 text-left text-[13px] font-bold text-text-primary hover:bg-bg-base hover:text-primary transition-colors flex items-center justify-between group">
+                  <span>Quarterly</span>
+                </button>
+                <button type="button" (click)="selectFrequency('Yearly')"
+                  class="w-full px-5 py-3 text-left text-[13px] font-bold text-text-primary hover:bg-bg-base hover:text-primary transition-colors flex items-center justify-between group">
+                  <span>Yearly</span>
+                </button>
               </div>
+              }
+            </div>
+          </div>
+        </form>
+
+        <!-- Premium Calculation Breakdown -->
+        <div
+          class="bg-surface border border-border rounded-2xl overflow-hidden mb-6 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+          <div class="px-5 py-3.5 bg-bg-base border-b border-border flex items-center gap-2">
+            <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+            <h4 class="text-xs font-bold text-text-muted uppercase tracking-widest">Premium Calculation Breakdown</h4>
+          </div>
+
+          <div class="px-5 py-4 space-y-0">
+            <div class="flex justify-between items-center py-3 border-b border-border/60">
+              <div>
+                <p class="text-[13px] font-bold text-text-primary">Coverage Amount</p>
+                <p class="text-[11px] text-text-muted mt-0.5">{{ selectedPlan.name }} · {{ durationInMonths }} months
+                </p>
+              </div>
+              <span class="text-lg font-black text-accent-green">₹{{ computedCoverage | number:'1.0-0' }}</span>
             </div>
 
+            <div class="flex justify-between items-center py-3 border-b border-border/60">
+              <div>
+                <p class="text-[13px] font-bold text-text-primary">Base Premium (Total)</p>
+              </div>
+              <span class="text-[15px] font-bold text-text-primary">₹{{ selectedPlan.premiumAmount | number:'1.0-0'
+                }}<span class="text-text-muted font-semibold text-xs"> /{{ planDefaultDuration }}mo</span></span>
+            </div>
+
+            <div class="flex justify-between items-center py-3 border-b border-border/60 bg-bg-base/40 -mx-5 px-5">
+              <div>
+                <p class="text-[13px] font-bold text-text-primary">Scaled Total Base</p>
+                <p class="text-[11px] text-text-muted mt-0.5">For {{ durationInMonths }} months</p>
+              </div>
+              <span class="text-[15px] font-bold text-text-primary">₹{{ scaledBaseTotalPremium | number:'1.0-0'
+                }}</span>
+            </div>
+
+            <div class="flex justify-between items-center py-3 border-b border-border/60">
+              <div>
+                <p class="text-[13px] font-bold text-text-primary">Base Installment</p>
+                <p class="text-[11px] text-text-muted mt-0.5">÷ {{ numberOfInstallments }} terms</p>
+              </div>
+              <span class="text-[15px] font-bold text-text-primary">₹{{ baseInstallment | number:'1.0-0' }}<span
+                  class="text-text-muted font-semibold text-xs"> /{{ frequencyLabel }}</span></span>
+            </div>
+
+            <div class="flex justify-between items-center py-3 border-b border-border/60">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full" [ngClass]="riskLevel.indicatorClass"></span>
+                <div>
+                  <p class="text-[13px] font-bold" [ngClass]="riskLevel.colorClass">Risk Adjustment ({{ riskLevel.label
+                    }})</p>
+                  <p class="text-[11px] text-text-muted mt-0.5">+{{ riskScore }}% of base</p>
+                </div>
+              </div>
+              <span class="text-[15px] font-bold" [ngClass]="riskLevel.colorClass">+₹{{ riskAdjustmentAmount |
+                number:'1.0-0' }}</span>
+            </div>
+
+            <div class="flex justify-between items-center py-3.5 border-b-2 border-primary/20 bg-primary/5 -mx-5 px-5">
+              <div>
+                <p class="text-[14px] font-bold text-primary">Adjusted Installment</p>
+              </div>
+              <span class="text-xl font-black text-primary">₹{{ computedInstallmentAmount | number:'1.0-0' }}<span
+                  class="text-primary/70 font-semibold text-xs"> /{{ frequencyLabel }}</span></span>
+            </div>
+
+            <div class="flex justify-between items-center py-4 -mx-5 px-5 bg-bg-base rounded-b-xl">
+              <div>
+                <p class="text-[15px] font-black text-text-primary">Total Premium</p>
+              </div>
+              <span class="text-2xl font-black text-text-primary">₹{{ totalPremium | number:'1.0-0' }}</span>
+            </div>
+          </div>
         </div>
+
+        <!-- Actions -->
+        <div class="flex justify-between items-center mt-8">
+          <button (click)="goToStep(2)"
+            class="text-[13px] font-bold text-text-muted hover:text-text-primary transition-colors">&larr; Back to
+            Aadhaar</button>
+
+          <div class="flex gap-3">
+            <button (click)="confirmRequest()"
+              [disabled]="durationInMonths < 1 || !panDocument || !addressDocument || isRequesting || panStatus !== 'verified' || aadhaarStatus !== 'verified'"
+              class="flex-1 flex items-center justify-center px-6 py-3 bg-primary text-white font-bold text-[13px] rounded-xl hover:bg-primary/95 transition shadow-sm disabled:opacity-50 border border-primary/20">
+              @if (isRequesting) {
+              <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+              </svg>
+              Requesting...
+              } @else {
+              Confirm & Submit
+              }
+            </button>
+          </div>
+        </div>
+
+      </div>
       }
 
+    </div>
+  </div>
+  }
+
+  <!-- Policy Summary Inline Section (Properly Placed) -->
+  @if (selectedPolicySummary) {
+  <div id="policy-summary-section"
+    class="bg-surface rounded-[24px] shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-border overflow-hidden mt-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div class="px-6 py-5 border-b border-border bg-surface flex justify-between items-center">
+      <div>
+        <h3 class="text-xs font-bold text-text-muted uppercase tracking-widest">Policy Document Summary</h3>
+        <p class="text-sm text-text-primary font-bold mt-0.5">{{ selectedPolicySummary.plan.name }}</p>
+      </div>
+      <button (click)="closeSummary()"
+        class="p-2 text-text-muted hover:text-text-primary hover:bg-bg-base rounded-lg transition-colors border border-transparent hover:border-border">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="p-6 bg-bg-base/30">
+      <div class="mb-6 pb-6 border-b border-border">
+        <div class="flex items-center gap-3 mb-2">
+          <h4 class="text-2xl font-bold text-text-primary">{{ selectedPolicySummary.plan.name }}</h4>
+          <span
+            class="bg-primary/10 text-primary border border-primary/20 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">{{
+            selectedPolicySummary.plan.planType }}</span>
+        </div>
+        <p class="text-text-muted text-[13px] font-semibold leading-relaxed mb-5">{{
+          selectedPolicySummary.plan.description }}</p>
+
+        <div class="bg-surface rounded-xl p-5 border border-border">
+          <h5 class="flex items-center gap-2 text-[11px] font-bold text-text-muted uppercase tracking-widest mb-3">
+            <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Plan Benefits
+          </h5>
+          <div class="text-[13px] text-text-primary leading-relaxed benefits-list"
+            [innerHTML]="sanitizeHtml(selectedPolicySummary.plan.benefits)"></div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+        <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
+          <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Policy ID</p>
+          <p class="font-mono font-bold text-text-primary text-xs break-all">{{ selectedPolicySummary.id }}</p>
+        </div>
+        <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
+          <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Status</p>
+          <span
+            class="bg-accent-green/10 text-accent-green border border-accent-green/20 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">{{
+            selectedPolicySummary.status }}</span>
+        </div>
+        <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
+          <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Duration</p>
+          <p class="font-bold text-text-primary text-sm">{{ selectedPolicySummary.durationInMonths }} Months</p>
+        </div>
+        <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
+          <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Max Coverage</p>
+          <p class="font-bold text-primary text-base">₹{{ selectedPolicySummary.coverageAmount | number }}</p>
+        </div>
+        <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
+          <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Total Premium</p>
+          <p class="font-bold text-text-primary text-base">₹{{ selectedPolicySummary.totalPremium | number }}</p>
+        </div>
+        <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
+          <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Total Paid</p>
+          <p class="font-bold text-accent-green text-base">₹{{ selectedPolicySummary.totalPaid | number }}</p>
+        </div>
+        <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
+          <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Base Premium</p>
+          <p class="font-bold text-text-primary text-sm flex items-baseline gap-1">₹{{
+            selectedPolicySummary.plan.premiumAmount | number }}<span
+              class="text-[9px] text-text-muted uppercase tracking-widest font-bold">/BASE</span></p>
+        </div>
+      </div>
+
+      <div class="bg-surface rounded-2xl p-6 border border-border shadow-sm mb-6">
+        <h5 class="font-bold text-text-primary mb-5 flex items-center gap-2">
+          <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+          </svg>
+          Premium Calculation
+        </h5>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="p-4 bg-bg-base/50 rounded-xl border border-border/50">
+            <p
+              class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5 flex items-center justify-between">
+              Base Required <span
+                class="bg-surface border border-border px-1.5 py-0.5 rounded text-[9px] text-text-muted">STEP 1</span>
+            </p>
+            <p class="font-bold text-text-primary text-base">₹{{ summaryScaledBasePremium | number:'1.0-0' }}<span
+                class="text-xs text-text-muted font-normal ml-1">/ total</span></p>
+            <p class="text-[10px] text-text-muted mt-1 leading-tight font-semibold">Pro-rated for {{
+              selectedPolicySummary.durationInMonths }} months.</p>
+          </div>
+          <div class="p-4 bg-accent-red/5 rounded-xl border border-accent-red/20 relative">
+            <div
+              class="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-surface border border-border rounded-full flex items-center justify-center shadow-sm z-10 hidden lg:flex text-text-muted">
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+            </div>
+            <p
+              class="text-[10px] font-bold text-accent-red uppercase tracking-widest mb-1.5 flex items-center justify-between">
+              Risk Factor <span
+                class="bg-accent-red/10 border border-accent-red/20 px-1.5 py-0.5 rounded text-[9px] text-accent-red">STEP
+                2</span></p>
+            <p class="font-bold text-accent-red text-base">+{{ selectedPolicyRiskScore }}%<span
+                class="text-xs font-normal ml-1 opacity-70">multiplier</span></p>
+            <p class="text-[10px] text-accent-red mt-1 leading-tight font-semibold">Adjusted (+₹{{
+              summaryRiskAdjustmentAmount | number:'1.0-0' }}) due to risk demographics.</p>
+          </div>
+          <div class="p-4 bg-bg-base/50 rounded-xl border border-border/50 relative">
+            <div
+              class="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-surface border border-border rounded-full flex items-center justify-center shadow-sm z-10 hidden lg:flex text-text-muted">
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </div>
+            <p
+              class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5 flex items-center justify-between">
+              Duration <span
+                class="bg-surface border border-border px-1.5 py-0.5 rounded text-[9px] text-text-muted">STEP 3</span>
+            </p>
+            <p class="font-bold text-text-primary text-base">{{ selectedPolicySummary.durationInMonths }} <span
+                class="text-xs text-text-muted font-normal">Months</span></p>
+            <p class="text-[10px] text-text-muted mt-1 leading-tight font-semibold">Total lifetime duration of the
+              policy.</p>
+          </div>
+          <div class="p-4 bg-primary/5 rounded-xl border border-primary/20 relative">
+            <div
+              class="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-primary text-white border-2 border-surface rounded-full shadow-sm flex items-center justify-center z-10 hidden lg:flex">
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 12h16m-16-4h16m-16 8h16" />
+              </svg>
+            </div>
+            <p
+              class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1.5 flex items-center justify-between">
+              Total Expected <span
+                class="bg-primary border border-primary/20 text-white px-1.5 py-0.5 rounded text-[9px]">FINAL</span></p>
+            <p class="font-bold text-primary text-xl tracking-tight">₹{{ selectedPolicySummary.totalPremium | number }}
+            </p>
+            <p class="text-[10px] text-primary mt-1 leading-tight font-semibold">Sum of (Base + Risk) × Duration.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   }

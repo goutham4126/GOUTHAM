@@ -9,6 +9,10 @@ import { PolicyRequest } from '../../../models/policy-request/policy-request';
 import { ToastService } from '../../../services/toast/toast';
 import { InsuranceCallService } from '../../../services/insurance-call/insurance-call.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { PolicyService } from '../../../services/policy/policy';
+import { PolicyDto } from '../../../models/policy/policy';
+import { PolicyPaymentDto } from '../../../models/payment/payment';
+
 
 @Component({
     selector: 'app-customer-plans',
@@ -79,9 +83,18 @@ export class CustomerPlans implements OnInit, OnDestroy {
     private fb = inject(FormBuilder);
     private insuranceCallService = inject(InsuranceCallService);
     private sanitizer = inject(DomSanitizer);
+    private policyService = inject(PolicyService);
 
     plans: PlanDto[] = [];
+    myPolicies: PolicyDto[] = [];
     loading = true;
+    
+    // Policy Summary Details (reused from customer-policies)
+    selectedPolicySummary: PolicyDto | null = null;
+    selectedPolicyRiskScore: number = 0;
+    originalBasePremium: number = 0;
+    today: Date = new Date();
+
 
     // AI Call State
     isCallingAgent = false;
@@ -131,20 +144,10 @@ export class CustomerPlans implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loading = true;
-        this.planService.getAllPlans().subscribe({
-            next: (data) => {
-                this.plans = data;
-                this.loading = false;
-                this.cdr.detectChanges();
-            },
-            error: () => {
-                this.loading = false;
-                this.cdr.detectChanges();
-            }
-        });
+        this.loadInitialData();
 
         this.requestForm = this.fb.group({
+
             paymentFrequency: ['Monthly', Validators.required],
             durationInMonths: [12, [Validators.required]]
         });
@@ -741,4 +744,122 @@ export class CustomerPlans implements OnInit, OnDestroy {
         }
         return null;
     }
+
+    // --- Data Loaders ---
+
+    loadInitialData() {
+        this.loading = true;
+        
+        // Load Plans
+        this.planService.getAllPlans().subscribe({
+            next: (data) => {
+                this.plans = data;
+                this.checkLoadingState();
+            },
+            error: () => {
+                this.checkLoadingState();
+            }
+        });
+
+        // Load Policies
+        this.policyService.getMyPolicies().subscribe({
+            next: (data) => {
+                this.myPolicies = data;
+                this.checkLoadingState();
+            },
+            error: () => {
+                this.checkLoadingState();
+            }
+        });
+    }
+
+    checkLoadingState() {
+        this.loading = false;
+        this.cdr.detectChanges();
+    }
+
+    getPoliciesForPlan(planId: string): PolicyDto[] {
+        return this.myPolicies.filter(p => p.plan.id === planId);
+    }
+
+    // --- Policy Summary Logic (Reused from CustomerPolicies) ---
+
+    viewPolicyDetails(policy: PolicyDto) {
+        this.selectedPolicySummary = policy;
+        if (policy.totalPremium && policy.planBasePremiumAmount) {
+            this.originalBasePremium = policy.plan.premiumAmount;
+            const planDefaultDuration = policy.plan?.durationInMonths > 0 ? policy.plan.durationInMonths : policy.durationInMonths;
+            const scaledBaseTotalPremium = Math.ceil(policy.planBasePremiumAmount * (policy.durationInMonths / planDefaultDuration));
+            
+            const multiplier = policy.totalPremium / scaledBaseTotalPremium;
+            this.selectedPolicyRiskScore = Math.max(0, Math.round((multiplier - 1) * 100));
+        } else {
+            this.selectedPolicyRiskScore = 0;
+            this.originalBasePremium = policy.plan?.premiumAmount || 0;
+        }
+
+        setTimeout(() => {
+            const el = document.getElementById('policy-summary-section');
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    }
+
+    closeSummary() {
+        this.selectedPolicySummary = null;
+    }
+
+    get summaryPlanDefaultDuration(): number {
+        if (!this.selectedPolicySummary) return 1;
+        return this.selectedPolicySummary.plan?.durationInMonths > 0 
+          ? this.selectedPolicySummary.plan.durationInMonths 
+          : this.selectedPolicySummary.durationInMonths;
+    }
+
+    get summaryScaledBasePremium(): number {
+        if (!this.selectedPolicySummary || !this.selectedPolicySummary.planBasePremiumAmount) return 0;
+        return Math.ceil(this.selectedPolicySummary.planBasePremiumAmount * (this.selectedPolicySummary.durationInMonths / this.summaryPlanDefaultDuration));
+    }
+
+    get summaryRiskAdjustmentAmount(): number {
+        if (!this.selectedPolicySummary) return 0;
+        return this.selectedPolicySummary.totalPremium - this.summaryScaledBasePremium;
+    }
+
+    canPay(payment: PolicyPaymentDto, policy: PolicyDto): boolean {
+        if (payment.status !== 'Pending') return false;
+
+        const dueDate = new Date(payment.dueDate);
+        const todayPrice = new Date();
+        todayPrice.setHours(23, 59, 59, 999);
+        if (dueDate > todayPrice) return false;
+
+        const nextPending = policy.payments
+            .filter(p => p.status === 'Pending')
+            .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())[0];
+
+        return nextPending?.id === payment.id;
+    }
+
+    payPremium(paymentId: string) {
+        this.policyService.payPolicy(paymentId).subscribe({
+            next: () => {
+                this.toastService.success('Premium payment processed successfully!');
+                
+                // Refresh data
+                this.policyService.getMyPolicies().subscribe(data => {
+                    this.myPolicies = data;
+                    if (this.selectedPolicySummary) {
+                        const updated = data.find(p => p.id === this.selectedPolicySummary!.id);
+                        if (updated) this.selectedPolicySummary = updated;
+                    }
+                    this.cdr.detectChanges();
+                });
+            },
+            error: (err) => {
+                console.error(err);
+                this.toastService.error('Failed to process payment');
+            }
+        });
+    }
 }
+
