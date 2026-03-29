@@ -16,6 +16,8 @@ public record PolicyRequestDto(
     decimal BasePremiumAmount,
     decimal CoverageAmount,
     decimal FinalPremiumAmount,
+    decimal BaseInstallmentAmount,
+    decimal FinalInstallmentAmount,
     string PlanType,
     string PlanDescription,
     string PanDocumentUrl,

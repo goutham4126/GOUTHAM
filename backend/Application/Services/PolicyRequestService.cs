@@ -73,7 +73,7 @@ namespace Application.Services
 
             var riskScore = CalculateRiskScore(plan, durationMonths, paymentFrequency);
 
-            // Compute snapshot values
+            // Compute scaled snapshot values using Math.Ceiling (enforcing whole installments)
             int interval = paymentFrequency switch
             {
                 PaymentFrequency.Monthly => 1,
@@ -81,10 +81,24 @@ namespace Application.Services
                 PaymentFrequency.Yearly => 12,
                 _ => 1
             };
-            decimal basePremium = plan.PremiumAmount;
+
+            int numberOfInstallments = durationMonths / interval;
+            if (numberOfInstallments <= 0) numberOfInstallments = 1;
+
             decimal planDefaultDuration = plan.DurationInMonths > 0 ? plan.DurationInMonths : durationMonths;
-            decimal computedCoverage = plan.CoverageAmount * ((decimal)durationMonths / planDefaultDuration);
-            decimal finalPremiumAmount = basePremium * interval * (1m + (riskScore / 100m));
+            decimal durationRatio = (decimal)durationMonths / planDefaultDuration;
+
+            // Base total for requested duration
+            decimal scaledBaseTotalPremium = plan.PremiumAmount * durationRatio;
+            decimal computedCoverage = plan.CoverageAmount * durationRatio;
+
+            // Calculate adjusted total including risk
+            decimal riskMultiplier = 1m + (riskScore / 100m);
+            decimal adjustedTotalPremium = scaledBaseTotalPremium * riskMultiplier;
+
+            // Final explicit installment amounts (Calculated for display on frontend, backend stores Totals)
+            decimal baseInstallmentAmount = Math.Ceiling(scaledBaseTotalPremium / numberOfInstallments);
+            decimal finalInstallmentAmount = Math.Ceiling(adjustedTotalPremium / numberOfInstallments);
 
             var agents = await _context.Users
                 .Where(u => u.Role == UserRole.Agent && !u.IsDeleted)
@@ -106,9 +120,11 @@ namespace Application.Services
                 DurationInMonths = durationMonths,
                 PaymentFrequency = paymentFrequency,
                 RiskScore = riskScore,
-                BasePremiumAmount = basePremium,
+                BasePremiumAmount = Math.Ceiling(scaledBaseTotalPremium),
                 CoverageAmount = computedCoverage,
-                FinalPremiumAmount = finalPremiumAmount,
+                FinalPremiumAmount = Math.Ceiling(adjustedTotalPremium),
+                BaseInstallmentAmount = baseInstallmentAmount,
+                FinalInstallmentAmount = finalInstallmentAmount,
                 PlanType = plan.PlanType ?? "Unknown",
                 PlanDescription = plan.Description ?? "",
                 PanDocumentUrl = pUrl,
@@ -260,6 +276,8 @@ namespace Application.Services
                 r.BasePremiumAmount,
                 r.CoverageAmount,
                 r.FinalPremiumAmount,
+                r.BaseInstallmentAmount,
+                r.FinalInstallmentAmount,
                 r.PlanType,
                 r.PlanDescription,
                 r.PanDocumentUrl ?? "",

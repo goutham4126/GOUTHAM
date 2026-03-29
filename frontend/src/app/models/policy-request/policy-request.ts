@@ -12,6 +12,8 @@ export interface PolicyRequest {
   basePremiumAmount: number;
   coverageAmount: number;
   finalPremiumAmount: number;
+  baseInstallmentAmount: number;
+  finalInstallmentAmount: number;
   planType: string;
   planDescription: string;
   panDocumentUrl: string;

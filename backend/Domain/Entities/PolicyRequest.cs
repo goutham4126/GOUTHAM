@@ -37,6 +37,14 @@ namespace Domain.Entities
         [Required]
         public decimal FinalPremiumAmount { get; set; }
 
+        /// <summary>Calculated installment for the plan base premium.</summary>
+        [Required]
+        public decimal BaseInstallmentAmount { get; set; }
+
+        /// <summary>Calculated final risk-adjusted installment amount for payments.</summary>
+        [Required]
+        public decimal FinalInstallmentAmount { get; set; }
+
         /// <summary>Snapshot of plan type (Disaster / Casualty).</summary>
         [Required]
         public string PlanType { get; set; } = null!;

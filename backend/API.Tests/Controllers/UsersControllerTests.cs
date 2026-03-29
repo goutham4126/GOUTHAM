@@ -55,7 +55,7 @@ namespace API.Tests.Controllers
         public async Task GetCurrentUser_Found_ReturnsOkWithUserDto()
         {
             var user = CreateUser(_userId);
-            _userRepoMock.Setup(r => r.GetByIdAsync(_userId)).ReturnsAsync(user);
+            _userRepoMock.Setup(r => r.GetByIdAsync(_userId, false)).ReturnsAsync(user);
 
             var result = await _controller.GetCurrentUser();
 
@@ -67,7 +67,7 @@ namespace API.Tests.Controllers
         [Fact]
         public async Task GetCurrentUser_NotFound_ThrowsKeyNotFound()
         {
-            _userRepoMock.Setup(r => r.GetByIdAsync(_userId)).ReturnsAsync((User?)null);
+            _userRepoMock.Setup(r => r.GetByIdAsync(_userId, false)).ReturnsAsync((User?)null);
 
             await Assert.ThrowsAsync<KeyNotFoundException>(() => _controller.GetCurrentUser());
         }
@@ -76,7 +76,7 @@ namespace API.Tests.Controllers
         public async Task UpdateProfile_Found_ReturnsOkWithUpdatedUser()
         {
             var user = CreateUser(_userId);
-            _userRepoMock.Setup(r => r.GetByIdAsync(_userId)).ReturnsAsync(user);
+            _userRepoMock.Setup(r => r.GetByIdAsync(_userId, false)).ReturnsAsync(user);
 
             var dto = new UpdateProfileDto("Jane", "Smith", "555-9999", "456 Oak Ave", "GOV456", new DateTime(1985, 6, 15));
 
@@ -92,7 +92,7 @@ namespace API.Tests.Controllers
         [Fact]
         public async Task UpdateProfile_NotFound_ReturnsNotFound()
         {
-            _userRepoMock.Setup(r => r.GetByIdAsync(_userId)).ReturnsAsync((User?)null);
+            _userRepoMock.Setup(r => r.GetByIdAsync(_userId, false)).ReturnsAsync((User?)null);
 
             var dto = new UpdateProfileDto("Jane", "Smith", null, null, null, null);
 
@@ -105,7 +105,7 @@ namespace API.Tests.Controllers
         public async Task GetAllUsers_ReturnsOkWithUsers()
         {
             var users = new List<User> { CreateUser(), CreateUser() };
-            _userRepoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(users);
+            _userRepoMock.Setup(r => r.GetAllAsync(true)).ReturnsAsync(users);
 
             var result = await _controller.GetAllUsers();
 
@@ -118,7 +118,7 @@ namespace API.Tests.Controllers
         {
             var targetUserId = Guid.NewGuid();
             var user = CreateUser(targetUserId);
-            _userRepoMock.Setup(r => r.GetByIdAsync(targetUserId)).ReturnsAsync(user);
+            _userRepoMock.Setup(r => r.GetByIdAsync(targetUserId, false)).ReturnsAsync(user);
 
             var dto = new UpdateRoleDto { Role = UserRole.Agent };
 
@@ -132,7 +132,7 @@ namespace API.Tests.Controllers
         [Fact]
         public async Task UpdateRole_NotFound_ReturnsNotFound()
         {
-            _userRepoMock.Setup(r => r.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((User?)null);
+            _userRepoMock.Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), false)).ReturnsAsync((User?)null);
 
             var dto = new UpdateRoleDto { Role = UserRole.Agent };
             var result = await _controller.UpdateRole(Guid.NewGuid(), dto);
@@ -141,25 +141,25 @@ namespace API.Tests.Controllers
         }
 
         [Fact]
-        public async Task DeleteUser_Found_ReturnsOkMessage()
+        public async Task DeactivateUser_Found_ReturnsOkMessage()
         {
             var targetUserId = Guid.NewGuid();
             var user = CreateUser(targetUserId);
-            _userRepoMock.Setup(r => r.GetByIdAsync(targetUserId)).ReturnsAsync(user);
+            _userRepoMock.Setup(r => r.GetByIdAsync(targetUserId, true)).ReturnsAsync(user);
 
-            var result = await _controller.DeleteUser(targetUserId);
+            var result = await _controller.DeactivateUser(targetUserId);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal("User deleted successfully.", okResult.Value);
-            _userRepoMock.Verify(r => r.DeleteAsync(targetUserId), Times.Once);
+            Assert.Equal("User deactivated successfully.", okResult.Value);
+            _userRepoMock.Verify(r => r.DeactivateAsync(targetUserId), Times.Once);
         }
 
         [Fact]
-        public async Task DeleteUser_NotFound_ReturnsNotFound()
+        public async Task DeactivateUser_NotFound_ReturnsNotFound()
         {
-            _userRepoMock.Setup(r => r.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((User?)null);
+            _userRepoMock.Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), true)).ReturnsAsync((User?)null);
 
-            var result = await _controller.DeleteUser(Guid.NewGuid());
+            var result = await _controller.DeactivateUser(Guid.NewGuid());
 
             Assert.IsType<NotFoundObjectResult>(result);
         }

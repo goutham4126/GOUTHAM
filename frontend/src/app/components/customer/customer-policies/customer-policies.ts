@@ -61,9 +61,12 @@ export class CustomerPolicies implements OnInit {
 
   viewSummary(policy: PolicyDto) {
     this.selectedPolicySummary = policy;
-    if (policy.planBasePremiumAmount && policy.plan.premiumAmount) {
+    if (policy.totalPremium && policy.planBasePremiumAmount) {
       this.originalBasePremium = policy.plan.premiumAmount;
-      const multiplier = policy.planBasePremiumAmount / policy.plan.premiumAmount;
+      const planDefaultDuration = policy.plan?.durationInMonths > 0 ? policy.plan.durationInMonths : policy.durationInMonths;
+      const scaledBaseTotalPremium = Math.ceil(policy.planBasePremiumAmount * (policy.durationInMonths / planDefaultDuration));
+      
+      const multiplier = policy.totalPremium / scaledBaseTotalPremium;
       this.selectedPolicyRiskScore = Math.max(0, Math.round((multiplier - 1) * 100));
     } else {
       this.selectedPolicyRiskScore = 0;
@@ -73,6 +76,23 @@ export class CustomerPolicies implements OnInit {
     setTimeout(() => {
       document.getElementById('policy-summary-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 50);
+  }
+
+  get summaryPlanDefaultDuration(): number {
+    if (!this.selectedPolicySummary) return 1;
+    return this.selectedPolicySummary.plan?.durationInMonths > 0 
+      ? this.selectedPolicySummary.plan.durationInMonths 
+      : this.selectedPolicySummary.durationInMonths;
+  }
+
+  get summaryScaledBasePremium(): number {
+    if (!this.selectedPolicySummary || !this.selectedPolicySummary.planBasePremiumAmount) return 0;
+    return Math.ceil(this.selectedPolicySummary.planBasePremiumAmount * (this.selectedPolicySummary.durationInMonths / this.summaryPlanDefaultDuration));
+  }
+
+  get summaryRiskAdjustmentAmount(): number {
+    if (!this.selectedPolicySummary) return 0;
+    return this.selectedPolicySummary.totalPremium - this.summaryScaledBasePremium;
   }
 
   closeSummary() {

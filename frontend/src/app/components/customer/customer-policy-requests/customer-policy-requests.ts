@@ -55,7 +55,7 @@ export class CustomerPolicyRequests implements OnInit {
 
     buyPolicy(req: PolicyRequest) {
         this.purchasingId = req.id;
-        const amount = req.finalPremiumAmount;
+        const amount = req.finalInstallmentAmount || req.finalPremiumAmount;
 
         this.http.post<{orderId: string}>('https://localhost:7128/api/payments/create-order', { amount }).subscribe({
             next: (orderData) => {

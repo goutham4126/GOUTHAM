@@ -303,14 +303,14 @@
               </span>
             </td>
             <td class="px-8 py-5 whitespace-nowrap text-right">
-              <div class="text-sm font-bold text-text-primary">₹{{ p.premiumAmount | number:'1.2-2' }}</div>
-              <div class="text-[10px] text-text-muted font-bold uppercase mt-0.5">{{ p.paymentFrequency }}</div>
+              <div class="text-sm font-bold text-text-primary">₹{{ p.premiumAmount | number:'1.0-0' }}</div>
+              <div class="text-[10px] text-text-muted font-bold uppercase mt-0.5">Total For {{ p.durationInMonths }}mo</div>
             </td>
             <td class="px-8 py-5 whitespace-nowrap text-right">
               <div
                 class="text-sm font-bold text-primary bg-primary/10 border border-primary/20 inline-block px-3 py-1 rounded-lg">
                 ₹{{
-                p.coverageAmount | number:'1.2-2' }}</div>
+                p.coverageAmount | number:'1.0-0' }}</div>
             </td>
             <td class="px-8 py-5 whitespace-nowrap text-center">
               <div class="flex justify-center gap-2 relative">

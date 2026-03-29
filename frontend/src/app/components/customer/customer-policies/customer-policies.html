@@ -144,7 +144,7 @@
           <div class="bg-bg-base rounded-xl p-3 text-center border border-border/50">
             <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Premium</p>
             <p class="font-bold text-text-primary text-sm">₹{{ p.plan.premiumAmount | number }}</p>
-            <p class="text-[10px] text-text-muted mt-0.5">/ {{ p.paymentFrequency }}</p>
+            <p class="text-[10px] text-text-muted mt-0.5">Total Base</p>
           </div>
           <div class="bg-bg-base rounded-xl p-3 text-center border border-border/50">
             <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Total</p>
@@ -252,7 +252,7 @@
       </div>
       <div class="bg-surface rounded-xl p-4 border border-border hover:border-primary/30 transition-colors">
         <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Base Premium</p>
-        <p class="font-bold text-text-primary text-lg flex items-baseline gap-1">₹{{ selectedPolicySummary.plan.premiumAmount | number }}<span class="text-[10px] text-text-muted uppercase tracking-widest font-bold">/{{ selectedPolicySummary.paymentFrequency }}</span></p>
+        <p class="font-bold text-text-primary text-lg flex items-baseline gap-1">₹{{ selectedPolicySummary.plan.premiumAmount | number }}<span class="text-[10px] text-text-muted uppercase tracking-widest font-bold">/TOTAL</span></p>
       </div>
     </div>
 
@@ -264,8 +264,8 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="p-4 bg-bg-base/50 rounded-xl border border-border/50">
            <p class="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5 flex items-center justify-between">Base Required <span class="bg-surface border border-border px-1.5 py-0.5 rounded text-[9px] text-text-muted">STEP 1</span></p>
-           <p class="font-bold text-text-primary text-base">₹{{ originalBasePremium | number }}<span class="text-xs text-text-muted font-normal ml-1">/ mo</span></p>
-           <p class="text-[10px] text-text-muted mt-1 leading-tight">Original {{ selectedPolicySummary.plan.name }} plan premium.</p>
+           <p class="font-bold text-text-primary text-base">₹{{ summaryScaledBasePremium | number:'1.0-0' }}<span class="text-xs text-text-muted font-normal ml-1">/ total</span></p>
+           <p class="text-[10px] text-text-muted mt-1 leading-tight">Pro-rated for {{ selectedPolicySummary.durationInMonths }} months.</p>
         </div>
         <div class="p-4 bg-accent-red/5 rounded-xl border border-accent-red/20 relative">
            <div class="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-surface border border-border rounded-full flex items-center justify-center shadow-sm z-10 hidden lg:flex text-text-muted">
@@ -273,7 +273,7 @@
            </div>
            <p class="text-[10px] font-bold text-accent-red uppercase tracking-widest mb-1.5 flex items-center justify-between">Risk Factor <span class="bg-accent-red/10 border border-accent-red/20 px-1.5 py-0.5 rounded text-[9px] text-accent-red">STEP 2</span></p>
            <p class="font-bold text-accent-red text-base">+{{ selectedPolicyRiskScore }}%<span class="text-xs font-normal ml-1 opacity-70">multiplier</span></p>
-           <p class="text-[10px] text-accent-red mt-1 leading-tight opacity-80">Adjusted (+₹{{ (selectedPolicySummary.planBasePremiumAmount - originalBasePremium) | number }}) due to risk demographics.</p>
+           <p class="text-[10px] text-accent-red mt-1 leading-tight opacity-80">Adjusted (+₹{{ summaryRiskAdjustmentAmount | number:'1.0-0' }}) due to risk demographics.</p>
         </div>
         <div class="p-4 bg-bg-base/50 rounded-xl border border-border/50 relative">
            <div class="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-surface border border-border rounded-full flex items-center justify-center shadow-sm z-10 hidden lg:flex text-text-muted">

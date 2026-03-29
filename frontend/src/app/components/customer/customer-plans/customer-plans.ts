@@ -166,6 +166,14 @@ export class CustomerPlans implements OnInit, OnDestroy {
         this.clearOtpTimer();
     }
 
+    getPlanInstallmentAmount(plan: any): number {
+        if (!plan) return 0;
+        const totalMonths = plan.durationInMonths;
+        const freqInterval = plan.paymentFrequency === 'Quarterly' ? 3 : plan.paymentFrequency === 'Yearly' ? 12 : 1;
+        const numberOfTerms = Math.max(1, Math.floor(totalMonths / freqInterval));
+        return Math.ceil(plan.premiumAmount / numberOfTerms);
+    }
+
     sanitizeHtml(html: string): SafeHtml {
         if (!html) return '';
 
@@ -252,7 +260,7 @@ export class CustomerPlans implements OnInit, OnDestroy {
 
         this.requestForm.patchValue({
             durationInMonths: plan.durationInMonths,
-            paymentFrequency: 'Monthly'
+            paymentFrequency: plan.paymentFrequency || 'Monthly'
         });
 
         this.requestForm.get('durationInMonths')?.updateValueAndValidity();
@@ -610,13 +618,8 @@ export class CustomerPlans implements OnInit, OnDestroy {
         else return { label: 'Critical Risk', colorClass: 'text-red-700', bgClass: 'bg-red-50 border-red-200', indicatorClass: 'bg-red-600' };
     }
 
-    get computedInstallmentAmount(): number {
-        if (!this.selectedPlan) return 0;
-        const base = this.selectedPlan.premiumAmount;
-        const riskMultiplier = 1 + (this.riskScore / 100);
-        if (this.paymentFrequency === 'Quarterly') return base * 3 * riskMultiplier;
-        if (this.paymentFrequency === 'Yearly') return base * 12 * riskMultiplier;
-        return base * riskMultiplier;
+    get totalPremium(): number {
+        return this.computedInstallmentAmount * this.numberOfInstallments;
     }
 
     get computedCoverage(): number {
@@ -630,17 +633,30 @@ export class CustomerPlans implements OnInit, OnDestroy {
         return this.paymentFrequency === 'Monthly' ? 'month' : this.paymentFrequency === 'Quarterly' ? 'quarter' : 'year';
     }
 
+    get planDefaultDuration(): number {
+        return this.selectedPlan?.durationInMonths || this.durationInMonths;
+    }
+
+    get durationRatio(): number {
+        return this.durationInMonths / this.planDefaultDuration;
+    }
+
+    get scaledBaseTotalPremium(): number {
+        if (!this.selectedPlan) return 0;
+        return Math.ceil(this.selectedPlan.premiumAmount * this.durationRatio);
+    }
+
     get frequencyInterval(): number {
         return this.paymentFrequency === 'Quarterly' ? 3 : this.paymentFrequency === 'Yearly' ? 12 : 1;
     }
 
     get baseInstallment(): number {
-        if (!this.selectedPlan) return 0;
-        return this.selectedPlan.premiumAmount * this.frequencyInterval;
+        if (this.numberOfInstallments === 0) return 0;
+        return Math.ceil(this.scaledBaseTotalPremium / this.numberOfInstallments);
     }
 
     get riskAdjustmentAmount(): number {
-        return this.baseInstallment * (this.riskScore / 100);
+        return Math.ceil(this.baseInstallment * (this.riskScore / 100));
     }
 
     get numberOfInstallments(): number {
@@ -648,8 +664,9 @@ export class CustomerPlans implements OnInit, OnDestroy {
         return Math.ceil(this.durationInMonths / this.frequencyInterval);
     }
 
-    get totalPremium(): number {
-        return this.computedInstallmentAmount * this.numberOfInstallments;
+    get computedInstallmentAmount(): number {
+        const riskMultiplier = 1 + (this.riskScore / 100);
+        return Math.ceil(this.baseInstallment * riskMultiplier);
     }
 
     confirmRequest() {

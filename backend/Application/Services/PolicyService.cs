@@ -76,15 +76,30 @@ namespace Application.Services
                 // Snapshot plan values at purchase time (plan may change in future)
                 var snapshotBaseCoverage = plan.CoverageAmount;
                 
-                // Calculate risk multiplier
-                decimal riskMultiplier = 1m + (request.RiskScore / 100m);
-                decimal adjustedMonthlyPremium = plan.PremiumAmount * riskMultiplier;
-                
-                var snapshotBasePremium  = adjustedMonthlyPremium;
-                var planDefaultDuration  = plan.DurationInMonths > 0 ? plan.DurationInMonths : durationInMonths;
+                int planDefaultDuration = plan.DurationInMonths > 0 ? plan.DurationInMonths : durationInMonths;
 
                 // Coverage scales proportionally with the chosen duration
                 var calculatedCoverage = snapshotBaseCoverage * ((decimal)durationInMonths / planDefaultDuration);
+
+                // Premium ALSO scales proportionally
+                var snapshotBaseTotalPremium = Math.Ceiling(plan.PremiumAmount * ((decimal)durationInMonths / planDefaultDuration));
+
+                // Calculate risk multiplier
+                decimal riskMultiplier = 1m + (request.RiskScore / 100m);
+                decimal adjustedTotalPremium = Math.Ceiling(snapshotBaseTotalPremium * riskMultiplier);
+
+                int interval = paymentFrequency switch
+                {
+                    PaymentFrequency.Monthly => 1,
+                    PaymentFrequency.Quarterly => 3,
+                    PaymentFrequency.Yearly => 12,
+                    _ => 1
+                };
+
+                int numberOfInstallments = durationInMonths / interval;
+                if (numberOfInstallments == 0) numberOfInstallments = 1;
+
+                decimal installmentAmount = Math.Ceiling(adjustedTotalPremium / numberOfInstallments);
 
                 var policy = new Policy
                 {
@@ -95,12 +110,12 @@ namespace Application.Services
                     EndDate = DateTime.UtcNow.AddMonths(durationInMonths),
                     DurationInMonths = durationInMonths,
                     PaymentFrequency = paymentFrequency,
-                    TotalPremium = adjustedMonthlyPremium * durationInMonths,
+                    TotalPremium = installmentAmount * numberOfInstallments,
                     TotalPaid = 0,
                     Status = PolicyStatus.Active,
                     // Frozen snapshots never updated after creation
                     PlanBaseCoverageAmount = snapshotBaseCoverage,
-                    PlanBasePremiumAmount  = snapshotBasePremium,
+                    PlanBasePremiumAmount  = plan.PremiumAmount,
                     CoverageAmount         = calculatedCoverage
                 };
 
@@ -108,15 +123,7 @@ namespace Application.Services
 
                 _logger.LogInformation("Policy {PolicyId} purchased by User {UserId} for Plan {PlanId}", policy.Id, userId, planId);
 
-                // Auto-generate payment schedule
-                int interval = paymentFrequency switch
-                {
-                    PaymentFrequency.Monthly => 1,
-                    PaymentFrequency.Quarterly => 3,
-                    PaymentFrequency.Yearly => 12,
-                    _ => 1
-                };
-
+                // Auto-generate payment schedule (uses pre-calculated 'interval')
                 var paymentDate = policy.StartDate;
                 bool isFirstPayment = true;
                 PolicyPayment? firstPaymentToInvoice = null;
@@ -126,7 +133,7 @@ namespace Application.Services
                     var payment = new PolicyPayment
                     {
                         PolicyId = policy.Id,
-                        Amount = adjustedMonthlyPremium * interval,
+                        Amount = installmentAmount,
                         DueDate = paymentDate,
                         Status = PaymentStatus.Pending
                     };

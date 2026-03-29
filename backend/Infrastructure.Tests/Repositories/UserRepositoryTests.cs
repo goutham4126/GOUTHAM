@@ -135,18 +135,17 @@ namespace Infrastructure.Tests.Repositories
         }
 
         [Fact]
-        public async Task DeleteAsync_SoftDeletesUser()
+        public async Task DeactivateAsync_DeactivatesUser()
         {
-            var user = new User { FirstName = "A", LastName = "B", Email = "del@t.com", PasswordHash = "h" };
+            var user = new User { FirstName = "A", LastName = "B", Email = "del@t.com", PasswordHash = "h", IsDeleted = false };
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            await _repository.DeleteAsync(user.Id);
+            await _repository.DeactivateAsync(user.Id);
 
-            // Query without filter to check IsDeleted flag
-            var deleted = await _context.Users.IgnoreQueryFilters().FirstOrDefaultAsync(u => u.Id == user.Id);
-            Assert.NotNull(deleted);
-            Assert.True(deleted!.IsDeleted);
+            var suspended = await _context.Users.IgnoreQueryFilters().FirstOrDefaultAsync(u => u.Id == user.Id);
+            Assert.NotNull(suspended);
+            Assert.True(suspended!.IsDeleted);
         }
     }
 }

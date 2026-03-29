@@ -99,7 +99,7 @@
         </div>
         <div class="mt-auto">
           <div class="flex items-end gap-1 mb-5">
-            <span class="text-2xl font-bold text-text-primary">₹{{ plan.premiumAmount | number }}</span>
+            <span class="text-2xl font-bold text-text-primary">₹{{ getPlanInstallmentAmount(plan) | number:'1.0-2' }}</span>
             <span class="text-text-muted font-bold mb-1 text-sm uppercase tracking-wide">/{{ plan.paymentFrequency
               }}</span>
           </div>
@@ -561,17 +561,26 @@
         
                 <div class="flex justify-between items-center py-3 border-b border-border/60">
                     <div>
-                    <p class="text-[13px] font-bold text-text-primary">Base Premium</p>
+                    <p class="text-[13px] font-bold text-text-primary">Base Premium (Total)</p>
                     </div>
-                    <span class="text-[15px] font-bold text-text-primary">₹{{ selectedPlan.premiumAmount | number:'1.2-2' }}<span
-                        class="text-text-muted font-semibold text-xs"> /mo</span></span>
+                    <span class="text-[15px] font-bold text-text-primary">₹{{ selectedPlan.premiumAmount | number:'1.0-0' }}<span
+                        class="text-text-muted font-semibold text-xs"> /{{ planDefaultDuration }}mo</span></span>
                 </div>
         
                 <div class="flex justify-between items-center py-3 border-b border-border/60 bg-bg-base/40 -mx-5 px-5">
                     <div>
-                    <p class="text-[13px] font-bold text-text-primary">Base Installment</p>
+                    <p class="text-[13px] font-bold text-text-primary">Scaled Total Base</p>
+                    <p class="text-[11px] text-text-muted mt-0.5">For {{ durationInMonths }} months</p>
                     </div>
-                    <span class="text-[15px] font-bold text-text-primary">₹{{ baseInstallment | number:'1.2-2' }}<span
+                    <span class="text-[15px] font-bold text-text-primary">₹{{ scaledBaseTotalPremium | number:'1.0-0' }}</span>
+                </div>
+
+                <div class="flex justify-between items-center py-3 border-b border-border/60">
+                    <div>
+                    <p class="text-[13px] font-bold text-text-primary">Base Installment</p>
+                    <p class="text-[11px] text-text-muted mt-0.5">÷ {{ numberOfInstallments }} terms</p>
+                    </div>
+                    <span class="text-[15px] font-bold text-text-primary">₹{{ baseInstallment | number:'1.0-0' }}<span
                         class="text-text-muted font-semibold text-xs"> /{{ frequencyLabel }}</span></span>
                 </div>
         
@@ -584,7 +593,7 @@
                     </div>
                     </div>
                     <span class="text-[15px] font-bold" [ngClass]="riskLevel.colorClass">+₹{{ riskAdjustmentAmount |
-                    number:'1.2-2' }}</span>
+                    number:'1.0-0' }}</span>
                 </div>
         
                 <div
@@ -592,7 +601,7 @@
                     <div>
                     <p class="text-[14px] font-bold text-primary">Adjusted Installment</p>
                     </div>
-                    <span class="text-xl font-black text-primary">₹{{ computedInstallmentAmount | number:'1.2-2' }}<span
+                    <span class="text-xl font-black text-primary">₹{{ computedInstallmentAmount | number:'1.0-0' }}<span
                         class="text-primary/70 font-semibold text-xs"> /{{ frequencyLabel }}</span></span>
                 </div>
         
@@ -600,7 +609,7 @@
                     <div>
                     <p class="text-[15px] font-black text-text-primary">Total Premium</p>
                     </div>
-                    <span class="text-2xl font-black text-text-primary">₹{{ totalPremium | number:'1.2-2' }}</span>
+                    <span class="text-2xl font-black text-text-primary">₹{{ totalPremium | number:'1.0-0' }}</span>
                 </div>
                 </div>
             </div>

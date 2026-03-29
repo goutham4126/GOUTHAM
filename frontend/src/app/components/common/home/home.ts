@@ -27,9 +27,9 @@ export class Home {
   ];
 
   insurancePlans = [
-    { title: 'Earthquake Insurance', desc: 'Comprehensive coverage for property damage resulting from earthquakes.', benefits: ['Structural Damage Fix', 'Temporary Housing', 'Debris Removal'], popular: false, price: 'From $49/mo' },
-    { title: 'Flood Insurance', desc: 'Protect your home and belongings from devastating flood damage.', benefits: ['Water Damage Restore', 'Appliance Replacement', 'Basement Protection'], popular: true, price: 'From $39/mo' },
-    { title: 'Disaster Protection', desc: 'All-inclusive coverage against severe weather and natural disasters.', benefits: ['Storm Damage Wrap', 'Wildfire Protection', 'Emergency Funds'], popular: false, price: 'From $79/mo' }
+    { title: 'Earthquake Insurance', desc: 'Comprehensive coverage for property damage resulting from earthquakes.', benefits: ['Structural Damage Fix', 'Temporary Housing', 'Debris Removal'], popular: false, price: 'From ₹4,000/mo' },
+    { title: 'Flood Insurance', desc: 'Protect your home and belongings from devastating flood damage.', benefits: ['Water Damage Restore', 'Appliance Replacement', 'Basement Protection'], popular: true, price: 'From ₹3,200/mo' },
+    { title: 'Disaster Protection', desc: 'All-inclusive coverage against severe weather and natural disasters.', benefits: ['Storm Damage Wrap', 'Wildfire Protection', 'Emergency Funds'], popular: false, price: 'From ₹6,500/mo' }
   ];
 
   platformBenefits = [

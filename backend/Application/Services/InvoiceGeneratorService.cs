@@ -3,6 +3,7 @@ using Domain.Entities;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.Globalization;
 
 namespace Application.Services
 {
@@ -25,6 +26,12 @@ namespace Application.Services
         public InvoiceGeneratorService()
         {
             QuestPDF.Settings.License = LicenseType.Community;
+        }
+
+        private static string FormatCurrency(decimal amount, bool withDecimals = false)
+        {
+            var culture = new CultureInfo("en-IN");
+            return $"₹{amount.ToString(withDecimals ? "N2" : "N0", culture)}";
         }
 
         public byte[] GeneratePolicyInvoice(Policy policy, User customer, Application.DTOs.Insurance.PolicyAiDocumentResponseDto? aiSections = null)
@@ -282,13 +289,13 @@ namespace Application.Services
                             .FontColor(MutedText)
                             .LetterSpacing(0.15f);
 
-                        right.Item().PaddingTop(2).Text($"${yourCoverage:N0}")
-                            .FontSize(22)
+                        right.Item().PaddingTop(2).Text(FormatCurrency(yourCoverage))
+                            .FontSize(16)
                             .Bold()
                             .FontFamily(Fonts.Georgia)
                             .FontColor(GoldPrimary);
 
-                        right.Item().Text($"Base: ${baseCoverage:N0} / {planDefaultMonths}mo")
+                        right.Item().Text($"Base: {FormatCurrency(baseCoverage)} / {planDefaultMonths}mo")
                             .FontSize(8)
                             .FontColor(MutedText);
                     });
@@ -314,9 +321,9 @@ namespace Application.Services
                 col.Item().PaddingTop(6).Element(c => ElegantTable(c,
                     new[] { "Base Premium", "Payment Frequency", "Total Premium", "Policy Status" },
                     new[] {
-                        $"${basePremium:N2} / month",
+                        $"{FormatCurrency(basePremium, true)} / month",
                         policy.PaymentFrequency.ToString(),
-                        $"${policy.TotalPremium:N2}",
+                        FormatCurrency(policy.TotalPremium, true),
                         policy.Status.ToString()
                     },
                     highlightLast: false));
@@ -345,11 +352,17 @@ namespace Application.Services
                 _ => "mo"
             };
 
-            decimal baseMonthlyPremium = plan?.PremiumAmount ?? 0;
-            decimal baseInstallment = baseMonthlyPremium * frequencyInterval;
-            decimal riskAdjustmentAmount = baseInstallment * (riskScore / 100m);
-            decimal adjustedInstallment = baseInstallment + riskAdjustmentAmount;
+            int planDefaultDuration = plan?.DurationInMonths > 0 ? plan.DurationInMonths : policy.DurationInMonths;
             int numberOfInstallments = policy.DurationInMonths / frequencyInterval;
+            if (numberOfInstallments == 0) numberOfInstallments = 1;
+
+            decimal scaledBaseTotalPremium = Math.Ceiling((plan?.PremiumAmount ?? 0) * ((decimal)policy.DurationInMonths / planDefaultDuration));
+            
+            decimal adjustedTotalPremium = Math.Ceiling(scaledBaseTotalPremium * (1m + riskScore / 100m));
+            decimal adjustedInstallment = Math.Ceiling(adjustedTotalPremium / numberOfInstallments);
+            
+            decimal baseInstallment = Math.Ceiling(scaledBaseTotalPremium / numberOfInstallments);
+            decimal riskAdjustmentAmount = adjustedInstallment - baseInstallment;
 
             string riskLabel = riskScore <= 15 ? "Low" :
                                riskScore <= 30 ? "Moderate" :
@@ -411,16 +424,17 @@ namespace Application.Services
                         });
                     }
 
-                    AddRow("Coverage Amount", $"{plan?.Name}  ·  {policy.DurationInMonths} months", $"${policy.CoverageAmount:N0}");
-                    AddRow("Base Premium", "Plan's monthly rate", $"${baseMonthlyPremium:N2}", " /mo");
-                    AddRow("Frequency Multiplier", $"{policy.PaymentFrequency} = × {frequencyInterval} months", $"× {frequencyInterval}");
-                    AddRow("Base Installment", $"${baseMonthlyPremium:N2} × {frequencyInterval}", $"${baseInstallment:N2}", $" /{frequencyLabel}", isHighlighted: true);
+                    AddRow("Coverage Amount", $"{plan?.Name}  ·  {policy.DurationInMonths} months", FormatCurrency(policy.CoverageAmount));
+                    AddRow("Base Premium (Total)", $"Plan's rate for {planDefaultDuration} months", FormatCurrency(plan?.PremiumAmount ?? 0));
+                    AddRow("Scaled Total Base", $"Pro-rated for {policy.DurationInMonths} months", FormatCurrency(scaledBaseTotalPremium));
                     
-                    AddRiskRow($"Risk Adjustment ({riskLabel})", $"+{riskScore:N1}% of base installment", $"+${riskAdjustmentAmount:N2}");
+                    AddRow("Number of Installments", $"{policy.DurationInMonths} months ÷ {frequencyInterval} = {numberOfInstallments} installments", $"÷ {numberOfInstallments}");
+                    AddRow("Base Installment", $"{FormatCurrency(scaledBaseTotalPremium)} ÷ {numberOfInstallments}", FormatCurrency(baseInstallment), $" /{frequencyLabel}", isHighlighted: true);
                     
-                    AddRow("Adjusted Installment", "Base + Risk adjustment", $"${adjustedInstallment:N2}", $" /{frequencyLabel}", isHighlighted: true);
-                    AddRow("Number of Installments", $"{policy.DurationInMonths} months ÷ {frequencyInterval} = {numberOfInstallments} installments", $"× {numberOfInstallments}");
-                    AddRow("Total Premium", $"${adjustedInstallment:N2} × {numberOfInstallments} installments", $"${policy.TotalPremium:N2}", isTotal: true);
+                    AddRiskRow($"Risk Adjustment ({riskLabel})", $"+{riskScore:N1}% of base installment", $"+{FormatCurrency(riskAdjustmentAmount)}");
+                    
+                    AddRow("Adjusted Installment", "Base + Risk adjustment", FormatCurrency(adjustedInstallment), $" /{frequencyLabel}", isHighlighted: true);
+                    AddRow("Total Premium", $"{FormatCurrency(adjustedInstallment)} × {numberOfInstallments} installments", FormatCurrency(policy.TotalPremium), isTotal: true);
                 });
             });
         }
@@ -434,10 +448,10 @@ namespace Application.Services
                 col.Item().PaddingTop(10).Element(c => ElegantTable(c,
                     new[] { "Claim Amount", "Status", "Reason", "Approved Amount" },
                     new[] {
-                        $"${claim.ClaimAmount:N2}",
+                        FormatCurrency(claim.ClaimAmount, true),
                         claim.Status.ToString(),
                         claim.Reason,
-                        claim.ApprovedAmount.HasValue ? $"${claim.ApprovedAmount:N2}" : "Pending"
+                        claim.ApprovedAmount.HasValue ? FormatCurrency(claim.ApprovedAmount.Value, true) : "Pending"
                     },
                     highlightLast: claim.ApprovedAmount.HasValue));
 
@@ -499,7 +513,7 @@ namespace Application.Services
                 col.Item().PaddingTop(10).Element(c => ElegantTable(c,
                     new[] { "Amount", "Status", "Due Date", "Paid Date" },
                     new[] {
-                        $"${payment.Amount:N2}",
+                        FormatCurrency(payment.Amount, true),
                         payment.Status.ToString(),
                         payment.DueDate.ToString("dd MMM yyyy"),
                         payment.PaidDate?.ToString("dd MMM yyyy") ?? "N/A"
