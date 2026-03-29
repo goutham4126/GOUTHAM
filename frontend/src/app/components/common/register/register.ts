@@ -112,7 +112,7 @@ export class Register implements OnDestroy {
             this.ifscStatus = 'verified';
             this.ifscDetails = data.ifsc_details;
             if (this.registerForm.get('bankAccountNumber')?.value) {
-                this.verifyBankAccount();
+                await this.verifyBankAccount();
             }
         } else {
             this.ifscStatus = 'error';
@@ -158,7 +158,7 @@ export class Register implements OnDestroy {
     this.cdr.detectChanges();
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.registerForm.invalid) return;
 
     this.loading = true;
@@ -166,6 +166,19 @@ export class Register implements OnDestroy {
     this.cdr.detectChanges();
 
     const raw = this.registerForm.getRawValue();
+
+    // Verify bank details if provided before registering
+    if (raw.ifscCode) {
+       if (this.ifscStatus !== 'verified' || (raw.bankAccountNumber && this.bankStatus !== 'verified')) {
+          await this.verifyIfsc();
+       }
+       if (this.ifscStatus === 'error' || this.bankStatus === 'error') {
+          this.error = 'Please resolve the bank verification errors before registering: ' + (this.bankError || this.ifscError);
+          this.loading = false;
+          this.cdr.detectChanges();
+          return;
+       }
+    }
 
     const payload = {
       ...raw,

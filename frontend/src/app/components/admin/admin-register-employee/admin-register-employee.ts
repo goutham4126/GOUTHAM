@@ -1,9 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../services/user/user';
 import { ToastService } from '../../../services/toast/toast';
+import { UserDto } from '../../../models/auth/auth';
 
 @Component({
     selector: 'app-admin-register-employee',
@@ -18,12 +19,16 @@ export class AdminRegisterEmployee implements OnInit {
     private userService = inject(UserService);
     private toastService = inject(ToastService);
     private router = inject(Router);
+    private cdr = inject(ChangeDetectorRef);
 
     registerForm!: FormGroup;
     isSubmitting = false;
     role: 'Agent' | 'ClaimOfficer' = 'Agent';
     pageTitle = 'Employee Registration';
     maxDate: string;
+    
+    employees: UserDto[] = [];
+    loadingEmployees = true;
 
     constructor() {
         const today = new Date();
@@ -81,6 +86,25 @@ export class AdminRegisterEmployee implements OnInit {
             address: ['', [Validators.maxLength(250)]],
             dateOfBirth: ['', this.ageValidator.bind(this)]
         });
+
+        this.loadEmployees();
+    }
+
+    loadEmployees() {
+        this.loadingEmployees = true;
+        this.cdr.detectChanges(); // Ensure UI registers loading state cleanly
+        
+        this.userService.getAllUsers().subscribe({
+            next: (data) => {
+                this.employees = data.filter(u => u.role === this.role);
+                this.loadingEmployees = false;
+                this.cdr.detectChanges(); // Resolve ExpressionChangedAfterItHasBeenCheckedError
+            },
+            error: () => {
+                this.loadingEmployees = false;
+                this.cdr.detectChanges();
+            }
+        });
     }
 
     onSubmit(): void {
@@ -95,7 +119,7 @@ export class AdminRegisterEmployee implements OnInit {
                 this.toastService.success(`${this.role === 'Agent' ? 'Agent' : 'Claims Officer'} registered successfully!`);
                 this.registerForm.reset({ role: this.role });
                 this.isSubmitting = false;
-                this.router.navigate(['/admin/dashboard']);
+                this.loadEmployees();
             },
             error: (err: any) => {
                 const message = err.error?.message || err.error || 'Failed to register employee';

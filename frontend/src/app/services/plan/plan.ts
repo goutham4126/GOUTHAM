@@ -27,6 +27,10 @@ export class PlanService {
         return this.http.put(`${this.apiUrl}/${id}`, dto, { responseType: 'text' });
     }
 
+    public deactivatePlan(id: string): Observable<any> {
+        return this.http.patch(`${this.apiUrl}/${id}/deactivate`, {}, { responseType: 'text' });
+    }
+
     public deletePlan(id: string): Observable<any> {
         return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' });
     }

@@ -124,3 +124,72 @@
         </form>
     </div>
 </div>
+
+<!-- Employee Directory Table -->
+<div class="w-full bg-surface rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.05),0_10px_15px_-5px_rgba(0,0,0,0.02)] border border-border overflow-hidden relative mt-8 mb-10">
+    <div class="px-8 py-5 border-b border-border bg-bg-base/30 flex justify-between items-center relative z-10">
+        <h3 class="text-base font-bold text-text-primary flex items-center gap-3">
+            <div class="bg-primary/10 p-2 rounded-lg text-primary flex items-center justify-center shadow-sm">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+            </div>
+            Registered {{ role === 'Agent' ? 'Agents' : 'Claims Officers' }}
+        </h3>
+        <span class="bg-bg-base border border-border text-primary text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide shadow-sm">
+            {{ employees.length }} DIRECTORY
+        </span>
+    </div>
+
+    @if (loadingEmployees) {
+    <div class="p-12 flex justify-center items-center">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+    </div>
+    } @else {
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-border">
+            <thead class="bg-bg-base border-b border-border">
+                <tr>
+                    <th scope="col" class="px-8 py-4 text-left text-[11px] font-bold text-text-muted uppercase tracking-widest">Name</th>
+                    <th scope="col" class="px-8 py-4 text-left text-[11px] font-bold text-text-muted uppercase tracking-widest">Contact Info</th>
+                    <th scope="col" class="px-8 py-4 text-left text-[11px] font-bold text-text-muted uppercase tracking-widest">Joined On</th>
+                    <th scope="col" class="px-8 py-4 text-right text-[11px] font-bold text-text-muted uppercase tracking-widest">Status</th>
+                </tr>
+            </thead>
+            <tbody class="bg-surface divide-y divide-border">
+                @for (u of employees; track u.id) {
+                <tr class="hover:bg-bg-base/50 transition-colors duration-150 group">
+                    <td class="px-8 py-4 whitespace-nowrap">
+                        <div class="text-[13px] font-black leading-tight text-text-primary flex items-center gap-1.5 transition-colors" [class.opacity-50]="u.isDeleted">
+                            {{ u.firstName }} {{ u.lastName }}
+                        </div>
+                        <div class="text-[11px] font-bold tracking-wider uppercase text-text-muted mt-0.5 transition-colors" [class.opacity-50]="u.isDeleted">{{ u.email }}</div>
+                    </td>
+                    <td class="px-8 py-4 whitespace-nowrap">
+                        <div class="text-[13px] font-bold text-text-primary transition-colors" [class.opacity-50]="u.isDeleted">{{ u.phone || 'N/A' }}</div>
+                    </td>
+                    <td class="px-8 py-4 whitespace-nowrap">
+                        <div class="text-[13px] font-bold text-text-primary transition-colors" [class.opacity-50]="u.isDeleted">{{ u.createdAt | date:'mediumDate' }}</div>
+                    </td>
+                    <td class="px-8 py-4 whitespace-nowrap text-right">
+                        @if (u.isDeleted) {
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-accent-red/10 text-accent-red">Suspended</span>
+                        } @else {
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-accent-green/10 text-accent-green">Active</span>                            
+                        }
+                    </td>
+                </tr>
+                }
+                @if (employees.length === 0) {
+                <tr>
+                    <td colspan="4" class="px-8 py-10 text-center text-sm text-text-muted font-bold">
+                        No {{ role === 'Agent' ? 'Agents' : 'Claims Officers' }} registered yet.
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    }
+</div>

@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using Application.DTOs.Insurance;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -52,11 +52,19 @@ public class PlansController : ControllerBase
     }
 
     [Authorize(Roles = "Admin")]
+    [HttpPatch("{id:guid}/deactivate")]
+    public async Task<IActionResult> Deactivate(Guid id)
+    {
+        await _planService.DeactivateAsync(id);
+        return Ok("Plan deactivated");
+    }
+
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
         await _planService.DeleteAsync(id);
-        return Ok("Plan deactivated");
+        return Ok("Plan deleted successfully");
     }
 
     [Authorize(Roles = "Admin")]

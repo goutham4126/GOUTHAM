@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -42,9 +42,15 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(Plan plan)
+        public async Task DeactivateAsync(Plan plan)
         {
             plan.IsActive = false;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(Plan plan)
+        {
+            _context.Plans.Remove(plan);
             await _context.SaveChangesAsync();
         }
     }

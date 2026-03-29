@@ -56,7 +56,8 @@ public class UsersController : ControllerBase
             user.IsIfscVerified,
             user.IsBankAccountVerified,
             user.CreatedAt,
-            user.ProfileImageUrl
+            user.ProfileImageUrl,
+            user.IsDeleted
         ));
     }
 
@@ -110,7 +111,8 @@ public class UsersController : ControllerBase
             user.IsIfscVerified,
             user.IsBankAccountVerified,
             user.CreatedAt,
-            user.ProfileImageUrl
+            user.ProfileImageUrl,
+            user.IsDeleted
         ));
     }
 
@@ -118,7 +120,7 @@ public class UsersController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllUsers()
     {
-        var users = await _repository.GetAllAsync();
+        var users = await _repository.GetAllAsync(true);
 
         return Ok(users.Select(u => new UserDto(
             u.Id,
@@ -135,7 +137,8 @@ public class UsersController : ControllerBase
             u.IsIfscVerified,
             u.IsBankAccountVerified,
             u.CreatedAt,
-            u.ProfileImageUrl
+            u.ProfileImageUrl,
+            u.IsDeleted
         )));
     }
 
@@ -154,16 +157,27 @@ public class UsersController : ControllerBase
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> DeleteUser([FromRoute] Guid id)
+    [HttpPatch("{id:guid}/deactivate")]
+    public async Task<IActionResult> DeactivateUser([FromRoute] Guid id)
     {
-        var user = await _repository.GetByIdAsync(id);
+        var user = await _repository.GetByIdAsync(id, true);
         if (user == null)
             return NotFound("User not found.");
 
-        await _repository.DeleteAsync(id);
+        await _repository.DeactivateAsync(id);
+        return Ok("User deactivated successfully.");
+    }
 
-        return Ok("User deleted successfully.");
+    [Authorize(Roles = "Admin")]
+    [HttpPatch("{id:guid}/resume")]
+    public async Task<IActionResult> ResumeUser([FromRoute] Guid id)
+    {
+        var user = await _repository.GetByIdAsync(id, true);
+        if (user == null)
+            return NotFound("User not found.");
+
+        await _repository.ReactivateAsync(id);
+        return Ok("User activated successfully.");
     }
 
     [Authorize(Roles = "Admin")]

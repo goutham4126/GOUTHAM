@@ -44,7 +44,7 @@ export class AdminDashboard implements OnInit {
 
     // Users
     users: UserDto[] = [];
-    get totalUsers() { return this.users.length; }
+    totalUsers = 0;
 
     // Doughnut Chart Properties
     public doughnutChartLegend = true;
@@ -199,21 +199,8 @@ export class AdminDashboard implements OnInit {
     };
     public policiesChartLegendData: {label: string, value: number, color: string}[] = [];
 
-    // --- Plans Bar Chart ---
-    public planChartPlugins = [];
-    public planChartLegend = false;
-    public planChartData: ChartConfiguration<'bar'>['data'] = {
-        labels: [],
-        datasets: [{ data: [], label: 'Policies', backgroundColor: '#3B82F6', borderRadius: 6, maxBarThickness: 40 }]
-    };
-    public planChartOptions: ChartConfiguration<'bar'>['options'] = {
-        responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1A1D23', titleFont: { size: 13, weight: 'bold' }, bodyFont: { size: 13, weight: 'bold' }, padding: 12, cornerRadius: 12, displayColors: true, boxPadding: 4 } },
-        scales: {
-            x: { grid: { display: false }, ticks: { font: { size: 12, weight: 'bold' }, color: '#8A94A6', maxRotation: 45, minRotation: 45 }, border: { display: false } },
-            y: { beginAtZero: true, grid: { color: '#EAECF0' }, ticks: { stepSize: 1, font: { size: 12, weight: 'bold' }, color: '#8A94A6', padding: 12 }, border: { display: false } }
-        }
-    };
+    // --- Top Plans List ---
+    public topPlansList: {name: string, count: number}[] = [];
 
     ngOnInit() {
         this.loadDashboardData();
@@ -230,9 +217,10 @@ export class AdminDashboard implements OnInit {
         }).subscribe({
             next: (data) => {
                 this.users = data.users;
+                this.totalUsers = this.users.length;
                 this.updateChartData();
 
-                this.totalPlans = data.plans.length;
+                this.totalPlans = data.plans.filter((p: any) => p.isActive).length;
 
                 this.totalPolicies = data.policies.length;
                 this.activePolicies = data.policies.filter(p => p.status === 'Active').length;
@@ -351,16 +339,31 @@ export class AdminDashboard implements OnInit {
         };
     }
 
-    deleteUser(userId: string, name: string) {
-        this.toastService.confirm('Delete User', `Are you sure you want to delete user ${name}? This action cannot be undone.`, () => {
-            this.userService.deleteUser(userId).subscribe({
+    deactivateUser(userId: string, name: string) {
+        this.toastService.confirm('Suspend User', `Are you sure you want to suspend user ${name}? They will not be able to log in.`, () => {
+            this.userService.deactivateUser(userId).subscribe({
                 next: () => {
-                    this.toastService.success(`User ${name} successfully deleted.`);
-                    this.loadDashboardData(); // Refresh all data
+                    this.toastService.success(`User ${name} successfully suspended.`);
+                    this.loadDashboardData();
                 },
                 error: (err) => {
                     console.error(err);
-                    this.toastService.error('Failed to delete user.');
+                    this.toastService.error('Failed to suspend user.');
+                }
+            });
+        });
+    }
+
+    resumeUser(userId: string, name: string) {
+        this.toastService.confirm('Reactivate User', `Reactivate user ${name}? They will instantly regain access.`, () => {
+            this.userService.resumeUser(userId).subscribe({
+                next: () => {
+                    this.toastService.success(`User ${name} successfully reactivated.`);
+                    this.loadDashboardData();
+                },
+                error: (err) => {
+                    console.error(err);
+                    this.toastService.error('Failed to reactivate user.');
                 }
             });
         });
@@ -418,16 +421,7 @@ export class AdminDashboard implements OnInit {
             }
         });
         
-        const sortedPlans = Object.entries(planCounts).sort((a, b) => b[1] - a[1]).slice(0, 6);
-        this.planChartData = {
-            labels: sortedPlans.map(sp => sp[0].length > 15 ? sp[0].substring(0, 15) + '...' : sp[0]),
-            datasets: [{ 
-                data: sortedPlans.map(sp => sp[1]), 
-                label: 'Policies', 
-                backgroundColor: '#3B82F6', 
-                borderRadius: 6,
-                maxBarThickness: 40 
-            }]
-        };
+        const sortedPlans = Object.entries(planCounts).sort((a, b) => b[1] - a[1]).slice(0, 3);
+        this.topPlansList = sortedPlans.map(sp => ({ name: sp[0], count: sp[1] }));
     }
 }

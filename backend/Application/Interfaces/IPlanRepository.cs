@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+using Domain.Entities;
 
 namespace Application.Interfaces
 {
@@ -8,6 +8,7 @@ namespace Application.Interfaces
         Task<Plan?> GetByIdAsync(Guid id);
         Task AddAsync(Plan plan);
         Task UpdateAsync(Plan plan);
+        Task DeactivateAsync(Plan plan);
         Task DeleteAsync(Plan plan);
     }
 }

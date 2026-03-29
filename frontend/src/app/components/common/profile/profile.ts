@@ -106,13 +106,27 @@ export class Profile implements OnInit, OnDestroy {
         this.cdr.detectChanges();
     }
 
-    saveProfile() {
+    async saveProfile() {
         if (this.editForm.invalid) return;
         this.saving = true;
         this.saveError = null;
         this.saveSuccess = false;
 
         const raw = this.editForm.getRawValue();
+
+        // Verify bank details if provided before saving
+        if (raw.ifscCode) {
+           if (this.ifscStatus !== 'verified' || (raw.bankAccountNumber && this.bankStatus !== 'verified')) {
+              await this.verifyIfsc();
+           }
+           if (this.ifscStatus === 'error' || this.bankStatus === 'error') {
+              this.saveError = 'Please resolve the bank verification errors before saving: ' + (this.bankError || this.ifscError);
+              this.saving = false;
+              this.cdr.detectChanges();
+              return;
+           }
+        }
+
         const dto: UpdateProfileDto = {
             firstName: raw.firstName!,
             lastName: raw.lastName!,
@@ -169,7 +183,7 @@ export class Profile implements OnInit, OnDestroy {
                 this.ifscDetails = data.ifsc_details;
                 // If bank account is also filled, trigger its verification automatically
                 if (this.editForm.get('bankAccountNumber')?.value) {
-                    this.verifyBankAccount();
+                    await this.verifyBankAccount();
                 }
             } else {
                 this.ifscStatus = 'error';

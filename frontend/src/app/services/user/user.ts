@@ -31,7 +31,11 @@ export class UserService {
         return this.http.put(`${this.apiUrl}/${id}/role`, dto);
     }
 
-    public deleteUser(id: string): Observable<any> {
-        return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' });
+    public deactivateUser(id: string): Observable<any> {
+        return this.http.patch(`${this.apiUrl}/${id}/deactivate`, {}, { responseType: 'text' });
+    }
+
+    public resumeUser(id: string): Observable<any> {
+        return this.http.patch(`${this.apiUrl}/${id}/resume`, {}, { responseType: 'text' });
     }
 }

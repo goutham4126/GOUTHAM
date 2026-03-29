@@ -60,6 +60,14 @@ namespace Application.Services
             await _repository.UpdateAsync(existing);
         }
 
+        public async Task DeactivateAsync(Guid id)
+        {
+            var plan = await _repository.GetByIdAsync(id)
+                ?? throw new Exception("Plan not found");
+
+            await _repository.DeactivateAsync(plan);
+        }
+
         public async Task DeleteAsync(Guid id)
         {
             var plan = await _repository.GetByIdAsync(id)

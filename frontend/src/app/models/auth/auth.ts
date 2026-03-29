@@ -46,7 +46,7 @@ export interface UserDto {
     lastName: string;
     email: string;
     role: string;
-    isActive: boolean;
+    isDeleted?: boolean;
     governmentId?: string | null;
     address?: string | null;
     phone?: string | null;

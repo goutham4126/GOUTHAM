@@ -17,5 +17,6 @@ public record UserDto(
     bool IsIfscVerified,
     bool IsBankAccountVerified,
     DateTime CreatedAt,
-    string? ProfileImageUrl
+    string? ProfileImageUrl,
+    bool IsDeleted = false
 );

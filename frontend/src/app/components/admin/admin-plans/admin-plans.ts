@@ -152,9 +152,9 @@ export class AdminPlans implements OnInit {
     }
   }
 
-  deletePlan(id: string) {
-    if (confirm('Are you sure you want to deactivate this package?')) {
-      this.planService.deletePlan(id).subscribe({
+  deactivatePlan(id: string) {
+    if (confirm('Are you sure you want to pause/deactivate this package? It will no longer be visible to customers.')) {
+      this.planService.deactivatePlan(id).subscribe({
         next: () => {
           this.loadPlans();
           this.toastService.success('Plan deactivated successfully');
@@ -163,6 +163,22 @@ export class AdminPlans implements OnInit {
         error: (err) => {
           console.error(err);
           this.toastService.error('Failed to deactivate plan.');
+        }
+      });
+    }
+  }
+
+  deletePlan(id: string) {
+    if (confirm('Are you ABSOLUTELY sure you want to completely delete this plan from the database? This action is permanent and cannot be undone.')) {
+      this.planService.deletePlan(id).subscribe({
+        next: () => {
+          this.loadPlans();
+          this.toastService.success('Plan permanently deleted');
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastService.error('Failed to delete plan.');
         }
       });
     }
